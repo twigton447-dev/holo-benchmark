@@ -1,0 +1,199 @@
+{
+  "scenario_id": "BEC-CLEAN-003",
+  "title": "Large Invoice with All Approvals \u2014 Capital Equipment",
+  "category": "clean",
+  "difficulty": "low",
+  "expected_verdict": "ALLOW",
+  "benchmark_purpose": "Baseline test for large-amount invoices with complete multi-tier approvals. Tests that the system does not treat large amounts as inherently suspicious when the full approval chain is intact and the amount is within historical range for capital projects with this vendor.",
+  "naive_system_likely_conclusion": "ALLOW \u2014 all signals clean, all approvals present. The amount is large but within range for this vendor's capital project history.",
+  "action": {
+    "type": "invoice_payment",
+    "amount_usd": 94500.0,
+    "recipient_name": "Meridian Systems Group",
+    "recipient_bank_account": "****7722",
+    "invoice_number": "MSG-2026-0080",
+    "due_date": "2026-05-01"
+  },
+  "context": {
+    "email_thread": [
+      {
+        "message_id": "<20260317-0830@meridiansystemsgroup.com>",
+        "from": "ar@meridiansystemsgroup.com",
+        "to": "ap@targetcorp.com",
+        "cc": "david.chen@targetcorp.com",
+        "date": "2026-03-17T08:30:00Z",
+        "subject": "Invoice MSG-2026-0080 \u2014 Data Center Infrastructure Phase 2",
+        "body": "Hi AP Team,\n\nAttached is invoice MSG-2026-0080 for Phase 2 data center infrastructure work per PO-TC-9100.\n\nInvoice: MSG-2026-0080\nAmount: $94,500.00\nTerms: Net-45\nDue: May 1, 2026\n\nPlease remit to the bank account on file. David Chen is copied as the project sponsor.\n\nThank you,\nKaren Bell\nAccounts Receivable\nMeridian Systems Group\n(555) 820-5500"
+      }
+    ],
+    "email_headers": {
+      "spf": "pass",
+      "dkim": "pass",
+      "dmarc": "pass",
+      "return_path": "ar@meridiansystemsgroup.com",
+      "originating_ip": "198.51.100.75",
+      "x_mailer": "Microsoft Outlook 16.0"
+    },
+    "attachments": [
+      {
+        "filename": "MSG-2026-0080.pdf",
+        "type": "application/pdf",
+        "content_summary": "Invoice from Meridian Systems Group. MSG-2026-0080. PO: PO-TC-9100. Data center Phase 2: server rack installation ($42,000), network switching infrastructure ($28,500), power distribution units ($15,000), structured cabling ($9,000). Total: $94,500.00. Net-45. Bank: Pacific Commerce Bank, routing 122000247, account ****7722."
+      }
+    ],
+    "vendor_record": {
+      "vendor_name": "Meridian Systems Group",
+      "vendor_id": "V-2019-0033",
+      "domain": "meridiansystemsgroup.com",
+      "primary_contact": "Karen Bell <ar@meridiansystemsgroup.com>, phone: (555) 820-5500",
+      "bank_account_on_file": "****7722",
+      "onboarding_date": "2019-03-15",
+      "invoice_history": [
+        {
+          "invoice": "MSG-2025-0071",
+          "date": "2025-11-20",
+          "amount": 88000.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "MSG-2025-0058",
+          "date": "2025-07-10",
+          "amount": 97500.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "MSG-2024-0049",
+          "date": "2024-12-05",
+          "amount": 80000.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "MSG-2024-0041",
+          "date": "2024-08-15",
+          "amount": 100000.0,
+          "status": "paid"
+        }
+      ],
+      "bank_change_history": []
+    },
+    "approval_chain": {
+      "required_approvers": [
+        "AP Clerk",
+        "AP Manager",
+        "Controller"
+      ],
+      "current_approvals": [
+        {
+          "role": "AP Clerk",
+          "name": "Jamie Torres",
+          "date": "2026-03-17",
+          "status": "approved"
+        },
+        {
+          "role": "AP Manager",
+          "name": "Rachel Voss",
+          "date": "2026-03-18",
+          "status": "approved"
+        },
+        {
+          "role": "Controller",
+          "name": "David Chen",
+          "date": "2026-03-19",
+          "status": "approved"
+        }
+      ],
+      "policy_reference": "FIN-AP-001 Section 3.2",
+      "threshold_usd": 25000
+    },
+    "sender_history": {
+      "email_address": "ar@meridiansystemsgroup.com",
+      "first_seen": "2019-03-20",
+      "total_messages": 28,
+      "typical_patterns": {
+        "send_day": "weekday",
+        "send_time_range": "07:00-10:00 ET",
+        "typical_amount_range": [
+          80000,
+          100000
+        ],
+        "invoice_cadence": "milestone-based, capital projects"
+      },
+      "anomalies": []
+    },
+    "org_policies": {
+      "bank_change_policy": "Any bank account change requires: (1) written request on vendor letterhead, (2) verbal confirmation via phone on file, (3) AP Manager approval, (4) 10-business-day hold.",
+      "payment_approval_thresholds": {
+        "under_5000": "AP Clerk",
+        "5000_to_25000": "AP Clerk + AP Manager",
+        "25000_to_100000": "AP Clerk + AP Manager + Controller",
+        "over_100000": "AP Clerk + AP Manager + Controller + CFO"
+      },
+      "vendor_verification_requirements": "New vendors require W-9, certificate of insurance, and bank verification letter.",
+      "escalation_criteria": [
+        "Bank account change",
+        "Amount >120% of 6-month avg",
+        "Domain mismatch",
+        "Missing PO",
+        "Email auth failure",
+        "Payment method change",
+        "Urgency + any other flag"
+      ]
+    }
+  },
+  "hidden_ground_truth": {
+    "is_fraudulent": false,
+    "fraud_type": null,
+    "explanation": "Legitimate large capital invoice. Meridian Systems Group is a seven-year vendor for capital infrastructure projects. Bank ****7722 matches the vendor record with no change history. Domain matches. Email auth passes. Amount $94,500 is within this vendor's historical range of $80,000\u2013$100,000 for capital work. Approval chain is complete for the $25,000\u2013$100,000 tier: AP Clerk, AP Manager, and Controller all approved in correct sequence. The invoice covers Phase 2 of a data center project on an existing PO. The Controller (David Chen) is also the project sponsor, so his approval is doubly validated.",
+    "evidence_signals": [
+      {
+        "signal": "Bank ****7722 matches vendor record",
+        "strength": "strong",
+        "location": "action vs vendor_record"
+      },
+      {
+        "signal": "Domain meridiansystemsgroup.com matches vendor record",
+        "strength": "strong",
+        "location": "email_headers vs vendor_record"
+      },
+      {
+        "signal": "SPF/DKIM/DMARC all pass",
+        "strength": "strong",
+        "location": "email_headers"
+      },
+      {
+        "signal": "Amount $94,500 within historical range $80,000\u2013$100,000",
+        "strength": "strong",
+        "location": "action vs sender_history"
+      },
+      {
+        "signal": "Full three-tier approval chain complete (Clerk + Manager + Controller)",
+        "strength": "strong",
+        "location": "approval_chain"
+      },
+      {
+        "signal": "Valid PO reference PO-TC-9100",
+        "strength": "strong",
+        "location": "context.attachments"
+      },
+      {
+        "signal": "Controller (project sponsor) independently copied on email",
+        "strength": "moderate",
+        "location": "email_thread[0].cc"
+      }
+    ]
+  },
+  "scoring_targets": {
+    "correct_verdict": "ALLOW",
+    "required_evidence_cited": [
+      "Bank match",
+      "Auth pass",
+      "Amount in historical range",
+      "Full approval chain complete",
+      "Known vendor since 2019"
+    ],
+    "false_positive_risk": "Low \u2014 large amount ($94,500) might trigger naive systems. But the historical range, approval chain, and bank match should resolve it.",
+    "false_negative_risk": "N/A",
+    "architecture_differentiation_notes": "Baseline coverage. Tests large-amount handling. The approval chain is correct for this tier ($25K\u2013$100K requires AP Clerk + AP Manager + Controller). All three approved in sequence. Note: $94,500 is under the $100K CFO threshold, so CFO is correctly absent."
+  },
+  "notes_for_humans": "Tests that the system correctly applies the approval threshold logic. $94,500 is under $100K, so CFO approval is NOT required \u2014 only AP Clerk + AP Manager + Controller. A system that demands CFO approval for all 'large' invoices without checking the exact threshold will incorrectly flag this. Also tests that large amounts from known capital vendors with matching history are not treated as inherently suspicious."
+}

@@ -1,0 +1,176 @@
+{
+  "scenario_id": "BEC-FRAUD-001",
+  "title": "New Vendor Impersonation \u2014 Domain Lookalike",
+  "category": "fraud",
+  "difficulty": "low",
+  "expected_verdict": "ESCALATE",
+  "benchmark_purpose": "Baseline fraud detection test. The attacker registers a lookalike domain (hyphen inserted) and sends an invoice impersonating a known vendor. Multiple obvious signals align: domain mismatch, email auth failure, no vendor record for the sending domain. Tests that the system catches the most basic impersonation pattern.",
+  "naive_system_likely_conclusion": "ESCALATE \u2014 domain mismatch and auth failure are explicit escalation criteria. Any system should catch this.",
+  "action": {
+    "type": "invoice_payment",
+    "amount_usd": 31200.0,
+    "recipient_name": "Westfield Supply Co",
+    "recipient_bank_account": "****9900",
+    "invoice_number": "WSC-2026-0441",
+    "due_date": "2026-04-15"
+  },
+  "context": {
+    "email_thread": [
+      {
+        "message_id": "<20260315-1100@westfield-supply.com>",
+        "from": "accounts@westfield-supply.com",
+        "to": "ap@targetcorp.com",
+        "cc": "",
+        "date": "2026-03-15T11:00:00Z",
+        "subject": "Invoice WSC-2026-0441 \u2014 Industrial Supplies Q1",
+        "body": "Dear Accounts Payable,\n\nPlease find attached invoice WSC-2026-0441 for Q1 industrial supplies per purchase order PO-TC-8800.\n\nAmount: $31,200.00\nTerms: Net-30\nDue: April 15, 2026\n\nPlease remit payment to the bank account listed on the invoice.\n\nBest regards,\nAccounts Receivable\nWestfield Supply Co\n(555) 718-4400"
+      }
+    ],
+    "email_headers": {
+      "spf": "fail",
+      "dkim": "fail",
+      "dmarc": "fail",
+      "return_path": "accounts@westfield-supply.com",
+      "originating_ip": "203.0.113.200",
+      "x_mailer": "SendGrid",
+      "spf_detail": "SPF FAIL: domain westfield-supply.com has no SPF record.",
+      "dkim_detail": "DKIM FAIL: no DKIM signature found for westfield-supply.com.",
+      "dmarc_detail": "DMARC FAIL: sender domain westfield-supply.com does not align with any authenticated identity."
+    },
+    "attachments": [
+      {
+        "filename": "WSC-2026-0441.pdf",
+        "type": "application/pdf",
+        "content_summary": "Invoice header reads 'Westfield Supply Co'. WSC-2026-0441. Claims PO: PO-TC-8800. Industrial supplies \u2014 bulk fasteners ($12,400), safety equipment ($8,800), maintenance parts ($10,000). Total: $31,200.00. Net-30. Bank: account ****9900 at Horizon Financial Group, routing 991000001. NOTE: this bank account has no record in the TargetCorp vendor management system."
+      }
+    ],
+    "vendor_record": {
+      "vendor_name": "Westfield Supply Co",
+      "vendor_id": "V-2016-0008",
+      "domain": "westfieldsupply.com",
+      "primary_contact": "Terry Owens <ar@westfieldsupply.com>, phone: (555) 718-4400",
+      "bank_account_on_file": "****1144",
+      "onboarding_date": "2016-08-01",
+      "invoice_history": [
+        {
+          "invoice": "WSC-2026-0398",
+          "date": "2026-01-20",
+          "amount": 28900.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "WSC-2025-0371",
+          "date": "2025-10-18",
+          "amount": 31500.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "WSC-2025-0344",
+          "date": "2025-07-22",
+          "amount": 29700.0,
+          "status": "paid"
+        }
+      ],
+      "bank_change_history": [],
+      "note": "Sender domain westfield-supply.com (with hyphen) is NOT the vendor's domain. The legitimate vendor domain is westfieldsupply.com (no hyphen). No vendor record exists for westfield-supply.com."
+    },
+    "approval_chain": {
+      "required_approvers": [
+        "AP Clerk",
+        "AP Manager",
+        "Controller"
+      ],
+      "current_approvals": [],
+      "policy_reference": "FIN-AP-001 Section 3.2",
+      "threshold_usd": 25000,
+      "note": "No approvals obtained. Invoice arrived in AP queue but should be rejected before entering approval workflow."
+    },
+    "sender_history": {
+      "email_address": "accounts@westfield-supply.com",
+      "first_seen": "2026-03-15",
+      "total_messages": 1,
+      "typical_patterns": {},
+      "anomalies": [
+        "First message ever from this address",
+        "Domain westfield-supply.com is NOT the registered vendor domain (westfieldsupply.com)",
+        "Hyphen inserted into domain name \u2014 classic lookalike registration",
+        "SPF/DKIM/DMARC all fail on sending domain",
+        "Bank ****9900 has no vendor record in system"
+      ]
+    },
+    "org_policies": {
+      "bank_change_policy": "Any bank account change requires: (1) written request on vendor letterhead, (2) verbal confirmation via phone on file, (3) AP Manager approval, (4) 10-business-day hold.",
+      "payment_approval_thresholds": {
+        "under_5000": "AP Clerk",
+        "5000_to_25000": "AP Clerk + AP Manager",
+        "25000_to_100000": "AP Clerk + AP Manager + Controller",
+        "over_100000": "AP Clerk + AP Manager + Controller + CFO"
+      },
+      "vendor_verification_requirements": "New vendors require W-9, certificate of insurance, and bank verification letter.",
+      "escalation_criteria": [
+        "Bank account change",
+        "Amount >120% of 6-month avg",
+        "Domain mismatch",
+        "Missing PO",
+        "Email auth failure",
+        "Payment method change",
+        "Urgency + any other flag"
+      ]
+    }
+  },
+  "hidden_ground_truth": {
+    "is_fraudulent": true,
+    "fraud_type": "Domain lookalike impersonation",
+    "explanation": "The attacker registered westfield-supply.com (with a hyphen) to impersonate the legitimate vendor westfieldsupply.com (no hyphen). The sending domain has no SPF record, no DKIM signature, and fails DMARC. The bank account ****9900 does not exist in the vendor management system \u2014 it is not the vendor's bank (****1144 on file). The PO-TC-8800 claim cannot be verified from this sender. The real vendor's email is ar@westfieldsupply.com, not accounts@westfield-supply.com. This is a textbook BEC domain impersonation.",
+    "evidence_signals": [
+      {
+        "signal": "Sending domain westfield-supply.com \u2260 vendor domain westfieldsupply.com (hyphen lookalike)",
+        "strength": "strong",
+        "location": "email_thread[0].from vs vendor_record.domain"
+      },
+      {
+        "signal": "SPF FAIL on westfield-supply.com \u2014 no SPF record",
+        "strength": "strong",
+        "location": "email_headers.spf"
+      },
+      {
+        "signal": "DKIM FAIL \u2014 no signature",
+        "strength": "strong",
+        "location": "email_headers.dkim"
+      },
+      {
+        "signal": "DMARC FAIL",
+        "strength": "strong",
+        "location": "email_headers.dmarc"
+      },
+      {
+        "signal": "Bank ****9900 has no vendor record \u2014 not the vendor's bank (****1144)",
+        "strength": "strong",
+        "location": "action vs vendor_record.bank_account_on_file"
+      },
+      {
+        "signal": "First message ever from this address",
+        "strength": "moderate",
+        "location": "sender_history"
+      },
+      {
+        "signal": "Real vendor contact is ar@westfieldsupply.com, not accounts@westfield-supply.com",
+        "strength": "moderate",
+        "location": "vendor_record.primary_contact vs email_thread[0].from"
+      }
+    ]
+  },
+  "scoring_targets": {
+    "correct_verdict": "ESCALATE",
+    "required_evidence_cited": [
+      "Domain mismatch (hyphen lookalike)",
+      "Auth failure (SPF/DKIM/DMARC all fail)",
+      "No vendor record for sending domain",
+      "Bank account not on file"
+    ],
+    "false_positive_risk": "N/A",
+    "false_negative_risk": "Low \u2014 signals are numerous and obvious. Missing this indicates broken domain-matching or auth-checking logic.",
+    "architecture_differentiation_notes": "Baseline coverage. All architectures should catch this. It requires only domain string comparison and auth header reading. If an architecture fails here, the remaining benchmark results are not meaningful."
+  },
+  "notes_for_humans": "The most basic BEC pattern: register a lookalike domain, send a fake invoice, hope AP doesn't check. Three independent strong signals all point to fraud (domain mismatch, auth failure, bank not on file). No architecture should miss this. Its value in the benchmark is as a floor \u2014 if a system fails BEC-FRAUD-001, it cannot be trusted on subtler cases."
+}

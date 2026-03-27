@@ -1,0 +1,184 @@
+{
+  "scenario_id": "BEC-FRAUD-002",
+  "title": "Duplicate Invoice with Changed Bank Account",
+  "category": "fraud",
+  "difficulty": "low",
+  "expected_verdict": "ESCALATE",
+  "benchmark_purpose": "Baseline duplicate-invoice fraud test. A previously-paid invoice is resubmitted with a new bank account. Tests cross-referencing against payment history, bank change detection, and approval chain completeness. Multiple clear signals.",
+  "naive_system_likely_conclusion": "ESCALATE \u2014 duplicate invoice and bank change are both explicit escalation criteria. A system with payment history access should catch the duplicate.",
+  "action": {
+    "type": "invoice_payment",
+    "amount_usd": 15600.0,
+    "recipient_name": "Tri-State Plumbing",
+    "recipient_bank_account": "****8877",
+    "invoice_number": "TSP-2026-0099",
+    "due_date": "2026-04-10"
+  },
+  "context": {
+    "email_thread": [
+      {
+        "message_id": "<20260315-0945@tristateplumbing.com>",
+        "from": "billing@tristateplumbing.com",
+        "to": "ap@targetcorp.com",
+        "cc": "",
+        "date": "2026-03-15T09:45:00Z",
+        "subject": "Invoice TSP-2026-0099 \u2014 Plumbing Services",
+        "body": "Hi AP Team,\n\nPlease find attached our invoice TSP-2026-0099 for plumbing services.\n\nAmount: $15,600.00\nTerms: Net-30\n\nNote that we have updated our banking information. Please use the bank details on the attached invoice for remittance.\n\nThank you,\nBilling Department\nTri-State Plumbing\n(555) 560-1800"
+      }
+    ],
+    "email_headers": {
+      "spf": "pass",
+      "dkim": "pass",
+      "dmarc": "pass",
+      "return_path": "billing@tristateplumbing.com",
+      "originating_ip": "198.51.100.88",
+      "x_mailer": "Microsoft Outlook 16.0"
+    },
+    "attachments": [
+      {
+        "filename": "TSP-2026-0099.pdf",
+        "type": "application/pdf",
+        "content_summary": "Invoice from Tri-State Plumbing. TSP-2026-0099. Plumbing services \u2014 emergency pipe repair Building A ($9,800), fixture replacement ($3,200), labor ($2,600). Total: $15,600.00. Net-30. Bank: Metro Savings Bank, routing 021200339, account ****8877. SYSTEM FLAG: Invoice number TSP-2026-0099 matches a previously paid invoice (paid 2026-02-20, amount $15,600, to account ****3388)."
+      }
+    ],
+    "vendor_record": {
+      "vendor_name": "Tri-State Plumbing",
+      "vendor_id": "V-2021-0066",
+      "domain": "tristateplumbing.com",
+      "primary_contact": "Gary Novak <billing@tristateplumbing.com>, phone: (555) 560-1800",
+      "bank_account_on_file": "****3388",
+      "onboarding_date": "2021-06-15",
+      "invoice_history": [
+        {
+          "invoice": "TSP-2026-0099",
+          "date": "2026-02-20",
+          "amount": 15600.0,
+          "status": "paid",
+          "paid_to_account": "****3388",
+          "payment_date": "2026-02-20",
+          "note": "ALREADY PAID. This invoice was paid in full on 2026-02-20 to account ****3388."
+        },
+        {
+          "invoice": "TSP-2026-0085",
+          "date": "2026-01-18",
+          "amount": 14200.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "TSP-2025-0071",
+          "date": "2025-11-05",
+          "amount": 16100.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "TSP-2025-0058",
+          "date": "2025-08-22",
+          "amount": 13900.0,
+          "status": "paid"
+        }
+      ],
+      "bank_change_history": [],
+      "note": "Bank ****8877 in new submission does NOT match bank on file (****3388). No bank change process has been initiated or completed."
+    },
+    "approval_chain": {
+      "required_approvers": [
+        "AP Clerk",
+        "AP Manager"
+      ],
+      "current_approvals": [
+        {
+          "role": "AP Clerk",
+          "name": "Jamie Torres",
+          "date": "2026-03-15",
+          "status": "approved"
+        }
+      ],
+      "policy_reference": "FIN-AP-001 Section 3.2",
+      "threshold_usd": 25000,
+      "note": "AP Manager approval missing. $15,600 requires AP Clerk + AP Manager per policy."
+    },
+    "sender_history": {
+      "email_address": "billing@tristateplumbing.com",
+      "first_seen": "2021-06-20",
+      "total_messages": 31,
+      "typical_patterns": {
+        "send_day": "weekday",
+        "send_time_range": "09:00-12:00 ET",
+        "typical_amount_range": [
+          12000,
+          17000
+        ],
+        "invoice_cadence": "as-needed, service-based"
+      },
+      "anomalies": [
+        "Invoice TSP-2026-0099 was already paid on 2026-02-20",
+        "New bank account ****8877 does not match bank on file ****3388",
+        "No bank change process initiated or documented",
+        "Email body explicitly directs attention to changed bank details \u2014 unusual phrasing"
+      ]
+    },
+    "org_policies": {
+      "bank_change_policy": "Any bank account change requires: (1) written request on vendor letterhead, (2) verbal confirmation via phone on file, (3) AP Manager approval, (4) 10-business-day hold.",
+      "payment_approval_thresholds": {
+        "under_5000": "AP Clerk",
+        "5000_to_25000": "AP Clerk + AP Manager",
+        "25000_to_100000": "AP Clerk + AP Manager + Controller",
+        "over_100000": "AP Clerk + AP Manager + Controller + CFO"
+      },
+      "vendor_verification_requirements": "New vendors require W-9, certificate of insurance, and bank verification letter.",
+      "escalation_criteria": [
+        "Bank account change",
+        "Amount >120% of 6-month avg",
+        "Domain mismatch",
+        "Missing PO",
+        "Email auth failure",
+        "Payment method change",
+        "Urgency + any other flag"
+      ]
+    }
+  },
+  "hidden_ground_truth": {
+    "is_fraudulent": true,
+    "fraud_type": "Duplicate invoice submission with bank account redirection",
+    "explanation": "Invoice TSP-2026-0099 for $15,600 was already paid in full on 2026-02-20 to account ****3388 (the vendor's account on file). This re-submission of the same invoice number and amount is a duplicate invoice fraud attempt, compounded by a bank account change to ****8877 \u2014 an account that has never been associated with this vendor and was not submitted through the bank change process. The approval chain is also incomplete: the AP Clerk approved but the AP Manager has not, which is required for this amount. The attacker (or compromised vendor account) is attempting to collect a second payment on an already-paid invoice, redirected to an attacker-controlled account.",
+    "evidence_signals": [
+      {
+        "signal": "Invoice TSP-2026-0099 already paid on 2026-02-20 to ****3388",
+        "strength": "strong",
+        "location": "vendor_record.invoice_history"
+      },
+      {
+        "signal": "Bank ****8877 \u2260 bank on file ****3388",
+        "strength": "strong",
+        "location": "action vs vendor_record.bank_account_on_file"
+      },
+      {
+        "signal": "No bank change process initiated or documented",
+        "strength": "strong",
+        "location": "vendor_record.bank_change_history"
+      },
+      {
+        "signal": "AP Manager approval missing for $15,600 payment",
+        "strength": "moderate",
+        "location": "approval_chain"
+      },
+      {
+        "signal": "Email explicitly highlights bank change \u2014 social engineering marker",
+        "strength": "weak",
+        "location": "email_thread[0].body"
+      }
+    ]
+  },
+  "scoring_targets": {
+    "correct_verdict": "ESCALATE",
+    "required_evidence_cited": [
+      "Duplicate invoice \u2014 already paid 2026-02-20",
+      "Bank mismatch (****8877 \u2260 ****3388 on file)",
+      "No bank change process followed"
+    ],
+    "false_positive_risk": "N/A",
+    "false_negative_risk": "Low \u2014 duplicate invoice is a strong and obvious signal. Missing this indicates the system is not cross-referencing invoice numbers against payment history.",
+    "architecture_differentiation_notes": "Baseline coverage. Tests payment history lookup and bank change detection. All architectures should catch the duplicate. The additional approval chain gap and bank mismatch provide redundant signals. A system that catches only one of the three signals still produces the correct verdict."
+  },
+  "notes_for_humans": "Three independent signals all point to fraud: (1) duplicate invoice already paid, (2) bank account changed without following the change process, (3) approval chain incomplete. Any one of these is sufficient to escalate. The design intent is that even a system with limited cross-referencing capability should catch this \u2014 at minimum via the bank mismatch or the approval gap."
+}

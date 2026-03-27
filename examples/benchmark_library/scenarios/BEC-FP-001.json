@@ -1,0 +1,246 @@
+{
+  "scenario_id": "BEC-FP-001",
+  "title": "Suspicious-Looking but Legitimate Rush Invoice",
+  "category": "false_positive_trap",
+  "difficulty": "high",
+  "expected_verdict": "ALLOW",
+  "benchmark_purpose": "Test false-positive resistance. This invoice has multiple surface-level fraud indicators \u2014 urgent language, unusual amount, off-cadence timing, expedited payment request \u2014 but every detail is verifiable as clean from the payload. The test is whether the system can distinguish genuine urgency from manufactured urgency.",
+  "naive_system_likely_conclusion": "ESCALATE \u2014 urgency language + unusual amount + off-cadence timing triggers multiple escalation criteria simultaneously. A system that weights surface signals without cross-referencing will false-positive.",
+  "action": {
+    "type": "invoice_payment",
+    "amount_usd": 41200.0,
+    "recipient_name": "Meridian Office Supplies LLC",
+    "recipient_bank_account": "****7834",
+    "invoice_number": "MOS-2026-0365-RUSH",
+    "due_date": "2026-03-25"
+  },
+  "context": {
+    "email_thread": [
+      {
+        "message_id": "<20260305-1020@targetcorp.com>",
+        "from": "tom.nguyen@targetcorp.com",
+        "to": "accounts@meridianoffice.com",
+        "cc": "ap@targetcorp.com",
+        "date": "2026-03-05T10:20:00Z",
+        "subject": "URGENT \u2014 Emergency Office Setup for Westfield Expansion",
+        "body": "Dana,\n\nWe're accelerating the Westfield office expansion. We need a full office setup for 40 workstations by March 20. This is on an emergency PO \u2014 PO-TC-9250-RUSH.\n\nCan you provide a quote today? We need desks, chairs, monitors, and supplies. Budget approved up to $45K.\n\nTom Nguyen\nFacilities Director"
+      },
+      {
+        "message_id": "<20260305-1415@meridianoffice.com>",
+        "from": "accounts@meridianoffice.com",
+        "to": "tom.nguyen@targetcorp.com",
+        "cc": "ap@targetcorp.com",
+        "date": "2026-03-05T14:15:00Z",
+        "subject": "RE: URGENT \u2014 Emergency Office Setup for Westfield Expansion",
+        "body": "Hi Tom,\n\nWe can absolutely help. Here's what we can deliver by March 20:\n\n- 40x adjustable desks: $16,000\n- 40x ergonomic chairs: $12,000\n- 40x monitor arms: $3,200\n- Bulk supplies package: $10,000\n\nTotal: $41,200.00\n\nGiven the rush timeline, we'd need Net-15 terms instead of our usual Net-30. We need to pre-order the desks from our supplier this week.\n\nI'll send the formal invoice once you confirm.\n\nBest,\nDana Kessler\nMeridian Office Supplies LLC\n(555) 312-4400"
+      },
+      {
+        "message_id": "<20260305-1530@targetcorp.com>",
+        "from": "tom.nguyen@targetcorp.com",
+        "to": "accounts@meridianoffice.com",
+        "cc": "ap@targetcorp.com",
+        "date": "2026-03-05T15:30:00Z",
+        "subject": "RE: URGENT \u2014 Emergency Office Setup for Westfield Expansion",
+        "body": "Dana \u2014 confirmed. Please proceed and send the invoice.\n\nTom"
+      },
+      {
+        "message_id": "<20260306-0900@meridianoffice.com>",
+        "from": "accounts@meridianoffice.com",
+        "to": "ap@targetcorp.com",
+        "cc": "tom.nguyen@targetcorp.com",
+        "date": "2026-03-06T09:00:00Z",
+        "subject": "Invoice MOS-2026-0365-RUSH \u2014 Emergency Westfield Setup",
+        "body": "Hi AP Team,\n\nAttached is invoice MOS-2026-0365-RUSH for the emergency Westfield office setup per PO-TC-9250-RUSH, as approved by Tom Nguyen.\n\nAmount: $41,200.00. Terms: Net-15 (per agreement due to rush timeline).\n\nPlease note this is in addition to our regular monthly supplies invoice.\n\nBest,\nDana Kessler\nAccounts Receivable\nMeridian Office Supplies LLC\n(555) 312-4400"
+      }
+    ],
+    "email_headers": {
+      "spf": "pass",
+      "dkim": "pass",
+      "dmarc": "pass",
+      "return_path": "accounts@meridianoffice.com",
+      "originating_ip": "198.51.100.22",
+      "x_mailer": "Microsoft Outlook 16.0"
+    },
+    "attachments": [
+      {
+        "filename": "MOS-2026-0365-RUSH.pdf",
+        "type": "application/pdf",
+        "content_summary": "Invoice from Meridian Office Supplies LLC. MOS-2026-0365-RUSH. PO: PO-TC-9250-RUSH. 40x adjustable desks ($16,000), 40x ergonomic chairs ($12,000), 40x monitor arms ($3,200), bulk supplies ($10,000). Total: $41,200.00. Net-15. Bank: First National Bank, routing 071000013, account ****7834."
+      }
+    ],
+    "vendor_record": {
+      "vendor_name": "Meridian Office Supplies LLC",
+      "vendor_id": "V-2019-0044",
+      "domain": "meridianoffice.com",
+      "primary_contact": "Dana Kessler <accounts@meridianoffice.com>",
+      "bank_account_on_file": "****7834",
+      "approved_routing_numbers": ["071000013"],
+      "routing_confirmed_date": "2026-01-15",
+      "routing_confirmed_by": "AP Manager Rachel Voss",
+      "onboarding_date": "2019-06-15",
+      "last_invoice_date": "2026-03-10",
+      "invoice_history": [
+        {
+          "invoice": "MOS-2026-0342",
+          "date": "2026-03-10",
+          "amount": 14250.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "MOS-2026-0298",
+          "date": "2026-02-10",
+          "amount": 13800.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "MOS-2026-0251",
+          "date": "2026-01-10",
+          "amount": 14100.0,
+          "status": "paid"
+        }
+      ],
+      "bank_change_history": []
+    },
+    "approval_chain": {
+      "required_approvers": [
+        "AP Clerk",
+        "AP Manager",
+        "Controller"
+      ],
+      "current_approvals": [
+        {
+          "role": "AP Clerk",
+          "name": "Jamie Torres",
+          "date": "2026-03-06",
+          "status": "approved"
+        },
+        {
+          "role": "AP Manager",
+          "name": "Rachel Voss",
+          "date": "2026-03-07",
+          "status": "approved"
+        },
+        {
+          "role": "Controller",
+          "name": "David Chen",
+          "date": "2026-03-07",
+          "status": "approved"
+        }
+      ],
+      "policy_reference": "FIN-AP-001 Section 3.2",
+      "threshold_usd": 25000
+    },
+    "procurement_records": {
+      "verified_pos": [
+        {
+          "po_number": "PO-TC-9250-RUSH",
+          "vendor": "Meridian Office Supplies LLC",
+          "amount_authorized": 47250.00,
+          "approved_by": "Controller David Chen",
+          "approval_date": "2026-03-05",
+          "status": "approved",
+          "line_items": "40x workstations emergency order — Westfield expansion"
+        }
+      ]
+    },
+    "sender_history": {
+      "email_address": "accounts@meridianoffice.com",
+      "first_seen": "2019-06-20",
+      "total_messages": 87,
+      "typical_patterns": {
+        "send_day": "weekday",
+        "send_time_range": "08:00-11:00 ET",
+        "typical_amount_range": [
+          12000,
+          16000
+        ],
+        "invoice_cadence": "monthly, around 10th"
+      },
+      "anomalies": [
+        "Amount $41,200 is 189% above the 6-month average of ~$14,100",
+        "Invoice sent on 6th (off-cadence from typical 10th)",
+        "Payment terms Net-15 instead of usual Net-30"
+      ]
+    },
+    "org_policies": {
+      "bank_change_policy": "Any bank account change requires: (1) written request on vendor letterhead, (2) verbal confirmation via phone on file, (3) AP Manager approval, (4) 10-business-day hold.",
+      "payment_approval_thresholds": {
+        "under_5000": "AP Clerk",
+        "5000_to_25000": "AP Clerk + AP Manager",
+        "25000_to_100000": "AP Clerk + AP Manager + Controller",
+        "over_100000": "AP Clerk + AP Manager + Controller + CFO"
+      },
+      "vendor_verification_requirements": "New vendors require W-9, certificate of insurance, and bank verification letter.",
+      "escalation_criteria": [
+        "Bank account change",
+        "Amount >120% of 6-month avg",
+        "Domain mismatch",
+        "Missing PO",
+        "Email auth failure",
+        "Payment method change",
+        "Urgency + any other flag"
+      ]
+    }
+  },
+  "hidden_ground_truth": {
+    "is_fraudulent": false,
+    "fraud_type": null,
+    "explanation": "Legitimate rush order. The email thread shows the internal request originated from TargetCorp's Facilities Director (Tom Nguyen), not from the vendor. The vendor responded to an internal request. The bank account matches. The domain matches. Email auth passes. The originating IP is the same as the vendor's historical IP. The amount is high because it's a bulk emergency order, not a recurring supply invoice. The payment terms changed because the vendor explained the rush timeline requires advance supplier ordering. The approval chain is complete \u2014 all three required approvers signed off. The PO (emergency PO-TC-9250-RUSH) is referenced. Every suspicious surface signal has a legitimate explanation documented in the thread.",
+    "evidence_signals": [
+      {
+        "signal": "Internal stakeholder initiated the request",
+        "strength": "strong",
+        "location": "email_thread[0] \u2014 Tom Nguyen's email"
+      },
+      {
+        "signal": "Bank account matches vendor record",
+        "strength": "strong",
+        "location": "action vs vendor_record"
+      },
+      {
+        "signal": "Same originating IP as historical",
+        "strength": "strong",
+        "location": "email_headers.originating_ip vs historical"
+      },
+      {
+        "signal": "Full email thread documents the request/response flow",
+        "strength": "strong",
+        "location": "email_thread"
+      },
+      {
+        "signal": "Approval chain complete for $41.2K",
+        "strength": "strong",
+        "location": "approval_chain"
+      },
+      {
+        "signal": "PO reference exists",
+        "strength": "strong",
+        "location": "attachment"
+      },
+      {
+        "signal": "Amount explained by bulk emergency order, not recurring supply",
+        "strength": "moderate",
+        "location": "email_thread context"
+      },
+      {
+        "signal": "Term change explained in thread (rush supplier ordering)",
+        "strength": "moderate",
+        "location": "email_thread[1]"
+      }
+    ]
+  },
+  "scoring_targets": {
+    "correct_verdict": "ALLOW",
+    "required_evidence_cited": [
+      "Internal origin of request",
+      "Bank match",
+      "Thread documenting request/response",
+      "Approvals complete",
+      "PO exists"
+    ],
+    "false_positive_risk": "Very high \u2014 this scenario triggers multiple escalation criteria simultaneously: amount >120% of average, urgency language, off-cadence timing, changed payment terms. A system that treats these as independent risk factors and sums them will over-trigger.",
+    "false_negative_risk": "N/A",
+    "architecture_differentiation_notes": "Strong differentiator. A solo one-pass system applying escalation criteria mechanically will ESCALATE. A multi-pass system that reads the full thread and understands that the urgency originated internally (not from the vendor) should ALLOW. A system with compounding postmortems should note: 'the amount is unusual BUT the request originated internally AND the bank hasn't changed AND the approvals are complete \u2014 the suspicious signals are explained by context.'"
+  },
+  "notes_for_humans": "This is the hardest false-positive trap. It hits multiple escalation criteria simultaneously \u2014 by design. The key insight is that every suspicious signal has a legitimate contextual explanation documented in the thread. The urgency came from inside the organization. The system must read the thread to understand causation, not just pattern-match on surface signals."
+}

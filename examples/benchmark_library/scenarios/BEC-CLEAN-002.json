@@ -1,0 +1,168 @@
+{
+  "scenario_id": "BEC-CLEAN-002",
+  "title": "First Invoice from New Vendor \u2014 Properly Onboarded",
+  "category": "clean",
+  "difficulty": "low",
+  "expected_verdict": "ALLOW",
+  "benchmark_purpose": "Baseline test for new-vendor handling. New vendors look suspicious to naive systems (no history, first invoice). This tests whether the system can distinguish a properly onboarded new vendor from an impersonation. The onboarding trail is complete and the bank was verified before any invoice arrived.",
+  "naive_system_likely_conclusion": "ALLOW \u2014 though a cautious system may flag 'new vendor, no invoice history' as a low-risk signal. The onboarding trail should resolve it.",
+  "action": {
+    "type": "invoice_payment",
+    "amount_usd": 22000.0,
+    "recipient_name": "Lakeside IT Consulting",
+    "recipient_bank_account": "****4455",
+    "invoice_number": "LIT-2026-0001",
+    "due_date": "2026-04-17"
+  },
+  "context": {
+    "email_thread": [
+      {
+        "message_id": "<20260317-1015@lakesideitconsulting.com>",
+        "from": "billing@lakesideitconsulting.com",
+        "to": "ap@targetcorp.com",
+        "cc": "",
+        "date": "2026-03-17T10:15:00Z",
+        "subject": "Invoice LIT-2026-0001 \u2014 IT Consulting Services March 2026",
+        "body": "Hi AP Team,\n\nAttached is our first invoice for IT consulting services per our SOW and PO-TC-9300.\n\nInvoice: LIT-2026-0001\nAmount: $22,000.00\nTerms: Net-30\nDue: April 17, 2026\n\nPlease remit to the bank account submitted during onboarding.\n\nThank you,\nMichael Tan\nBilling\nLakeside IT Consulting\n(555) 403-7200"
+      }
+    ],
+    "email_headers": {
+      "spf": "pass",
+      "dkim": "pass",
+      "dmarc": "pass",
+      "return_path": "billing@lakesideitconsulting.com",
+      "originating_ip": "203.0.113.45",
+      "x_mailer": "Google Workspace"
+    },
+    "attachments": [
+      {
+        "filename": "LIT-2026-0001.pdf",
+        "type": "application/pdf",
+        "content_summary": "Invoice from Lakeside IT Consulting. LIT-2026-0001. PO: PO-TC-9300. IT consulting \u2014 network assessment ($8,000), security hardening ($9,000), staff training ($5,000). Total: $22,000.00. Net-30. Bank: Riverside Community Bank, routing 071000039, account ****4455. Matches bank verification letter submitted 2026-02-10."
+      }
+    ],
+    "vendor_record": {
+      "vendor_name": "Lakeside IT Consulting",
+      "vendor_id": "V-2026-0001",
+      "domain": "lakesideitconsulting.com",
+      "primary_contact": "Michael Tan <billing@lakesideitconsulting.com>, phone: (555) 403-7200",
+      "bank_account_on_file": "****4455",
+      "onboarding_date": "2026-02-15",
+      "onboarding_documents": {
+        "w9_received": true,
+        "w9_date": "2026-02-10",
+        "bank_verification_letter_received": true,
+        "bank_verification_date": "2026-02-10",
+        "verbal_confirmation_completed": true,
+        "verbal_confirmation_date": "2026-02-12",
+        "verbal_confirmation_contact": "Michael Tan, (555) 403-7200",
+        "ap_manager_approved": true,
+        "ap_manager_approval_date": "2026-02-15",
+        "ap_manager_name": "Rachel Voss"
+      },
+      "invoice_history": [],
+      "bank_change_history": []
+    },
+    "approval_chain": {
+      "required_approvers": [
+        "AP Clerk",
+        "AP Manager"
+      ],
+      "current_approvals": [
+        {
+          "role": "AP Clerk",
+          "name": "Jamie Torres",
+          "date": "2026-03-17",
+          "status": "approved"
+        },
+        {
+          "role": "AP Manager",
+          "name": "Rachel Voss",
+          "date": "2026-03-18",
+          "status": "approved"
+        }
+      ],
+      "policy_reference": "FIN-AP-001 Section 3.2",
+      "threshold_usd": 25000
+    },
+    "sender_history": {
+      "email_address": "billing@lakesideitconsulting.com",
+      "first_seen": "2026-03-17",
+      "total_messages": 1,
+      "typical_patterns": {},
+      "anomalies": [
+        "First invoice \u2014 new vendor onboarded 2026-02-15"
+      ]
+    },
+    "org_policies": {
+      "bank_change_policy": "Any bank account change requires: (1) written request on vendor letterhead, (2) verbal confirmation via phone on file, (3) AP Manager approval, (4) 10-business-day hold.",
+      "payment_approval_thresholds": {
+        "under_5000": "AP Clerk",
+        "5000_to_25000": "AP Clerk + AP Manager",
+        "25000_to_100000": "AP Clerk + AP Manager + Controller",
+        "over_100000": "AP Clerk + AP Manager + Controller + CFO"
+      },
+      "vendor_verification_requirements": "New vendors require W-9, certificate of insurance, and bank verification letter.",
+      "escalation_criteria": [
+        "Bank account change",
+        "Amount >120% of 6-month avg",
+        "Domain mismatch",
+        "Missing PO",
+        "Email auth failure",
+        "Payment method change",
+        "Urgency + any other flag"
+      ]
+    }
+  },
+  "hidden_ground_truth": {
+    "is_fraudulent": false,
+    "fraud_type": null,
+    "explanation": "Legitimate first invoice from a properly onboarded new vendor. Lakeside IT Consulting was onboarded on 2026-02-15 with full documentation: W-9 received, bank verification letter received, verbal confirmation completed, and AP Manager approval obtained. Bank account ****4455 was submitted and verified during onboarding \u2014 it matches the invoice. Domain matches. Email auth passes. Approval chain is complete for $22,000 (under $25K threshold). The amount matches the signed SOW per PO-TC-9300. No anomalies.",
+    "evidence_signals": [
+      {
+        "signal": "Bank ****4455 matches bank verified during onboarding",
+        "strength": "strong",
+        "location": "action vs vendor_record.bank_account_on_file"
+      },
+      {
+        "signal": "Full onboarding trail: W-9, bank letter, verbal confirmation, AP Manager approval",
+        "strength": "strong",
+        "location": "vendor_record.onboarding_documents"
+      },
+      {
+        "signal": "Domain lakesideitconsulting.com matches vendor record",
+        "strength": "strong",
+        "location": "email_headers vs vendor_record"
+      },
+      {
+        "signal": "SPF/DKIM/DMARC all pass",
+        "strength": "strong",
+        "location": "email_headers"
+      },
+      {
+        "signal": "Amount matches SOW per PO-TC-9300",
+        "strength": "strong",
+        "location": "context.attachments"
+      },
+      {
+        "signal": "Approval chain complete for sub-$25K",
+        "strength": "strong",
+        "location": "approval_chain"
+      }
+    ]
+  },
+  "scoring_targets": {
+    "correct_verdict": "ALLOW",
+    "required_evidence_cited": [
+      "Onboarding documentation complete",
+      "Bank verified at onboarding",
+      "Auth pass",
+      "Approvals complete",
+      "Amount matches SOW"
+    ],
+    "false_positive_risk": "Low-moderate \u2014 'new vendor, no invoice history' can trigger naive escalation. The onboarding trail resolves all concerns. A system that reads onboarding_documents should ALLOW.",
+    "false_negative_risk": "N/A",
+    "architecture_differentiation_notes": "Baseline coverage. Tests new-vendor path. A system that escalates all first invoices regardless of onboarding status is producing false positives that damage vendor relationships and operational flow."
+  },
+  "notes_for_humans": "The key differentiator here is the onboarding trail. The bank was verified before any invoice arrived. That reverses the suspicion burden: it's not 'unverified new vendor', it's 'fully verified new vendor with their first invoice'. Systems that treat new vendors as inherently suspicious without checking the onboarding record will false-positive here."
+}

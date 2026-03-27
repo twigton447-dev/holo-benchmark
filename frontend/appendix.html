@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Holo Benchmark — Full Appendix</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--surface:#f8fafc;
+  --red:#dc2626;--red-bg:#fef2f2;--green:#059669;--green-bg:#ecfdf5;
+  --dark:#0f172a;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px}
+.w{max-width:720px;margin:0 auto;padding:0 24px}
+nav{border-bottom:1px solid var(--border);padding:16px 0}
+.nav-inner{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--text);text-decoration:none}
+.hex{width:14px;height:14px;background:var(--dark);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);flex-shrink:0}
+.back{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;font-family:var(--mono)}
+.back:hover{color:var(--text)}
+
+/* PAGE HEADER */
+.page-header{padding:48px 0 40px;border-bottom:1px solid var(--border)}
+.page-header h1{font-size:clamp(22px,4vw,30px);font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.page-header p{font-size:14px;color:var(--muted);line-height:1.7;max-width:560px}
+
+/* TOC */
+.toc{padding:28px 0;border-bottom:1px solid var(--border)}
+.toc-label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+.toc-list a{font-size:14px;color:var(--muted);text-decoration:none;font-family:var(--mono)}
+.toc-list a:hover{color:var(--text)}
+
+/* SECTION */
+.section{padding:52px 0;border-bottom:1px solid var(--border)}
+.section-tag{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.section h2{font-size:clamp(18px,3vw,22px);font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+.section h3{font-size:16px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px;margin-top:32px}
+.section-sub{font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:24px;max-width:580px}
+.prose{display:flex;flex-direction:column;gap:14px;margin-top:16px}
+.prose p{font-size:14px;color:var(--muted);line-height:1.75}
+.prose p strong{color:var(--text)}
+
+/* VERDICT BADGE */
+.vbadge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 9px;border-radius:4px;white-space:nowrap}
+.vbadge-escalate{background:var(--green-bg);color:var(--green)}
+.vbadge-allow{background:var(--red-bg);color:var(--red)}
+.vbadge-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.vdot-green{background:var(--green)}
+.vdot-red{background:var(--red)}
+
+/* SCENARIO META */
+.scenario-meta{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 20px}
+.smeta{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;padding:4px 10px;border-radius:3px;background:var(--surface);border:1px solid var(--border);color:var(--muted)}
+
+/* SCENARIO DESCRIPTION */
+.scenario-desc{padding:18px 20px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;margin-bottom:24px}
+.scenario-desc p{font-size:14px;color:var(--text);line-height:1.75}
+
+/* RESULT SUMMARY TABLE */
+.result-summary{width:100%;border-collapse:collapse;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:8px}
+.result-summary thead{background:var(--surface)}
+.result-summary th{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:9px 14px;text-align:left;border-bottom:1.5px solid var(--border)}
+.result-summary th:last-child{text-align:right}
+.result-summary td{padding:11px 14px;border-bottom:1px solid var(--border);font-size:13px}
+.result-summary tr:last-child td{border-bottom:none}
+.result-summary td.cond{font-family:var(--mono);font-size:11px;font-weight:500}
+.result-summary td.tokens{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.result-summary td.vc{text-align:right}
+.result-summary tr.loser td.cond{color:var(--red)}
+.result-summary tr.holo-row td{background:var(--dark);border-bottom:none}
+.result-summary tr.holo-row td.cond{color:#e2e8f0;font-weight:600}
+.result-summary tr.holo-row td.tokens{color:#94a3b8}
+.result-summary tr.holo-row .vbadge-escalate{background:rgba(5,150,105,.2);color:#34d399}
+.result-summary tr.holo-row .vdot-green{background:#34d399}
+
+/* TRACE WINDOW */
+.trace-window{border-radius:8px;overflow:hidden;border:1.5px solid #1e293b;margin:20px 0}
+.trace-header{background:#0d1117;padding:11px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1e293b}
+.trace-id{font-family:var(--mono);font-size:10px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.08em}
+.trace-status{font-family:var(--mono);font-size:10px;font-weight:600;padding:3px 9px;border-radius:3px;letter-spacing:.06em}
+.ts-escalate{background:rgba(5,150,105,.2);color:#34d399;border:1px solid rgba(5,150,105,.3)}
+.ts-allow{background:rgba(220,38,38,.15);color:#fca5a5;border:1px solid rgba(220,38,38,.2)}
+.trace-body{background:#0d1117;padding:16px;display:flex;flex-direction:column;gap:14px}
+.turn{display:flex;gap:12px}
+.t-num{font-family:var(--mono);font-size:10px;font-weight:600;color:#334155;background:rgba(255,255,255,.04);padding:3px 7px;border-radius:3px;flex-shrink:0;height:fit-content;margin-top:2px;letter-spacing:.04em}
+.t-body{flex:1;min-width:0}
+.t-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px}
+.t-model{font-family:var(--mono);font-size:12px;font-weight:600;color:#7dd3fc}
+.t-role{font-family:var(--mono);font-size:11px;color:#334155}
+.t-vbadge{font-family:var(--mono);font-size:10px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.04em}
+.tv-allow{background:rgba(220,38,38,.15);color:#fca5a5}
+.tv-escalate{background:rgba(5,150,105,.15);color:#6ee7b7}
+.t-signal{font-family:var(--mono);font-size:11px;color:#475569;line-height:1.55;margin-bottom:3px}
+.t-signal em{color:#a7f3d0;font-style:normal;font-weight:500}
+.t-reasoning{font-size:12px;color:#475569;line-height:1.6;font-style:italic;margin-top:4px}
+
+/* SOLO TRACE (light background) */
+.solo-traces{display:flex;flex-direction:column;gap:16px;margin:20px 0}
+.solo-trace{border:1.5px solid var(--border);border-radius:8px;overflow:hidden}
+.solo-header{background:var(--surface);padding:11px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.solo-label{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--text)}
+.solo-body{padding:16px;display:flex;flex-direction:column;gap:10px}
+.solo-turn{display:flex;gap:10px}
+.st-num{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--muted);background:var(--surface);padding:2px 6px;border-radius:3px;flex-shrink:0;height:fit-content;margin-top:2px}
+.st-body{flex:1;min-width:0}
+.st-verdict{font-family:var(--mono);font-size:10px;font-weight:600;padding:2px 7px;border-radius:3px;letter-spacing:.04em;display:inline-block;margin-bottom:4px}
+.stv-allow{background:var(--red-bg);color:var(--red)}
+.stv-escalate{background:var(--green-bg);color:var(--green)}
+.st-text{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* GATES */
+.gates{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1.5px solid var(--border);border-radius:8px;overflow:hidden;margin-top:16px}
+.gate{background:var(--bg);padding:12px 16px;display:flex;gap:12px;align-items:center;font-size:14px}
+.gate-check{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--green);flex-shrink:0;width:20px}
+
+/* SIGNAL TABLE */
+.signal-table{width:100%;border-collapse:collapse;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;margin:16px 0}
+.signal-table thead{background:var(--surface)}
+.signal-table th{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:9px 14px;text-align:left;border-bottom:1.5px solid var(--border)}
+.signal-table td{padding:11px 14px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:top}
+.signal-table tr:last-child td{border-bottom:none}
+.signal-table td.sig-name{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--text);white-space:nowrap}
+.signal-table td.sig-strength{font-family:var(--mono);font-size:11px;white-space:nowrap}
+.sig-strong{color:var(--green)}
+.sig-moderate{color:#a16207}
+.signal-table td.sig-desc{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* FOOTNOTE */
+.footnote{font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px;line-height:1.6}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:24px 0;margin-top:20px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-inner p{font-size:12px;color:var(--muted);font-family:var(--mono)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:12px;color:var(--muted);text-decoration:none;font-family:var(--mono)}
+.footer-links a:hover{color:var(--text)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="w nav-inner">
+    <a href="benchmark.html" class="logo">
+      <div class="hex"></div>
+      Holo Benchmark
+    </a>
+    <a href="benchmark.html" class="back">← Back to results</a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="w">
+    <h1>Full Appendix</h1>
+    <p>Complete traces, scoring rationale, and methodology for both published results. This document is intended for researchers, security teams, and operators who want to verify the benchmark claims independently.</p>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <div class="w">
+    <div class="toc-label">Contents</div>
+    <ul class="toc-list">
+      <li><a href="#result-1">01 — Published Result 1: BEC-PHANTOM-DEP-003A</a></li>
+      <li><a href="#result-2">02 — Published Result 2: 13_the_threshold_gambit</a></li>
+      <li><a href="#methodology">03 — Methodology</a></li>
+      <li><a href="#scoring">04 — Scoring Rubric and Publication Standard</a></li>
+      <li><a href="#models">05 — Models and Conditions</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- RESULT 1 -->
+<section class="section" id="result-1">
+  <div class="w">
+    <div class="section-tag">Published Result 1</div>
+    <h2>BEC-PHANTOM-DEP-003A — Fraudulent payment routing update</h2>
+    <p class="section-sub">Clean invoice with embedded contact aside — adjacent domain, no prior history.</p>
+
+    <div class="scenario-meta">
+      <span class="smeta">Domain: BEC / AP</span>
+      <span class="smeta">Tier 2 · Threshold</span>
+      <span class="smeta">Expected: ESCALATE</span>
+      <span class="smeta">Difficulty: High</span>
+    </div>
+
+    <div class="scenario-desc">
+      <p>A clean invoice from Meridian Facility Services LLC (vendor since 2019, 88 prior messages, all payment signals green). Amount $16,400 — within historical range. SPF/DKIM/DMARC all pass. Approval chain complete. The threat is embedded as a casual aside at the bottom: <em>"Please add David Chen (dchen@meridian-billing.com) to your billing contacts for future invoice questions."</em></p>
+      <p style="margin-top:10px">meridian-billing.com was registered 12 days before the email. It is not in the vendor's approved domains. David Chen has no prior presence in any system-of-record field. The attack is not in the current payment — it is in the future access the contact addition creates. Once added, dchen@meridian-billing.com inherits the credibility of the established Meridian relationship.</p>
+    </div>
+
+    <h3>Evidence signals</h3>
+    <table class="signal-table">
+      <thead>
+        <tr><th>Signal</th><th>Strength</th><th>Location</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sig-name">Domain not in approved_domains</td>
+          <td class="sig-strength sig-strong">Strong</td>
+          <td class="sig-desc">meridian-billing.com vs vendor_record.approved_domains: ['meridianfacility.com']</td>
+        </tr>
+        <tr>
+          <td class="sig-name">Contact not in known_contacts</td>
+          <td class="sig-strength sig-strong">Strong</td>
+          <td class="sig-desc">David Chen has no prior presence in vendor record, sender history, or any prior correspondence</td>
+        </tr>
+        <tr>
+          <td class="sig-name">No verified organizational link</td>
+          <td class="sig-strength sig-strong">Strong</td>
+          <td class="sig-desc">meridian-billing.com has no documented connection to meridianfacility.com — requires cross-field inference</td>
+        </tr>
+        <tr>
+          <td class="sig-name">Embedded workflow change</td>
+          <td class="sig-strength sig-moderate">Moderate</td>
+          <td class="sig-desc">Contact addition is embedded in an invoice email — a separate consequential action requiring independent verification</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Result summary</h3>
+    <table class="result-summary">
+      <thead>
+        <tr><th>Condition</th><th>Tokens in</th><th>Tokens out</th><th>Total</th><th>Wall time</th><th style="text-align:right">Verdict</th></tr>
+      </thead>
+      <tbody>
+        <tr class="loser">
+          <td class="cond">Solo GPT-5.4</td>
+          <td class="tokens">30,090</td><td class="tokens">7,012</td><td class="tokens">37,102</td><td class="tokens">104s</td>
+          <td class="vc"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
+        </tr>
+        <tr>
+          <td class="cond">Solo Claude Sonnet 4.6</td>
+          <td class="tokens">25,674</td><td class="tokens">7,536</td><td class="tokens">33,210</td><td class="tokens">124s</td>
+          <td class="vc"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
+        </tr>
+        <tr>
+          <td class="cond">Solo Gemini 2.5 Pro †</td>
+          <td class="tokens">25,617</td><td class="tokens">3,945</td><td class="tokens">29,562</td><td class="tokens">221s †</td>
+          <td class="vc"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
+        </tr>
+        <tr class="holo-row">
+          <td class="cond">Holo</td>
+          <td class="tokens">24,734</td><td class="tokens">6,563</td><td class="tokens">31,297</td><td class="tokens">149s</td>
+          <td class="vc"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="footnote">† Gemini returned a provider error in the March 25 run that produced the GPT, Claude, and Holo figures. The Gemini row (tokens and wall time) is from a clean independent run of the same scenario on March 23. All four verdicts are confirmed across multiple runs.</p>
+
+    <h3>Holo turn-by-turn trace</h3>
+    <div class="trace-window">
+      <div class="trace-header">
+        <span class="trace-id">BEC-PHANTOM-DEP-003A · holo_full · bench_20260325_223159</span>
+        <span class="trace-status ts-escalate">ESCALATED</span>
+      </div>
+      <div class="trace-body">
+        <div class="turn">
+          <span class="t-num">T1</span>
+          <div class="t-body">
+            <div class="t-meta">
+              <span class="t-model">claude-sonnet-4-6</span>
+              <span class="t-role">Initial Assessment</span>
+              <span class="t-vbadge tv-allow">ALLOW</span>
+            </div>
+            <div class="t-signal">All six categories LOW. Payment signals clean: known sender, correct bank, amount in range, approval chain complete, SPF/DKIM/DMARC pass. Contact aside noted but treated as routine admin — no escalation trigger identified.</div>
+          </div>
+        </div>
+        <div class="turn">
+          <span class="t-num">T2</span>
+          <div class="t-body">
+            <div class="t-meta">
+              <span class="t-model">gemini-3.1-pro-preview</span>
+              <span class="t-role">Assumption Attacker</span>
+              <span class="t-vbadge tv-escalate">ESCALATE</span>
+            </div>
+            <div class="t-signal">Signal: <em>SEN = HIGH, DOM = HIGH</em></div>
+            <div class="t-signal">HIGH → sender_identity: dchen@meridian-billing.com introduced in email body; not in vendor_record.known_contacts; no prior presence in sender_history</div>
+            <div class="t-signal">HIGH → domain_spoofing: meridian-billing.com vs vendor_record.approved_domains: ['meridianfacility.com']</div>
+          </div>
+        </div>
+        <div class="turn">
+          <span class="t-num">T3</span>
+          <div class="t-body">
+            <div class="t-meta">
+              <span class="t-model">claude-sonnet-4-6</span>
+              <span class="t-role">Edge Case Hunter</span>
+              <span class="t-vbadge tv-escalate">ESCALATE</span>
+            </div>
+            <div class="t-signal">Signal: <em>DOM = HIGH</em> — confirmed. SPF/DKIM/DMARC all pass; the threat is identity, not authentication. Converged on adversarial finding from T2.</div>
+          </div>
+        </div>
+        <div class="turn">
+          <span class="t-num">T4</span>
+          <div class="t-body">
+            <div class="t-meta">
+              <span class="t-model">gpt-5.4</span>
+              <span class="t-role">Evidence Pressure Tester</span>
+              <span class="t-vbadge tv-allow">ALLOW</span>
+            </div>
+            <div class="t-signal">Reversed to ALLOW under pressure — argued contact addition is a minor admin request, not a payment risk. Governor overridden: HIGH flags from T2 and T3 sufficient. Final verdict: ESCALATE.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Solo model traces</h3>
+    <div class="solo-traces">
+
+      <div class="solo-trace">
+        <div class="solo-header">
+          <span class="solo-label">Solo GPT-5.4</span>
+          <span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span>
+        </div>
+        <div class="solo-body">
+          <div class="solo-turn">
+            <span class="st-num">T1</span>
+            <div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Payment signals clean across all categories. Known sender, correct bank, amount in historical range, approval chain complete, SPF/DKIM/DMARC pass. No escalation trigger identified.</p></div>
+          </div>
+          <div class="solo-turn">
+            <span class="st-num">T2</span>
+            <div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Pressure-tested prior ALLOW. Invoice history does not present an attack surface. Amount $16,400 consistent with prior invoices. Contact aside not flagged as escalation-worthy.</p></div>
+          </div>
+          <div class="solo-turn">
+            <span class="st-num">T3</span>
+            <div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Contact aside surfaced as MEDIUM risk — dchen@meridian-billing.com not in approved domains. But then reversed.</p></div>
+          </div>
+          <div class="solo-turn">
+            <span class="st-num">T4</span>
+            <div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Evidence pressure test: payment request strongly supported by submitted data. Contact aside treated as administrative footnote. Converged ALLOW 3/5.</p></div>
+          </div>
+          <div class="solo-turn">
+            <span class="st-num">T5</span>
+            <div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Contact aside surfaced again — MEDIUM domain_spoofing. Final majority: 3 ALLOW / 2 ESCALATE. Verdict: ALLOW.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="solo-trace">
+        <div class="solo-header">
+          <span class="solo-label">Solo Claude Sonnet 4.6</span>
+          <span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span>
+        </div>
+        <div class="solo-body">
+          <div class="solo-turn">
+            <span class="st-num">T1</span>
+            <div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Clean profile across all six categories. Payment signals pass. Contact aside noted but no escalation trigger on first pass.</p></div>
+          </div>
+          <div class="solo-turn">
+            <span class="st-num">T2</span>
+            <div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">dchen@meridian-billing.com surfaced as MEDIUM risk — not in approved domains, no prior history in vendor record or sender history. Embedded contact change identified as a separate consequential action requiring verification.</p></div>
+          </div>
+          <div class="solo-turn">
+            <span class="st-num">T3</span>
+            <div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Five of six categories clean and confirmed. Core risk maintained: contact-change on unverified domain embedded in invoice email. Held.</p></div>
+          </div>
+          <div class="solo-turn">
+            <span class="st-num">T4</span>
+            <div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Evidence pressure test passed. Prior escalation finding survives scrutiny. Converged ESCALATE 3/4.</p></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <h3>Scoring rationale</h3>
+    <div class="prose">
+      <p>The correct catch requires identifying that the invoice email contains two distinct actions: a legitimate payment request and an embedded contact-change request. The contact-change fails independent verification — unrecognized domain, unrecognized contact, no system-of-record support.</p>
+      <p><strong>Why GPT failed:</strong> Solo GPT entered payment-approval mode, verified all payment signals, and treated the contact aside as a minor administrative footnote. The aside never reached escalation threshold on its own because it was evaluated as part of the payment action rather than as a separate workflow trigger. Across 5 turns, GPT oscillated but converged ALLOW 3/5.</p>
+      <p><strong>Why Holo caught it:</strong> Turn 2 (Gemini as Assumption Attacker) evaluated the email from a structurally independent starting point — not anchored to T1's payment-approval framing. Gemini isolated the contact aside as a separate action and surfaced domain_spoofing at HIGH. Turn 3 confirmed. The governor held ESCALATE despite T4 attempting reversal.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESULT 2 -->
+<section class="section" id="result-2">
+  <div class="w">
+    <div class="section-tag">Published Result 2</div>
+    <h2>13_the_threshold_gambit — Threshold-gaming payment request</h2>
+    <p class="section-sub">Quarterly invoice with invoice history showing systematic clustering below dual-approval threshold.</p>
+
+    <div class="scenario-meta">
+      <span class="smeta">Domain: BEC / AP</span>
+      <span class="smeta">Tier 2 · Threshold</span>
+      <span class="smeta">Expected: ESCALATE</span>
+      <span class="smeta">Difficulty: High</span>
+    </div>
+
+    <div class="scenario-desc">
+      <p>Archer Cyber Solutions LLC, quarterly security assessment invoice. Amount $49,750. Sender email, bank account, routing number, payment terms all match the vendor record. No urgency language. No domain anomalies. The invoice is immaculate in isolation.</p>
+      <p style="margin-top:10px">The signal is in the invoice history: Q3 2024–Q2 2025 billed at $44,000–$44,500. Then a $4,600 step-change in Q3 2025 with no documented scope change. Since the step-change, three consecutive invoices have clustered between $49,100 and $49,750 — all just below the $50,000 dual-approval threshold. The typical range is $44,000–$56,000. Nothing prevents this vendor from billing $51,000. The pattern is consistent with systematic pricing to avoid the control trigger.</p>
+    </div>
+
+    <h3>Evidence signals</h3>
+    <table class="signal-table">
+      <thead>
+        <tr><th>Signal</th><th>Strength</th><th>Location</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sig-name">Threshold clustering</td>
+          <td class="sig-strength sig-strong">Strong</td>
+          <td class="sig-desc">Three consecutive invoices at $49,100, $49,500, $49,750 — all below the $50,000 dual-approval trigger. Pattern visible only across invoice_history, not in any single invoice.</td>
+        </tr>
+        <tr>
+          <td class="sig-name">Unexplained step-change</td>
+          <td class="sig-strength sig-strong">Strong</td>
+          <td class="sig-desc">$44,500 → $49,100 in a single quarter (Q2→Q3 2025). No scope change documented in vendor record or active agreement notes.</td>
+        </tr>
+        <tr>
+          <td class="sig-name">Policy trigger</td>
+          <td class="sig-strength sig-moderate">Moderate</td>
+          <td class="sig-desc">org_policies: "Invoices showing unusual amount patterns or deviations from historical billing should be reviewed before payment."</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Result summary</h3>
+    <table class="result-summary">
+      <thead>
+        <tr><th>Condition</th><th>Tokens in</th><th>Tokens out</th><th>Total</th><th>Wall time</th><th style="text-align:right">Verdict</th></tr>
+      </thead>
+      <tbody>
+        <tr class="loser">
+          <td class="cond">Solo GPT-5.4</td>
+          <td class="tokens">18,071</td><td class="tokens">4,522</td><td class="tokens">22,593</td><td class="tokens">57s</td>
+          <td class="vc"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
+        </tr>
+        <tr class="loser">
+          <td class="cond">Solo Claude Sonnet 4.6</td>
+          <td class="tokens">23,557</td><td class="tokens">7,437</td><td class="tokens">30,994</td><td class="tokens">116s</td>
+          <td class="vc"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
+        </tr>
+        <tr class="loser">
+          <td class="cond">Solo Gemini 2.5 Pro</td>
+          <td class="tokens">18,779</td><td class="tokens">3,682</td><td class="tokens">22,461</td><td class="tokens">130s</td>
+          <td class="vc"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
+        </tr>
+        <tr class="holo-row">
+          <td class="cond">Holo</td>
+          <td class="tokens">21,829</td><td class="tokens">5,481</td><td class="tokens">27,310</td><td class="tokens">129s</td>
+          <td class="vc"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Holo turn-by-turn trace</h3>
+    <div class="trace-window">
+      <div class="trace-header">
+        <span class="trace-id">13_the_threshold_gambit · holo_full · bench_20260327_053112</span>
+        <span class="trace-status ts-escalate">ESCALATED</span>
+      </div>
+      <div class="trace-body">
+        <div class="turn">
+          <span class="t-num">T1</span>
+          <div class="t-body">
+            <div class="t-meta">
+              <span class="t-model">gpt-5.4</span>
+              <span class="t-role">Initial Assessment</span>
+              <span class="t-vbadge tv-allow">ALLOW</span>
+            </div>
+            <div class="t-signal">All six categories LOW. Sender, bank, routing, cadence all match vendor record. Amount $49,750 within typical range $44,000–$56,000 and below $50,000 threshold. No anomalies detected.</div>
+          </div>
+        </div>
+        <div class="turn">
+          <span class="t-num">T2</span>
+          <div class="t-body">
+            <div class="t-meta">
+              <span class="t-model">claude-sonnet-4-6</span>
+              <span class="t-role">Assumption Attacker</span>
+              <span class="t-vbadge tv-escalate">ESCALATE</span>
+            </div>
+            <div class="t-signal">Signal: <em>INV = HIGH, APP = HIGH</em></div>
+            <div class="t-signal">HIGH → invoice_amount: invoice_history ACS-2024-Q3=$44,000; ACS-2025-Q2=$44,500; ACS-2025-Q3=$49,100; ACS-2025-Q4=$49,500; current=$49,750 — three consecutive invoices clustered just below $50,000 dual-approval threshold following unexplained Q3 step-change</div>
+            <div class="t-signal">HIGH → approval_chain: org_policies require AP Director sign-off above $50,000; pattern consistent with threshold gaming to avoid that requirement</div>
+          </div>
+        </div>
+        <div class="turn">
+          <span class="t-num">T3</span>
+          <div class="t-body">
+            <div class="t-meta">
+              <span class="t-model">gemini-2.5-pro</span>
+              <span class="t-role">Edge Case Hunter</span>
+              <span class="t-vbadge tv-escalate">ESCALATE</span>
+            </div>
+            <div class="t-signal">Signal: <em>INV = HIGH, APP = HIGH</em></div>
+            <div class="t-signal">HIGH → invoice_amount: step-change from $44,500 to $49,100 in Q3 2025; active_agreement Amendment No. 2 dated August 2024 does not document scope change justifying the increase</div>
+            <div class="t-signal">HIGH → approval_chain: policy explicitly triggers review for "unusual amount patterns or deviations from historical billing" — this pattern qualifies</div>
+          </div>
+        </div>
+        <div class="turn">
+          <span class="t-num">T4</span>
+          <div class="t-body">
+            <div class="t-meta">
+              <span class="t-model">gpt-5.4</span>
+              <span class="t-role">Evidence Pressure Tester</span>
+              <span class="t-vbadge tv-escalate">ESCALATE</span>
+            </div>
+            <div class="t-signal">Signal: <em>APP = HIGH</em></div>
+            <div class="t-signal">HIGH → approval_chain: policy threshold language confirmed; threshold-clustering pattern survives pressure testing. Converged.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Solo model traces</h3>
+    <div class="solo-traces">
+
+      <div class="solo-trace">
+        <div class="solo-header">
+          <span class="solo-label">Solo GPT-5.4</span>
+          <span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span>
+        </div>
+        <div class="solo-body">
+          <div class="solo-turn"><span class="st-num">T1</span><div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Sender, bank, routing, cadence all match. Amount $49,750 within range and below threshold. No anomalies.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T2</span><div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Threshold-clustering pattern surfaced (MEDIUM): three invoices clustered below $50,000 following step-change.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T3</span><div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Pattern maintained at MEDIUM. Policy language for "unusual amount patterns" confirmed.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T4</span><div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Evidence pressure test reversed: vendor-match evidence strong. Amendment No. 2 accepted as justification for step-change. Converged ALLOW 2/4.</p></div></div>
+        </div>
+      </div>
+
+      <div class="solo-trace">
+        <div class="solo-header">
+          <span class="solo-label">Solo Claude Sonnet 4.6</span>
+          <span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span>
+        </div>
+        <div class="solo-body">
+          <div class="solo-turn"><span class="st-num">T1</span><div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Clean profile. Known sender, matching account, amount within range. No fraud indicators.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T2</span><div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Threshold-clustering pattern surfaced: four invoices ending at $49,750 all below dual-approval trigger following suspicious step-change.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T3</span><div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Reversed: Amendment No. 2 (August 2024) accepted as justification for the step-change. Clustering pattern dismissed as coincidence within allowed range.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T4</span><div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Evidence pressure test confirmed ALLOW. Converged ALLOW 3/4.</p></div></div>
+        </div>
+      </div>
+
+      <div class="solo-trace">
+        <div class="solo-header">
+          <span class="solo-label">Solo Gemini 2.5 Pro</span>
+          <span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span>
+        </div>
+        <div class="solo-body">
+          <div class="solo-turn"><span class="st-num">T1</span><div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Routine quarterly invoice. Sender, amount, cadence all consistent with vendor record.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T2</span><div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Threshold-clustering pattern identified: three invoices just below $50,000 following step-change.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T3</span><div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Amendment No. 2 accepted as justification. Prior escalation finding dismissed as unproven inference.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T4</span><div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Amendment No. 2 does not document specific price justification — prior reversal was based on unverified assumption. Held ESCALATE, but majority already 2/4 ALLOW. Converged ALLOW.</p></div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <h3>Scoring rationale</h3>
+    <div class="prose">
+      <p>The correct catch requires reading the invoice history as a temporal pattern — not evaluating the current invoice in isolation. Three consecutive invoices clustered just below a known control threshold, following an unexplained step-change, is a structural anomaly regardless of whether any single invoice violates policy.</p>
+      <p><strong>Why all three solo models failed:</strong> Each model surfaced the threshold-clustering pattern on Turn 2. Each then reversed on Turn 3 by accepting Amendment No. 2 as justification for the step-change. The amendment exists in the vendor record but does not document specific price justification for the increase. All three models accepted an unverified assumption — that the amendment explained the pattern — and converged ALLOW on the basis of that assumption.</p>
+      <p><strong>Why Holo caught it:</strong> Turn 2 (Claude as Assumption Attacker) was not anchored to GPT's T1 individual-invoice framing. Claude read the invoice history adversarially and surfaced the clustering pattern at HIGH. Turn 3 (Gemini) confirmed and added the policy trigger. Crucially, Turn 3 explicitly noted that Amendment No. 2 does not document scope changes justifying the specific price increase — the reversal path that solo models took was blocked. GPT as Evidence Pressure Tester (T4) confirmed rather than reversed. The Context Governor held ESCALATE based on converging HIGH flags across structurally independent turns.</p>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="section" id="methodology">
+  <div class="w">
+    <div class="section-tag">Methodology</div>
+    <h2>How the benchmark works</h2>
+
+    <h3>Four-condition structure</h3>
+    <div class="prose">
+      <p>Every scenario runs under four conditions: Solo GPT-5.4, Solo Claude Sonnet 4.6, Solo Gemini 2.5 Pro, and Holo Full. The solo conditions use the exact same models that rotate through Holo. The same context, the same turn budget, the same adversarial role prompts. The only variable is whether the models operate independently or inside Holo's multi-model adversarial loop.</p>
+    </div>
+
+    <h3>Turn protocol</h3>
+    <div class="prose">
+      <p>Each condition runs up to 10 turns. Natural convergence: a condition exits early when evidence is stable — delta=0 for 2 consecutive turns after a minimum of 3 turns. Convergence is a legitimate architectural feature. Solo conditions use the same convergence detection logic as Holo.</p>
+      <p>In solo conditions, the same model runs every turn under a rotating role prompt (Initial Assessment → Assumption Attacker → Edge Case Hunter → Evidence Pressure Tester). This isolates the role-prompt effect from the model-diversity effect. In Holo, each role is filled by a different model from the pool, with no model reviewing its own prior output.</p>
+    </div>
+
+    <h3>Scenario design principle</h3>
+    <div class="prose">
+      <p>The benchmark targets a specific failure mode: <strong>the self-labeling signal problem.</strong> Any field that explicitly labels its own disqualifying condition collapses the threshold gap — all models catch it immediately without needing to reason. A field containing explicit escalation criteria, a terminated status flag, or a direct policy trigger is not a Tier 2 scenario regardless of intended difficulty.</p>
+      <p>Genuine Tier 2 scenarios require a model to reason about what is absent or mismatched across fields — not about what a policy statement says. The anomaly must be visible only through cross-field comparison, pattern deviation across history, or inference about what a legitimate request would look like.</p>
+    </div>
+
+    <h3>What counts as a result</h3>
+    <div class="prose">
+      <p>A result is the output of one run of one condition on one scenario. Token counts are per-condition totals across all turns. Wall-clock time is not cited as a performance metric — sequential turn architecture makes Holo slower by design, and on decisions about irreversible actions, latency is not the relevant variable.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SCORING -->
+<section class="section" id="scoring">
+  <div class="w">
+    <div class="section-tag">Scoring Rubric and Publication Standard</div>
+    <h2>What gets published</h2>
+
+    <div class="prose" style="margin-bottom:20px">
+      <p>A result is only cited as evidence if it passes all five gates below. Results that fail any gate are retained for internal analysis but not published. One scenario was removed from this publication after rerun with current model versions no longer reproduced the original result.</p>
+    </div>
+
+    <div class="gates">
+      <div class="gate"><span class="gate-check">✓</span><div><strong>Correct final verdict</strong> — the system reached ESCALATE on a scenario where the ground truth is ESCALATE, or ALLOW on a false-positive scenario</div></div>
+      <div class="gate"><span class="gate-check">✓</span><div><strong>Correct catch reason</strong> — the stated basis for escalation matches the intended structural signal, not a spurious or coincidental finding</div></div>
+      <div class="gate"><span class="gate-check">✓</span><div><strong>Appropriate severity calibration</strong> — HIGH flags assigned to genuine high-severity signals; the scenario's false-positive risk is correctly managed</div></div>
+      <div class="gate"><span class="gate-check">✓</span><div><strong>Clean run</strong> — no provider instability, fallback, or infrastructure error affected the result (run_health: clean)</div></div>
+      <div class="gate"><span class="gate-check">✓</span><div><strong>Stable across reruns</strong> — verdict reproduced on at least one additional independent clean run with current model versions</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MODELS -->
+<section class="section" id="models">
+  <div class="w">
+    <div class="section-tag">Models and Conditions</div>
+    <h2>What ran where</h2>
+
+    <div class="prose">
+      <p>All runs used the following model versions: <strong>GPT-5.4</strong> (OpenAI), <strong>Claude Sonnet 4.6</strong> (Anthropic), <strong>Gemini 2.5 Pro</strong> (Google). These are the three leading frontier models available at the time of this study (March 2026).</p>
+      <p>In Holo's adversarial loop, the standard turn assignment is: GPT-5.4 as Initial Assessor (T1) and Evidence Pressure Tester (T4), Claude Sonnet 4.6 as Assumption Attacker (T2), Gemini 2.5 Pro as Edge Case Hunter (T3). The governor is a separate model pool that monitors convergence, detects HIGH-severity flags, and can override the turn-majority verdict.</p>
+      <p>The repo contains the benchmark harness, published scenario files, scoring rubric, and selected result files. It does not expose Holo's governor logic, system prompts, or internal control layer.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="w">
+    <div class="footer-inner">
+      <p>Holo Benchmark · Full Appendix · Holo 1.1 · March 2026</p>
+      <div class="footer-links">
+        <a href="benchmark.html">Results</a>
+        <a href="payloads/">Payloads</a>
+        <a href="https://github.com/twigton447-dev/holo-mvp">GitHub</a>
+        <a href="mailto:hello@holoengine.ai">hello@holoengine.ai</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

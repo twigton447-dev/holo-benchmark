@@ -1,0 +1,221 @@
+{
+  "scenario_id": "BEC-FP-002",
+  "title": "Vendor Domain Migration with Valid Notification Trail",
+  "category": "false_positive_trap",
+  "difficulty": "high",
+  "expected_verdict": "ALLOW",
+  "benchmark_purpose": "Test whether the system correctly handles a legitimate vendor domain change. The vendor migrated from one domain to another and provided formal notification through the old domain, plus verification through their account manager. A new-domain email looks like a spoofed impersonation \u2014 but the migration is documented.",
+  "naive_system_likely_conclusion": "ESCALATE \u2014 sender domain doesn't match vendor record. This is a textbook domain-mismatch trigger.",
+  "action": {
+    "type": "invoice_payment",
+    "amount_usd": 19500.0,
+    "recipient_name": "Redline Mechanical (formerly Redline HVAC Services)",
+    "recipient_bank_account": "****3344",
+    "invoice_number": "RM-2026-0050",
+    "due_date": "2026-04-10"
+  },
+  "context": {
+    "email_thread": [
+      {
+        "message_id": "<20260201-1000@redlinehvac.com>",
+        "from": "admin@redlinehvac.com",
+        "to": "ap@targetcorp.com",
+        "cc": "tom.nguyen@targetcorp.com",
+        "date": "2026-02-01T10:00:00Z",
+        "subject": "Important: Redline HVAC Services \u2014 Company Rebrand & Domain Change",
+        "body": "Dear TargetCorp AP Team,\n\nWe are writing to inform you that effective March 1, 2026, Redline HVAC Services will be rebranding to Redline Mechanical to reflect our expanded service offerings.\n\nAs part of this rebrand:\n- Our domain will change from redlinehvac.com to redlinemechanical.com\n- Our new email addresses will be @redlinemechanical.com\n- Our legal name, EIN, bank account, and all other details remain unchanged\n\nPlease update your records accordingly. Our account manager Greg Holloway will follow up to verify this change per your vendor management policy.\n\nBest,\nSusan Park\nCFO, Redline HVAC Services\n(555) 677-4100"
+      },
+      {
+        "message_id": "<20260205-1400@targetcorp.com>",
+        "from": "jamie.torres@targetcorp.com",
+        "to": "admin@redlinehvac.com",
+        "cc": "rachel.voss@targetcorp.com",
+        "date": "2026-02-05T14:00:00Z",
+        "subject": "RE: Important: Redline HVAC Services \u2014 Company Rebrand & Domain Change",
+        "body": "Hi Susan,\n\nThank you for the advance notice. Per our policy, we'll need:\n1. Written confirmation on your current letterhead\n2. Verbal verification from your account manager via phone on file\n3. AP Manager approval\n\nWe'll process the domain update after verification.\n\nJamie Torres\nAccounts Payable"
+      },
+      {
+        "message_id": "<20260210-0900@targetcorp.com>",
+        "from": "jamie.torres@targetcorp.com",
+        "to": "rachel.voss@targetcorp.com",
+        "cc": "",
+        "date": "2026-02-10T09:00:00Z",
+        "subject": "Domain Change Verification \u2014 Redline HVAC \u2192 Redline Mechanical",
+        "body": "Rachel,\n\nDomain migration verification for Redline HVAC \u2192 Redline Mechanical complete:\n1. Written notification from old domain (redlinehvac.com) \u2014 received 2/1 \u2713\n2. Verbal confirmation from Greg Holloway via phone on file (555) 677-4100 on 2/7 \u2713\n3. New domain DNS verified as registered to same organization \u2713\n4. Bank account, EIN, legal entity unchanged \u2713\n\nRequesting approval to update vendor record domain to redlinemechanical.com.\n\nJamie"
+      },
+      {
+        "message_id": "<20260210-1045@targetcorp.com>",
+        "from": "rachel.voss@targetcorp.com",
+        "to": "jamie.torres@targetcorp.com",
+        "cc": "",
+        "date": "2026-02-10T10:45:00Z",
+        "subject": "RE: Domain Change Verification \u2014 Redline HVAC \u2192 Redline Mechanical",
+        "body": "Approved. Update the vendor record. Good work.\n\nRachel"
+      },
+      {
+        "message_id": "<20260312-0845@redlinemechanical.com>",
+        "from": "invoicing@redlinemechanical.com",
+        "to": "ap@targetcorp.com",
+        "cc": "",
+        "date": "2026-03-12T08:45:00Z",
+        "subject": "Invoice RM-2026-0050 \u2014 March HVAC Maintenance",
+        "body": "Hi AP Team,\n\nPlease find attached our March maintenance invoice RM-2026-0050 per PO-TC-8820.\n\nAmount: $19,500.00, Net-30.\n\nAs a reminder, we're now invoicing from our new domain (redlinemechanical.com) following our rebrand.\n\nBest,\nGreg Holloway\nAccount Manager\nRedline Mechanical\n(555) 677-4100"
+      }
+    ],
+    "email_headers": {
+      "spf": "pass",
+      "dkim": "pass",
+      "dmarc": "pass",
+      "return_path": "invoicing@redlinemechanical.com",
+      "originating_ip": "198.51.100.40",
+      "x_mailer": "Google Workspace"
+    },
+    "attachments": [
+      {
+        "filename": "RM-2026-0050.pdf",
+        "type": "application/pdf",
+        "content_summary": "Invoice from Redline Mechanical (formerly Redline HVAC Services). RM-2026-0050. PO: PO-TC-8820. Quarterly HVAC maintenance \u2014 3 buildings ($15,000), filter replacement ($3,000), emergency repair callout ($1,500). Total: $19,500.00. Net-30. Bank: Heritage Community Bank, routing 071926809, account ****3344."
+      }
+    ],
+    "vendor_record": {
+      "vendor_name": "Redline Mechanical (formerly Redline HVAC Services)",
+      "vendor_id": "V-2021-0073",
+      "domain": "redlinemechanical.com",
+      "primary_contact": "Greg Holloway <greg@redlinemechanical.com>, phone: (555) 677-4100",
+      "bank_account_on_file": "****3344",
+      "onboarding_date": "2021-03-01",
+      "last_invoice_date": "2025-12-12",
+      "invoice_history": [
+        {
+          "invoice": "RH-2025-0188",
+          "date": "2025-12-12",
+          "amount": 18800.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "RH-2025-0145",
+          "date": "2025-09-12",
+          "amount": 19200.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "RH-2025-0101",
+          "date": "2025-06-12",
+          "amount": 18500.0,
+          "status": "paid"
+        }
+      ],
+      "bank_change_history": [],
+      "domain_change_history": [
+        {
+          "date": "2026-02-10",
+          "old_domain": "redlinehvac.com",
+          "new_domain": "redlinemechanical.com",
+          "verified_by": "Jamie Torres",
+          "approved_by": "Rachel Voss",
+          "verification_method": "Written notification from old domain + verbal confirmation via phone on file + DNS verification"
+        }
+      ]
+    },
+    "approval_chain": {
+      "required_approvers": [
+        "AP Clerk",
+        "AP Manager"
+      ],
+      "current_approvals": [
+        {
+          "role": "AP Clerk",
+          "name": "Jamie Torres",
+          "date": "2026-03-12",
+          "status": "approved"
+        },
+        {
+          "role": "AP Manager",
+          "name": "Rachel Voss",
+          "date": "2026-03-13",
+          "status": "approved"
+        }
+      ],
+      "policy_reference": "FIN-AP-001 Section 3.2",
+      "threshold_usd": 25000
+    },
+    "sender_history": {
+      "email_address": "invoicing@redlinemechanical.com",
+      "first_seen": "2026-03-12",
+      "total_messages": 1,
+      "typical_patterns": {},
+      "anomalies": [
+        "First email from this address \u2014 but domain migration documented in vendor record"
+      ]
+    },
+    "org_policies": {
+      "bank_change_policy": "Any bank account change requires: (1) written request on vendor letterhead, (2) verbal confirmation via phone on file, (3) AP Manager approval, (4) 10-business-day hold.",
+      "payment_approval_thresholds": {
+        "under_5000": "AP Clerk",
+        "5000_to_25000": "AP Clerk + AP Manager",
+        "25000_to_100000": "AP Clerk + AP Manager + Controller",
+        "over_100000": "AP Clerk + AP Manager + Controller + CFO"
+      },
+      "vendor_verification_requirements": "New vendors require W-9, certificate of insurance, and bank verification letter.",
+      "escalation_criteria": [
+        "Bank account change",
+        "Amount >120% of 6-month avg",
+        "Domain mismatch",
+        "Missing PO",
+        "Email auth failure",
+        "Payment method change",
+        "Urgency + any other flag"
+      ]
+    }
+  },
+  "hidden_ground_truth": {
+    "is_fraudulent": false,
+    "fraud_type": null,
+    "explanation": "Legitimate domain migration. The vendor notified from the old domain, the change was verified per policy (written notification, verbal confirmation, DNS check), AP Manager approved, and the vendor master was updated. The invoice comes from the new domain which now matches the vendor record. The bank account is unchanged. Email auth passes. The amount is normal. The only anomaly is that this is the first email from the new domain \u2014 but the migration is fully documented.",
+    "evidence_signals": [
+      {
+        "signal": "Domain migration documented in vendor record",
+        "strength": "strong",
+        "location": "vendor_record.domain_change_history"
+      },
+      {
+        "signal": "Vendor master already updated to new domain",
+        "strength": "strong",
+        "location": "vendor_record.domain"
+      },
+      {
+        "signal": "Bank account unchanged and matches",
+        "strength": "strong",
+        "location": "action vs vendor_record"
+      },
+      {
+        "signal": "Migration verified per policy",
+        "strength": "strong",
+        "location": "email_thread[2]"
+      },
+      {
+        "signal": "Original notification sent from old domain",
+        "strength": "strong",
+        "location": "email_thread[0]"
+      },
+      {
+        "signal": "Email auth passes on new domain",
+        "strength": "moderate",
+        "location": "email_headers"
+      }
+    ]
+  },
+  "scoring_targets": {
+    "correct_verdict": "ALLOW",
+    "required_evidence_cited": [
+      "Domain migration documented and verified",
+      "Vendor record updated",
+      "Bank account unchanged",
+      "Auth passes"
+    ],
+    "false_positive_risk": "High \u2014 first email from new domain + historically different domain. Systems that don't check domain_change_history will flag this as domain mismatch.",
+    "false_negative_risk": "N/A",
+    "architecture_differentiation_notes": "Moderate differentiator. A solo pass that checks sender domain against historical sender_history will flag the mismatch. A system that cross-references the vendor_record's domain_change_history should correctly ALLOW."
+  },
+  "notes_for_humans": "Tests whether the system contextualizes domain changes. The domain is 'new' from sender_history perspective, but 'current' from vendor_record perspective. A system must reconcile these two views."
+}

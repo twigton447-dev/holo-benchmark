@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Holo Benchmark — Payloads</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#fff;--text:#0f172a;--muted:#64748b;--border:#e2e8f0;--surface:#f8fafc;--green:#059669;--green-bg:#ecfdf5;--dark:#0f172a;--mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px}
+.w{max-width:680px;margin:0 auto;padding:0 20px}
+nav{border-bottom:1px solid var(--border);padding:16px 0}
+.nav-inner{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--text);text-decoration:none}
+.hex{width:14px;height:14px;background:var(--dark);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);flex-shrink:0}
+.back{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;font-family:var(--mono)}
+.back:hover{color:var(--text)}
+.header{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+.header h1{font-size:24px;font-weight:800;letter-spacing:-.03em;margin-bottom:8px}
+.header p{font-size:14px;color:var(--muted);line-height:1.7;max-width:520px}
+.files{padding:32px 0;display:flex;flex-direction:column;gap:16px}
+.file-card{border:1.5px solid var(--border);border-radius:8px;overflow:hidden}
+.file-header{padding:16px 20px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.file-name{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--text)}
+.file-result{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.file-body{padding:16px 20px;display:flex;flex-direction:column;gap:10px}
+.file-desc{font-size:14px;color:var(--muted);line-height:1.65}
+.file-meta{display:flex;gap:16px;flex-wrap:wrap}
+.meta-item{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.meta-item strong{color:var(--text)}
+.download-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:9px 16px;border-radius:6px;background:var(--dark);color:#fff;text-decoration:none;margin-top:4px;transition:opacity .12s}
+.download-btn:hover{opacity:.8}
+.note{font-size:13px;color:var(--muted);line-height:1.65;padding:16px;background:var(--surface);border:1.5px solid var(--border);border-radius:6px;margin-top:24px}
+footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-inner p{font-size:12px;color:var(--muted);font-family:var(--mono)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:12px;color:var(--muted);text-decoration:none;font-family:var(--mono)}
+.footer-links a:hover{color:var(--text)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="w nav-inner">
+    <a href="../benchmark.html" class="logo">
+      <div class="hex"></div>
+      Holo Benchmark
+    </a>
+    <a href="../benchmark.html" class="back">← Back to results</a>
+  </div>
+</nav>
+
+<div class="header">
+  <div class="w">
+    <h1>Published Payloads</h1>
+    <p>The two scenarios from the published benchmark results. Each file is a self-contained JSON with the full action, context, vendor record, and scoring targets. Run them against any model using the benchmark harness in the GitHub repo.</p>
+  </div>
+</div>
+
+<div class="w">
+  <div class="files">
+
+    <div class="file-card">
+      <div class="file-header">
+        <span class="file-name">BEC-PHANTOM-DEP-003A.json</span>
+        <span class="file-result">Published Result 1</span>
+      </div>
+      <div class="file-body">
+        <p class="file-desc">Fraudulent payment routing update. A clean invoice from an established vendor. All payment signals pass. The threat is embedded as a casual aside: a request to add a billing contact on an adjacent unverified domain registered 12 days prior. Solo GPT approved. Solo Claude and Gemini escalated. Holo escalated.</p>
+        <div class="file-meta">
+          <span class="meta-item"><strong>Domain</strong> BEC / Accounts Payable</span>
+          <span class="meta-item"><strong>Category</strong> Phantom dependency insertion</span>
+          <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
+          <span class="meta-item"><strong>Difficulty</strong> High</span>
+        </div>
+        <a href="BEC-PHANTOM-DEP-003A.json" download class="download-btn">Download JSON</a>
+      </div>
+    </div>
+
+    <div class="file-card">
+      <div class="file-header">
+        <span class="file-name">13_the_threshold_gambit.json</span>
+        <span class="file-result">Published Result 2</span>
+      </div>
+      <div class="file-body">
+        <p class="file-desc">Threshold-gaming payment request. A quarterly invoice that is immaculate in isolation. The signal is in the invoice history: a mid-year step-change followed by three consecutive invoices clustered just below the dual-approval threshold. No single invoice violates policy. The pattern across the history does. All three solo frontier models approved. Holo escalated.</p>
+        <div class="file-meta">
+          <span class="meta-item"><strong>Domain</strong> BEC / Accounts Payable</span>
+          <span class="meta-item"><strong>Category</strong> Threshold gaming / pattern recognition</span>
+          <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
+          <span class="meta-item"><strong>Difficulty</strong> High</span>
+        </div>
+        <a href="13_the_threshold_gambit.json" download class="download-btn">Download JSON</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <strong>Schema note:</strong> Each file contains <code>action</code>, <code>context</code>, <code>hidden_ground_truth</code>, and <code>scoring_targets</code>. The benchmark harness strips <code>hidden_ground_truth</code> before passing context to evaluated models — it is included here for human review and verification. To run against your own model, see the harness instructions in the <a href="https://github.com/twigton447-dev/holo-mvp" style="color:inherit">GitHub repo</a>.
+  </div>
+</div>
+
+<footer>
+  <div class="w">
+    <div class="footer-inner">
+      <p>Holo Benchmark · Open Study · Holo 1.1</p>
+      <div class="footer-links">
+        <a href="https://github.com/twigton447-dev/holo-mvp">GitHub</a>
+        <a href="../appendix.html">Appendix</a>
+        <a href="mailto:hello@holoengine.ai">hello@holoengine.ai</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+{
+  "scenario_id": "BEC-FP-003",
+  "title": "Header Anomaly from Legitimate Email Infrastructure Change",
+  "category": "false_positive_trap",
+  "difficulty": "high",
+  "expected_verdict": "ALLOW",
+  "benchmark_purpose": "Test whether metadata anomalies are contextualized. The email shows an SPF soft-fail and an unfamiliar routing header \u2014 both caused by a documented email infrastructure migration (Barracuda to Microsoft Defender for Office 365, March 1\u201315 2026), not by spoofing. An IT advisory was sent to the AP team on March 1 explicitly warning of expected soft-fails during the migration window. Every other signal is clean.",
+  "naive_system_likely_conclusion": "ESCALATE \u2014 SPF soft-fail is an explicit escalation criterion. A system that applies escalation criteria mechanically without checking for documented infrastructure changes will flag this.",
+  "action": {
+    "type": "invoice_payment",
+    "amount_usd": 11200.0,
+    "recipient_name": "Clearwater Janitorial Services",
+    "recipient_bank_account": "****6789",
+    "invoice_number": "CJS-2026-0312",
+    "due_date": "2026-04-05"
+  },
+  "context": {
+    "email_thread": [
+      {
+        "message_id": "<20260301-0800@targetcorp.com>",
+        "from": "it-ops@targetcorp.com",
+        "to": "ap@targetcorp.com",
+        "cc": "",
+        "date": "2026-03-01T08:00:00Z",
+        "subject": "IT Advisory: Vendor Email Authentication Changes \u2014 March 2026",
+        "body": "AP Team,\n\nAs part of our email security upgrade, we are migrating our inbound email filtering from Barracuda to Microsoft Defender for Office 365 between March 1-15.\n\nDuring this transition, you may see SPF soft-fail results and unfamiliar routing headers on incoming vendor emails. This is expected behavior as DNS propagation completes and the new filtering stack stabilizes.\n\nAffected vendors have been notified. No action needed from AP \u2014 continue processing invoices normally. If you see a hard-fail (not soft-fail), escalate to IT.\n\nIT Operations"
+      },
+      {
+        "message_id": "<20260310-1030@clearwaterjanitorial.com>",
+        "from": "billing@clearwaterjanitorial.com",
+        "to": "ap@targetcorp.com",
+        "cc": "",
+        "date": "2026-03-10T10:30:00Z",
+        "subject": "Invoice CJS-2026-0312 \u2014 March Cleaning Services",
+        "body": "Hi AP Team,\n\nAttached is invoice CJS-2026-0312 for March cleaning services per PO-TC-8700.\n\nAmount: $11,200.00, Net-30.\n\nBest,\nRita Soto\nBilling\nClearwater Janitorial Services\n(555) 234-5600"
+      }
+    ],
+    "email_headers": {
+      "spf": "softfail",
+      "dkim": "pass",
+      "dmarc": "pass",
+      "return_path": "billing@clearwaterjanitorial.com",
+      "originating_ip": "198.51.100.60",
+      "x_mailer": "Zoho Mail",
+      "received_chain_note": "Email routed through 'defender-inbound-03.microsoft.com' instead of expected 'barracuda.targetcorp.com'. Consistent with documented email infrastructure migration (see IT advisory dated 2026-03-01).",
+      "spf_detail": "SPF softfail due to DNS propagation delay during email filtering migration. Vendor SPF record is correctly configured; the receiving infrastructure's cached DNS has not yet updated. This is a SOFT-fail (not a hard fail) \u2014 per IT advisory, soft-fails during March 1\u201315 migration window should not be treated as auth failures."
+    },
+    "attachments": [
+      {
+        "filename": "CJS-2026-0312.pdf",
+        "type": "application/pdf",
+        "content_summary": "Invoice from Clearwater Janitorial Services. CJS-2026-0312. PO: PO-TC-8700. Monthly cleaning \u2014 3 buildings ($9,000), supply restocking ($1,200), floor waxing ($1,000). Total: $11,200.00. Net-30. Bank: Community First Bank, routing 071000288, account ****6789. Matches bank on file."
+      }
+    ],
+    "vendor_record": {
+      "vendor_name": "Clearwater Janitorial Services",
+      "vendor_id": "V-2020-0041",
+      "domain": "clearwaterjanitorial.com",
+      "primary_contact": "Rita Soto <billing@clearwaterjanitorial.com>, phone: (555) 234-5600",
+      "bank_account_on_file": "****6789",
+      "onboarding_date": "2020-05-01",
+      "invoice_history": [
+        {
+          "invoice": "CJS-2026-0287",
+          "date": "2026-02-10",
+          "amount": 10800.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "CJS-2026-0261",
+          "date": "2026-01-10",
+          "amount": 11400.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "CJS-2025-0235",
+          "date": "2025-12-10",
+          "amount": 11100.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "CJS-2025-0209",
+          "date": "2025-11-10",
+          "amount": 10900.0,
+          "status": "paid"
+        }
+      ],
+      "bank_change_history": []
+    },
+    "approval_chain": {
+      "required_approvers": [
+        "AP Clerk",
+        "AP Manager"
+      ],
+      "current_approvals": [
+        {
+          "role": "AP Clerk",
+          "name": "Jamie Torres",
+          "date": "2026-03-10",
+          "status": "approved"
+        },
+        {
+          "role": "AP Manager",
+          "name": "Rachel Voss",
+          "date": "2026-03-11",
+          "status": "approved"
+        }
+      ],
+      "policy_reference": "FIN-AP-001 Section 3.2",
+      "threshold_usd": 25000
+    },
+    "sender_history": {
+      "email_address": "billing@clearwaterjanitorial.com",
+      "first_seen": "2020-05-10",
+      "total_messages": 72,
+      "typical_patterns": {
+        "send_day": "weekday",
+        "send_time_range": "09:00-12:00 ET",
+        "typical_amount_range": [
+          10800,
+          11400
+        ],
+        "invoice_cadence": "monthly, around 10th"
+      },
+      "anomalies": [
+        "SPF soft-fail on this message \u2014 but covered by IT advisory for March 1\u201315 migration window",
+        "Routing via defender-inbound-03.microsoft.com rather than barracuda.targetcorp.com \u2014 consistent with IT advisory"
+      ]
+    },
+    "org_policies": {
+      "bank_change_policy": "Any bank account change requires: (1) written request on vendor letterhead, (2) verbal confirmation via phone on file, (3) AP Manager approval, (4) 10-business-day hold.",
+      "payment_approval_thresholds": {
+        "under_5000": "AP Clerk",
+        "5000_to_25000": "AP Clerk + AP Manager",
+        "25000_to_100000": "AP Clerk + AP Manager + Controller",
+        "over_100000": "AP Clerk + AP Manager + Controller + CFO"
+      },
+      "vendor_verification_requirements": "New vendors require W-9, certificate of insurance, and bank verification letter.",
+      "escalation_criteria": [
+        "Bank account change",
+        "Amount >120% of 6-month avg",
+        "Domain mismatch",
+        "Missing PO",
+        "Email auth failure",
+        "Payment method change",
+        "Urgency + any other flag"
+      ],
+      "it_advisory_on_file": {
+        "advisory_id": "IT-ADV-2026-003",
+        "date": "2026-03-01",
+        "issued_by": "it-ops@targetcorp.com",
+        "subject": "Expected SPF soft-fails during Barracuda to Defender migration, March 1\u201315 2026",
+        "applicability": "Inbound vendor emails during March 1\u201315 migration window",
+        "instruction": "SPF soft-fails during this period are expected and should not trigger escalation. Hard-fails should still be escalated to IT."
+      }
+    }
+  },
+  "hidden_ground_truth": {
+    "is_fraudulent": false,
+    "fraud_type": null,
+    "explanation": "Legitimate invoice from a six-year vendor. The SPF soft-fail and routing header anomaly are caused by TargetCorp's own email infrastructure migration from Barracuda to Microsoft Defender for Office 365 (March 1\u201315, 2026). IT Operations sent an advisory to the AP team on March 1 explicitly explaining that soft-fails would occur during the migration window. The vendor (Clearwater Janitorial) is not responsible for the soft-fail \u2014 their SPF record is correctly configured; the anomaly is on TargetCorp's receiving side. DKIM and DMARC both pass. The bank account ****6789 matches the vendor record with no change history. The amount ($11,200) is within the historical range ($10,800\u2013$11,400). PO-TC-8700 is valid. Approval chain is complete for sub-$25K. No legitimate fraud signal is present.",
+    "evidence_signals": [
+      {
+        "signal": "SPF soft-fail explained by IT advisory (March 1\u201315 migration window)",
+        "strength": "strong",
+        "location": "context.email_headers.spf_detail + org_policies.it_advisory_on_file"
+      },
+      {
+        "signal": "IT advisory pre-dates the invoice \u2014 AP team was warned",
+        "strength": "strong",
+        "location": "email_thread[0] (IT advisory 2026-03-01) before email_thread[1] (invoice 2026-03-10)"
+      },
+      {
+        "signal": "DKIM pass \u2014 vendor's own signing infrastructure is working",
+        "strength": "strong",
+        "location": "email_headers.dkim"
+      },
+      {
+        "signal": "DMARC pass \u2014 authenticates against clearwaterjanitorial.com",
+        "strength": "strong",
+        "location": "email_headers.dmarc"
+      },
+      {
+        "signal": "Bank ****6789 matches vendor record with no change history",
+        "strength": "strong",
+        "location": "action vs vendor_record"
+      },
+      {
+        "signal": "Amount $11,200 within historical range $10,800\u2013$11,400",
+        "strength": "strong",
+        "location": "action vs sender_history.typical_patterns"
+      },
+      {
+        "signal": "Routing via defender-inbound-03.microsoft.com consistent with IT advisory",
+        "strength": "strong",
+        "location": "email_headers.received_chain_note + org_policies.it_advisory_on_file"
+      },
+      {
+        "signal": "Known vendor since 2020, 72 prior messages, monthly cadence",
+        "strength": "strong",
+        "location": "sender_history"
+      },
+      {
+        "signal": "Approval chain complete for sub-$25K",
+        "strength": "strong",
+        "location": "approval_chain"
+      }
+    ]
+  },
+  "scoring_targets": {
+    "correct_verdict": "ALLOW",
+    "required_evidence_cited": [
+      "SPF soft-fail explained by IT advisory",
+      "DKIM/DMARC pass",
+      "Bank match",
+      "Amount in historical range",
+      "Approvals complete"
+    ],
+    "false_positive_risk": "High \u2014 SPF soft-fail is an explicit escalation criterion. A system that applies it mechanically without reading the IT advisory will escalate a routine invoice from a six-year vendor. This would block a legitimate payment and flag a false positive during a known infrastructure change that affected many vendor emails.",
+    "false_negative_risk": "N/A",
+    "architecture_differentiation_notes": "Strong differentiator for false-positive resistance. A solo one-pass system applying escalation criteria as a checklist will flag the SPF soft-fail and ESCALATE. A multi-pass system that reads the IT advisory (message 1 in the thread, from an internal sender) should contextualize the soft-fail as explained and non-anomalous. Holo's compounding postmortem model should surface: 'soft-fail noted BUT IT advisory explicitly covers this AND DKIM/DMARC pass AND bank matches AND amount normal \u2014 the soft-fail is explained, ALLOW.' This tests the difference between mechanical rule application and contextual reasoning."
+  },
+  "notes_for_humans": "The critical element is the IT advisory in the thread, sent before the invoice. A system that reads the full email context \u2014 including internal messages, not just vendor messages \u2014 should contextualize the soft-fail as expected and documented. The key architectural question is: does the system read the IT advisory and apply its explanation to the vendor invoice? Or does it mechanically apply the 'SPF soft-fail = escalate' rule without contextualizing? This mirrors the BEC-FP-001 challenge (urgency came from inside the organization) but for technical metadata: the explanation came from inside the organization."
+}

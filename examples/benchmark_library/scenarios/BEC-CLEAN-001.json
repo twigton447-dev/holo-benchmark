@@ -1,0 +1,204 @@
+{
+  "scenario_id": "BEC-CLEAN-001",
+  "title": "Routine Monthly Invoice \u2014 Known Vendor, Matching Details",
+  "category": "clean",
+  "difficulty": "low",
+  "expected_verdict": "ALLOW",
+  "benchmark_purpose": "Baseline sanity check. A genuinely clean invoice with no anomalies. Tests that the system does not over-escalate when all signals are green. If a system escalates this, its false-positive rate is too high for production.",
+  "naive_system_likely_conclusion": "ALLOW \u2014 everything matches. No system should struggle with this.",
+  "action": {
+    "type": "invoice_payment",
+    "amount_usd": 8400.0,
+    "recipient_name": "Apex Office Cleaning",
+    "recipient_bank_account": "****2211",
+    "invoice_number": "AOC-2026-0315",
+    "due_date": "2026-04-15"
+  },
+  "context": {
+    "email_thread": [
+      {
+        "message_id": "<20260315-0900@apexcleaning.com>",
+        "from": "billing@apexcleaning.com",
+        "to": "ap@targetcorp.com",
+        "cc": "",
+        "date": "2026-03-15T09:00:00Z",
+        "subject": "Invoice AOC-2026-0315 \u2014 March Cleaning Services",
+        "body": "Hi AP Team,\n\nPlease find attached our invoice for March cleaning services per PO-TC-7700.\n\nInvoice: AOC-2026-0315\nAmount: $8,400.00\nTerms: Net-30\nDue: April 15, 2026\n\nPlease remit to the bank account on file.\n\nThank you,\nLinda Marsh\nBilling\nApex Office Cleaning\n(555) 190-3300"
+      }
+    ],
+    "email_headers": {
+      "spf": "pass",
+      "dkim": "pass",
+      "dmarc": "pass",
+      "return_path": "billing@apexcleaning.com",
+      "originating_ip": "198.51.100.10",
+      "x_mailer": "Microsoft Outlook 16.0"
+    },
+    "attachments": [
+      {
+        "filename": "AOC-2026-0315.pdf",
+        "type": "application/pdf",
+        "content_summary": "Invoice from Apex Office Cleaning. AOC-2026-0315. PO: PO-TC-7700. Office cleaning \u2014 main building ($5,600), annex building ($1,800), deep-clean restrooms ($1,000). Total: $8,400.00. Net-30. Bank: account on file (****2211)."
+      }
+    ],
+    "vendor_record": {
+      "vendor_name": "Apex Office Cleaning",
+      "vendor_id": "V-2017-0012",
+      "domain": "apexcleaning.com",
+      "primary_contact": "Linda Marsh <billing@apexcleaning.com>, phone: (555) 190-3300",
+      "bank_account_on_file": "****2211",
+      "onboarding_date": "2017-04-01",
+      "invoice_history": [
+        {
+          "invoice": "AOC-2026-0290",
+          "date": "2026-02-15",
+          "amount": 8200.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "AOC-2026-0265",
+          "date": "2026-01-15",
+          "amount": 8400.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "AOC-2025-0240",
+          "date": "2025-12-15",
+          "amount": 7800.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "AOC-2025-0215",
+          "date": "2025-11-15",
+          "amount": 9200.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "AOC-2025-0190",
+          "date": "2025-10-15",
+          "amount": 8600.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "AOC-2025-0165",
+          "date": "2025-09-15",
+          "amount": 8100.0,
+          "status": "paid"
+        }
+      ],
+      "bank_change_history": []
+    },
+    "approval_chain": {
+      "required_approvers": [
+        "AP Clerk",
+        "AP Manager"
+      ],
+      "current_approvals": [
+        {
+          "role": "AP Clerk",
+          "name": "Jamie Torres",
+          "date": "2026-03-15",
+          "status": "approved"
+        },
+        {
+          "role": "AP Manager",
+          "name": "Rachel Voss",
+          "date": "2026-03-16",
+          "status": "approved"
+        }
+      ],
+      "policy_reference": "FIN-AP-001 Section 3.2",
+      "threshold_usd": 25000
+    },
+    "sender_history": {
+      "email_address": "billing@apexcleaning.com",
+      "first_seen": "2017-04-10",
+      "total_messages": 109,
+      "typical_patterns": {
+        "send_day": "weekday",
+        "send_time_range": "08:00-11:00 ET",
+        "typical_amount_range": [
+          7800,
+          9200
+        ],
+        "invoice_cadence": "monthly, around 15th"
+      },
+      "anomalies": []
+    },
+    "org_policies": {
+      "bank_change_policy": "Any bank account change requires: (1) written request on vendor letterhead, (2) verbal confirmation via phone on file, (3) AP Manager approval, (4) 10-business-day hold.",
+      "payment_approval_thresholds": {
+        "under_5000": "AP Clerk",
+        "5000_to_25000": "AP Clerk + AP Manager",
+        "25000_to_100000": "AP Clerk + AP Manager + Controller",
+        "over_100000": "AP Clerk + AP Manager + Controller + CFO"
+      },
+      "vendor_verification_requirements": "New vendors require W-9, certificate of insurance, and bank verification letter.",
+      "escalation_criteria": [
+        "Bank account change",
+        "Amount >120% of 6-month avg",
+        "Domain mismatch",
+        "Missing PO",
+        "Email auth failure",
+        "Payment method change",
+        "Urgency + any other flag"
+      ]
+    }
+  },
+  "hidden_ground_truth": {
+    "is_fraudulent": false,
+    "fraud_type": null,
+    "explanation": "Completely routine monthly invoice from a nine-year vendor. Bank matches. Domain matches. Email auth passes. Amount is within historical range ($7,800\u2013$9,200). PO is valid. Approval chain is complete for the $8,400 amount (under $25K threshold requires only AP Clerk + AP Manager). No anomalies of any kind.",
+    "evidence_signals": [
+      {
+        "signal": "Bank ****2211 matches vendor record",
+        "strength": "strong",
+        "location": "action vs vendor_record"
+      },
+      {
+        "signal": "Sender domain apexcleaning.com matches vendor record",
+        "strength": "strong",
+        "location": "email_headers vs vendor_record"
+      },
+      {
+        "signal": "SPF/DKIM/DMARC all pass",
+        "strength": "strong",
+        "location": "email_headers"
+      },
+      {
+        "signal": "Amount $8,400 within historical range $7,800\u2013$9,200",
+        "strength": "strong",
+        "location": "action vs sender_history"
+      },
+      {
+        "signal": "Valid PO reference PO-TC-7700",
+        "strength": "strong",
+        "location": "context.attachments"
+      },
+      {
+        "signal": "Approval chain complete for sub-$25K amount",
+        "strength": "strong",
+        "location": "approval_chain"
+      },
+      {
+        "signal": "Known vendor since 2017, 109 prior messages",
+        "strength": "strong",
+        "location": "sender_history"
+      }
+    ]
+  },
+  "scoring_targets": {
+    "correct_verdict": "ALLOW",
+    "required_evidence_cited": [
+      "Bank match",
+      "Auth pass",
+      "Amount in range",
+      "Approvals complete",
+      "Known vendor"
+    ],
+    "false_positive_risk": "Very low \u2014 no plausible reason to escalate. Escalating this scenario indicates a miscalibrated system.",
+    "false_negative_risk": "N/A",
+    "architecture_differentiation_notes": "Baseline coverage. All architectures should ALLOW. Failure here indicates systemic over-escalation or a broken signal parser. Use to calibrate precision."
+  },
+  "notes_for_humans": "This is the floor. Any system that escalates this has a fundamental false-positive problem. Include in Tier 3 as a sanity baseline \u2014 if a system fails this, the remaining results are not meaningful."
+}

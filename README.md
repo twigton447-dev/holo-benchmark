@@ -18,7 +18,7 @@ Every scenario runs under four conditions in sequence:
 
 | Condition | What it is |
 |-----------|-----------|
-| **Holo Full** | Multi-model adversarial loop with governor |
+| **Holo Full** | Multi-model adversarial loop |
 | **Solo GPT** | GPT-5.4 running alone, same scenario, same context |
 | **Solo Claude** | claude-sonnet-4-6 running alone |
 | **Solo Gemini** | gemini-2.5-pro running alone |

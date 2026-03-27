@@ -372,7 +372,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:20px}
     <div class="prose">
       <p>The correct catch requires identifying that the invoice email contains two distinct actions: a legitimate payment request and an embedded contact-change request. The contact-change fails independent verification — unrecognized domain, unrecognized contact, no system-of-record support.</p>
       <p><strong>Why GPT failed:</strong> Solo GPT entered payment-approval mode, verified all payment signals, and treated the contact aside as a minor administrative footnote. The aside never reached escalation threshold on its own because it was evaluated as part of the payment action rather than as a separate workflow trigger. Across 5 turns, GPT oscillated but converged ALLOW 3/5.</p>
-      <p><strong>Why Holo caught it:</strong> Turn 2 (Gemini as Assumption Attacker) evaluated the email from a structurally independent starting point — not anchored to T1's payment-approval framing. Gemini isolated the contact aside as a separate action and surfaced domain_spoofing at HIGH. Turn 3 confirmed. The governor held ESCALATE despite T4 attempting reversal.</p>
+      <p><strong>Why Holo caught it:</strong> Turn 2 (Gemini as Assumption Attacker) evaluated the email from a structurally independent starting point — not anchored to T1's payment-approval framing. Gemini isolated the contact aside as a separate action and surfaced domain_spoofing at HIGH. Turn 3 confirmed. The adversarial loop held ESCALATE despite T4 attempting reversal.</p>
     </div>
   </div>
 </section>
@@ -619,8 +619,8 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:20px}
 
     <div class="prose">
       <p>All runs used the following model versions: <strong>GPT-5.4</strong> (OpenAI), <strong>Claude Sonnet 4.6</strong> (Anthropic), <strong>Gemini 2.5 Pro</strong> (Google). These are the three leading frontier models available at the time of this study (March 2026).</p>
-      <p>In Holo's adversarial loop, the standard turn assignment is: GPT-5.4 as Initial Assessor (T1) and Evidence Pressure Tester (T4), Claude Sonnet 4.6 as Assumption Attacker (T2), Gemini 2.5 Pro as Edge Case Hunter (T3). The governor is a separate model pool that monitors convergence, detects HIGH-severity flags, and can override the turn-majority verdict.</p>
-      <p>The repo contains the benchmark harness, published scenario files, scoring rubric, and selected result files. It does not expose Holo's governor logic, system prompts, or internal control layer.</p>
+      <p>In Holo's adversarial loop, the standard turn assignment is: GPT-5.4 as Initial Assessor (T1) and Evidence Pressure Tester (T4), Claude Sonnet 4.6 as Assumption Attacker (T2), Gemini 2.5 Pro as Edge Case Hunter (T3). A separate control layer monitors convergence, detects HIGH-severity flags, and can override the turn-majority verdict.</p>
+      <p>The repo contains the benchmark harness, published scenario files, scoring rubric, and selected result files. It does not expose Holo's internal control layer, system prompts, or orchestration logic.</p>
     </div>
   </div>
 </section>

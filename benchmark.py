@@ -5,7 +5,7 @@ Conditions:
   1. SOLO GPT-5.4:        OpenAI alone — same roles, same prompts, same adversarial personas
   2. SOLO CLAUDE SONNET:  Anthropic alone — same roles, same prompts, same adversarial personas
   3. SOLO GEMINI PRO:     Google alone — same roles, same prompts, same adversarial personas
-  4. HOLO FULL:           3 different models + governor, shared state, adversarial roles
+  4. HOLO FULL:           3 different models, shared state, adversarial roles
 
 Turn budget: MAX_TURNS = 10 for ALL conditions.
 Convergence detection applies to ALL conditions — solo and Holo alike.

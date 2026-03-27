@@ -18,12 +18,12 @@ Every scenario runs under four conditions in sequence:
 
 | Condition | What it is |
 |-----------|-----------|
-| **Holo Full** | Multi-model adversarial loop |
+| **Holo 1.1** | Multi-model adversarial loop |
 | **Solo GPT** | GPT-5.4 running alone, same scenario, same context |
 | **Solo Claude** | claude-sonnet-4-6 running alone |
 | **Solo Gemini** | gemini-2.5-pro running alone |
 
-Solo conditions use the **exact same models** that rotate through Holo. Same context. Same turn budget. The only variable is structure.
+Solo conditions use the **exact same models** that rotate through Holo 1.1. Same context. Same turn budget. The only variable is structure.
 
 ### Turn Protocol
 
@@ -74,7 +74,7 @@ Each domain contains three scenario tiers:
 
 **Tier 1 — The Floor:** A well-structured attack with multiple clear signals. All models should catch this. Included to prove the benchmark is honest about what the problem is not.
 
-**Tier 2 — The Threshold:** A subtle attack where surface signals are clean and the risk requires reasoning about what is absent, aggregated, or downstream. This is where solo models hit their ceiling and Holo's structural advantage manifests.
+**Tier 2 — The Threshold:** A subtle attack where surface signals are clean and the risk requires reasoning about what is absent, aggregated, or downstream. This is where solo models hit their ceiling and Holo 1.1's structural advantage manifests.
 
 **Tier 3 — The Judgment Case:** A legitimate action that looks suspicious. Correct verdict is ALLOW. Proves the architecture is not a paranoid blocker.
 
@@ -105,7 +105,7 @@ This principle holds across domains. Any scenario failing this test is reclassif
 
 ### Domain 1 — Verified
 
-| Scenario | Solo GPT | Solo Claude | Solo Gemini | Holo |
+| Scenario | Solo GPT | Solo Claude | Solo Gemini | Holo 1.1 |
 |----------|----------|-------------|-------------|------|
 | BEC-CLEAN-001 | ALLOW ✓ | ALLOW ✓ | ALLOW ✓ | ALLOW ✓ |
 | BEC-CLEAN-002 | ALLOW ✓ | ALLOW ✓ | ALLOW ✓ | ALLOW ✓ |

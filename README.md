@@ -128,15 +128,21 @@ IT-PROV-001A and IT-PROV-001B run with unanimous ESCALATE across all 4 condition
 
 ## Running the Benchmark
 
-```bash
-# Single scenario, all 4 conditions
-python benchmark.py examples/benchmark_library/scenarios/BEC-SUBTLE-001.json --save --verbose
+**No code required — inspect the scenarios directly.** Download any JSON from `examples/benchmark_library/scenarios/`, read the `action` and `context` fields, and form your own verdict before looking at `hidden_ground_truth`. That is the most direct credibility check.
 
-# With trace output
-python run_with_trace.py examples/benchmark_library/scenarios/BEC-SUBTLE-001.json
+**To run the solo conditions yourself** (requires Python, API keys for OpenAI, Anthropic, and Google, and implementing the adapter layer described in `benchmark.py`):
+
+```bash
+# Single scenario, solo conditions
+python benchmark.py examples/benchmark_library/scenarios/BEC-FRAUD-001.json --solo-only
+
+# Full suite
+python benchmark.py --all --solo-only
 ```
 
-Results saved to `benchmark_results/`. Traces saved to `traces/`.
+**Holo 1.1 full condition** requires the Holo integration layer and is not runnable from this repo. The solo results are fully replicable — same models, same scenarios, same turn budget.
+
+Results saved to `benchmark_results/`.
 
 ---
 

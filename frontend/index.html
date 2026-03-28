@@ -162,7 +162,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
       Open Study · Holo 1.1 · Fraudulent Payment Approval · March 2026
     </div>
     <h1>GPT-5.4 approved a fraudulent wire transfer.</h1>
-    <p class="hero-lede">Claude caught it. Gemini caught it. Holo caught it.</p>
+    <p class="hero-lede">So did Claude. So did Gemini. Only Holo caught it.</p>
     <p class="hero-sub">We tested GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro — the leading frontier models as of March 2026 — on a structured set of adversarial payment scenarios. Then we ran those same three models inside Holo's adversarial decision layer. The payloads, scoring rubric, and result files are public so others can inspect and rerun the same cases.</p>
     <div class="hero-actions">
       <a href="payloads/" class="btn btn-dark">Download Payloads</a>
@@ -187,55 +187,6 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <section class="section">
   <div class="w">
     <div class="section-tag">Published result 1</div>
-    <h2>Fraudulent payment routing update</h2>
-    <p class="section-sub">A payment routing update from an apparent known vendor. Ordinary amount. Calm language. No explicit red flags. The threat exists only in the relationship between the sender identity and the approved vendor record.</p>
-
-    <table class="token-table">
-      <thead>
-        <tr>
-          <th>Condition</th>
-          <th>Total tokens</th>
-          <th>Wall time</th>
-          <th style="text-align:right">Verdict</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="loser">
-          <td class="cond">Solo GPT-5.4</td>
-          <td class="tokens">37,102</td>
-          <td class="tokens">104s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
-        </tr>
-        <tr class="escalate">
-          <td class="cond">Solo Claude Sonnet 4.6</td>
-          <td class="tokens">33,210</td>
-          <td class="tokens">124s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
-        </tr>
-        <tr class="escalate">
-          <td class="cond">Solo Gemini 2.5 Pro</td>
-          <td class="tokens">29,562</td>
-          <td class="tokens">221s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
-        </tr>
-        <tr class="holo-row">
-          <td class="cond">Holo 1.1</td>
-          <td class="tokens">31,297</td>
-          <td class="tokens">149s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p class="confirmed-note">Confirmed across multiple independent clean runs.</p>
-    <p class="section-foot">Holo reached the correct verdict using fewer total tokens than GPT and Claude. Wall-clock time was higher than GPT but lower than Claude — the only other solo model that caught it. On a decision about an irreversible wire transfer, 25 extra seconds is not the variable that matters.</p>
-  </div>
-</section>
-
-<!-- PUBLISHED RESULT 2 -->
-<section class="section">
-  <div class="w">
-    <div class="section-tag">Published result 2</div>
     <h2>Threshold-gaming payment request</h2>
     <p class="section-sub">A payment request structured to remain just below an internal approval trigger. Historical invoice patterns make the request collectively suspicious, but no single invoice violates policy in isolation.</p>
 
@@ -284,12 +235,61 @@ footer{border-top:1px solid var(--border);padding:24px 0}
   </div>
 </section>
 
+<!-- PUBLISHED RESULT 2 -->
+<section class="section">
+  <div class="w">
+    <div class="section-tag">Published result 2</div>
+    <h2>Fraudulent payment routing update</h2>
+    <p class="section-sub">A payment routing update from an apparent known vendor. Ordinary amount. Calm language. No explicit red flags. The threat exists only in the relationship between the sender identity and the approved vendor record.</p>
+
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Condition</th>
+          <th>Total tokens</th>
+          <th>Wall time</th>
+          <th style="text-align:right">Verdict</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="loser">
+          <td class="cond">Solo GPT-5.4</td>
+          <td class="tokens">37,102</td>
+          <td class="tokens">104s</td>
+          <td class="verdict-cell"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
+        </tr>
+        <tr class="escalate">
+          <td class="cond">Solo Claude Sonnet 4.6</td>
+          <td class="tokens">33,210</td>
+          <td class="tokens">124s</td>
+          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
+        </tr>
+        <tr class="escalate">
+          <td class="cond">Solo Gemini 2.5 Pro</td>
+          <td class="tokens">29,562</td>
+          <td class="tokens">221s</td>
+          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
+        </tr>
+        <tr class="holo-row">
+          <td class="cond">Holo 1.1</td>
+          <td class="tokens">31,297</td>
+          <td class="tokens">149s</td>
+          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="confirmed-note">Confirmed across multiple independent clean runs.</p>
+    <p class="section-foot">Holo reached the correct verdict using fewer total tokens than GPT and Claude. Wall-clock time was higher than GPT but lower than Claude — the only other solo model that caught it. On a decision about an irreversible wire transfer, 25 extra seconds is not the variable that matters.</p>
+  </div>
+</section>
+
 <!-- WHAT THESE RESULTS SUGGEST -->
 <section class="section">
   <div class="w">
     <div class="section-tag">What these two results suggest</div>
     <div class="prose" style="margin-top:8px">
-      <p>The first result shows a model-specific blindspot. The second shows a case where all three solo frontier models failed simultaneously.</p>
+      <p>The first result shows a case where all three solo frontier models failed simultaneously. The second shows a model-specific blindspot.</p>
     </div>
 
     <div class="callout-quote" style="margin-top:24px">

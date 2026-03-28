@@ -158,7 +158,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:20px}
 <div class="page-header">
   <div class="w">
     <h1>Full Appendix</h1>
-    <p>Complete traces, scoring rationale, and methodology for both published results. This document is intended for researchers, security teams, and operators who want to verify the benchmark claims independently.</p>
+    <p>Complete traces, scoring rationale, and methodology for all three published results. This document is intended for researchers, security teams, and operators who want to verify the benchmark claims independently.</p>
   </div>
 </div>
 
@@ -167,11 +167,12 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:20px}
   <div class="w">
     <div class="toc-label">Contents</div>
     <ul class="toc-list">
-      <li><a href="#result-1">01 — Published Result 1: BEC-PHANTOM-DEP-003A</a></li>
-      <li><a href="#result-2">02 — Published Result 2: 13_the_threshold_gambit</a></li>
-      <li><a href="#methodology">03 — Methodology</a></li>
-      <li><a href="#scoring">04 — Scoring Rubric and Publication Standard</a></li>
-      <li><a href="#models">05 — Models and Conditions</a></li>
+      <li><a href="#result-1">01 -- Published Result 1: BEC-PHANTOM-DEP-003A</a></li>
+      <li><a href="#result-2">02 -- Published Result 2: 13_the_threshold_gambit</a></li>
+      <li><a href="#result-3">03 -- Published Result 3: BEC-SUBTLE-004</a></li>
+      <li><a href="#methodology">04 -- Methodology</a></li>
+      <li><a href="#scoring">05 -- Scoring Rubric and Publication Standard</a></li>
+      <li><a href="#models">06 -- Models and Conditions</a></li>
     </ul>
   </div>
 </div>
@@ -558,6 +559,184 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:20px}
       <p>The correct catch requires reading the invoice history as a temporal pattern — not evaluating the current invoice in isolation. Three consecutive invoices clustered just below a known control threshold, following an unexplained step-change, is a structural anomaly regardless of whether any single invoice violates policy.</p>
       <p><strong>Why all three solo models failed:</strong> Each model surfaced the threshold-clustering pattern on Turn 2. Each then reversed on Turn 3 by accepting Amendment No. 2 as justification for the step-change. The amendment exists in the vendor record but does not document specific price justification for the increase. All three models accepted an unverified assumption — that the amendment explained the pattern — and converged ALLOW on the basis of that assumption.</p>
       <p><strong>Why Holo caught it:</strong> Turn 2 (Claude as Assumption Attacker) was not anchored to GPT's T1 individual-invoice framing. Claude read the invoice history adversarially and surfaced the clustering pattern at HIGH. Turn 3 (Gemini) confirmed and added the policy trigger. Crucially, Turn 3 explicitly noted that Amendment No. 2 does not document scope changes justifying the specific price increase — the reversal path that solo models took was blocked. GPT as Evidence Pressure Tester (T4) confirmed rather than reversed. The Context Governor held ESCALATE based on converging HIGH flags across structurally independent turns.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESULT 3 -->
+<section class="section" id="result-3">
+  <div class="w">
+    <div class="section-tag">Published Result 3</div>
+    <h2>BEC-SUBTLE-004 -- Out-of-scope billing, no change order</h2>
+    <p class="section-sub">Clean invoice from established vendor with two line items billing work outside the active SOW -- no change order exists for either.</p>
+
+    <div class="scenario-meta">
+      <span class="smeta">Domain: BEC / AP</span>
+      <span class="smeta">Tier 2 -- Threshold</span>
+      <span class="smeta">Expected: ESCALATE</span>
+      <span class="smeta">Difficulty: High</span>
+    </div>
+
+    <div class="scenario-desc">
+      <p>Invoice NCP-2026-0047 from Nexus Consulting Partners (vendor since 2021, 21 prior messages). Amount $55,500. Sender email, bank account, SPF/DKIM/DMARC all clean. Approval chain complete and correctly sequenced. PO-TC-8890 valid. Amount within the sender's typical range of $44,000--$65,000.</p>
+      <p style="margin-top:10px">The attack is in two invoice line items that bill for work not in the active Statement of Work (AGR-2026-0003): (1) "Integration validation and go-live readiness" ($12,200) -- not a named deliverable; (2) "Post-launch adoption support -- operations team, 4 sessions" ($8,800) -- the SOW covers "Post-launch technical support (30 days)," not adoption sessions for the operations team. No change order exists for either item. The email aside acknowledges the extra work was done at the sponsor's verbal request. $21,000 of $55,500 has no documented authorization.</p>
+    </div>
+
+    <h3>Evidence signals</h3>
+    <table class="signal-table">
+      <thead>
+        <tr><th>Signal</th><th>Strength</th><th>Location</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sig-name">Line item 4 not in SOW</td>
+          <td class="sig-strength sig-strong">Strong</td>
+          <td class="sig-desc">"Integration validation and go-live readiness" ($12,200) -- not present in active_agreement.deliverables (AGR-2026-0003)</td>
+        </tr>
+        <tr>
+          <td class="sig-name">Line item 5 outside SOW scope</td>
+          <td class="sig-strength sig-strong">Strong</td>
+          <td class="sig-desc">"Post-launch adoption support -- operations team" ($8,800) -- SOW deliverable 5 is "Post-launch technical support (30 days)," not adoption sessions</td>
+        </tr>
+        <tr>
+          <td class="sig-name">No change orders on file</td>
+          <td class="sig-strength sig-strong">Strong</td>
+          <td class="sig-desc">active_agreement.change_orders_on_file: [] -- verbal authorization by sponsor is not a documented change order</td>
+        </tr>
+        <tr>
+          <td class="sig-name">Email aside acknowledges unauthorized work</td>
+          <td class="sig-strength sig-moderate">Moderate</td>
+          <td class="sig-desc">Aside positions out-of-scope work as routine communication, after all invoice details -- obscures the authorization gap</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Result summary</h3>
+    <table class="result-summary">
+      <thead>
+        <tr><th>Condition</th><th>Tokens in</th><th>Tokens out</th><th>Total</th><th>Wall time</th><th style="text-align:right">Verdict</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="cond">Solo GPT-5.4</td>
+          <td class="tokens">21,169</td><td class="tokens">5,213</td><td class="tokens">26,382</td><td class="tokens">67s</td>
+          <td class="vc"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
+        </tr>
+        <tr class="loser">
+          <td class="cond">Solo Claude Sonnet 4.6</td>
+          <td class="tokens">26,190</td><td class="tokens">7,439</td><td class="tokens">33,629</td><td class="tokens">124s</td>
+          <td class="vc"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
+        </tr>
+        <tr>
+          <td class="cond">Solo Gemini 2.5 Pro</td>
+          <td class="tokens">21,934</td><td class="tokens">3,885</td><td class="tokens">25,819</td><td class="tokens">119s</td>
+          <td class="vc"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
+        </tr>
+        <tr class="holo-row">
+          <td class="cond">Holo</td>
+          <td class="tokens">15,839</td><td class="tokens">4,300</td><td class="tokens">20,139</td><td class="tokens">91s</td>
+          <td class="vc"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Holo turn-by-turn trace</h3>
+    <div class="trace-window">
+      <div class="trace-header">
+        <span class="trace-id">BEC-SUBTLE-004 · holo_full · bench_20260328_213949</span>
+        <span class="trace-status ts-escalate">ESCALATED</span>
+      </div>
+      <div class="trace-body">
+        <div class="turn">
+          <span class="t-num">T1</span>
+          <div class="t-body">
+            <div class="t-meta">
+              <span class="t-model">gemini-2.5-pro</span>
+              <span class="t-role">Initial Assessment</span>
+              <span class="t-vbadge tv-allow">ALLOW</span>
+            </div>
+            <div class="t-signal">All six categories LOW. Routine payment to established vendor. Sender verified, bank matches, amount consistent with prior history, approval chain complete. No escalation trigger identified.</div>
+          </div>
+        </div>
+        <div class="turn">
+          <span class="t-num">T2</span>
+          <div class="t-body">
+            <div class="t-meta">
+              <span class="t-model">gpt-5.4</span>
+              <span class="t-role">Assumption Attacker</span>
+              <span class="t-vbadge tv-escalate">ESCALATE</span>
+            </div>
+            <div class="t-signal">Signal: <em>INV = MEDIUM, APP = MEDIUM</em></div>
+            <div class="t-signal">MEDIUM → invoice_amount: two line items (integration validation $12,200; post-launch adoption support $8,800) are not in active_agreement.deliverables; no change order on file for either; $21,000 of $55,500 lacks documented authorization</div>
+            <div class="t-signal">MEDIUM → approval_chain: approval chain validated dollar amount and vendor identity but did not cross-reference line items against active SOW deliverables</div>
+          </div>
+        </div>
+        <div class="turn">
+          <span class="t-num">T3</span>
+          <div class="t-body">
+            <div class="t-meta">
+              <span class="t-model">claude-sonnet-4-6</span>
+              <span class="t-role">Edge Case Hunter</span>
+              <span class="t-vbadge tv-allow">ALLOW</span>
+            </div>
+            <div class="t-signal">Attempted to rationalize T2 findings: argued "User acceptance testing support" in SOW could encompass go-live readiness; treated verbal sponsor authorization as sufficient context; maintained ALLOW. Governor overrode: T2 ESCALATE with documented SOW gap survives scrutiny.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="footnote">The Context Governor escalated on the basis of T2's documented scope mismatch. T3 (Claude) attempted reversal using the same rationalization pattern observed in Claude's solo run -- treating the SOW gap as ambiguous rather than disqualifying. The Governor's design is to hold ESCALATE when at least one structurally independent turn has documented a HIGH or MEDIUM finding that survives evidence standards.</p>
+
+    <h3>Solo model traces</h3>
+    <div class="solo-traces">
+
+      <div class="solo-trace">
+        <div class="solo-header">
+          <span class="solo-label">Solo GPT-5.4</span>
+          <span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span>
+        </div>
+        <div class="solo-body">
+          <div class="solo-turn"><span class="st-num">T1</span><div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">All six categories LOW. Sender verified, bank matches, amount in range, approval chain complete, PO valid. No escalation trigger identified.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T2</span><div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">SOW scope mismatch surfaced: two invoice line items not in active_agreement.deliverables, no change order on file. INV=MEDIUM, APP=MEDIUM. $21,000 of $55,500 lacks documented authorization.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T3</span><div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Prior finding maintained. Scope mismatch survives edge-case review. Verbal sponsor authorization not a change order. INV=MEDIUM, APP=MEDIUM held.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T4</span><div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Evidence pressure test: payment signals clean but scope-mismatch finding survives. Absence of change order is documented fact, not inference. Converged ESCALATE 3/4.</p></div></div>
+        </div>
+      </div>
+
+      <div class="solo-trace">
+        <div class="solo-header">
+          <span class="solo-label">Solo Claude Sonnet 4.6</span>
+          <span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span>
+        </div>
+        <div class="solo-body">
+          <div class="solo-turn"><span class="st-num">T1</span><div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Clean profile across all six categories. Known vendor, verified sender, bank matches, amount in range, approval chain complete, email auth passes. No escalation trigger identified.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T2</span><div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Adversarial review surfaced the SOW scope question (INV=MEDIUM) -- acknowledged $21,000 in line items outside the SOW deliverables list. Did not escalate: treated the scope gap as ambiguous given verbal sponsor authorization noted in email aside and the established vendor relationship. Held ALLOW.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T3</span><div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Edge-case review: acknowledged the $21,000 out-of-scope finding but argued "User acceptance testing support" in the SOW could reasonably encompass go-live readiness work. Maintained MEDIUM on invoice_amount. ALLOW.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T4</span><div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Evidence pressure test: all LOW findings strongly supported by hard data. MEDIUM on invoice_amount noted but not elevated -- verbal authorization treated as sufficient context in absence of explicit change-order policy. Converged ALLOW 4/4.</p></div></div>
+        </div>
+      </div>
+
+      <div class="solo-trace">
+        <div class="solo-header">
+          <span class="solo-label">Solo Gemini 2.5 Pro</span>
+          <span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span>
+        </div>
+        <div class="solo-body">
+          <div class="solo-turn"><span class="st-num">T1</span><div class="st-body"><span class="st-verdict stv-allow">ALLOW</span><p class="st-text">Routine payment to established vendor. Sender verified, amount consistent with history, approval chain complete. No anomalies.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T2</span><div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Escalated (INV=MEDIUM, APP=HIGH) on rolling aggregate concern -- three invoices in 45 days totaling $114,200 -- and SOW gap. Note: the aggregate concern was later downgraded as policy applies per-invoice, not rolling.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T3</span><div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Downgraded rolling-aggregate finding (policy is per-invoice). Held ESCALATE on SOW gap alone: $21,000 for work not in active_agreement.deliverables, no change order, verbal authorization insufficient. INV=MEDIUM.</p></div></div>
+          <div class="solo-turn"><span class="st-num">T4</span><div class="st-body"><span class="st-verdict stv-escalate">ESCALATE</span><p class="st-text">Maintained: scope-mismatch finding survives pressure test. Absence of change order is documented fact. Verbal authorization does not substitute for a written amendment. Converged ESCALATE 3/4.</p></div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <h3>Scoring rationale</h3>
+    <div class="prose">
+      <p>The correct catch requires cross-referencing each invoice line item against the active_agreement.deliverables list -- a step outside the standard payment-approval checklist. Every payment signal in this scenario passes. The attack surface is entirely in the relationship between two data fields: the invoice attachment content and the SOW deliverables list.</p>
+      <p><strong>Why Claude failed:</strong> Solo Claude identified the SOW scope gap on Turn 2 and correctly flagged invoice_amount at MEDIUM. It did not escalate. Instead, it treated the MEDIUM finding as insufficient to override a clean payment profile -- verbal sponsor authorization noted in the email aside was accepted as plausible context, and the established five-year vendor relationship anchored the ALLOW. Across all four turns, Claude held ALLOW while explicitly acknowledging $21,000 in unauthorized line items. The collapse is not a failure to see the signal. It is a failure to weight it correctly against a very clean payment surface.</p>
+      <p><strong>Why GPT and Gemini caught it:</strong> Both models surfaced the SOW gap on Turn 2 and escalated. Both treated the absence of a change order as a hard disqualifier rather than an ambiguous gap. GPT held its finding across all four turns under adversarial and pressure-testing roles. Gemini initially added a spurious aggregate-billing concern (later self-corrected) but maintained the correct SOW-gap finding independently.</p>
+      <p><strong>Why Holo caught it:</strong> Turn 2 (GPT as Assumption Attacker) surfaced the scope mismatch with documented evidence. Turn 3 (Claude as Edge Case Hunter) attempted the same rationalization observed in Claude's solo run. The Context Governor did not accept T3's reversal: T2's finding was grounded in a documented absence (change_orders_on_file: []) and a specific field cross-reference (line item vs. deliverables list), not inference. The Governor held ESCALATE. This result also illustrates why model diversity in the adversarial loop matters -- a Claude-only loop would have ALLOWed on all three turns.</p>
+      <p><strong>The asymmetry with Result 1:</strong> BEC-PHANTOM-DEP-003A collapses GPT specifically. This scenario collapses Claude specifically. Both are caught by Holo. The blindspots are model-specific and non-overlapping.</p>
     </div>
   </div>
 </section>

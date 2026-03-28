@@ -159,15 +159,15 @@ footer{border-top:1px solid var(--border);padding:24px 0}
   <div class="w">
     <div class="badge">
       <div class="badge-dot"></div>
-      Open Study · Holo 1.1 · Fraudulent Payment Approval · March 2026
+      Open Study · Fraudulent Payment Approval · March 2026
     </div>
     <h1>GPT, Claude, and Gemini all approved a fraudulent wire transfer. Holo caught it.</h1>
-    <p class="hero-lede">Same underlying models, the only variable was architecture.</p>
-    <p class="hero-sub">We tested GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro on a structured set of adversarial payment scenarios, then ran those same three models inside Holo's adversarial decision layer. The payloads, scoring rubric, and result files are public so others can inspect and rerun the same cases. This is an ongoing study and new results are published as they are verified.</p>
+    <p class="hero-lede">Same underlying models. The only variable was architecture.</p>
+    <p class="hero-sub">We tested GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro on adversarial payment scenarios designed around documented fraud patterns. Then we ran those same models inside Holo's decision layer. The payloads, scoring rubric, and result files are public so anyone can inspect the cases and rerun them. This is an ongoing study and new results are published as they are verified.</p>
     <div class="hero-actions">
       <a href="payloads/" class="btn btn-dark">Download Payloads</a>
       <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank" class="btn btn-ghost">View GitHub</a>
-      <a href="appendix.html" class="btn btn-ghost">Request Appendix</a>
+      <a href="appendix.html" class="btn btn-ghost">See Full Evidence</a>
     </div>
   </div>
 </section>
@@ -178,7 +178,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
     <div class="section-tag">What this benchmark is measuring</div>
     <h2>This is not a benchmark of general intelligence.</h2>
     <div class="prose">
-      <p>It tests judgment under structured ambiguity at the point of irreversible action. The scenarios are benchmark constructions grounded in documented attack classes from FBI IC3, FinCEN, and CISA advisories. Their purpose is to test whether a system detects failure modes that exist in the relationship between fields rather than in any single explicit signal.</p>
+      <p>It measures judgment at the point of irreversible action. When a system has to decide whether to approve, block, or escalate a payment under uncertainty. The scenarios are grounded in documented fraud patterns from FBI IC3, FinCEN, and CISA advisories and are designed to test whether a system detects failure modes that exist in the relationship between fields rather than in any single explicit signal.</p>
     </div>
   </div>
 </section>
@@ -228,10 +228,10 @@ footer{border-top:1px solid var(--border);padding:24px 0}
     </table>
 
     <div class="callout-quote">
-      <p>All three solo frontier models independently returned the wrong verdict. Holo returned the correct one.</p>
+      <p>All three solo frontier models returned the wrong verdict. Holo returned the correct one.</p>
     </div>
 
-    <p class="section-foot">On this case Holo used more total tokens than GPT and Gemini — both of which got the answer wrong — and fewer than Claude, which also got it wrong. Holo's wall time was comparable to Gemini's. The overhead is the cost of finding what they missed.</p>
+    <p class="section-foot">Holo used more tokens than GPT and Gemini on this case, and fewer than Claude. That overhead is the price of catching what the solo systems missed.</p>
   </div>
 </section>
 
@@ -280,7 +280,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
     </table>
 
     <p class="confirmed-note">Confirmed across multiple independent clean runs.</p>
-    <p class="section-foot">Holo reached the correct verdict using fewer total tokens than GPT and Claude. Wall-clock time was higher than GPT but lower than Claude — the only other solo model that caught it. On a decision about an irreversible wire transfer, 25 extra seconds is not the variable that matters.</p>
+    <p class="section-foot">Holo reached the correct verdict using fewer total tokens than GPT and Claude. Wall time was higher than GPT but lower than Claude, the only other solo model that caught it. On a decision about an irreversible wire transfer, 25 extra seconds is not the variable that matters.</p>
   </div>
 </section>
 

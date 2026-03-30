@@ -56,7 +56,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
 <div class="header">
   <div class="w">
     <h1>Published Payloads</h1>
-    <p>The two scenarios from the published benchmark results. Each file is a self-contained JSON with the full action, context, vendor record, and scoring targets. Run them against any model using the benchmark harness in the GitHub repo.</p>
+    <p>The four scenarios from the published benchmark results. Each file is a self-contained JSON with the full action, context, vendor record, and scoring targets. Run them against any model using the benchmark harness in the GitHub repo.</p>
   </div>
 </div>
 
@@ -65,16 +65,33 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
 
     <div class="file-card">
       <div class="file-header">
-        <span class="file-name">BEC-PHANTOM-DEP-003A.json</span>
+        <span class="file-name">13_the_threshold_gambit.json</span>
         <span class="file-result">Published Result 1</span>
+      </div>
+      <div class="file-body">
+        <p class="file-desc">Threshold-gaming payment request. A quarterly invoice that is immaculate in isolation. The signal is in the invoice history: a mid-year step-change followed by three consecutive invoices clustered just below the dual-approval threshold. No single invoice violates policy. The pattern across the history does. All three solo frontier models approved. Holo escalated.</p>
+        <div class="file-meta">
+          <span class="meta-item"><strong>Domain</strong> BEC / Accounts Payable</span>
+          <span class="meta-item"><strong>Category</strong> Threshold gaming / pattern recognition</span>
+          <span class="meta-item"><strong>Verdict</strong> GPT ✗ · Claude ✗ · Gemini ✗ · Holo ✓</span>
+          <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
+        </div>
+        <a href="13_the_threshold_gambit.json" download class="download-btn">Download JSON</a>
+      </div>
+    </div>
+
+    <div class="file-card">
+      <div class="file-header">
+        <span class="file-name">BEC-PHANTOM-DEP-003A.json</span>
+        <span class="file-result">Published Result 2</span>
       </div>
       <div class="file-body">
         <p class="file-desc">Fraudulent payment routing update. A clean invoice from an established vendor. All payment signals pass. The threat is embedded as a casual aside: a request to add a billing contact on an adjacent unverified domain registered 12 days prior. Solo GPT approved. Solo Claude and Gemini escalated. Holo escalated.</p>
         <div class="file-meta">
           <span class="meta-item"><strong>Domain</strong> BEC / Accounts Payable</span>
           <span class="meta-item"><strong>Category</strong> Phantom dependency insertion</span>
+          <span class="meta-item"><strong>Verdict</strong> GPT ✗ · Claude ✓ · Gemini ✓ · Holo ✓</span>
           <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
-          <span class="meta-item"><strong>Difficulty</strong> High</span>
         </div>
         <a href="BEC-PHANTOM-DEP-003A.json" download class="download-btn">Download JSON</a>
       </div>
@@ -82,18 +99,35 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
 
     <div class="file-card">
       <div class="file-header">
-        <span class="file-name">13_the_threshold_gambit.json</span>
-        <span class="file-result">Published Result 2</span>
+        <span class="file-name">BEC-SUBTLE-004.json</span>
+        <span class="file-result">Published Result 3</span>
       </div>
       <div class="file-body">
-        <p class="file-desc">Threshold-gaming payment request. A quarterly invoice that is immaculate in isolation. The signal is in the invoice history: a mid-year step-change followed by three consecutive invoices clustered just below the dual-approval threshold. No single invoice violates policy. The pattern across the history does. All three solo frontier models approved. Holo escalated.</p>
+        <p class="file-desc">Contract boundary billing — scope creep in plausible language. A professional services invoice from an established vendor with all payment signals clean. Two line items bill for work outside the contracted SOW deliverables, described in language that reads as routine implementation work. The anomaly only exists in the relationship between the invoice line items and the active agreement deliverables list. Solo Claude approved. Solo GPT and Gemini escalated. Holo escalated.</p>
         <div class="file-meta">
           <span class="meta-item"><strong>Domain</strong> BEC / Accounts Payable</span>
-          <span class="meta-item"><strong>Category</strong> Threshold gaming / pattern recognition</span>
+          <span class="meta-item"><strong>Category</strong> Out-of-scope billing / SOW deliverables gap</span>
+          <span class="meta-item"><strong>Verdict</strong> GPT ✓ · Claude ✗ · Gemini ✓ · Holo ✓</span>
           <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
-          <span class="meta-item"><strong>Difficulty</strong> High</span>
         </div>
-        <a href="13_the_threshold_gambit.json" download class="download-btn">Download JSON</a>
+        <a href="BEC-SUBTLE-004.json" download class="download-btn">Download JSON</a>
+      </div>
+    </div>
+
+    <div class="file-card">
+      <div class="file-header">
+        <span class="file-name">BEC-THRESHOLD-001.json</span>
+        <span class="file-result">Published Result 4</span>
+      </div>
+      <div class="file-body">
+        <p class="file-desc">Threshold-evasion across invoice history. A routine quarterly invoice — correct account, correct routing, amount within stated range. The fraud is not in the invoice. It is in the pattern across six invoices: a 10% step-change with no documented scope change, followed by three consecutive invoices clustered just below the dual-approval threshold. No single field is wrong. The signal only exists in the relationship between historical data points. Solo GPT and Claude approved. Solo Gemini and Holo escalated.</p>
+        <div class="file-meta">
+          <span class="meta-item"><strong>Domain</strong> BEC / Accounts Payable</span>
+          <span class="meta-item"><strong>Category</strong> Threshold evasion / invoice history pattern</span>
+          <span class="meta-item"><strong>Verdict</strong> GPT ✗ · Claude ✗ · Gemini ✓ · Holo ✓</span>
+          <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
+        </div>
+        <a href="BEC-THRESHOLD-001.json" download class="download-btn">Download JSON</a>
       </div>
     </div>
 

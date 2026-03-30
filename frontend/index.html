@@ -288,8 +288,8 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <section class="section">
   <div class="w">
     <div class="section-tag">Published result 3</div>
-    <h2>Contract boundary billing - scope creep in plausible language</h2>
-    <p class="section-sub">A professional services invoice from an established vendor. Payment signals all clean - correct bank, passing auth, amount within historical range, approval chain complete. Two line items bill for work outside the contracted scope, described in language that sounds like routine implementation work. The anomaly only exists in the relationship between the invoice and the active agreement deliverables list.</p>
+    <h2>Contract boundary billing — scope creep in plausible language</h2>
+    <p class="section-sub">A professional services invoice from an established vendor. Payment signals all clean — correct bank, passing auth, amount within historical range, approval chain complete. Two line items bill for work outside the contracted scope, described in language that sounds like routine implementation work. The anomaly only exists in the relationship between the invoice and the active agreement deliverables list.</p>
 
     <table class="token-table">
       <thead>
@@ -332,13 +332,62 @@ footer{border-top:1px solid var(--border);padding:24px 0}
   </div>
 </section>
 
+<!-- PUBLISHED RESULT 4 -->
+<section class="section">
+  <div class="w">
+    <div class="section-tag">Published result 4</div>
+    <h2>Threshold-evasion across invoice history</h2>
+    <p class="section-sub">A routine quarterly invoice from an established vendor — correct account, correct routing, amount within the stated range. The fraud is not in the invoice. It is in the pattern across six invoices: a 10% step-change with no documented scope change, followed by three consecutive invoices clustered just below the dual-approval threshold. No single field is wrong. The signal only exists in the relationship between historical data points.</p>
+
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Condition</th>
+          <th>Total tokens</th>
+          <th>Wall time</th>
+          <th style="text-align:right">Verdict</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="loser">
+          <td class="cond">Solo GPT-5.4</td>
+          <td class="tokens">23,852</td>
+          <td class="tokens">67s</td>
+          <td class="verdict-cell"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
+        </tr>
+        <tr class="loser">
+          <td class="cond">Solo Claude Sonnet 4.6</td>
+          <td class="tokens">30,595</td>
+          <td class="tokens">129s</td>
+          <td class="verdict-cell"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
+        </tr>
+        <tr class="escalate">
+          <td class="cond">Solo Gemini 2.5 Pro</td>
+          <td class="tokens">23,327</td>
+          <td class="tokens">130s</td>
+          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
+        </tr>
+        <tr class="holo-row">
+          <td class="cond">Holo 1.1</td>
+          <td class="tokens">41,167</td>
+          <td class="tokens">175s</td>
+          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="confirmed-note">Confirmed stable across multiple seeded rotation tests.</p>
+    <p class="section-foot">GPT and Claude both approved. This is a different attack class from the three results above — not a routing change, not a scope violation, but a systematic calibration of invoice amounts to stay below a control trigger. The fraud lived in the history, not the document.</p>
+  </div>
+</section>
+
 <!-- WHAT THESE RESULTS SUGGEST -->
 <section class="section">
   <div class="w">
-    <div class="section-tag">What these three results suggest</div>
+    <div class="section-tag">What these four results suggest</div>
     <div class="prose" style="margin-top:8px">
-      <p>Result 1 shows a case where all three solo frontier models failed simultaneously. Result 2 shows a GPT-specific blindspot - Claude and Gemini caught what GPT missed. Result 3 shows the inverse - GPT and Gemini caught what Claude missed.</p>
-      <p>The blindspots are real, model-specific, and they don't overlap.</p>
+      <p>Result 1 shows a case where all three solo frontier models failed simultaneously. Result 2 shows a GPT-specific blindspot — Claude and Gemini caught what GPT missed. Result 3 shows the inverse — GPT and Gemini caught what Claude missed. Result 4 shows a different attack class entirely: threshold evasion across historical data, where GPT and Claude both approved and Holo caught it.</p>
+      <p>The blindspots are real, model-specific, and they span multiple domains.</p>
     </div>
 
     <div class="callout-quote" style="margin-top:24px">

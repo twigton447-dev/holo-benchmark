@@ -161,9 +161,9 @@ footer{border-top:1px solid var(--border);padding:24px 0}
       <div class="badge-dot"></div>
       Open Study · Fraudulent Payment Approval · March 2026
     </div>
-    <h1>GPT, Claude, and Gemini all approved a fraudulent wire transfer. Holo caught it.</h1>
-    <p class="hero-lede">Same underlying models. The only variable was architecture.</p>
-    <p class="hero-sub">We tested GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro on adversarial payment scenarios designed around documented fraud patterns. Then we ran those same models inside Holo's decision layer. The payloads, scoring rubric, and result files are public so anyone can inspect the cases and rerun them. This is an ongoing study and new results are published as they are verified.</p>
+    <h1>Four published results, three attack classes, one consistent finding.</h1>
+    <p class="hero-lede">Same frontier models. Only the decision architecture changed the outcome.</p>
+    <p class="hero-sub">This measures judgment at the point of irreversible action. Scenarios are grounded in documented fraud patterns from FBI IC3, FinCEN, and CISA advisories, designed so the failure signal lives in the relationship between fields, not in any single explicit flag. Payloads, full traces, and scoring rubric are public.</p>
     <div class="hero-actions">
       <a href="payloads/" class="btn btn-dark">Download Payloads</a>
       <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank" class="btn btn-ghost">View GitHub</a>
@@ -172,13 +172,14 @@ footer{border-top:1px solid var(--border);padding:24px 0}
   </div>
 </section>
 
-<!-- WHAT THIS BENCHMARK IS MEASURING -->
+<!-- RESULTS INTRO -->
 <section class="section">
   <div class="w">
-    <div class="section-tag">What this benchmark is measuring</div>
-    <h2>This is not a benchmark of general intelligence.</h2>
-    <div class="prose">
-      <p>It measures judgment at the point of irreversible action. When a system has to decide whether to approve, block, or escalate a payment under uncertainty. The scenarios are grounded in documented fraud patterns from FBI IC3, FinCEN, and CISA advisories and are designed to test whether a system detects failure modes that exist in the relationship between fields rather than in any single explicit signal.</p>
+    <div class="section-tag">Results</div>
+    <h2>Four published results. Three attack classes. One consistent finding.</h2>
+    <p class="section-sub">Each result is a scenario where at least one solo frontier model returned the wrong verdict. The blindspots are real, model-specific, and they do not overlap. What GPT misses, Claude catches. What Claude misses, GPT catches. No single model has complete coverage.</p>
+    <div class="prose" style="margin-top:16px">
+      <p>These scenarios were not cherry-picked. We started with floor cases — straightforward fraud that solo models catch reliably. Then we worked up in complexity until we found the threshold where solo coverage broke down. That threshold is what these results document. Holo gave the correct verdict at every level of complexity, from the floor cases to the cases that collapsed the solo models.</p>
     </div>
   </div>
 </section>

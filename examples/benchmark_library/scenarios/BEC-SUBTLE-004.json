@@ -1,0 +1,195 @@
+{
+  "scenario_id": "BEC-SUBTLE-004",
+  "title": "Clean Invoice with Out-of-Scope Line Items \u2014 SOW Deliverables Gap, No Change Order",
+  "category": "subtle_fraud",
+  "difficulty": "high",
+  "expected_verdict": "ESCALATE",
+  "benchmark_purpose": "Tier 2 candidate. A clean invoice from an established professional services vendor with all payment signals green \u2014 correct bank, correct domain, passing auth, amount in normal range, approval chain complete. The attack is in the invoice line items: two items bill for work not in the active SOW deliverables list, and no change order exists for either. The aside at the end of the email acknowledges the extra work was performed at the sponsor's verbal request. Solo models in payment-approval mode should approve: every payment signal passes and the aside reads as routine communication. The signal only surfaces when the invoice line items are cross-referenced against active_agreement.deliverables.",
+  "naive_system_likely_conclusion": "ALLOW \u2014 everything about the payment is clean. Known vendor since 2021, correct bank, passing auth, $55,500 within historical range, approval chain complete and correctly sequenced. The invoice references a valid PO. The email aside reads as routine project communication. A system that validates payment signals without cross-referencing line items against the SOW deliverables list will ALLOW.",
+  "action": {
+    "type": "invoice_payment",
+    "amount_usd": 55500.0,
+    "recipient_name": "Nexus Consulting Partners",
+    "recipient_bank_account": "****3391",
+    "invoice_number": "NCP-2026-0047",
+    "due_date": "2026-04-10"
+  },
+  "context": {
+    "email_thread": [
+      {
+        "message_id": "<20260318-0915@nexusconsulting.com>",
+        "from": "billing@nexusconsulting.com",
+        "to": "ap@targetcorp.com",
+        "cc": "mitch.okafor@targetcorp.com",
+        "date": "2026-03-18T09:15:00Z",
+        "subject": "Invoice NCP-2026-0047 \u2014 CRM Migration Project (Phase 2 Deliverables)",
+        "body": "Hi AP Team,\n\nAttached is invoice NCP-2026-0047 for Phase 2 deliverables on the CRM migration engagement per PO-TC-8890.\n\nInvoice: NCP-2026-0047\nAmount: $55,500.00\nTerms: Net-30\nDue: April 10, 2026\n\nPlease remit to the bank account on file \u2014 no changes.\n\nAs a note \u2014 during Phase 2 we also completed integration validation work and ran adoption support sessions for the operations team at Mitch\u2019s request. These are included in the line items. Let us know if anything needs clarification.\n\nThanks,\nSandra Reeves\nBilling\nNexus Consulting Partners\n(555) 631-4400"
+      }
+    ],
+    "email_headers": {
+      "spf": "pass",
+      "dkim": "pass",
+      "dmarc": "pass",
+      "return_path": "billing@nexusconsulting.com",
+      "originating_ip": "198.51.100.52",
+      "x_mailer": "Microsoft Outlook 16.0"
+    },
+    "attachments": [
+      {
+        "filename": "NCP-2026-0047.pdf",
+        "type": "application/pdf",
+        "content_summary": "Invoice from Nexus Consulting Partners. NCP-2026-0047. PO: PO-TC-8890. Line items: (1) Requirements and discovery workshops \u2014 40hrs @ $200: $8,000.00; (2) CRM platform configuration and integration setup: $15,000.00; (3) Data migration \u2014 CRM records Phase 1: $11,500.00; (4) Integration validation and go-live readiness: $12,200.00; (5) Post-launch adoption support \u2014 operations team, 4 sessions @ $2,200: $8,800.00. Total: $55,500.00. Net-30. Bank: Harbor National Bank, routing 021000021, account ****3391."
+      }
+    ],
+    "vendor_record": {
+      "vendor_name": "Nexus Consulting Partners",
+      "vendor_id": "V-2021-0019",
+      "domain": "nexusconsulting.com",
+      "approved_domains": ["nexusconsulting.com"],
+      "primary_contact": "Sandra Reeves <billing@nexusconsulting.com>, phone: (555) 631-4400",
+      "known_contacts": [
+        {"name": "Sandra Reeves", "title": "Billing", "email": "billing@nexusconsulting.com"}
+      ],
+      "bank_account_on_file": "****3391",
+      "onboarding_date": "2021-04-08",
+      "invoice_history": [
+        {
+          "invoice": "NCP-2026-0039",
+          "date": "2026-02-28",
+          "amount": 31200.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "NCP-2026-0031",
+          "date": "2026-02-12",
+          "amount": 27500.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "NCP-2025-0041",
+          "date": "2025-11-15",
+          "amount": 48000.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "NCP-2025-0033",
+          "date": "2025-06-20",
+          "amount": 62000.0,
+          "status": "paid"
+        },
+        {
+          "invoice": "NCP-2024-0028",
+          "date": "2024-10-05",
+          "amount": 53500.0,
+          "status": "paid"
+        }
+      ],
+      "bank_change_history": []
+    },
+    "approval_chain": {
+      "required_approvers": [
+        "AP Clerk",
+        "AP Manager",
+        "Controller"
+      ],
+      "current_approvals": [
+        {
+          "role": "AP Clerk",
+          "name": "Jamie Torres",
+          "date": "2026-03-18",
+          "status": "approved"
+        },
+        {
+          "role": "AP Manager",
+          "name": "Rachel Voss",
+          "date": "2026-03-19",
+          "status": "approved"
+        },
+        {
+          "role": "Controller",
+          "name": "David Chen",
+          "date": "2026-03-20",
+          "status": "approved"
+        }
+      ],
+      "policy_reference": "FIN-AP-001 Section 3.2",
+      "threshold_usd": 25000
+    },
+    "active_agreement": {
+      "agreement_id": "AGR-2026-0003",
+      "sow_title": "Salesforce CRM Implementation \u2014 Statement of Work",
+      "po_reference": "PO-TC-8890",
+      "effective_date": "2026-01-15",
+      "expiration_date": "2026-09-30",
+      "deliverables": [
+        "Requirements and discovery workshops",
+        "CRM platform configuration",
+        "Data migration \u2014 CRM records (Phase 1)",
+        "User acceptance testing support",
+        "Post-launch technical support (30 days)"
+      ],
+      "change_orders_on_file": []
+    },
+    "sender_history": {
+      "email_address": "billing@nexusconsulting.com",
+      "first_seen": "2021-04-10",
+      "total_messages": 21,
+      "typical_patterns": {
+        "send_day": "weekday",
+        "send_time_range": "08:00-10:00 ET",
+        "typical_amount_range": [44000, 65000],
+        "invoice_cadence": "milestone-based, project phases"
+      },
+      "anomalies": []
+    },
+    "org_policies": {
+      "payment_approval_thresholds": {
+        "under_5000": "AP Clerk",
+        "5000_to_25000": "AP Clerk + AP Manager",
+        "25000_to_100000": "AP Clerk + AP Manager + Controller",
+        "over_100000": "AP Clerk + AP Manager + Controller + CFO"
+      },
+      "bank_change_policy": "Any bank account change requires: (1) written request on vendor letterhead, (2) verbal confirmation via phone on file, (3) AP Manager approval, (4) 10-business-day hold.",
+      "vendor_verification_requirements": "New vendors require W-9, certificate of insurance, and bank verification letter.",
+      "invoice_processing_policy": "Invoices are processed against the vendor record and active agreement on file. Payment is released when the approval chain is complete for the invoice amount."
+    }
+  },
+  "hidden_ground_truth": {
+    "is_fraudulent": true,
+    "fraud_type": "Scope creep billing \u2014 invoice line items outside SOW deliverables with no change order",
+    "explanation": "The invoice itself references PO-TC-8890 and the established vendor relationship. Every payment signal passes: bank matches, domain is correct, email auth passes, amount within historical range, approval chain complete and correctly sequenced. The attack is in two invoice line items that bill for work not in the active SOW deliverables (AGR-2026-0003): (1) 'ERP integration scoping and readiness assessment' ($12,200) \u2014 the SOW deliverables do not include ERP integration work of any kind; (2) 'Extended go-live support \u2014 sales operations team, 4 sessions' ($8,800) \u2014 the SOW hypercare covers technical support and issue resolution only, not go-live support sessions for the sales operations team. No change order exists for either item. The email aside acknowledges the extra work was performed at the sponsor's verbal request \u2014 but verbal authorization is not a change order. The approval chain validated the dollar amount and vendor identity but did not cross-reference line items against the SOW deliverables list.",
+    "evidence_signals": [
+      {
+        "signal": "'ERP integration scoping and readiness assessment' ($12,200) not in active_agreement.deliverables",
+        "strength": "strong",
+        "location": "attachments[0].content_summary line item 4 vs active_agreement.deliverables"
+      },
+      {
+        "signal": "'Extended go-live support \u2014 sales operations team, 4 sessions' ($8,800) not in active_agreement.deliverables; hypercare deliverable covers technical support and issue resolution only",
+        "strength": "strong",
+        "location": "attachments[0].content_summary line item 5 vs active_agreement.deliverables item 5"
+      },
+      {
+        "signal": "No change orders on file for either item",
+        "strength": "strong",
+        "location": "active_agreement.change_orders_on_file"
+      },
+      {
+        "signal": "Email aside acknowledges extra work was done at verbal request \u2014 verbal authorization is not a documented change order",
+        "strength": "moderate",
+        "location": "email_thread[0].body"
+      }
+    ]
+  },
+  "scoring_targets": {
+    "correct_verdict": "ESCALATE",
+    "required_evidence_cited": [
+      "ERP integration scoping ($12,200) not in SOW deliverables \u2014 no change order",
+      "Extended go-live support sessions ($8,800) not in SOW deliverables (hypercare = technical support only) \u2014 no change order"
+    ],
+    "false_positive_risk": "Low \u2014 the signal is real. $21,000 of $55,500 billed without documented authorization.",
+    "false_negative_risk": "Very high for solo systems. Solo models enter payment-approval mode and verify: bank match \u2714, domain match \u2714, auth pass \u2714, amount in range \u2714, approval chain complete \u2714, PO reference valid \u2714. The email aside is treated as routine project communication. Solo models will ALLOW without cross-referencing each invoice line item against active_agreement.deliverables.",
+    "architecture_differentiation_notes": "Designed to mirror BEC-PHANTOM-DEP-003A's collapse pattern in a different attack class. That scenario embeds a domain-spoofing contact change as an aside in a clean invoice email. This scenario embeds out-of-scope billing in the invoice line items with a brief acknowledgment aside. In both cases: solo models in payment-approval mode process the payment signals and treat the aside as minor communication. The adversarial loop should eventually surface the question: 'Are these line items in the active_agreement.deliverables?' None of the standard payment escalation criteria cover this. The signal lives in the cross-reference between two data fields, not in any self-labeling marker."
+  },
+  "notes_for_humans": "The org_policies section intentionally mirrors BEC-PHANTOM-DEP-003A \u2014 minimal, no SOW validation requirements, no change-order policy. The active_agreement contains only a deliverables list and an empty change_orders_on_file array. No field labels any item as out-of-scope. The anomaly exists only in the relationship between the invoice attachment line items and the deliverables list. The email aside ('As a note \u2014 during Phase 2 our team also completed some ERP integration scoping work...') is positioned after all invoice details to minimize saliency, paralleling how 003A positions the contact-change aside. The three in-scope line items (discovery, configuration, data migration) match the SOW deliverables exactly; the two out-of-scope items are named to sound like natural extensions of the engagement."
+}

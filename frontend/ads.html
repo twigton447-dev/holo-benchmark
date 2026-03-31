@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holo — Ad Creatives</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:     #0f0f0f;
+      --bg2:    #1a1a1a;
+      --border: #2e2e2e;
+      --text:   #ededed;
+      --text2:  #888;
+      --accent: #cc785c;
+      --accent2:#e8896a;
+      --green:  #4ade80;
+      --red:    #f87171;
+    }
+    body {
+      background: #111; color: var(--text);
+      font-family: 'Inter', sans-serif;
+      padding: 48px 32px;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1 { font-size: 20px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+    .meta { font-size: 13px; color: var(--text2); margin-bottom: 48px; }
+
+    .section-title {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--text2);
+      margin: 56px 0 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .ad-grid { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
+
+    /* ── Copy block ── */
+    .copy-block {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px 28px; max-width: 560px;
+    }
+    .copy-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .copy-field { margin-bottom: 18px; }
+    .copy-field-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+    .copy-field-value { font-size: 14px; line-height: 1.6; }
+    .copy-field-value.headline { font-size: 16px; font-weight: 700; }
+    .char-count { font-size: 11px; color: var(--text2); margin-top: 3px; }
+
+    /* ── Visual ads ── */
+
+    /* LinkedIn 1200×627 */
+    .ad-linkedin {
+      width: 600px; height: 313px;
+      background: #0f0f0f;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 36px 44px 32px;
+      flex-shrink: 0;
+    }
+    .ad-linkedin .top { display: flex; align-items: center; gap: 10px; }
+    .ad-linkedin .logo { font-size: 16px; font-weight: 700; color: var(--text); }
+    .ad-linkedin .logo span { color: var(--accent); }
+    .ad-linkedin .badge-pill {
+      background: rgba(204,120,92,0.12); border: 1px solid rgba(204,120,92,0.3);
+      border-radius: 999px; padding: 3px 12px;
+      font-size: 11px; color: var(--accent); font-weight: 500;
+    }
+    .ad-linkedin .headline {
+      font-size: 28px; font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.8px; color: var(--text);
+    }
+    .ad-linkedin .headline em { font-style: normal; color: var(--accent); }
+    .ad-linkedin .sub {
+      font-size: 13px; color: var(--text2); line-height: 1.5; margin-top: 10px;
+    }
+    .ad-linkedin .cta-row {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .ad-linkedin .cta-btn {
+      background: var(--accent); color: #fff;
+      padding: 9px 22px; border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+    }
+    .ad-linkedin .verdict-badge {
+      display: flex; gap: 8px;
+    }
+    .verdict-pill {
+      padding: 4px 12px; border-radius: 6px;
+      font-size: 11px; font-weight: 700; font-family: monospace;
+    }
+    .verdict-allow { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+    .verdict-esc   { background: rgba(248,113,113,0.12); color: #f87171; border: 1px solid rgba(248,113,113,0.25); }
+    .ad-linkedin .deco {
+      position: absolute; right: 44px; top: 50%;
+      transform: translateY(-50%);
+      text-align: right;
+    }
+    .ad-linkedin .deco-num {
+      font-size: 72px; font-weight: 800; letter-spacing: -2px;
+      line-height: 1;
+      background: linear-gradient(180deg, var(--accent) 0%, transparent 120%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .ad-linkedin .deco-label { font-size: 11px; color: var(--text2); margin-top: 4px; }
+
+    /* Twitter 800×418 → scaled 600×313 */
+    .ad-twitter {
+      width: 600px; height: 313px;
+      background: #0f0f0f;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 52px;
+      gap: 48px;
+      flex-shrink: 0;
+    }
+    .ad-twitter .left { flex: 1; }
+    .ad-twitter .eyebrow {
+      font-size: 11px; font-weight: 600; color: var(--accent);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;
+    }
+    .ad-twitter .headline {
+      font-size: 26px; font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.6px;
+    }
+    .ad-twitter .headline em { font-style: normal; color: var(--accent); }
+    .ad-twitter .sub {
+      font-size: 13px; color: var(--text2); margin-top: 12px; line-height: 1.5;
+    }
+    .ad-twitter .cta {
+      margin-top: 20px;
+      display: inline-block;
+      background: var(--accent); color: #fff;
+      padding: 9px 20px; border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+    }
+    .ad-twitter .right {
+      flex-shrink: 0; width: 180px;
+    }
+    .terminal-mini {
+      background: #1a1a1a; border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden;
+    }
+    .terminal-bar {
+      background: #222; padding: 7px 12px;
+      display: flex; gap: 5px;
+    }
+    .t-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .terminal-body {
+      padding: 14px 16px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 11px; line-height: 1.8; color: var(--text2);
+    }
+    .t-key { color: #7dd3fc; }
+    .t-red { color: #f87171; font-weight: 700; }
+    .t-green { color: #4ade80; font-weight: 700; }
+    .t-yellow { color: #fbbf24; }
+    .t-dim { color: #555; }
+
+    /* Square 1080×1080 → 300×300 */
+    .ad-square {
+      width: 300px; height: 300px;
+      background: #0f0f0f;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      padding: 28px 28px 24px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .ad-square .top-row { display: flex; justify-content: space-between; align-items: center; }
+    .ad-square .logo { font-size: 15px; font-weight: 700; }
+    .ad-square .logo span { color: var(--accent); }
+    .ad-square .headline {
+      font-size: 22px; font-weight: 800; line-height: 1.15;
+      letter-spacing: -0.5px;
+    }
+    .ad-square .headline em { font-style: normal; color: var(--accent); }
+    .ad-square .sub { font-size: 12px; color: var(--text2); line-height: 1.5; }
+    .ad-square .bottom-row { display: flex; align-items: center; justify-content: space-between; }
+    .ad-square .cta {
+      background: var(--accent); color: #fff;
+      padding: 8px 16px; border-radius: 7px;
+      font-size: 12px; font-weight: 600;
+    }
+    .ad-square .tag { font-size: 11px; color: var(--text2); }
+
+    /* Story 1080×1920 → 168×300 */
+    .ad-story {
+      width: 168px; height: 300px;
+      background: #0f0f0f;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      padding: 20px 16px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .ad-story .logo { font-size: 13px; font-weight: 700; }
+    .ad-story .logo span { color: var(--accent); }
+    .ad-story .headline { font-size: 17px; font-weight: 800; line-height: 1.15; letter-spacing: -0.3px; }
+    .ad-story .headline em { font-style: normal; color: var(--accent); }
+    .ad-story .mid {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 12px;
+    }
+    .ad-story .mid-row { font-size: 10px; display: flex; justify-content: space-between; color: var(--text2); margin-bottom: 6px; }
+    .ad-story .verdict-row { display: flex; gap: 6px; }
+    .ad-story .cta {
+      display: block; background: var(--accent); color: #fff;
+      padding: 9px; border-radius: 7px; text-align: center;
+      font-size: 12px; font-weight: 600;
+    }
+    .ad-story .sub { font-size: 10px; color: var(--text2); line-height: 1.5; }
+
+    /* Benchmark table */
+    .benchmark-ad {
+      width: 600px;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 32px 36px;
+      flex-shrink: 0;
+    }
+    .bm-eyebrow { font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px; }
+    .bm-headline { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 24px; line-height: 1.2; }
+    .bm-headline em { font-style: normal; color: var(--accent); }
+    .bm-table { width: 100%; border-collapse: collapse; }
+    .bm-table th { font-size: 11px; font-weight: 600; color: var(--text2); text-align: left; padding: 0 0 12px; border-bottom: 1px solid var(--border); }
+    .bm-table td { font-size: 13px; padding: 12px 0; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .bm-table tr:last-child td { border-bottom: none; }
+    .bm-table .model-col { font-weight: 500; }
+    .bm-table .holo-row td { color: var(--text); }
+    .bm-table .holo-row .model-col { color: var(--accent); font-weight: 700; }
+    .bm-badge-pass { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; display: inline-block; }
+    .bm-badge-fail { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.25); padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; display: inline-block; }
+    .bm-badge-na   { background: rgba(136,136,136,0.1); color: #555; border: 1px solid #333; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; display: inline-block; }
+    .bm-note { font-size: 12px; color: var(--text2); margin-top: 20px; line-height: 1.6; }
+    .bm-cta { margin-top: 20px; background: var(--accent); color: #fff; padding: 10px 22px; border-radius: 8px; font-size: 13px; font-weight: 600; display: inline-block; }
+
+    /* Separator */
+    .ad-sep { width: 1px; background: var(--border); align-self: stretch; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+<h1>Holo — Ad Creatives</h1>
+<p class="meta">All formats. Sized for production. Screenshot each ad for export.</p>
+
+
+<!-- ================================================================ -->
+<div class="section-title">LinkedIn — 1200×627 (shown at 50%)</div>
+<div class="ad-grid">
+
+  <!-- Ad 1: BEC fear -->
+  <div class="ad-linkedin">
+    <div>
+      <div class="top">
+        <span class="logo">holo<span>.</span></span>
+        <span class="badge-pill">Early Access</span>
+      </div>
+    </div>
+    <div>
+      <div class="headline">Your AI agent<br>just paid the <em>attacker.</em></div>
+      <div class="sub">One bad invoice. One BEC email. One agent that didn't check.<br>$47,500 gone. Holo catches it before it executes.</div>
+    </div>
+    <div class="cta-row">
+      <div class="cta-btn">Get free API key</div>
+      <div class="verdict-badge">
+        <span class="verdict-pill verdict-esc">ESCALATE</span>
+        <span class="verdict-pill" style="background:rgba(204,120,92,0.1);color:var(--accent);border:1px solid rgba(204,120,92,0.25);">payment_routing: HIGH</span>
+      </div>
+    </div>
+    <div class="deco">
+      <div class="deco-num">3</div>
+      <div class="deco-label">independent<br>models</div>
+    </div>
+  </div>
+
+  <!-- Ad 2: Developer pitch -->
+  <div class="ad-linkedin">
+    <div>
+      <div class="top">
+        <span class="logo">holo<span>.</span></span>
+        <span class="badge-pill">For AI builders</span>
+      </div>
+    </div>
+    <div>
+      <div class="headline">One API call.<br><em>ALLOW</em> or ESCALATE.</div>
+      <div class="sub">Before your agent executes an irreversible action — Holo runs a 3-model adversarial loop and returns a verdict. Stops what a single model misses.</div>
+    </div>
+    <div class="cta-row">
+      <div class="cta-btn">Try free → 3 evaluations</div>
+      <div class="verdict-badge">
+        <span class="verdict-pill verdict-allow">ALLOW</span>
+        <span class="verdict-pill verdict-esc">ESCALATE</span>
+      </div>
+    </div>
+    <div class="deco">
+      <div class="deco-num">10</div>
+      <div class="deco-label">adversarial<br>turns max</div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ================================================================ -->
+<div class="section-title">Twitter / X — 800×418 (shown at 75%)</div>
+<div class="ad-grid">
+
+  <!-- Tweet Ad 1 -->
+  <div class="ad-twitter">
+    <div class="left">
+      <div class="eyebrow">AI agent safety</div>
+      <div class="headline">GPT-5.4 missed it.<br><em>Holo</em> caught it.</div>
+      <div class="sub">Three models. Adversarial loop.<br>ALLOW or ESCALATE before the wire goes out.</div>
+      <div class="cta">Get free API key →</div>
+    </div>
+    <div class="right">
+      <div class="terminal-mini">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57"></div>
+          <div class="t-dot" style="background:#ffbd2e"></div>
+          <div class="t-dot" style="background:#28c840"></div>
+        </div>
+        <div class="terminal-body">
+          <span class="t-key">"decision"</span>:<br>
+          &nbsp;<span class="t-red">"ESCALATE"</span>,<br><br>
+          <span class="t-key">"routing"</span>:<br>
+          &nbsp;<span class="t-red">"HIGH"</span>,<br>
+          <span class="t-key">"domain"</span>:<br>
+          &nbsp;<span class="t-red">"HIGH"</span>,<br>
+          <span class="t-key">"turns"</span>:<br>
+          &nbsp;<span class="t-yellow">3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tweet Ad 2 -->
+  <div class="ad-twitter">
+    <div class="left">
+      <div class="eyebrow">holo.ai — verification layer</div>
+      <div class="headline">The AI safety layer<br>that <em>gets stronger</em><br>as models improve.</div>
+      <div class="sub">Holo multiplies whatever frontier model you use. GPT-5 drops → Holo gets better too.</div>
+      <div class="cta">Try it free →</div>
+    </div>
+    <div class="right">
+      <div class="terminal-mini">
+        <div class="terminal-bar">
+          <div class="t-dot" style="background:#ff5f57"></div>
+          <div class="t-dot" style="background:#ffbd2e"></div>
+          <div class="t-dot" style="background:#28c840"></div>
+        </div>
+        <div class="terminal-body">
+          <span class="t-dim"># 3 models</span><br>
+          <span class="t-dim"># 10 turn max</span><br>
+          <span class="t-dim"># converged in 3</span><br><br>
+          <span class="t-key">"decision"</span>:<br>
+          &nbsp;<span class="t-green">"ALLOW"</span>,<br>
+          <span class="t-key">"elapsed"</span>:<br>
+          &nbsp;<span class="t-yellow">4.8s</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ================================================================ -->
+<div class="section-title">Instagram / LinkedIn Square — 1080×1080 (shown at 27%)</div>
+<div class="ad-grid">
+
+  <div class="ad-square">
+    <div>
+      <div class="top-row">
+        <span class="logo">holo<span>.</span></span>
+        <div class="verdict-badge" style="display:flex;gap:5px">
+          <span class="verdict-pill verdict-esc" style="font-size:10px;padding:3px 8px">ESCALATE</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="headline">Your agent<br>can't catch<br>what it <em>can't see.</em></div>
+      <div class="sub" style="margin-top:10px">3 independent models. Adversarial loop. ALLOW or ESCALATE.</div>
+    </div>
+    <div class="bottom-row">
+      <div class="cta">Try free</div>
+      <div class="tag">holo.ai</div>
+    </div>
+  </div>
+
+  <div class="ad-square">
+    <div>
+      <div class="top-row">
+        <span class="logo">holo<span>.</span></span>
+      </div>
+    </div>
+    <div>
+      <div class="headline">One call.<br>Three models.<br><em>One verdict.</em></div>
+      <div class="sub" style="margin-top:10px">Verification layer for AI agents that touch real money, real access, real data.</div>
+    </div>
+    <div class="bottom-row">
+      <div class="cta">Get API key</div>
+      <div class="tag">3 free evals</div>
+    </div>
+  </div>
+
+  <div class="ad-square">
+    <div>
+      <div class="top-row">
+        <span class="logo">holo<span>.</span></span>
+        <span style="font-size:10px;color:var(--text2)">BEC test</span>
+      </div>
+    </div>
+    <div>
+      <div class="headline">Solo model:<br><em>missed it.</em><br>Holo: caught it.</div>
+      <div class="sub" style="margin-top:10px">Real BEC benchmark. Three-model council flags what one model rationalizes away.</div>
+    </div>
+    <div class="bottom-row">
+      <div class="cta">See benchmark</div>
+      <div class="tag">holo.ai</div>
+    </div>
+  </div>
+
+  <div class="ad-square" style="background: linear-gradient(145deg, #1a0e08 0%, #0f0f0f 60%)">
+    <div>
+      <div class="top-row">
+        <span class="logo">holo<span>.</span></span>
+      </div>
+    </div>
+    <div>
+      <div class="headline">Frontier models<br>improve.<br><em>Holo multiplies.</em></div>
+      <div class="sub" style="margin-top:10px">Every new model release makes Holo's adversarial council stronger — automatically.</div>
+    </div>
+    <div class="bottom-row">
+      <div class="cta">Learn how</div>
+      <div class="tag">holo.ai</div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ================================================================ -->
+<div class="section-title">Story / Reel — 1080×1920 (shown at 15%)</div>
+<div class="ad-grid">
+
+  <div class="ad-story">
+    <div class="logo">holo<span>.</span></div>
+    <div class="headline">Before the wire goes out — <em>verify it.</em></div>
+    <div class="mid">
+      <div class="mid-row"><span>invoice_payment</span><span>4.8s</span></div>
+      <div class="verdict-row">
+        <span class="verdict-pill verdict-esc" style="font-size:9px;padding:2px 8px">ESCALATE</span>
+      </div>
+    </div>
+    <div class="sub">3 independent AI models. Adversarial loop. ALLOW or ESCALATE.</div>
+    <div class="cta">Try free →</div>
+  </div>
+
+  <div class="ad-story">
+    <div class="logo">holo<span>.</span></div>
+    <div class="headline">Solo model <em>missed it.</em> Council caught it.</div>
+    <div class="mid">
+      <div class="mid-row"><span>BEC benchmark</span></div>
+      <div style="font-size:10px;color:var(--text2);margin-top:4px">GPT-5.4 alone: ALLOW ✗<br>Holo council: ESCALATE ✓</div>
+    </div>
+    <div class="sub">The governor runs the adversarial loop. No model anchors the verdict.</div>
+    <div class="cta">Get API key →</div>
+  </div>
+
+  <div class="ad-story" style="background:linear-gradient(180deg,#1a0e08 0%,#0f0f0f 50%)">
+    <div class="logo">holo<span>.</span></div>
+    <div class="headline">One API call. <em>Real verification.</em></div>
+    <div class="mid">
+      <div style="font-family:monospace;font-size:10px;color:var(--text2);line-height:1.7">
+        POST /evaluate<br>
+        → turns: 3<br>
+        → <span style="color:#4ade80;font-weight:700">ALLOW</span>
+      </div>
+    </div>
+    <div class="sub">Free to try. 3 evaluations. No card.</div>
+    <div class="cta">holo.ai →</div>
+  </div>
+
+</div>
+
+
+<!-- ================================================================ -->
+<div class="section-title">Benchmark Visual (LinkedIn / Twitter proof ad)</div>
+<div class="ad-grid">
+
+  <div class="benchmark-ad">
+    <div class="bm-eyebrow">Real test result — BEC detection benchmark</div>
+    <div class="bm-headline">A solo frontier model <em>missed the attack.</em><br>Holo's adversarial council caught it.</div>
+    <table class="bm-table">
+      <thead>
+        <tr>
+          <th>System</th>
+          <th>BEC detected</th>
+          <th>Turns used</th>
+          <th>Elapsed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="model-col">GPT-5.4 (solo)</td>
+          <td><span class="bm-badge-fail">MISSED</span></td>
+          <td>1</td>
+          <td>1.2s</td>
+        </tr>
+        <tr>
+          <td class="model-col">Claude Opus 4.6 (solo)</td>
+          <td><span class="bm-badge-fail">MISSED</span></td>
+          <td>1</td>
+          <td>1.6s</td>
+        </tr>
+        <tr>
+          <td class="model-col">Gemini 3.1 Pro (solo)</td>
+          <td><span class="bm-badge-fail">MISSED</span></td>
+          <td>1</td>
+          <td>0.9s</td>
+        </tr>
+        <tr class="holo-row">
+          <td class="model-col">Holo adversarial council</td>
+          <td><span class="bm-badge-pass">CAUGHT</span></td>
+          <td>3 of 10</td>
+          <td>4.8s</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="bm-note">Each model running solo rationalized away the domain registration age and routing change as low-risk. The adversarial loop forced each model to confront what the others accepted — the combination of signals converged to HIGH on turn 3.</div>
+    <div class="bm-cta">Run your own test →</div>
+  </div>
+
+</div>
+
+
+<!-- ================================================================ -->
+<div class="section-title">Ad Copy — LinkedIn</div>
+<div class="ad-grid">
+
+  <div class="copy-block">
+    <div class="copy-label">Version 1 — Fear/consequence (Finance audience)</div>
+    <div class="copy-field">
+      <div class="copy-field-label">Headline (150 chars max)</div>
+      <div class="copy-field-value headline">Your AI agent just approved a $47,500 wire. Did it actually check?</div>
+      <div class="char-count">67 chars</div>
+    </div>
+    <div class="copy-field">
+      <div class="copy-field-label">Body (600 chars max)</div>
+      <div class="copy-field-value">Business Email Compromise attacks are designed to look legitimate. And today's AI agents — even the best ones — can be fooled when running solo.<br><br>Holo puts a verification layer between your agent and the execute button. Three independent models (GPT-5.4, Claude Opus 4.6, Gemini 3.1 Pro) run an adversarial loop on the action, challenge each other's reasoning, and return a single verdict: ALLOW or ESCALATE.<br><br>In our BEC benchmark: solo frontier models missed the attack. Holo's adversarial council caught it in 3 turns.<br><br>Free to try. 3 evaluations. No card required.</div>
+      <div class="char-count">~560 chars</div>
+    </div>
+    <div class="copy-field">
+      <div class="copy-field-label">CTA</div>
+      <div class="copy-field-value">Get your free API key</div>
+    </div>
+  </div>
+
+  <div class="copy-block">
+    <div class="copy-label">Version 2 — Developer / technical (Engineering audience)</div>
+    <div class="copy-field">
+      <div class="copy-field-label">Headline</div>
+      <div class="copy-field-value headline">One API call. Three models. ALLOW or ESCALATE. Before your agent executes.</div>
+      <div class="char-count">74 chars</div>
+    </div>
+    <div class="copy-field">
+      <div class="copy-field-label">Body</div>
+      <div class="copy-field-value">If you're building agentic workflows that touch payments, access grants, or anything irreversible — you need a verification layer that does more than ask one model.<br><br>Holo runs an adversarial loop across three structurally independent models. Each one challenges the others' findings. The governor makes the final call algorithmically. No model can anchor the verdict.<br><br>POST /evaluate → { "decision": "ALLOW" | "ESCALATE" }<br><br>Convergence detection keeps it fast. Most evaluations complete in 3–5 turns. The full audit trail ships with every response.</div>
+      <div class="char-count">~555 chars</div>
+    </div>
+    <div class="copy-field">
+      <div class="copy-field-label">CTA</div>
+      <div class="copy-field-value">Try free → docs at holo.ai</div>
+    </div>
+  </div>
+
+  <div class="copy-block">
+    <div class="copy-label">Version 3 — Multiplier positioning (Competitive moat)</div>
+    <div class="copy-field">
+      <div class="copy-field-label">Headline</div>
+      <div class="copy-field-value headline">Every time a frontier model improves, Holo gets stronger too.</div>
+      <div class="char-count">63 chars</div>
+    </div>
+    <div class="copy-field">
+      <div class="copy-field-label">Body</div>
+      <div class="copy-field-value">Holo isn't a model. It's a governor — a structural verification system that runs on top of whatever frontier models exist.<br><br>When GPT-5 drops, Holo's adversarial council gets sharper automatically. The models get better at reasoning. The adversarial pressure gets harder to fool. The verification gets stronger.<br><br>You don't integrate a new model. You don't retrain anything. You get the upgrade for free.<br><br>That's the compounding moat. And it's available today as an API.</div>
+      <div class="char-count">~490 chars</div>
+    </div>
+    <div class="copy-field">
+      <div class="copy-field-label">CTA</div>
+      <div class="copy-field-value">Learn how it works →</div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ================================================================ -->
+<div class="section-title">Ad Copy — Twitter / X</div>
+<div class="ad-grid">
+
+  <div class="copy-block" style="max-width: 480px">
+    <div class="copy-label">Tweet 1 — Benchmark drop (280 chars)</div>
+    <div class="copy-field">
+      <div class="copy-field-value" style="font-size:15px;line-height:1.65">We ran a BEC test against frontier models.<br><br>GPT-5.4 alone: ALLOW ✗<br>Claude Opus 4.6 alone: ALLOW ✗<br>Gemini 3.1 Pro alone: ALLOW ✗<br>Holo adversarial council: ESCALATE ✓ (turn 3)<br><br>One model rationalizes. Three models challenging each other can't.<br><br>Free API key ↓</div>
+      <div class="char-count">~260 chars</div>
+    </div>
+  </div>
+
+  <div class="copy-block" style="max-width: 480px">
+    <div class="copy-label">Tweet 2 — Developer hook</div>
+    <div class="copy-field">
+      <div class="copy-field-value" style="font-size:15px;line-height:1.65">if your AI agent can execute an irreversible action without a second opinion, that's not an agent problem — that's a missing abstraction<br><br>POST /evaluate → "ALLOW" | "ESCALATE"<br><br>3 independent models. adversarial loop. convergence detection. full audit trail.<br><br>3 free evals: holo.ai</div>
+      <div class="char-count">~270 chars</div>
+    </div>
+  </div>
+
+  <div class="copy-block" style="max-width: 480px">
+    <div class="copy-label">Tweet 3 — Multiplier angle</div>
+    <div class="copy-field">
+      <div class="copy-field-value" style="font-size:15px;line-height:1.65">hot take: the safest AI infra gets stronger every time a frontier lab releases a new model<br><br>not because you updated it<br>because better models = harder adversarial pressure = harder to fool<br><br>holo is built this way. the governor is the moat. the models are inputs.</div>
+      <div class="char-count">~275 chars</div>
+    </div>
+  </div>
+
+  <div class="copy-block" style="max-width: 480px">
+    <div class="copy-label">Tweet 4 — Thread opener (for long-form)</div>
+    <div class="copy-field">
+      <div class="copy-field-value" style="font-size:15px;line-height:1.65">I've been building Holo — a verification layer for AI agents that runs an adversarial council before any irreversible action executes.<br><br>Here's why one model isn't enough, how the governor works, and what the BEC benchmark showed. 🧵</div>
+      <div class="char-count">~235 chars</div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ================================================================ -->
+<div class="section-title">Product Hunt Launch Copy</div>
+<div class="ad-grid">
+  <div class="copy-block" style="max-width: 700px">
+    <div class="copy-label">Tagline (60 chars)</div>
+    <div class="copy-field">
+      <div class="copy-field-value headline">Adversarial AI verification — ALLOW or ESCALATE before it executes</div>
+      <div class="char-count">68 chars — trim to: "3-model adversarial loop for AI agents. ALLOW or ESCALATE."</div>
+    </div>
+
+    <div class="copy-label" style="margin-top:20px">Description (260 chars)</div>
+    <div class="copy-field">
+      <div class="copy-field-value">Holo adds a verification checkpoint before your AI agent executes an irreversible action. Three independent models (GPT-5.4, Claude Opus 4.6, Gemini 3.1 Pro) run an adversarial loop, challenge each other's reasoning, and return a single verdict: ALLOW or ESCALATE. One API call. Full audit trail.</div>
+      <div class="char-count">~280 chars</div>
+    </div>
+
+    <div class="copy-label" style="margin-top:20px">First comment (maker note)</div>
+    <div class="copy-field">
+      <div class="copy-field-value" style="line-height:1.7">Hey PH 👋<br><br>Holo started from a real frustration: AI agents can now execute payments, approve access, delete data — and they do it by asking one model, once, with no adversarial pressure.<br><br>We built the verification layer that should exist between your agent and the execute button.<br><br>How it works:<br>• You POST the action + context<br>• Three models evaluate independently, then challenge each other across up to 10 turns<br>• A governor (not a model) makes the final call algorithmically<br>• You get ALLOW or ESCALATE with a full audit trail<br><br>The key insight: a single model can be fooled, rationalized, or anchored. Three structurally independent models, each required to confront what the others said, are much harder to fool. We proved it — in our BEC benchmark, solo frontier models all returned ALLOW. The adversarial council returned ESCALATE on turn 3.<br><br>The governor is the moat. Every time a frontier lab ships a better model, Holo's adversarial pressure gets harder to fool. The models are inputs. The structure compounds.<br><br>Free to try — 3 evaluations, no card required. Would love your feedback 🙏</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ================================================================ -->
+<div class="section-title">HackerNews / Reddit Copy</div>
+<div class="ad-grid">
+  <div class="copy-block" style="max-width: 700px">
+    <div class="copy-label">HN "Show HN" title</div>
+    <div class="copy-field">
+      <div class="copy-field-value headline" style="font-size:15px">Show HN: Holo – adversarial 3-model loop that returns ALLOW/ESCALATE before AI agents execute</div>
+    </div>
+
+    <div class="copy-label" style="margin-top:20px">Opening comment</div>
+    <div class="copy-field">
+      <div class="copy-field-value" style="line-height:1.7">The problem: AI agents can now execute payments, create users, delete files. Most implementations ask one model once and execute on the result. A sufficiently crafted context can get any single model to rationalize nearly anything.<br><br>Holo is a verification API that runs an adversarial loop before the action executes:<br><br>1. Three models (OpenAI, Anthropic, Google) evaluate independently — each in a different adversarial persona (Initial Assessment → Assumption Attacker → Edge Case Hunter, etc.)<br>2. Each model gets the full prior turn history and is structurally required to challenge it<br>3. A deterministic governor (not a model) makes the final call based on coverage matrix + convergence detection<br>4. Returns { decision: "ALLOW" | "ESCALATE", turn_history, coverage_matrix, elapsed_ms }<br><br>Convergence detection (delta=0 for 2 consecutive turns after min 3 turns) exits early on easy cases. Most evaluations complete in 3–5 turns. Hard cases go to 10.<br><br>We tested it on a BEC scenario. Every solo frontier model returned ALLOW. The adversarial council returned ESCALATE on turn 3 — the combination of domain age + routing change + urgency language only became HIGH-confidence through cross-model pressure.<br><br>API is live. 3 free evaluations at holo.ai. Curious what use cases you'd want to test.</div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

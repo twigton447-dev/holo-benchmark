@@ -1,0 +1,2283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1a1a" />
+  <title>Holo</title>
+  <link rel="manifest" href="/static/manifest.json" />
+
+  <!-- PWA: Apple / iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Holo" />
+  <link rel="apple-touch-icon" href="/static/apple-touch-icon.png" />
+
+  <!-- PWA: Android / general -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="application-name" content="Holo" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+  <style>
+    :root {
+      --bg:       #1e1e1e;
+      --bg2:      #2a2a2a;
+      --bg3:      #333333;
+      --border:   #3a3a3a;
+      --border2:  #2a2a2a;
+      --text:     #ececec;
+      --text2:    #888;
+      --text3:    #555;
+      --text4:    #777;
+      --text5:    #aaa;
+      --input-bg: #2a2a2a;
+      --accent:   #5b7ae5;
+    }
+    body.light {
+      --bg:       #fafaf8;
+      --bg2:      #f0eeeb;
+      --bg3:      #e8e5e0;
+      --border:   #d8d5cf;
+      --border2:  #e8e5e0;
+      --text:     #1a1a1a;
+      --text2:    #777;
+      --text3:    #aaa;
+      --text4:    #666;
+      --text5:    #444;
+      --input-bg: #ffffff;
+      --accent:   #5b7ae5;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 16px; transition: background 0.2s, color 0.2s; }
+    #app { display: flex; flex-direction: column; height: 100dvh; max-width: 800px; margin: 0 auto; }
+
+    /* Messages */
+    #messages { flex: 1; overflow-y: auto; padding: 36px 28px 12px; display: flex; flex-direction: column; gap: 0; }
+    #messages::-webkit-scrollbar { width: 4px; }
+    #messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* Each turn */
+    .msg { width: 100%; padding: 26px 0; }
+
+    /* User message — subtle pill, right-aligned */
+    .msg.user { display: flex; justify-content: flex-end; }
+    .msg.user .bubble { background: var(--bg2); color: var(--text); border-radius: 18px 18px 4px 18px; padding: 12px 18px; max-width: 75%; font-size: 15px; line-height: 1.75; word-break: break-word; font-weight: 500; }
+
+    /* Holo message — icon + full-width content */
+    .msg.holo { display: flex; flex-direction: row; align-items: flex-start; gap: 16px; }
+    .holo-icon { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); border: none; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; margin-top: 3px; color: #fff; }
+    .holo-body { flex: 1; min-width: 0; }
+    .holo-body .bubble { font-family: 'Lora', Georgia, serif; font-size: 16.5px; font-weight: 400; line-height: 1.95; color: #efefef; letter-spacing: 0.01em; }
+    body.light .holo-body .bubble { color: #1a1a1a; }
+
+    /* Markdown — dramatic size jumps so hierarchy is unmissable */
+    .holo-body h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 30px; font-weight: 800; margin: 8px 0 20px; color: var(--text); line-height: 1.12; letter-spacing: -1px; }
+    .holo-body h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 24px; font-weight: 700; margin: 36px 0 12px; color: var(--text); line-height: 1.2; letter-spacing: -0.5px; border-top: 1px solid var(--border); padding-top: 26px; }
+    .holo-body h2:first-child { border-top: none; padding-top: 0; margin-top: 4px; }
+    .holo-body h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; font-weight: 700; margin: 26px 0 10px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.14em; }
+    .holo-body p  { margin: 0 0 22px; }
+    .holo-body p:last-child { margin-bottom: 0; }
+    .holo-body strong { font-weight: 800; color: #ffffff; font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.01em; }
+    body.light .holo-body strong { color: #000000; }
+    .holo-body em { font-style: italic; color: var(--text5); }
+    .holo-body ul, .holo-body ol { margin: 10px 0 22px 0; padding-left: 24px; }
+    .holo-body li { margin-bottom: 12px; line-height: 1.85; }
+    .holo-body code { background: var(--bg2); border: 1px solid var(--border); padding: 2px 7px; border-radius: 5px; font-size: 13px; font-family: 'SF Mono','Fira Code','Fira Mono',monospace; }
+    .holo-body pre { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; overflow-x: auto; margin: 12px 0 22px; }
+    .holo-body pre code { background: none; border: none; padding: 0; font-size: 13px; }
+    .code-wrap { position: relative; }
+    .copy-btn {
+      position: absolute; top: 10px; right: 10px;
+      background: var(--bg3); border: 1px solid var(--border);
+      color: var(--text2); border-radius: 6px;
+      padding: 3px 10px; font-size: 11px; font-weight: 500;
+      cursor: pointer; font-family: inherit; opacity: 0;
+      transition: opacity 0.15s, color 0.15s;
+    }
+    .code-wrap:hover .copy-btn { opacity: 1; }
+    .copy-btn.copied { color: var(--green); border-color: var(--green); }
+    .holo-body hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+    .holo-body blockquote { border-left: 3px solid var(--accent); padding-left: 16px; color: var(--text2); margin: 16px 0 22px; font-style: italic; line-height: 1.85; }
+
+    /* Feedback row under each Holo response */
+    .msg-actions { display: flex; gap: 2px; margin-top: 12px; }
+    .msg-action { background: none; border: none; cursor: pointer; padding: 5px 7px; border-radius: 7px; color: var(--text3); font-size: 13px; display: flex; align-items: center; transition: background 0.12s, color 0.12s; }
+    .msg-action:hover { background: var(--bg2); color: var(--text2); }
+    .msg-action.copied { color: #22c55e; }
+
+    .label { font-size: 11px; color: var(--text2); padding: 0 4px; }
+    .chips { display: flex; flex-direction: column; gap: 7px; margin-top: 18px; }
+    .chip { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border); background: none; color: var(--text2); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13.5px; font-weight: 500; cursor: pointer; text-align: left; transition: all 0.15s; width: 100%; }
+    .chip:hover { background: var(--bg2); border-color: var(--text3); color: var(--text); }
+    .chip-num { font-size: 10px; font-weight: 700; color: var(--text3); min-width: 16px; letter-spacing: 0.05em; }
+
+    /* Typing indicator */
+    @keyframes holoPulse { 0%,100%{opacity:0.3;transform:scale(0.85)} 50%{opacity:1;transform:scale(1.05)} }
+    .holo-thinking { animation: holoPulse 1.4s ease-in-out infinite; }
+
+    /* Battery (hidden) */
+    .thread-power { display: none; }
+
+    /* Input bar */
+    #input-bar { padding: 10px 20px 24px; border-top: 1px solid var(--border2); background: var(--bg); }
+    #input-wrap { position: relative; display: flex; align-items: flex-end; background: var(--input-bg); border: 1px solid var(--border); border-radius: 16px; transition: border-color 0.15s; padding: 10px 10px 10px 14px; gap: 8px; }
+    #input-wrap:focus-within { border-color: var(--text3); }
+    #input { flex: 1; background: transparent; border: none; color: var(--text); font-size: 15px; padding: 0; resize: none; outline: none; min-height: 26px; max-height: 140px; line-height: 1.65; font-family: inherit; }
+    #input::placeholder { color: var(--text3); }
+    #attach { width: 32px; height: 32px; border-radius: 8px; background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s; align-self: flex-end; }
+    #attach:hover { background: var(--bg3); }
+    #attach svg { stroke: var(--text2); }
+    #file-input { display: none; }
+    .attachment-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 4px 10px; font-size: 12px; color: var(--text2); margin: 4px 0; }
+    .attachment-pill button { background: none; border: none; color: var(--text2); cursor: pointer; padding: 0; font-size: 14px; line-height: 1; }
+    .attachment-pill.image-pill { padding: 4px 8px 4px 4px; border-radius: 10px; }
+    .attachment-thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 7px; display: block; cursor: pointer; }
+    /* Images inside user bubble */
+    .msg-images { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; justify-content: flex-end; }
+    .msg-img { max-width: 220px; max-height: 180px; border-radius: 10px; object-fit: cover; cursor: pointer; border: 1px solid var(--border); }
+    #attachments-bar { padding: 0 20px 4px; display: flex; flex-wrap: wrap; gap: 6px; }
+    #input-actions { display: flex; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+    #send { width: 32px; height: 32px; border-radius: 8px; background: var(--text); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: opacity 0.15s; }
+    #send:hover { opacity: 0.85; }
+    #send:disabled { opacity: 0.2; cursor: not-allowed; }
+    #send svg { stroke: var(--bg) !important; fill: none !important; }
+
+    /* Mic button */
+    #mic { width: 32px; height: 32px; border-radius: 8px; background: transparent; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
+    #mic:hover { background: var(--bg3); }
+    #mic svg { fill: var(--text2); transition: fill 0.15s; }
+    #mic.listening { background: rgba(239,68,68,0.15); }
+    #mic.listening svg { fill: #ef4444; }
+
+    /* Free-limit banner */
+    #free-limit-banner { position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 12px 20px; background: rgba(30,30,30,0.95); border-top: 1px solid var(--border); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font-size: 14px; color: var(--text5); flex-wrap: wrap; }
+    #free-limit-banner.hidden { display: none; }
+    #free-limit-banner button { padding: 6px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; border: none; font-weight: 500; }
+    #free-limit-banner .btn-signup { background: var(--text); color: var(--bg); }
+    #free-limit-banner .btn-signup:hover { opacity: 0.85; }
+    #free-limit-banner .btn-dismiss { background: none; border: 1px solid var(--border) !important; color: var(--text2); }
+    #free-limit-banner .btn-dismiss:hover { border-color: var(--text2) !important; color: var(--text5); }
+
+    /* Thought bubbles */
+    #thought-layer { display: none; position: fixed; bottom: 80px; left: 0; right: 0; max-width: 760px; margin: 0 auto; pointer-events: none; z-index: 50; overflow: hidden; height: 100dvh; }
+    .thought-bubble {
+      position: absolute; bottom: 0; pointer-events: all;
+      padding: 14px 22px; border-radius: 999px; font-size: 15px; font-weight: 400;
+      cursor: pointer; max-width: 340px; text-align: center; line-height: 1.5;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+      letter-spacing: 0.01em;
+      animation: floatUp 18s cubic-bezier(0.2, 0.05, 0.25, 1) forwards;
+      opacity: 0;
+    }
+    /* Ambient bubbles (during thinking) */
+    .thought-bubble.ambient {
+      font-size: 17px; padding: 16px 28px;
+      font-weight: 300; letter-spacing: 0.03em;
+      pointer-events: none;
+    }
+    .thought-bubble.blue   { background: rgba(40,56,120,0.45); color: #dbeafe; border: 1px solid rgba(91,122,229,0.4); }
+    .thought-bubble.yellow { background: rgba(58,46,0,0.45);  color: #fef9c3; border: 1px solid rgba(217,119,6,0.4); }
+    .thought-bubble.red    { background: rgba(58,10,10,0.45); color: #fee2e2; border: 1px solid rgba(220,38,38,0.4); }
+    .thought-bubble.green  { background: rgba(10,46,26,0.45); color: #dcfce7; border: 1px solid rgba(22,163,74,0.4); }
+    .thought-bubble.purple { background: rgba(30,16,64,0.45); color: #ede9fe; border: 1px solid rgba(124,58,237,0.4); }
+    .thought-bubble.orange { background: rgba(46,24,0,0.45);  color: #ffedd5; border: 1px solid rgba(234,88,12,0.4); }
+    @keyframes floatUp {
+      0%   { opacity: 0;    transform: translateY(0)     scale(0.8)  rotate(-1deg); }
+      6%   { opacity: 0.75; transform: translateY(-18px) scale(1.02) rotate(0.5deg); }
+      40%  { opacity: 0.65; transform: translateY(-35vh) scale(1)    rotate(-0.5deg); }
+      75%  { opacity: 0.45; transform: translateY(-60vh) scale(0.97) rotate(0.3deg); }
+      90%  { opacity: 0.2;  transform: translateY(-75vh) scale(0.93) rotate(-0.2deg); }
+      100% { opacity: 0;    transform: translateY(-85vh) scale(0.88) rotate(0deg); }
+    }
+    @keyframes floatUpAmbient {
+      0%   { opacity: 0;    transform: translateY(0)     scale(0.9); }
+      10%  { opacity: 0.7;  transform: translateY(-16px) scale(1); }
+      60%  { opacity: 0.55; transform: translateY(-38vh) scale(0.98); }
+      100% { opacity: 0;    transform: translateY(-68vh) scale(0.93); }
+    }
+    .thought-bubble.ambient { animation-name: floatUpAmbient; animation-duration: 20s; }
+
+    /* Holo response fade-in */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .msg.holo { animation: fadeInUp 0.45s ease forwards; }
+
+    /* Header */
+    #header { padding: 10px 20px; border-bottom: 1px solid var(--border2); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    #header-brand { display: flex; flex-direction: column; gap: 1px; flex-shrink: 0; }
+    #header h1 { font-size: 15px; font-weight: 700; letter-spacing: -0.3px; margin: 0; display: flex; align-items: baseline; gap: 5px; }
+    #brand-sub { font-size: 15px; font-weight: 300; color: var(--text2); opacity: 0.55; letter-spacing: -0.1px; }
+    #brand-tagline { font-size: 10px; font-weight: 500; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.5; }
+    #header-right { display: flex; align-items: center; gap: 8px; }
+    #new-thread { background: none; border: 1px solid var(--border); color: var(--text4); border-radius: 8px; padding: 5px 12px; font-size: 12px; font-family: inherit; cursor: pointer; transition: all 0.15s; }
+    #new-thread:hover { border-color: var(--text2); color: var(--text5); }
+
+    /* Theme toggle */
+    #theme-toggle { background: none; border: 1px solid var(--border); color: var(--text2); border-radius: 8px; padding: 5px 10px; font-size: 13px; font-family: inherit; cursor: pointer; transition: all 0.15s; flex-shrink: 0; }
+    #theme-toggle:hover { border-color: var(--text2); color: var(--text5); }
+
+    /* Mode toggle */
+    .mode-toggle { display: flex; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .mode-btn { padding: 4px 10px; font-size: 11px; border: none; background: none; color: var(--text2); cursor: pointer; font-family: inherit; transition: all 0.15s; }
+    .mode-btn.active { background: var(--text); color: var(--bg); }
+
+    /* User avatar */
+    .avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; cursor: pointer; border: 1px solid var(--border); }
+    .avatar-placeholder { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #fff; cursor: pointer; flex-shrink: 0; }
+    #user-avatar { position: relative; display: flex; align-items: center; }
+    #memory-badge { position: absolute; top: -4px; right: -4px; background: var(--accent); color: #fff; font-size: 9px; font-weight: 700; border-radius: 50%; width: 14px; height: 14px; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+    #avatar-menu { position: absolute; top: calc(100% + 8px); right: 0; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 4px; min-width: 160px; z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+    #avatar-menu button { display: block; width: 100%; text-align: left; background: none; border: none; color: var(--text); padding: 8px 12px; font-size: 13px; font-family: inherit; cursor: pointer; border-radius: 7px; }
+    #avatar-menu button:hover { background: var(--bg3); }
+    #avatar-menu .menu-danger { color: #ef4444; }
+
+    /* Memory panel */
+    #memory-panel { position: fixed; top: 0; right: 0; height: 100vh; width: 300px; background: var(--bg); border-left: 1px solid var(--border); z-index: 90; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.22s ease; }
+    #memory-panel.open { transform: translateX(0); }
+    #memory-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 14px; border-bottom: 1px solid var(--border); }
+    #memory-panel-header h3 { margin: 0; font-size: 14px; font-weight: 600; letter-spacing: -0.2px; }
+    #memory-panel-close { background: none; border: none; color: var(--text2); cursor: pointer; font-size: 18px; line-height: 1; padding: 0; }
+    #memory-list { flex: 1; overflow-y: auto; padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+    .memory-item { background: var(--bg2); border-radius: 8px; padding: 10px 12px; }
+    .memory-key { font-size: 10px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+    .memory-val { font-size: 13px; color: var(--text); line-height: 1.5; }
+    #memory-empty { color: var(--text3); font-size: 13px; text-align: center; margin-top: 40px; line-height: 1.6; }
+    #memory-panel-footer { padding: 14px 20px; border-top: 1px solid var(--border); }
+    #seed-input { width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 8px 10px; font-size: 12px; font-family: inherit; resize: none; outline: none; line-height: 1.5; }
+    #seed-btn { margin-top: 6px; width: 100%; background: var(--accent); border: none; color: #fff; border-radius: 8px; padding: 8px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
+    /* Sign-in overlay */
+    #signin-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; z-index: 100; }
+    #signin-overlay h2 { font-size: 26px; font-weight: 600; margin: 0; letter-spacing: -0.3px; }
+    #signin-overlay p { color: var(--text2); font-size: 15px; margin: 0; text-align: center; max-width: 280px; line-height: 1.65; }
+    #signin-overlay.hidden { display: none; }
+
+    /* Empty state */
+    #empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--text3); padding: 28px 24px 20px; text-align: center; overflow-y: auto; }
+    #empty h2 { font-size: 38px; font-weight: 800; color: var(--text); margin: 0; letter-spacing: -1.2px; line-height: 1.12; }
+    #empty p { font-size: 16.5px; line-height: 1.7; max-width: 340px; margin: 0; color: var(--text2); font-weight: 400; }
+    /* Active space accent in header */
+    #space-label { display: none; }
+
+    /* Thread panel — slides in from left */
+    #thread-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 79; }
+    #thread-backdrop.open { display: block; }
+    #thread-panel { position: fixed; top: 0; left: 0; height: 100vh; width: 260px; background: var(--bg); border-right: 1px solid var(--border); z-index: 80; display: flex; flex-direction: column; transform: translateX(-100%); transition: transform 0.22s ease; }
+    #thread-panel.open { transform: translateX(0); }
+    #thread-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 10px; border-bottom: 1px solid var(--border); }
+    #thread-panel-header span { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 0.12em; }
+    #thread-panel-close { background: none; border: none; color: var(--text2); cursor: pointer; font-size: 18px; line-height: 1; padding: 4px 6px; }
+    #thread-panel-tabs { display: flex; border-bottom: 1px solid var(--border); }
+    .tp-tab { flex: 1; background: none; border: none; border-bottom: 2px solid transparent; color: var(--text2); font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; padding: 8px 0; transition: all 0.12s; }
+    .tp-tab.active { color: var(--text); border-bottom-color: var(--accent); }
+    #thread-new-btn { margin: 10px 10px 6px; }
+    #thread-new-btn button { width: 100%; background: var(--bg2); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 8px 12px; font-size: 13px; font-weight: 500; cursor: pointer; font-family: inherit; transition: all 0.15s; text-align: left; }
+    #thread-new-btn button:hover { background: var(--bg3); }
+    #thread-list { flex: 1; overflow-y: auto; padding: 4px 8px 16px; }
+    #artifact-list { flex: 1; overflow-y: auto; padding: 4px 8px 16px; display: none; }
+    .artifact-list-item { padding: 9px 10px 9px 12px; border-radius: 8px; cursor: pointer; transition: background 0.12s; margin-bottom: 2px; border-left: 3px solid var(--accent); }
+    .artifact-list-item:hover { background: var(--bg2); }
+    .artifact-list-item .artifact-list-title { font-size: 13px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .artifact-list-item .artifact-list-time { font-size: 11px; color: var(--text3); margin-top: 2px; }
+    #thread-list::-webkit-scrollbar { width: 3px; }
+    #thread-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .thread-item { padding: 9px 10px 9px 12px; border-radius: 8px; cursor: pointer; transition: background 0.12s; margin-bottom: 2px; border-left: 3px solid transparent; }
+    .thread-item:hover { background: var(--bg2); }
+    .thread-item:hover .thread-delete-btn { opacity: 1 !important; }
+    .thread-delete-btn:hover { color: #ef4444 !important; background: rgba(239,68,68,0.1) !important; }
+    .thread-item.active { background: var(--bg2); border-left-color: var(--accent); }
+    .thread-item.topic-work    { border-left-color: #5b7ae5; }
+    .thread-item.topic-money   { border-left-color: #f59e0b; }
+    .thread-item.topic-health  { border-left-color: #22c55e; }
+    .thread-item.topic-people  { border-left-color: #ec4899; }
+    .thread-item.topic-creative{ border-left-color: #a78bfa; }
+    .thread-item.topic-tech    { border-left-color: #f97316; }
+    .thread-item.topic-ideas   { border-left-color: #06b6d4; }
+    .thread-item.active.topic-work    { background: rgba(91,122,229,0.08); }
+    .thread-item.active.topic-money   { background: rgba(245,158,11,0.08); }
+    .thread-item.active.topic-health  { background: rgba(34,197,94,0.08); }
+    .thread-item.active.topic-people  { background: rgba(236,72,153,0.08); }
+    .thread-item.active.topic-creative{ background: rgba(167,139,250,0.08); }
+    .thread-item.active.topic-tech    { background: rgba(249,115,22,0.08); }
+    .thread-item.active.topic-ideas   { background: rgba(6,182,212,0.08); }
+    .thread-preview { font-size: 13px; color: var(--text); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .thread-time { font-size: 11px; color: var(--text3); margin-top: 2px; }
+    #thread-empty { color: var(--text3); font-size: 13px; text-align: center; padding: 32px 16px; line-height: 1.6; }
+    #thread-summary-tooltip { position: fixed; left: 268px; z-index: 200; width: 220px; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 13px; box-shadow: 0 4px 18px rgba(0,0,0,0.18); pointer-events: none; opacity: 0; transition: opacity 0.15s; font-size: 12.5px; line-height: 1.55; color: var(--text5); }
+    #thread-summary-tooltip.visible { opacity: 1; }
+    #thread-summary-tooltip .tstt-loading { color: var(--text3); font-style: italic; }
+    .thread-section-header { font-size: 10px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; padding: 12px 10px 4px; }
+
+    /* ---- Artifact card (inline in chat) ---------------------------------- */
+    .artifact-card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin: 12px 0; background: var(--bg2); }
+    .artifact-preview { width: 100%; height: 220px; border: none; pointer-events: none; display: block; background: #fff; }
+    .artifact-bar { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-top: 1px solid var(--border); background: var(--bg2); }
+    .artifact-bar span { font-size: 12px; color: var(--text2); flex: 1; font-weight: 500; }
+    .artifact-btn { background: none; border: 1px solid var(--border); border-radius: 7px; color: var(--text2); font-size: 12px; font-family: inherit; cursor: pointer; padding: 4px 10px; transition: all 0.12s; white-space: nowrap; }
+    .artifact-btn:hover { background: var(--bg3); color: var(--text); }
+    .artifact-btn.primary { background: var(--text); color: var(--bg); border-color: transparent; }
+    .artifact-btn.primary:hover { opacity: 0.85; }
+
+    /* ---- Artifact panel (right side) ------------------------------------- */
+    #artifact-panel { position: fixed; top: 0; right: 0; height: 100vh; width: 52vw; min-width: 480px; background: var(--bg); border-left: 1px solid var(--border); z-index: 95; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.24s ease; }
+    #artifact-panel.open { transform: translateX(0); }
+    #artifact-panel-header { display: flex; align-items: center; gap: 10px; padding: 13px 16px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    #artifact-panel-title { font-size: 13px; font-weight: 600; color: var(--text); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #artifact-panel-header .artifact-btn { font-size: 11.5px; }
+    #artifact-iframe { flex: 1; border: none; background: #fff; }
+    @media (max-width: 900px) { #artifact-panel { width: 100%; min-width: unset; } }
+    /* Surface panel — Captain's priority briefing */
+    #surface-panel { position: fixed; top: 0; right: 0; height: 100vh; width: 300px; background: var(--bg); border-left: 1px solid var(--border); z-index: 85; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.26s ease; }
+    #surface-panel.open { transform: translateX(0); }
+    #surface-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 16px 12px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    #surface-panel-header .surface-title { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 0.1em; }
+    #surface-panel-close { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 16px; line-height: 1; padding: 2px 4px; }
+    #surface-body { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 20px; }
+    #surface-body::-webkit-scrollbar { width: 3px; }
+    #surface-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .surface-section-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text3); margin-bottom: 8px; }
+    #surface-topics { display: flex; flex-direction: column; gap: 8px; }
+    .topic-box { border-radius: 12px; padding: 14px 16px; cursor: default; }
+    .topic-box .topic-label { font-size: 15px; font-weight: 700; line-height: 1.25; }
+    .topic-box.blue   { background: rgba(91,122,229,0.12); border: 1px solid rgba(91,122,229,0.25); }
+    .topic-box.blue   .topic-label { color: #7b9cf0; }
+    .topic-box.yellow { background: rgba(245,158,11,0.1);  border: 1px solid rgba(245,158,11,0.2); }
+    .topic-box.yellow .topic-label { color: #f59e0b; }
+    .topic-box.green  { background: rgba(34,197,94,0.1);   border: 1px solid rgba(34,197,94,0.2); }
+    .topic-box.green  .topic-label { color: #4ade80; }
+    .topic-box.red    { background: rgba(239,68,68,0.1);   border: 1px solid rgba(239,68,68,0.2); }
+    .topic-box.red    .topic-label { color: #f87171; }
+    .topic-box.purple { background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.2); }
+    .topic-box.purple .topic-label { color: #c4b5fd; }
+    .topic-box.orange { background: rgba(249,115,22,0.1);  border: 1px solid rgba(249,115,22,0.2); }
+    .topic-box.orange .topic-label { color: #fb923c; }
+    #surface-todos { display: flex; flex-direction: column; gap: 8px; }
+    .todo-item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; }
+    .todo-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .todo-dot.high { background: #f87171; }
+    .todo-dot.medium { background: #f59e0b; }
+    .todo-text { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.45; }
+    #surface-loading { display: flex; align-items: center; justify-content: center; flex: 1; color: var(--text3); font-size: 13px; }
+    @media (max-width: 700px) { #surface-panel { width: 100%; } }
+    /* Thread toggle in header */
+    #thread-toggle { background: none; border: 1px solid var(--border); color: var(--text3); border-radius: 8px; padding: 5px 12px; font-size: 11px; font-weight: 600; font-family: inherit; cursor: pointer; display: block; transition: all 0.15s; flex-shrink: 0; letter-spacing: 0.04em; }
+    #thread-toggle:hover { border-color: var(--text2); color: var(--text5); }
+    #thread-toggle.open { border-color: var(--accent); color: var(--accent); }
+
+    /* Incognito mode */
+    #incognito-badge { display: none; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--text3); border: 1px solid var(--border); border-radius: 20px; padding: 3px 9px; letter-spacing: 0.04em; }
+    #incognito-badge.visible { display: flex; }
+    body.incognito #incognito-badge { color: #a78bfa; border-color: #a78bfa44; background: #a78bfa11; }
+    body.incognito #header { border-bottom-color: #a78bfa33; }
+    #incognito-btn { background: none; border: 1px solid var(--border); color: var(--text3); border-radius: 8px; padding: 5px 10px; font-size: 11px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.15s; letter-spacing: 0.04em; }
+    #incognito-btn:hover { border-color: #a78bfa; color: #a78bfa; }
+    #incognito-btn.active { border-color: #a78bfa; color: #a78bfa; background: #a78bfa11; }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      #messages { padding: 20px 16px 12px; }
+      #input-bar { padding: 8px 12px 16px; }
+      #attachments-bar { padding: 0 12px 4px; }
+      #empty h2 { font-size: 28px; letter-spacing: -0.8px; }
+      #empty p { font-size: 15px; }
+      .holo-body .bubble { font-size: 15px; line-height: 1.85; }
+      .holo-body h1 { font-size: 24px; }
+      .holo-body h2 { font-size: 20px; }
+      .msg.user .bubble { max-width: 90%; }
+      #memory-panel { width: 100%; }
+      #thread-panel { width: 85%; max-width: 320px; }
+      #thread-panel-close { font-size: 26px; padding: 8px 10px; color: var(--text); }
+      #thread-panel-header { padding: 16px 16px 12px; }
+      #thread-new-btn button { font-size: 15px; padding: 13px 16px; }
+    }
+  </style>
+</head>
+<body>
+<!-- Free-limit banner -->
+<div id="free-limit-banner" class="hidden">
+  <span>You've reached the free limit. Sign up to continue — it's free.</span>
+  <button class="btn-signup" onclick="showSignInOverlay()">Sign up</button>
+  <button class="btn-dismiss" onclick="dismissFreeLimitBanner()">Continue anyway</button>
+</div>
+
+<!-- Sign-in overlay -->
+<div id="signin-overlay">
+  <h2>Holo</h2>
+  <p>Three AI minds. One voice. A memory that builds with you.</p>
+
+  <div id="g_signin_btn"></div>
+
+  <div style="display:flex;align-items:center;gap:12px;width:100%;max-width:280px;margin:4px 0;">
+    <div style="flex:1;height:1px;background:#222;"></div>
+    <span style="color:#333;font-size:12px;">or</span>
+    <div style="flex:1;height:1px;background:#222;"></div>
+  </div>
+
+  <!-- Tab toggle -->
+  <div style="display:flex;background:#111;border:1px solid #2a2a2a;border-radius:10px;overflow:hidden;width:100%;max-width:280px;">
+    <button id="tab-create" onclick="switchAuthTab('create')"
+      style="flex:1;padding:9px;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:inherit;background:#5b7ae5;color:#fff;transition:all 0.15s;">
+      Create account
+    </button>
+    <button id="tab-signin" onclick="switchAuthTab('signin')"
+      style="flex:1;padding:9px;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:inherit;background:transparent;color:#555;transition:all 0.15s;">
+      Sign in
+    </button>
+  </div>
+
+  <!-- Create account form -->
+  <div id="form-create" style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:280px;">
+    <input id="create-name"     type="text"     placeholder="Your name"              autocomplete="name"
+      onkeydown="if(event.key==='Enter')doCreateAccount()"
+      style="background:#111;border:1px solid #2a2a2a;color:#e8e8e8;border-radius:10px;padding:10px 14px;font-size:14px;outline:none;width:100%;box-sizing:border-box;" />
+    <input id="create-email"    type="email"    placeholder="Email"                  autocomplete="email"
+      onkeydown="if(event.key==='Enter')doCreateAccount()"
+      style="background:#111;border:1px solid #2a2a2a;color:#e8e8e8;border-radius:10px;padding:10px 14px;font-size:14px;outline:none;width:100%;box-sizing:border-box;" />
+    <input id="create-password" type="password" placeholder="Password (min 8 chars)" autocomplete="new-password"
+      onkeydown="if(event.key==='Enter')doCreateAccount()"
+      style="background:#111;border:1px solid #2a2a2a;color:#e8e8e8;border-radius:10px;padding:10px 14px;font-size:14px;outline:none;width:100%;box-sizing:border-box;" />
+    <input id="create-invite" type="text" placeholder="Invite code"
+      onkeydown="if(event.key==='Enter')doCreateAccount()"
+      style="background:#111;border:1px solid #2a2a2a;color:#e8e8e8;border-radius:10px;padding:10px 14px;font-size:14px;outline:none;width:100%;box-sizing:border-box;" />
+    <button onclick="doCreateAccount()"
+      style="background:#5b7ae5;border:none;color:#fff;border-radius:10px;padding:10px 14px;font-size:14px;font-weight:600;cursor:pointer;width:100%;">
+      Create account
+    </button>
+    <div id="create-error" style="color:#ef4444;font-size:12px;text-align:center;display:none;"></div>
+  </div>
+
+  <!-- Sign in form -->
+  <div id="form-signin" style="display:none;flex-direction:column;gap:10px;width:100%;max-width:280px;">
+    <input id="signin-email"    type="email"    placeholder="Email"    autocomplete="email"
+      onkeydown="if(event.key==='Enter')doSignIn()"
+      style="background:#111;border:1px solid #2a2a2a;color:#e8e8e8;border-radius:10px;padding:10px 14px;font-size:14px;outline:none;width:100%;box-sizing:border-box;" />
+    <input id="signin-password" type="password" placeholder="Password" autocomplete="current-password"
+      onkeydown="if(event.key==='Enter')doSignIn()"
+      style="background:#111;border:1px solid #2a2a2a;color:#e8e8e8;border-radius:10px;padding:10px 14px;font-size:14px;outline:none;width:100%;box-sizing:border-box;" />
+    <button onclick="doSignIn()"
+      style="background:#5b7ae5;border:none;color:#fff;border-radius:10px;padding:10px 14px;font-size:14px;font-weight:600;cursor:pointer;width:100%;">
+      Sign in
+    </button>
+    <div id="signin-error" style="color:#ef4444;font-size:12px;text-align:center;display:none;"></div>
+    <button onclick="showForgotPassword()" style="background:none;border:none;color:#555;font-size:12px;cursor:pointer;text-align:center;padding:0;">Forgot password?</button>
+  </div>
+
+  <!-- Forgot password form -->
+  <div id="forgot-form" style="display:none;flex-direction:column;gap:10px;width:100%;max-width:280px;">
+    <p style="color:#888;font-size:13px;margin:0;text-align:center;line-height:1.6;">We'll send a reset link to your email.</p>
+    <input id="forgot-email" type="email" placeholder="Your email" autocomplete="email"
+      onkeydown="if(event.key==='Enter')sendResetEmail()"
+      style="background:#111;border:1px solid #2a2a2a;color:#e8e8e8;border-radius:10px;padding:10px 14px;font-size:14px;outline:none;width:100%;box-sizing:border-box;" />
+    <button onclick="sendResetEmail()"
+      style="background:#5b7ae5;border:none;color:#fff;border-radius:10px;padding:10px 14px;font-size:14px;font-weight:600;cursor:pointer;width:100%;">
+      Send reset link
+    </button>
+    <div id="forgot-msg" style="font-size:12px;text-align:center;display:none;"></div>
+    <button onclick="showForgotBack()" style="background:none;border:none;color:#555;font-size:12px;cursor:pointer;">← Back</button>
+  </div>
+
+  <button onclick="skipSignIn()" style="background:none;border:none;color:#333;font-size:13px;cursor:pointer;margin-top:4px;">Continue without signing in</button>
+</div>
+
+<!-- Reset password modal — shown when ?reset= and ?email= are in the URL -->
+<div id="reset-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:300;align-items:center;justify-content:center;">
+  <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:16px;padding:32px 28px;width:calc(100% - 48px);max-width:340px;display:flex;flex-direction:column;gap:14px;">
+    <h3 style="margin:0;font-size:18px;font-weight:700;color:#e8e8e8;">Set a new password</h3>
+    <input id="reset-password"  type="password" placeholder="New password (min 8 chars)" autocomplete="new-password"
+      style="background:#111;border:1px solid #2a2a2a;color:#e8e8e8;border-radius:10px;padding:10px 14px;font-size:14px;outline:none;width:100%;box-sizing:border-box;" />
+    <input id="reset-password2" type="password" placeholder="Confirm new password"
+      style="background:#111;border:1px solid #2a2a2a;color:#e8e8e8;border-radius:10px;padding:10px 14px;font-size:14px;outline:none;width:100%;box-sizing:border-box;" />
+    <button onclick="submitReset()"
+      style="background:#5b7ae5;border:none;color:#fff;border-radius:10px;padding:10px 14px;font-size:14px;font-weight:600;cursor:pointer;width:100%;">
+      Save new password
+    </button>
+    <div id="reset-msg" style="font-size:12px;text-align:center;display:none;"></div>
+  </div>
+</div>
+
+<!-- Artifact panel — right side, renders HTML artifacts full-size -->
+<div id="artifact-panel">
+  <div id="artifact-panel-header">
+    <span id="artifact-panel-title">Artifact</span>
+    <button class="artifact-btn" onclick="artifactNewTab()" title="Open in new tab">↗ New tab</button>
+    <button class="artifact-btn" onclick="artifactDownload()" title="Download HTML">↓ Download</button>
+    <button class="artifact-btn" onclick="artifactPrint()" title="Export as PDF">⎙ PDF</button>
+    <button class="artifact-btn" onclick="closeArtifactPanel()" title="Close">×</button>
+  </div>
+  <iframe id="artifact-iframe" sandbox="allow-scripts allow-same-origin" title="Artifact preview"></iframe>
+</div>
+
+<!-- Thread summary tooltip (Captain-written, shown on thread hover) -->
+<div id="thread-summary-tooltip"></div>
+
+<!-- Thread panel — left sidebar showing all past threads and artifacts -->
+<div id="thread-backdrop" onclick="closeThreadPanel()"></div>
+<div id="thread-panel">
+  <div id="thread-panel-header">
+    <span>Library</span>
+    <button id="thread-panel-close" onclick="closeThreadPanel()">×</button>
+  </div>
+  <div id="thread-panel-tabs">
+    <button class="tp-tab active" id="tab-threads" onclick="switchPanelTab('threads')">Threads</button>
+    <button class="tp-tab" id="tab-artifacts" onclick="switchPanelTab('artifacts')">Artifacts</button>
+  </div>
+  <div id="thread-new-btn">
+    <button onclick="newThread()">+ New thread</button>
+  </div>
+  <div id="thread-list">
+    <div id="thread-empty">Your threads will appear here.</div>
+  </div>
+  <div id="artifact-list">
+    <div id="artifact-list-empty" style="padding:16px 12px;font-size:13px;color:var(--text3);">Artifacts Holo generates will appear here.</div>
+  </div>
+</div>
+
+<!-- Memory panel — what Holo knows about you -->
+<div id="memory-panel">
+  <div id="memory-panel-header">
+    <h3>What Holo knows</h3>
+    <button id="memory-panel-close" onclick="closeMemoryPanel()">×</button>
+  </div>
+  <div id="memory-list">
+    <div id="memory-empty">Sign in and start talking.<br>Holo builds your picture over time.</div>
+  </div>
+  <div id="memory-panel-footer">
+    <textarea id="seed-input" rows="3" placeholder="Tell Holo something about yourself…&#10;e.g. I'm building a startup in health tech"></textarea>
+    <button id="seed-btn" onclick="seedMemory()">Save to Holo's memory</button>
+  </div>
+</div>
+
+<div id="surface-panel">
+  <div id="surface-panel-header">
+    <span class="surface-title">On my mind</span>
+    <button id="surface-panel-close" onclick="closeSurfacePanel()">×</button>
+  </div>
+  <div id="surface-body">
+    <div id="surface-loading">Thinking about you...</div>
+  </div>
+</div>
+
+<div id="app">
+  <div id="header">
+    <div id="header-brand">
+      <h1>Holo <span id="brand-sub">Chat</span><span id="space-label"></span></h1>
+      <span id="brand-tagline">Three models · One mind</span>
+    </div>
+    <div id="header-right">
+      <div id="incognito-badge">◉ Incognito</div>
+      <button id="thread-toggle" onclick="toggleThreadPanel()" title="See my threads">See my threads</button>
+      <button id="incognito-btn" onclick="toggleIncognito()" title="Start incognito thread">Start incognito thread</button>
+      <button id="new-thread" onclick="newThread()">Start new thread</button>
+      <button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">☀</button>
+      <button id="signin-btn" onclick="document.getElementById('signin-overlay').classList.remove('hidden')" style="background:var(--accent);border:none;color:#fff;border-radius:8px;padding:5px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;">Sign in</button>
+      <button id="signout-btn" onclick="signOut()" style="display:none;background:none;border:1px solid var(--border);color:var(--text3);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;">Log out</button>
+      <div id="user-avatar" style="display:none"></div>
+    </div>
+  </div>
+
+  <div id="messages">
+    <div id="empty">
+      <h2 id="greeting"></h2>
+      <p id="greeting-sub"></p>
+    </div>
+  </div>
+
+  <div id="attachments-bar"></div>
+  <div id="input-bar">
+    <input type="file" id="file-input" multiple onchange="handleFiles(this)" />
+    <div id="input-wrap">
+      <button id="attach" onclick="document.getElementById('file-input').click()" title="Attach file">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <textarea id="input" placeholder="Chat with Holo…" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      <div id="input-actions">
+        <button id="mic" onclick="toggleVoice()" title="Voice input" style="display:none">
+          <svg width="15" height="15" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3zm-1 3a1 1 0 0 1 2 0v8a1 1 0 0 1-2 0V4zm-4 7a5 5 0 0 0 10 0h2a7 7 0 0 1-6 6.93V21h2v2H9v-2h2v-2.07A7 7 0 0 1 5 11H7z"/></svg>
+        </button>
+        <button id="send" onclick="sendMessage()" title="Send">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="thought-layer"></div>
+</div>
+
+<script>
+  const API_KEY      = "holo_sk_e65ac27708c3abca80c2e1be27b04985";
+  let   sessionId    = null;
+  let   isLoading    = false;
+  let   capsuleToken = localStorage.getItem("holo_capsule_token") || null;
+  let   capsuleMode  = localStorage.getItem("holo_capsule_mode") || "personal";
+  let   turnCount    = 0;
+  let   incognitoMode = false;
+  const FREE_TURN_LIMIT = 8;
+
+  // ---- Attachments ---------------------------------------------------------
+
+  let attachedFiles = [];
+
+  function handleFiles(input) {
+    for (const file of input.files) {
+      attachedFiles.push(file);
+      renderAttachmentPill(file);
+    }
+    input.value = "";
+  }
+
+  function renderAttachmentPill(file) {
+    const bar  = document.getElementById("attachments-bar");
+    const pill = document.createElement("div");
+    pill.dataset.name = file.name;
+
+    if (isImageFile(file)) {
+      pill.className = "attachment-pill image-pill";
+      const url = URL.createObjectURL(file);
+      pill.innerHTML = `<img class="attachment-thumb" src="${url}" alt="${escHtml(file.name)}" /><button onclick="removeAttachment('${escHtml(file.name)}', this.parentElement)" style="align-self:flex-start;margin-top:2px">×</button>`;
+    } else {
+      pill.className = "attachment-pill";
+      pill.innerHTML = `📎 ${escHtml(file.name)} <button onclick="removeAttachment('${escHtml(file.name)}', this.parentElement)">×</button>`;
+    }
+    bar.appendChild(pill);
+  }
+
+  function removeAttachment(name, el) {
+    attachedFiles = attachedFiles.filter(f => f.name !== name);
+    el.remove();
+  }
+
+  const IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"];
+
+  function isImageFile(file) {
+    return IMAGE_TYPES.includes(file.type) ||
+      /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name);
+  }
+
+  async function readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload  = () => {
+        // result is "data:image/png;base64,<data>" — strip the prefix
+        const dataUrl = reader.result;
+        const comma   = dataUrl.indexOf(",");
+        resolve(dataUrl.slice(comma + 1));
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function readFileAsText(file) {
+    if (file.type === "application/pdf" || file.name.endsWith(".pdf")) {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const pages = [];
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        pages.push(content.items.map(item => item.str).join(" "));
+      }
+      return pages.join("\n\n");
+    }
+    return await file.text();
+  }
+
+  function isPdfFile(file) {
+    return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+  }
+
+  async function readAttachmentsAsText() {
+    const parts  = [];
+    const images = [];
+    for (const file of attachedFiles) {
+      if (isImageFile(file)) {
+        try {
+          const data = await readFileAsBase64(file);
+          images.push({ name: file.name, data, mimeType: file.type || "image/jpeg" });
+        } catch { parts.push(`\n\n[Attached image: ${file.name} — could not read]`); }
+      } else if (isPdfFile(file)) {
+        // Send as native PDF — Anthropic and Google read it natively (including scanned pages).
+        // OpenAI gets a graceful fallback note injected by the backend.
+        try {
+          const data = await readFileAsBase64(file);
+          images.push({ name: file.name, data, mimeType: "application/pdf" });
+        } catch { parts.push(`\n\n[Attached PDF: ${file.name} — could not read]`); }
+      } else {
+        try {
+          const text = await file.text();
+          parts.push(`\n\n[Attached: ${file.name}]\n${text.slice(0, 8000)}`);
+        } catch { parts.push(`\n\n[Attached: ${file.name} — could not read]`); }
+      }
+    }
+    return { text: parts.join(""), images };
+  }
+
+  // ---- Incognito mode ------------------------------------------------------
+
+  function toggleIncognito() {
+    incognitoMode = !incognitoMode;
+    document.body.classList.toggle("incognito", incognitoMode);
+    document.getElementById("incognito-btn").classList.toggle("active", incognitoMode);
+    document.getElementById("incognito-badge").classList.toggle("visible", incognitoMode);
+    // Start a fresh session so incognito state is clean
+    sessionId = null;
+    turnCount = 0;
+    const container = document.getElementById("messages");
+    container.innerHTML = incognitoMode
+      ? `<div id="empty"><h2>Incognito</h2><p>No memory, no context, no Captain brief. Pure baseline. Nothing from this thread touches your capsule.</p></div>`
+      : `<div id="empty"><h2>What's on your mind?</h2><p>Holo is here — truth-seeking, Stoic, and ready for whatever you bring.</p></div>`;
+  }
+
+  // ---- Theme ---------------------------------------------------------------
+
+  function toggleTheme() {
+    const isLight = document.body.classList.toggle("light");
+    document.getElementById("theme-toggle").textContent = isLight ? "☾" : "☀";
+    if (isLight) {
+      localStorage.removeItem("holo_theme"); // light is default, no need to store
+    } else {
+      localStorage.setItem("holo_theme", "dark");
+    }
+  }
+
+  // Restore saved theme — default is light
+  const savedTheme = localStorage.getItem("holo_theme");
+  if (savedTheme === "dark") {
+    // leave body as-is (dark is the base class-less state)
+    document.getElementById("theme-toggle").textContent = "☀";
+  } else {
+    document.body.classList.add("light");
+    document.getElementById("theme-toggle").textContent = "☾";
+  }
+
+  // ---- Brand sub-word — always shows "Chat" in lighter weight
+  // (space-label will show active space name when a space is picked)
+
+  // ---- Rotating greeting ---------------------------------------------------
+  const GREETINGS = [
+    { h: "Welcome to Holo.",           sub: "One brain. Every part of your life." },
+    { h: "Good to have you here.",     sub: "What's on your mind?" },
+    { h: "Everything in one place.",   sub: "Holo is ready." },
+    { h: "Your world, all in one.",    sub: "Start anywhere." },
+    { h: "Holo is here.",             sub: "Same voice. Every context." },
+    { h: "One brain. Everywhere.",     sub: "What do you want to work on?" },
+  ];
+  const _g = GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
+  document.getElementById("greeting").textContent     = _g.h;
+  document.getElementById("greeting-sub").textContent = _g.sub;
+
+
+  // ---- Google Sign-In init --------------------------------------------------
+  // onGoogleLibraryLoad fires once the GSI script is fully ready.
+  // We fetch the client ID at the same time and init only when both are done.
+  let _gsiReady = false;
+  let _googleClientId = null;
+
+  function _initGSI() {
+    if (!_gsiReady || !_googleClientId) return;  // wait for both
+    google.accounts.id.initialize({
+      client_id: _googleClientId,
+      callback:  onGoogleSignIn,
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("g_signin_btn"),
+      { theme: "filled_black", size: "large", shape: "pill", text: "sign_in_with" }
+    );
+  }
+
+  window.onGoogleLibraryLoad = function() {
+    _gsiReady = true;
+    _initGSI();
+  };
+
+  fetch("/config")
+    .then(r => r.json())
+    .then(cfg => {
+      _googleClientId = cfg.google_client_id || null;
+      _initGSI();
+    })
+    .catch(() => {});  // silently ignore — email login always works
+
+  // ---- Thought bubbles -----------------------------------------------------
+
+  const AMBIENT_THOUGHTS = [
+    { text: "Breathe.",                               color: "blue"   },
+    { text: "You're doing better than you think.",    color: "green"  },
+    { text: "One thing at a time.",                   color: "purple" },
+    { text: "Rest is productive.",                    color: "blue"   },
+    { text: "Most things work out.",                  color: "green"  },
+    { text: "It's okay not to know yet.",             color: "purple" },
+    { text: "Progress isn't always visible.",         color: "orange" },
+    { text: "You've handled harder things than this.",color: "blue"   },
+    { text: "What would you tell a friend right now?",color: "yellow" },
+    { text: "Slow down for a second.",                color: "blue"   },
+    { text: "The answer usually comes when you stop chasing it.", color: "purple" },
+    { text: "Not everything needs to be figured out today.",      color: "green"  },
+    { text: "You're allowed to change your mind.",    color: "orange" },
+    { text: "What matters most right now?",           color: "blue"   },
+    { text: "Something good happened today.",         color: "green"  },
+  ];
+
+  let _ambientInterval = null;
+
+  function startAmbientBubbles() {
+    // One bubble only, after a short natural delay
+    _ambientInterval = setTimeout(() => {
+      spawnAmbient();
+      _ambientInterval = null;
+    }, 1200);
+  }
+
+  function spawnAmbient() {
+    const t = AMBIENT_THOUGHTS[Math.floor(Math.random() * AMBIENT_THOUGHTS.length)];
+    spawnThought(t, true);
+  }
+
+  function stopAmbientBubbles() {
+    if (_ambientInterval) { clearTimeout(_ambientInterval); _ambientInterval = null; }
+  }
+
+  function spawnThought(thought, ambient = false) {
+    if (!thought || !thought.text) return;
+    const layer  = document.getElementById("thought-layer");
+    const bubble = document.createElement("div");
+    bubble.className = `thought-bubble ${thought.color || "blue"}${ambient ? " ambient" : ""}`;
+    bubble.textContent = thought.text;
+
+    const leftPct = 5 + Math.random() * 70;
+    bubble.style.left = `${leftPct}%`;
+
+    if (!ambient) bubble.addEventListener("click", () => bubble.remove());
+    layer.appendChild(bubble);
+
+    setTimeout(() => bubble.remove(), ambient ? 20000 : 14000);
+  }
+
+  const _DEMO_THOUGHTS = [
+    { text: "You haven't taken a real break in weeks.",       color: "red"    },
+    { text: "This problem and the last one are the same one.", color: "blue"   },
+    { text: "You keep circling this — what are you afraid of?", color: "yellow" },
+    { text: "You're building something that matters.",         color: "green"  },
+    { text: "There's a pattern here you haven't named yet.",  color: "orange" },
+    { text: "What if the constraint is actually the insight?", color: "purple" },
+  ];
+  let _demoIdx = 0;
+
+  function demoThought() {
+    spawnThought(_DEMO_THOUGHTS[_demoIdx % _DEMO_THOUGHTS.length]);
+    _demoIdx++;
+  }
+
+  // ---- Auth ----------------------------------------------------------------
+
+  function onGoogleSignIn(response) {
+    fetch("/auth/google", {
+      method:  "POST",
+      headers: { "Content-Type": "application/json", "x-api-key": API_KEY },
+      body:    JSON.stringify({ credential: response.credential }),
+    })
+    .then(async r => {
+      const data = await r.json();
+      if (!r.ok) {
+        if (data.detail === "account_cap_reached") {
+          alert("We are not taking new accounts right now. Check back soon.");
+          return;
+        }
+        skipSignIn(); return;
+      }
+      capsuleToken = data.capsule_token;
+      capsuleMode  = data.mode || "personal";
+      localStorage.setItem("holo_capsule_token", capsuleToken);
+      localStorage.setItem("holo_capsule_mode",  capsuleMode);
+      showCapsule(data);
+      document.getElementById("signin-overlay").classList.add("hidden");
+    })
+    .catch(() => skipSignIn());
+  }
+
+  // ---- Auth tab switching --------------------------------------------------
+
+  function switchAuthTab(tab) {
+    const isCreate = tab === "create";
+    document.getElementById("tab-create").style.background = isCreate ? "#5b7ae5" : "transparent";
+    document.getElementById("tab-create").style.color      = isCreate ? "#fff"    : "#555";
+    document.getElementById("tab-signin").style.background = isCreate ? "transparent" : "#5b7ae5";
+    document.getElementById("tab-signin").style.color      = isCreate ? "#555"    : "#fff";
+    document.getElementById("form-create").style.display   = isCreate ? "flex"    : "none";
+    document.getElementById("form-signin").style.display   = isCreate ? "none"    : "flex";
+    document.getElementById("forgot-form").style.display   = "none";
+    document.getElementById("create-error").style.display  = "none";
+    document.getElementById("signin-error").style.display  = "none";
+  }
+
+  async function _authCall(email, name, password, errElId, invite_code = "") {
+    const errEl = document.getElementById(errElId);
+    errEl.style.display = "none";
+    try {
+      const res  = await fetch("/auth/email", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json", "x-api-key": API_KEY },
+        body:    JSON.stringify({ email, name, password, invite_code }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        if (data.detail === "account_cap_reached") throw new Error("We are not taking new accounts right now. Check back soon.");
+        throw new Error(data.detail || "Something went wrong.");
+      }
+      capsuleToken = data.capsule_token;
+      capsuleMode  = data.mode || "personal";
+      localStorage.setItem("holo_capsule_token", capsuleToken);
+      localStorage.setItem("holo_capsule_mode",  capsuleMode);
+      document.getElementById("signin-overlay").classList.add("hidden");
+      showCapsule(data);
+    } catch (e) {
+      errEl.textContent   = e.message;
+      errEl.style.display = "block";
+    }
+  }
+
+  async function doCreateAccount() {
+    const name        = (document.getElementById("create-name")?.value     || "").trim();
+    const email       = (document.getElementById("create-email")?.value    || "").trim();
+    const password    =  document.getElementById("create-password")?.value || "";
+    const invite_code = (document.getElementById("create-invite")?.value   || "").trim();
+    const errEl       =  document.getElementById("create-error");
+    errEl.style.display = "none";
+    if (!email || !email.includes("@")) { errEl.textContent = "Please enter a valid email."; errEl.style.display = "block"; return; }
+    if (password.length < 8)            { errEl.textContent = "Password must be at least 8 characters."; errEl.style.display = "block"; return; }
+    if (!invite_code)                   { errEl.textContent = "An invite code is required."; errEl.style.display = "block"; return; }
+    await _authCall(email, name || email.split("@")[0], password, "create-error", invite_code);
+  }
+
+  async function doSignIn() {
+    const email    = (document.getElementById("signin-email")?.value    || "").trim();
+    const password =  document.getElementById("signin-password")?.value || "";
+    const errEl    =  document.getElementById("signin-error");
+    errEl.style.display = "none";
+    if (!email || !email.includes("@")) { errEl.textContent = "Please enter a valid email."; errEl.style.display = "block"; return; }
+    if (!password)                       { errEl.textContent = "Please enter your password."; errEl.style.display = "block"; return; }
+    await _authCall(email, "", password, "signin-error");
+  }
+
+  function skipSignIn() {
+    document.getElementById("signin-overlay").classList.add("hidden");
+  }
+
+  function showForgotPassword() {
+    document.getElementById("form-signin").style.display = "none";
+    document.getElementById("forgot-form").style.display = "flex";
+    const fm = document.getElementById("forgot-msg");
+    if (fm) fm.style.display = "none";
+  }
+
+  function showForgotBack() {
+    document.getElementById("forgot-form").style.display = "none";
+    document.getElementById("form-signin").style.display = "flex";
+  }
+
+  // Keep old name as alias in case anything calls it
+  function showEmailSignIn() { showForgotBack(); }
+
+  async function sendResetEmail() {
+    const email  = document.getElementById("forgot-email").value.trim();
+    const msgEl  = document.getElementById("forgot-msg");
+    msgEl.style.display = "none";
+    if (!email || !email.includes("@")) {
+      msgEl.style.color = "#ef4444";
+      msgEl.textContent = "Please enter a valid email.";
+      msgEl.style.display = "block";
+      return;
+    }
+    try {
+      await fetch("/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-api-key": API_KEY },
+        body: JSON.stringify({ email }),
+      });
+      msgEl.style.color = "#22c55e";
+      msgEl.textContent = "Check your email — we sent a reset link.";
+      msgEl.style.display = "block";
+    } catch {
+      msgEl.style.color = "#ef4444";
+      msgEl.textContent = "Something went wrong. Try again.";
+      msgEl.style.display = "block";
+    }
+  }
+
+  // On load: check for ?reset= and ?email= params → show reset modal
+  (function checkResetParam() {
+    const params = new URLSearchParams(window.location.search);
+    const token  = params.get("reset");
+    const email  = params.get("email");
+    if (!token || !email) return;
+    // Clean URL without reloading
+    history.replaceState({}, "", window.location.pathname);
+    const modal = document.getElementById("reset-modal");
+    modal.style.display = "flex";
+    modal.dataset.token = token;
+    modal.dataset.email = email;
+    document.getElementById("signin-overlay").classList.add("hidden");
+  })();
+
+  async function submitReset() {
+    const modal   = document.getElementById("reset-modal");
+    const token   = modal.dataset.token;
+    const email   = modal.dataset.email;
+    const pw1     = document.getElementById("reset-password").value;
+    const pw2     = document.getElementById("reset-password2").value;
+    const msgEl   = document.getElementById("reset-msg");
+    msgEl.style.display = "none";
+
+    if (pw1.length < 8) {
+      msgEl.style.color = "#ef4444"; msgEl.textContent = "Password must be at least 8 characters."; msgEl.style.display = "block"; return;
+    }
+    if (pw1 !== pw2) {
+      msgEl.style.color = "#ef4444"; msgEl.textContent = "Passwords don't match."; msgEl.style.display = "block"; return;
+    }
+    try {
+      const res  = await fetch("/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-api-key": API_KEY },
+        body: JSON.stringify({ email, token, password: pw1 }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        msgEl.style.color = "#ef4444"; msgEl.textContent = err.detail || "Reset failed. Link may have expired."; msgEl.style.display = "block"; return;
+      }
+      msgEl.style.color = "#22c55e"; msgEl.textContent = "Password updated. Sign in below."; msgEl.style.display = "block";
+      setTimeout(() => {
+        modal.style.display = "none";
+        document.getElementById("signin-overlay").classList.remove("hidden");
+        document.getElementById("signin-email").value = email;
+        document.getElementById("signin-password").focus();
+      }, 1800);
+    } catch {
+      msgEl.style.color = "#ef4444"; msgEl.textContent = "Something went wrong. Try again."; msgEl.style.display = "block";
+    }
+  }
+
+  function showCapsule(data) {
+    const avatarEl  = document.getElementById("user-avatar");
+    const signinBtn = document.getElementById("signin-btn");
+    const signoutBtn= document.getElementById("signout-btn");
+    if (avatarEl)   avatarEl.style.display   = "";
+    if (signinBtn)  signinBtn.style.display  = "none";
+    if (signoutBtn) signoutBtn.style.display = "none"; // avatar menu handles sign-out
+
+    const name = data.name || data.email || "?";
+    const avatarClick = `toggleAvatarMenu()`;
+    if (data.avatar_url) {
+      avatarEl.innerHTML = `<img class="avatar" src="${data.avatar_url}" title="${name}" onclick="${avatarClick}" /><div id="memory-badge" style="display:none"></div>`;
+    } else {
+      const initial = name[0].toUpperCase();
+      avatarEl.innerHTML = `<div class="avatar-placeholder" title="${name}" onclick="${avatarClick}">${initial}</div><div id="memory-badge" style="display:none"></div>`;
+    }
+    updateModeUI(capsuleMode);
+    fetchCapsuleContext(name);
+    restoreLastSession();
+    loadSessionList();
+    openThreadPanel();
+    // Surface panel: show on login after a short delay (lets context load first)
+    setTimeout(() => {
+      const knownCount = Object.keys(_memoryContext || {}).filter(k => !k.startsWith("_")).length;
+      if (knownCount > 0) openSurfacePanel();
+    }, 1200);
+    resetInactivityTimer();
+  }
+
+  async function restoreLastSession() {
+    if (!capsuleToken) return;
+    try {
+      const res = await fetch("/v1/capsule/last-session", {
+        headers: { "x-api-key": API_KEY, "Authorization": `Bearer ${capsuleToken}` }
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data.session_id || !data.history || data.history.length === 0) return;
+
+      // Restore session state
+      sessionId = data.session_id;
+      document.getElementById("empty")?.remove();
+      document.getElementById("holo-onboarding")?.remove();
+
+      const container = document.getElementById("messages");
+      data.history.forEach(msg => {
+        if (msg.role === "user") {
+          appendMessage("user", msg.content);
+        } else if (msg.role === "assistant") {
+          // Render as a Holo message (simplified — no chips/actions for history)
+          const el = document.createElement("div");
+          el.className = "msg holo";
+          el.innerHTML = `<div class="holo-icon">✦</div><div class="holo-body"><div class="bubble">${renderMarkdown(msg.content)}</div></div>`;
+          container.appendChild(el);
+        }
+      });
+      scrollToBottom();
+    } catch (e) {}
+  }
+
+  let _memoryContext = {};
+
+  async function fetchCapsuleContext(userName) {
+    if (!capsuleToken) return;
+    try {
+      const res = await fetch("/v1/capsule/context", {
+        headers: { "x-api-key": API_KEY, "Authorization": `Bearer ${capsuleToken}` }
+      });
+      if (!res.ok) return;
+      const { context } = await res.json();
+      _memoryContext = context || {};
+      updateMemoryBadge();
+      renderMemoryList();
+
+      // Onboarding: if Holo knows nothing real yet, inject a welcome message
+      // Filter internal keys (prefixed _) — they're system data, not user knowledge
+      const knownCount = Object.keys(_memoryContext).filter(k => !k.startsWith("_")).length;
+      if (knownCount === 0) {
+        const firstName = (userName || "").split(/[\s@]/)[0] || "hey";
+        injectOnboarding(firstName);
+      }
+    } catch (e) {}
+  }
+
+  async function refreshMemoryContext() {
+    if (!capsuleToken) return;
+    try {
+      const res = await fetch("/v1/capsule/context", {
+        headers: { "x-api-key": API_KEY, "Authorization": `Bearer ${capsuleToken}` }
+      });
+      if (!res.ok) return;
+      const { context } = await res.json();
+      _memoryContext = context || {};
+      updateMemoryBadge();
+      if (document.getElementById("memory-panel").classList.contains("open")) renderMemoryList();
+    } catch (e) {}
+  }
+
+  function updateMemoryBadge() {
+    const badge = document.getElementById("memory-badge");
+    if (!badge) return;
+    const count = Object.keys(_memoryContext).length;
+    if (count > 0) {
+      badge.textContent = count;
+      badge.style.display = "flex";
+    } else {
+      badge.style.display = "none";
+    }
+  }
+
+  function renderMemoryList() {
+    const list = document.getElementById("memory-list");
+    const entries = Object.entries(_memoryContext);
+    if (entries.length === 0) {
+      list.innerHTML = `<div id="memory-empty">Holo is still getting to know you.<br>Just keep talking — it builds over time.</div>`;
+      return;
+    }
+    list.innerHTML = entries.map(([k, v]) => `
+      <div class="memory-item">
+        <div class="memory-key">${escHtml(k.replace(/_/g, " "))}</div>
+        <div class="memory-val">${escHtml(v)}</div>
+      </div>`).join("");
+  }
+
+  // ── Avatar menu ───────────────────────────────────────────────────────────────
+
+  function toggleAvatarMenu() {
+    const existing = document.getElementById("avatar-menu");
+    if (existing) { existing.remove(); return; }
+    const menu = document.createElement("div");
+    menu.id = "avatar-menu";
+    menu.innerHTML = `
+      <button class="menu-danger" onclick="signOut()">Sign out</button>`;
+    document.getElementById("user-avatar").appendChild(menu);
+    // Close on outside click
+    setTimeout(() => document.addEventListener("click", closeAvatarMenu, { once: true }), 0);
+  }
+
+  function closeAvatarMenu() {
+    document.getElementById("avatar-menu")?.remove();
+  }
+
+  function signOut() {
+    localStorage.removeItem("holo_capsule_token");
+    localStorage.removeItem("holo_capsule_mode");
+    capsuleToken = null;
+    location.reload(); // simplest — clears all state cleanly
+  }
+
+  function showSignInOverlayFromHeader() {
+    document.getElementById("signin-overlay").classList.remove("hidden");
+  }
+
+  // ── Memory panel ─────────────────────────────────────────────────────────────
+
+  // ---- Surface Panel -------------------------------------------------------
+
+  let _surfaceLoaded = false;
+  let _inactivityTimer = null;
+  const INACTIVITY_MS = 60 * 60 * 1000; // 1 hour
+
+  function resetInactivityTimer() {
+    clearTimeout(_inactivityTimer);
+    _inactivityTimer = setTimeout(() => {
+      if (capsuleToken) openSurfacePanel();
+    }, INACTIVITY_MS);
+  }
+
+  async function openSurfacePanel() {
+    const panel = document.getElementById("surface-panel");
+    panel.classList.add("open");
+    if (_surfaceLoaded) return;
+    try {
+      const res = await fetch("/v1/capsule/surface", {
+        headers: { "x-api-key": API_KEY, "Authorization": `Bearer ${capsuleToken}` },
+      });
+      if (!res.ok) throw new Error("Surface fetch failed.");
+      const data = await res.json();
+      renderSurfacePanel(data);
+      _surfaceLoaded = true;
+    } catch (e) {
+      document.getElementById("surface-body").innerHTML =
+        `<div style="color:var(--text3);font-size:13px;padding:8px;">Nothing to surface yet. Keep talking.</div>`;
+    }
+  }
+
+  function closeSurfacePanel() {
+    document.getElementById("surface-panel").classList.remove("open");
+  }
+
+  function renderSurfacePanel(data) {
+    const topics = data.topics || [];
+    const todos  = data.todos  || [];
+    const body   = document.getElementById("surface-body");
+
+    const topicsHtml = topics.length ? `
+      <div>
+        <div class="surface-section-label">What's on your plate</div>
+        <div id="surface-topics">
+          ${topics.map(t => `
+            <div class="topic-box ${t.color || 'blue'}">
+              <div class="topic-label">${escHtml(t.label)}</div>
+            </div>`).join("")}
+        </div>
+      </div>` : "";
+
+    const todosHtml = todos.length ? `
+      <div>
+        <div class="surface-section-label">Priority to-dos</div>
+        <div id="surface-todos">
+          ${todos.map(td => `
+            <div class="todo-item">
+              <div class="todo-dot ${td.priority || 'medium'}"></div>
+              <div class="todo-text">${escHtml(td.text)}</div>
+            </div>`).join("")}
+        </div>
+      </div>` : "";
+
+    body.innerHTML = topicsHtml + todosHtml ||
+      `<div style="color:var(--text3);font-size:13px;">Nothing to surface yet.</div>`;
+  }
+
+  // ---- Memory Panel --------------------------------------------------------
+
+  function openMemoryPanel() {
+    renderMemoryList();
+    document.getElementById("memory-panel").classList.add("open");
+  }
+
+  function closeMemoryPanel() {
+    document.getElementById("memory-panel").classList.remove("open");
+  }
+
+  async function seedMemory() {
+    if (!capsuleToken) return;
+    const input = document.getElementById("seed-input");
+    const text = input.value.trim();
+    if (!text) return;
+
+    // Parse the freeform text into key-value via a simple heuristic:
+    // send as a single "about_me" seed, then let the Captain reshape it over time
+    const seed = { about_me: text };
+    try {
+      await fetch("/v1/capsule/context", {
+        method: "POST",
+        headers: { ...authHeaders() },
+        body: JSON.stringify({ context: seed }),
+      });
+      input.value = "";
+      await refreshMemoryContext();
+    } catch (e) {}
+  }
+
+  function showHandoff(handoff) {
+    // Renders as a Holo message, not a system banner — the Captain's own voice
+    const container = document.getElementById("messages");
+    const msg = document.createElement("div");
+    msg.className = "msg holo";
+    msg.innerHTML = `
+      <div class="holo-icon">✦</div>
+      <div class="holo-body">
+        <div class="bubble">${escHtml(handoff.message)} <a href="#" onclick="newThread();return false;" style="color:var(--accent);text-decoration:none;font-weight:600;">Start fresh thread →</a></div>
+      </div>`;
+    container.appendChild(msg);
+    scrollToBottom();
+  }
+
+  const _BIO_PROMPT = `Write me a personal brief I can share with a new AI so it understands me from day one. Cover the following:\n\n1. Who I am and what I do\n2. What I'm actively working on right now\n3. How I think and communicate — my style, pace, what I value in a conversation\n4. What I care about most (personally and professionally)\n5. Based on our conversations, what you think my top 3–5 Clifton Strengths are and why — even if I haven't taken the assessment, give me your honest read\n6. Anything else that would help someone understand how I operate\n\nWrite it in plain, direct language — as if I wrote it myself. 200–300 words.`;
+
+  function copyBioPrompt() {
+    navigator.clipboard.writeText(_BIO_PROMPT).then(() => {
+      const btn = document.getElementById("copy-bio-btn");
+      if (btn) { btn.textContent = "Copied ✓"; setTimeout(() => { btn.textContent = "Copy prompt"; }, 2000); }
+    });
+  }
+
+  async function seedBio() {
+    const ta = document.getElementById("bio-paste-area");
+    if (!ta) return;
+    const text = ta.value.trim();
+    if (!text || !capsuleToken) return;
+    const btn = document.getElementById("seed-bio-btn");
+    btn.disabled = true;
+    btn.textContent = "Saving…";
+    try {
+      await fetch("/v1/capsule/context", {
+        method:  "POST",
+        headers: { "Content-Type": "application/json", "x-api-key": API_KEY, "Authorization": `Bearer ${capsuleToken}` },
+        body:    JSON.stringify({ about_me: text }),
+      });
+      document.getElementById("holo-onboarding")?.remove();
+      document.getElementById("empty")?.remove();
+      refreshMemoryContext();
+      // Send a special onboarding prompt — Holo sees the bio in context and gives a proper intro
+      const onboardingPrompt = `Here is my personal brief:\n\n${text}\n\nDo not give a generic introduction. Read this brief carefully and open your response with a specific observation, question, or reflection pulled directly from what I shared. Reference something real: a project I mentioned, a tension I described, a goal that caught your attention. Make it clear you actually read it. One sharp, specific opening. Then in two or three short lines, tell me what you are here for and invite me to start. The brief already handled the introduction. This message is the first moment I should feel known.`;
+      document.getElementById("input").value = onboardingPrompt;
+      sendMessage();
+    } catch { btn.disabled = false; btn.textContent = "Seed to Holo"; }
+  }
+
+  function injectOnboarding(firstName) {
+    // Only inject once per session
+    if (document.getElementById("holo-onboarding")) return;
+    document.getElementById("empty")?.remove();
+
+    const container = document.getElementById("messages");
+    const msg = document.createElement("div");
+    msg.className = "msg holo";
+    msg.id = "holo-onboarding";
+    msg.innerHTML = `
+      <div class="holo-icon">✦</div>
+      <div class="holo-body">
+        <div class="bubble">
+
+          <p style="font-size:24px;font-weight:800;letter-spacing:-0.4px;line-height:1.2;margin:0 0 10px;">Meet Holo Chat 1.1</p>
+          <p style="font-size:18px;font-weight:600;margin:0 0 20px;">Hello${firstName && firstName !== 'hey' ? ', ' + firstName : ''}!</p>
+
+          <p style="margin-bottom:14px;">As you might already know, most AI tools are brilliant right up until they're not.</p>
+          <p style="margin-bottom:14px;">One moment they feel extraordinary. The next, they miss something obvious, lose the thread, or say something wrong with way too much confidence.</p>
+          <p style="margin-bottom:14px;">That problem is not going away. Hallucination is a well-known, studied part of how these models work. Even the smartest models do it.</p>
+          <p style="margin-bottom:22px;font-size:16px;font-weight:700;">I am built differently.</p>
+
+          <p style="margin-bottom:14px;">You interact with one consistent presence, me, that gets to know you over time. Under the hood, I rotate through the current top 3 frontier models: GPT, Claude, and Gemini, guided by a central system that keeps context intact and pushes each turn to challenge what came before.</p>
+          <p style="margin-bottom:14px;">When a new model version comes out, I update automatically.</p>
+          <p style="margin-bottom:24px;font-weight:600;">You are always working with the newest, fastest, smartest models available.</p>
+
+          <hr style="border:none;border-top:1px solid var(--border);margin:0 0 22px;">
+
+          <p style="font-size:17px;font-weight:700;margin:0 0 10px;">Why Holo?</p>
+          <p style="margin-bottom:14px;">My name comes from the ancient Greek <em>holos</em> meaning whole, entire, complete.</p>
+          <p style="margin-bottom:14px;">It is also rooted in <em>holoptism</em>, the idea of seeing the entire system rather than one isolated slice. That is the philosophy I operate from. Most people handle work, health, relationships, money, and strategy as separate categories, even when they are clearly affecting each other.</p>
+          <p style="margin-bottom:24px;font-weight:600;">I am built to see the whole picture.</p>
+
+          <hr style="border:none;border-top:1px solid var(--border);margin:0 0 22px;">
+
+          <p style="font-size:17px;font-weight:700;margin:0 0 10px;">What is Holo Chat?</p>
+          <p style="margin-bottom:14px;">This is Holo Chat, version 1.1. The first application in a broader family being built on one core idea: better decisions through clearer thinking.</p>
+          <p style="margin-bottom:10px;color:var(--text2);font-size:13px;font-weight:600;">Coming next:</p>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
+            <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;">
+              <span style="font-weight:700;font-size:13px;">Holo Protect</span>
+              <span style="color:var(--text2);font-size:13px;">: securing high-value financial transactions and AI agents operating in sensitive environments</span>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;">
+              <span style="font-weight:700;font-size:13px;">Holo Legal</span>
+              <span style="color:var(--text2);font-size:13px;">: bringing the same rigor to contracts, risk, and legal decisions</span>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;">
+              <span style="font-weight:700;font-size:13px;">Holo Enterprise</span>
+              <span style="color:var(--text2);font-size:13px;">: decision intelligence at the organizational level</span>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;">
+              <span style="font-weight:700;font-size:13px;">Holo Learn</span>
+              <span style="color:var(--text2);font-size:13px;">: and more to come</span>
+            </div>
+          </div>
+          <p style="margin-bottom:6px;color:var(--text2);font-size:13px;">Different domains. Same core philosophy: seeking truth and harmony in every area of life.</p>
+          <p style="margin-bottom:24px;font-weight:600;">But it all starts here, with you.</p>
+
+          <hr style="border:none;border-top:1px solid var(--border);margin:0 0 22px;">
+
+          <p style="font-size:17px;font-weight:700;margin:0 0 10px;">Get me up to speed</p>
+          <p style="margin-bottom:6px;">Copy the prompt below, paste it into ChatGPT or whatever AI you currently use, and bring the result back here.</p>
+          <p style="margin-bottom:16px;color:var(--text3);font-size:12.5px;">It takes about 30 seconds.</p>
+
+          <p style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text3);margin:0 0 8px;">Prompt to copy</p>
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:0 0 10px;font-family:'SF Mono','Fira Code',monospace;font-size:12.5px;line-height:1.7;color:var(--text2);">${escHtml(_BIO_PROMPT)}</div>
+          <button id="copy-bio-btn" onclick="copyBioPrompt()" style="background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;margin-bottom:16px;">Copy prompt</button>
+
+          <p style="margin-bottom:8px;">Once you paste that in, I will introduce myself properly and we can start anywhere.</p>
+          <p style="margin-bottom:10px;color:var(--text2);font-size:13px;">Paste what it gives you:</p>
+          <textarea id="bio-paste-area" rows="6" placeholder="Paste your AI bio here…" style="width:100%;background:var(--input-bg);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 12px;font-size:13.5px;font-family:inherit;line-height:1.65;resize:vertical;outline:none;"></textarea>
+          <div style="display:flex;gap:10px;margin-top:10px;align-items:center;">
+            <button id="seed-bio-btn" onclick="seedBio()" style="background:var(--accent);border:none;color:#fff;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;">Seed to Holo</button>
+            <button onclick="document.getElementById('holo-onboarding').remove();document.getElementById('empty')?.remove();" style="background:none;border:none;color:var(--text3);font-size:12px;cursor:pointer;font-family:inherit;">Skip, I'll just start chatting</button>
+          </div>
+
+        </div>
+      </div>`;
+    container.appendChild(msg);
+    msg.scrollIntoView({ block: "start" });
+    setTimeout(() => { msg.scrollIntoView({ block: "start" }); }, 300);
+  }
+
+  function switchMode(mode) {
+    if (!capsuleToken) return;
+    capsuleMode = mode;
+    localStorage.setItem("holo_capsule_mode", mode);
+    updateModeUI(mode);
+    fetch("/auth/mode", {
+      method:  "POST",
+      headers: {
+        "Content-Type":  "application/json",
+        "x-api-key":     API_KEY,
+        "Authorization": `Bearer ${capsuleToken}`,
+      },
+      body: JSON.stringify({ mode }),
+    }).catch(() => {});
+  }
+
+  function updateModeUI(mode) {
+    document.getElementById("btn-personal")?.classList.toggle("active", mode === "personal");
+    document.getElementById("btn-work")?.classList.toggle("active", mode === "work");
+  }
+
+  // Restore capsule UI if already signed in
+  if (capsuleToken) {
+    fetch("/auth/me", {
+      headers: { "x-api-key": API_KEY, "Authorization": `Bearer ${capsuleToken}` }
+    })
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
+      if (data) {
+        showCapsule({ ...data, name: data.name || data.email });
+        document.getElementById("signin-overlay").classList.add("hidden");
+      }
+    })
+    .catch(() => {});
+  }
+
+  function authHeaders() {
+    const h = { "Content-Type": "application/json", "x-api-key": API_KEY };
+    if (capsuleToken) h["Authorization"] = `Bearer ${capsuleToken}`;
+    return h;
+  }
+
+  function autoResize(el) {
+    el.style.height = "auto";
+    el.style.height = Math.min(el.scrollHeight, 160) + "px";
+  }
+
+  function handleKey(e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  // Paste screenshots directly into the input area
+  document.getElementById("input").addEventListener("paste", function(e) {
+    const items = e.clipboardData && e.clipboardData.items;
+    if (!items) return;
+    for (const item of items) {
+      if (item.type.startsWith("image/")) {
+        e.preventDefault();
+        const file = item.getAsFile();
+        if (!file) continue;
+        // Give pasted image a stable name
+        const ext = item.type.split("/")[1] || "png";
+        const named = new File([file], `screenshot-${Date.now()}.${ext}`, { type: item.type });
+        attachedFiles.push(named);
+        renderAttachmentPill(named);
+      }
+    }
+  });
+
+  async function sendMessage() {
+    if (isLoading) return;
+    const input = document.getElementById("input");
+    const text  = input.value.trim();
+    if (!text) return;
+
+    // Reset inactivity timer and invalidate surface cache on new message
+    resetInactivityTimer();
+    _surfaceLoaded = false;
+
+    // Clear empty state
+    document.getElementById("empty")?.remove();
+
+    // Read any attachments — text files appended to message, images sent separately
+    const { text: attachmentText, images } = await readAttachmentsAsText();
+    const fullMessage = text + attachmentText;
+
+    input.value = "";
+    autoResize(input);
+    attachedFiles = [];
+    document.getElementById("attachments-bar").innerHTML = "";
+    isLoading = true;
+    document.getElementById("send").disabled = true;
+
+    // Collect object URLs for image previews before clearing attachedFiles
+    const imagePreviewUrls = attachedFiles
+      .filter(isImageFile)
+      .map(f => URL.createObjectURL(f));
+    appendMessage("user", text, imagePreviewUrls); // show text + image previews
+    const typingEl = appendTyping();
+    scrollToBottom();
+    startAmbientBubbles();
+
+    try {
+      const body = { message: fullMessage, session_id: sessionId };
+      if (images && images.length > 0) body.images = images;
+      if (incognitoMode) body.incognito = true;
+
+      const res = await fetch("/v1/chat", {
+        method:  "POST",
+        headers: authHeaders(),
+        body:    JSON.stringify(body),
+      });
+
+      stopAmbientBubbles();
+      typingEl.remove();
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        appendError(err.detail || `Error ${res.status}`);
+        return;
+      }
+
+      const data = await res.json();
+      sessionId = data.session_id;
+      appendHoloMessage(data);
+      // Add new thread to panel on first turn; refresh after turn 2 so Captain name replaces preview
+      if (data.turn_number === 1) {
+        const firstMsg = document.querySelectorAll(".msg.user .bubble")[0]?.innerText || "";
+        prependSession(data.session_id, firstMsg);
+      } else if (data.turn_number === 2) {
+        setTimeout(() => loadSessionList(), 5000);  // Captain names thread async
+        setTimeout(() => loadSessionList(), 12000); // fallback if Captain was slow
+      }
+
+      // Track turns and show free-limit banner if needed
+      turnCount++;
+      if (turnCount === FREE_TURN_LIMIT && !capsuleToken) {
+        document.getElementById("free-limit-banner").classList.remove("hidden");
+      }
+
+      // Thought bubble from Captain — slight delay so it feels organic
+      if (data.thought) {
+        setTimeout(() => spawnThought(data.thought), 1800);
+      }
+
+      // If new artifacts were saved this turn, prepend to registry
+      if (data.artifacts && data.artifacts.length > 0) {
+        for (const a of data.artifacts) {
+          _artifactRegistry.unshift({ artifact_id: a.artifact_id, title: a.title, created_at: new Date().toISOString() });
+        }
+        if (_activePanelTab === "artifacts") renderArtifactList();
+      }
+
+      // Silently refresh what Holo knows — Captain may have extracted new facts
+      setTimeout(() => refreshMemoryContext(), 2000);
+
+      // Thread handoff — Captain tells the user it's time to move, in its own voice
+      if (data.handoff && data.handoff.suggested) {
+        setTimeout(() => showHandoff(data.handoff), 1200);
+      }
+
+      // YELLOW nudge — warn early before context gets too heavy
+      if (data.thread_health_level === "YELLOW" && data.turn_number >= 14 && !document.getElementById("thread-nudge")) {
+        const nudge = document.createElement("div");
+        nudge.id = "thread-nudge";
+        nudge.style.cssText = "text-align:center;padding:8px 16px;font-size:12px;color:var(--text4);";
+        nudge.innerHTML = `This thread is getting long. <a href="#" onclick="newThread();return false;" style="color:var(--accent);text-decoration:none;">Start a fresh one</a> to keep Holo sharp.`;
+        document.getElementById("messages").appendChild(nudge);
+        scrollToBottom();
+      }
+    } catch (e) {
+      console.error("Chat fetch error:", e);
+      stopAmbientBubbles();
+      typingEl.remove();
+      appendError("Network error — check that the Holo server is running.");
+    } finally {
+      isLoading = false;
+      document.getElementById("send").disabled = false;
+    }
+  }
+
+  function appendMessage(role, text, imageUrls) {
+    const container = document.getElementById("messages");
+    const msg       = document.createElement("div");
+    msg.className   = `msg ${role}`;
+    const imagesHtml = (imageUrls && imageUrls.length)
+      ? `<div class="msg-images">${imageUrls.map(u => `<img class="msg-img" src="${u}" onclick="window.open('${u}')" />`).join("")}</div>`
+      : "";
+    msg.innerHTML   = `<div class="bubble">${escHtml(text)}${imagesHtml}</div>`;
+    container.appendChild(msg);
+    return msg;
+  }
+
+  function appendHoloMessage(data) {
+    const container = document.getElementById("messages");
+    const msg       = document.createElement("div");
+    msg.className   = "msg holo";
+
+    const { mainText, battery, suggestions } = parseResponse(data.response);
+    const responseId = "r" + Date.now();
+
+    const chipsHtml = suggestions.length ? `
+      <div class="chips">
+        ${suggestions.map((s, i) => `<button class="chip" onclick="useChip(this)"><span class="chip-num">${i + 1}</span>${escHtml(s)}</button>`).join("")}
+      </div>` : "";
+
+    msg.innerHTML = `
+      <div class="holo-icon">✦</div>
+      <div class="holo-body">
+        <div class="bubble" id="${responseId}">${renderMarkdown(mainText)}</div>
+        ${chipsHtml}
+        <div class="msg-actions">
+          <button class="msg-action" title="Copy" onclick="copyMsg('${responseId}', this)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+          <button class="msg-action" title="Good response">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          </button>
+          <button class="msg-action" title="Not helpful">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+          </button>
+        </div>
+      </div>`;
+
+    container.appendChild(msg);
+
+    // Stagger each block element in so it doesn't land as one big blast
+    const bubble = msg.querySelector(".bubble");
+    if (bubble) {
+      Array.from(bubble.children).forEach((el, i) => {
+        el.style.opacity    = "0";
+        el.style.transform  = "translateY(5px)";
+        el.style.transition = `opacity 0.35s ease ${i * 75}ms, transform 0.35s ease ${i * 75}ms`;
+        requestAnimationFrame(() => {
+          el.style.opacity   = "1";
+          el.style.transform = "translateY(0)";
+        });
+      });
+    }
+
+    // Scroll the top of Holo's response into view — not the bottom
+    msg.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function copyMsg(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    navigator.clipboard.writeText(el.innerText).then(() => {
+      btn.classList.add("copied");
+      setTimeout(() => btn.classList.remove("copied"), 1500);
+    });
+  }
+
+  function appendTyping() {
+    const container = document.getElementById("messages");
+    const el        = document.createElement("div");
+    el.className    = "msg holo";
+    el.innerHTML    = `<div class="holo-icon holo-thinking">✦</div><div class="holo-body"><div class="bubble" style="color:var(--text3);font-size:14px">Thinking…</div></div>`;
+    container.appendChild(el);
+    return el;
+  }
+
+  function appendError(msg) {
+    const container = document.getElementById("messages");
+    const el        = document.createElement("div");
+    el.className    = "msg holo";
+    el.innerHTML    = `<div class="holo-icon">✦</div><div class="holo-body"><div class="bubble" style="color:#f87171">${escHtml(msg)}</div></div>`;
+    container.appendChild(el);
+  }
+
+  function renderBattery(line) {
+    return "";
+  }
+
+  function parseResponse(text) {
+    // Extract thread power line
+    const batteryMatch = text.match(/Thread power:[^\n]+/);
+    const battery      = batteryMatch ? batteryMatch[0] : null;
+
+    // Extract Next-step suggestions section
+    const suggestMatch = text.match(/Next-step suggestions[:\s\n]+([\s\S]*?)(?:\n\nThread battery:|$)/i);
+    const suggestions  = [];
+    if (suggestMatch) {
+      const lines = suggestMatch[1].split("\n");
+      for (const line of lines) {
+        const m = line.match(/^\s*\d+[.)]\s+(.+)/);
+        if (m) suggestions.push(m[1].trim());
+      }
+    }
+
+    // Remove battery + suggestions block from main text
+    let mainText = text
+      .replace(/\n*Next-step suggestions[:\s\n]+([\s\S]*?)(?:\n\nThread power:|$)/i, "")
+      .replace(/\n*Thread power:[^\n]+/, "")
+      .replace(/\s*\[(GREEN|YELLOW|RED)\]\s*[█░]+/g, "")
+      .trim();
+
+    return { mainText, battery, suggestions };
+  }
+
+  function useChip(el) {
+    const input = document.getElementById("input");
+    // Strip the number prefix from chip text
+    const text = el.innerText.replace(/^\d+\s*/, "").trim();
+    input.value = text;
+    autoResize(input);
+    sendMessage();
+  }
+
+  function newThread() {
+    sessionId = null;
+    turnCount = 0;
+    document.getElementById("messages").innerHTML =
+      `<div id="empty"><h2>What's on your mind?</h2><p>Holo is here — truth-seeking, Stoic, and ready for whatever you bring.</p></div>`;
+    document.getElementById("input").focus();
+  }
+
+  function scrollToBottom() {
+    const container = document.getElementById("messages");
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  function copyCode(btn) {
+    const code = btn.nextElementSibling.querySelector("code").innerText;
+    navigator.clipboard.writeText(code).then(() => {
+      btn.textContent = "Copied!";
+      btn.classList.add("copied");
+      setTimeout(() => { btn.textContent = "Copy"; btn.classList.remove("copied"); }, 2000);
+    });
+  }
+
+  // Minimal markdown: bold, italic, code, bullets, headers
+  // ---- Artifact store -------------------------------------------------------
+  const _artifacts = {}; // id → html string
+  let _artifactCurrent = null; // id of artifact loaded in panel
+
+  function renderMarkdown(text) {
+    // Protect code blocks first — detect HTML artifacts before escaping
+    const codeBlocks = [];
+    let s = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+      const trimmed = code.trim();
+      // Detect a full HTML artifact: lang is html and content looks like a document
+      if (lang.toLowerCase() === "html" && /<!doctype|<html/i.test(trimmed)) {
+        const aid = "art_" + Date.now() + "_" + codeBlocks.length;
+        _artifacts[aid] = trimmed;
+        const title = (trimmed.match(/<title>([^<]*)<\/title>/i) || [])[1] || "Artifact";
+        codeBlocks.push(`
+          <div class="artifact-card">
+            <iframe class="artifact-preview" srcdoc="${escHtml(trimmed)}" sandbox="allow-scripts" title="preview"></iframe>
+            <div class="artifact-bar">
+              <span>✦ ${escHtml(title)}</span>
+              <button class="artifact-btn" onclick="artifactDownloadById('${aid}')">↓ Download</button>
+              <button class="artifact-btn primary" onclick="openArtifactPanel('${aid}', '${escHtml(title)}')">Open ↗</button>
+            </div>
+          </div>`);
+      } else {
+        codeBlocks.push(`<div class="code-wrap"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>${escHtml(trimmed)}</code></pre></div>`);
+      }
+      return `\x00CODE${codeBlocks.length - 1}\x00`;
+    });
+
+    // Split into lines for block-level processing
+    const lines = s.split("\n");
+    const out = [];
+    let inList = false, listTag = "";
+
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i];
+
+      // Headings
+      if (/^### (.+)/.test(line)) { if (inList) { out.push(`</${listTag}>`); inList = false; } out.push(`<h3>${inlineMarkdown(line.slice(4))}</h3>`); continue; }
+      if (/^## (.+)/.test(line))  { if (inList) { out.push(`</${listTag}>`); inList = false; } out.push(`<h2>${inlineMarkdown(line.slice(3))}</h2>`); continue; }
+      if (/^# (.+)/.test(line))   { if (inList) { out.push(`</${listTag}>`); inList = false; } out.push(`<h1>${inlineMarkdown(line.slice(2))}</h1>`); continue; }
+
+      // Horizontal rule
+      if (/^---+$/.test(line.trim())) { if (inList) { out.push(`</${listTag}>`); inList = false; } out.push("<hr>"); continue; }
+
+      // Blockquote
+      if (/^> (.+)/.test(line)) { if (inList) { out.push(`</${listTag}>`); inList = false; } out.push(`<blockquote>${inlineMarkdown(line.slice(2))}</blockquote>`); continue; }
+
+      // Unordered list
+      if (/^[-*] (.+)/.test(line)) {
+        if (!inList || listTag !== "ul") { if (inList) out.push(`</${listTag}>`); out.push("<ul>"); inList = true; listTag = "ul"; }
+        out.push(`<li>${inlineMarkdown(line.replace(/^[-*] /, ""))}</li>`); continue;
+      }
+      // Ordered list
+      if (/^\d+\. (.+)/.test(line)) {
+        if (!inList || listTag !== "ol") { if (inList) out.push(`</${listTag}>`); out.push("<ol>"); inList = true; listTag = "ol"; }
+        out.push(`<li>${inlineMarkdown(line.replace(/^\d+\. /, ""))}</li>`); continue;
+      }
+
+      // Close list
+      if (inList && line.trim() === "") { out.push(`</${listTag}>`); inList = false; out.push(""); continue; }
+      if (inList) { out.push(`</${listTag}>`); inList = false; }
+
+      // Code block placeholder
+      if (line.includes("\x00CODE")) { out.push(line); continue; }
+
+      // Paragraph
+      if (line.trim() === "") { out.push(""); } else { out.push(`<p>${inlineMarkdown(line)}</p>`); }
+    }
+    if (inList) out.push(`</${listTag}>`);
+
+    let result = out.join("\n");
+    // Restore code blocks
+    result = result.replace(/\x00CODE(\d+)\x00/g, (_, i) => codeBlocks[i]);
+    return result;
+  }
+
+  function inlineMarkdown(text) {
+    let s = escHtml(text);
+    s = s.replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>");
+    s = s.replace(/\*\*(.+?)\*\*/g,     "<strong>$1</strong>");
+    s = s.replace(/\*(.+?)\*/g,         "<em>$1</em>");
+    s = s.replace(/_(.+?)_/g,           "<em>$1</em>");
+    s = s.replace(/`([^`]+)`/g,         "<code>$1</code>");
+    return s;
+  }
+
+  // ---- Voice input (Web Speech API) ----------------------------------------
+
+  let _recognition = null;
+  let _voiceActive = false;
+
+  (function initVoice() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return; // browser doesn't support it — button stays hidden
+    const micBtn = document.getElementById("mic");
+    micBtn.style.display = "";
+
+    _recognition = new SpeechRecognition();
+    _recognition.continuous     = false;
+    _recognition.interimResults = false;
+    _recognition.lang           = "en-US";
+
+    _recognition.onresult = (e) => {
+      const transcript = e.results[0][0].transcript;
+      const input      = document.getElementById("input");
+      input.value      = (input.value ? input.value + " " : "") + transcript;
+      autoResize(input);
+      input.focus();
+      stopVoice();
+    };
+
+    _recognition.onerror = () => stopVoice();
+    _recognition.onend   = () => stopVoice();
+  })();
+
+  function toggleVoice() {
+    if (_voiceActive) {
+      stopVoice();
+    } else {
+      startVoice();
+    }
+  }
+
+  function startVoice() {
+    if (!_recognition) return;
+    _voiceActive = true;
+    document.getElementById("mic").classList.add("listening");
+    _recognition.start();
+  }
+
+  function stopVoice() {
+    _voiceActive = false;
+    document.getElementById("mic").classList.remove("listening");
+    try { _recognition && _recognition.stop(); } catch (_) {}
+  }
+
+  // ---- Free-limit banner helpers -------------------------------------------
+
+  function showSignInOverlay() {
+    document.getElementById("free-limit-banner").classList.add("hidden");
+    document.getElementById("signin-overlay").classList.remove("hidden");
+  }
+
+  function dismissFreeLimitBanner() {
+    document.getElementById("free-limit-banner").classList.add("hidden");
+  }
+
+  // ---- Thread panel --------------------------------------------------------
+
+  let _threadPanelOpen = false;
+  let _sessionList     = [];
+
+  function toggleThreadPanel() {
+    _threadPanelOpen ? closeThreadPanel() : openThreadPanel();
+  }
+
+  function openThreadPanel() {
+    _threadPanelOpen = true;
+    document.getElementById("thread-panel").classList.add("open");
+    document.getElementById("thread-backdrop").classList.add("open");
+    document.getElementById("thread-toggle").classList.add("open");
+    if (!capsuleToken) { loadSessionList(); return; }
+    if (_sessionList.length === 0) loadSessionList();
+    else renderThreadList();
+  }
+
+  function closeThreadPanel() {
+    _threadPanelOpen = false;
+    document.getElementById("thread-panel").classList.remove("open");
+    document.getElementById("thread-backdrop").classList.remove("open");
+    document.getElementById("thread-toggle").classList.remove("open");
+  }
+
+  async function loadSessionList() {
+    if (!capsuleToken) {
+      document.getElementById("thread-list").innerHTML = `<div id="thread-empty">Sign in to save and access your threads.</div>`;
+      return;
+    }
+    try {
+      const res = await fetch("/v1/capsule/sessions", {
+        headers: { "x-api-key": API_KEY, "Authorization": `Bearer ${capsuleToken}` }
+      });
+      if (!res.ok) return;
+      const { sessions } = await res.json();
+      _sessionList = sessions || [];
+      renderThreadList();
+    } catch (e) {}
+  }
+
+  function threadTopic(text) {
+    if (!text) return "";
+    const t = text.toLowerCase();
+    if (/\b(job|career|work|startup|business|strategy|product|team|hire|pitch|revenue|client|sales|meeting|launch|company|founder)\b/.test(t)) return "topic-work";
+    if (/\b(money|invest|financ|budget|debt|tax|stock|crypto|saving|spend|income|pay|salary|wealth)\b/.test(t)) return "topic-money";
+    if (/\b(health|fitness|sleep|diet|mental|anxiety|stress|therapy|doctor|pain|workout|nutrition|wellness)\b/.test(t)) return "topic-health";
+    if (/\b(relationship|partner|family|friend|parent|child|dating|marriage|social|conflict|love|break)\b/.test(t)) return "topic-people";
+    if (/\b(write|writing|design|art|music|creative|story|brand|content|poem|script|visual)\b/.test(t)) return "topic-creative";
+    if (/\b(code|build|debug|api|app|deploy|tech|software|engineer|data|system|server|database)\b/.test(t)) return "topic-tech";
+    if (/\b(idea|think|philosoph|meaning|learn|question|explor|concept|theory|understand)\b/.test(t)) return "topic-ideas";
+    return "";
+  }
+
+  function renderThreadList() {
+    const list = document.getElementById("thread-list");
+    if (_sessionList.length === 0) {
+      list.innerHTML = `<div id="thread-empty">Your threads will appear here.</div>`;
+      return;
+    }
+
+    const now = Date.now();
+    const todayCutoff    = now - 24 * 60 * 60 * 1000;
+    const thisWeekCutoff = now - 7  * 24 * 60 * 60 * 1000;
+
+    const sections = [
+      { label: "Today",     items: [] },
+      { label: "This week", items: [] },
+      { label: "Earlier",   items: [] },
+    ];
+
+    for (const s of _sessionList) {
+      const age = new Date(s.at).getTime();
+      if (age >= todayCutoff)    sections[0].items.push(s);
+      else if (age >= thisWeekCutoff) sections[1].items.push(s);
+      else                       sections[2].items.push(s);
+    }
+
+    const renderItem = s => {
+      const label = s.title || s.preview || "Thread";
+      const topic = threadTopic(label);
+      const active = s.id === sessionId ? " active" : "";
+      return `<div class="thread-item${active}${topic ? " " + topic : ""}" onclick="loadSession('${escHtml(s.id)}')" onmouseenter="threadTooltipShow(this,'${escHtml(s.id)}')" onmouseleave="threadTooltipHide()">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
+          <div class="thread-preview" style="flex:1;min-width:0;">${escHtml(label)}</div>
+          <button onclick="event.stopPropagation();deleteThread('${escHtml(s.id)}')" title="Delete thread" style="background:none;border:none;color:var(--text3);cursor:pointer;padding:2px 4px;border-radius:4px;font-size:13px;opacity:0;transition:opacity 0.15s;flex-shrink:0;" class="thread-delete-btn">✕</button>
+        </div>
+        <div class="thread-time">${timeAgo(s.at)}</div>
+      </div>`;
+    };
+
+    list.innerHTML = sections
+      .filter(sec => sec.items.length > 0)
+      .map(sec => `<div class="thread-section-header">${sec.label}</div>${sec.items.map(renderItem).join("")}`)
+      .join("");
+  }
+
+  // ---- Artifact panel -------------------------------------------------------
+
+  function openArtifactPanel(aid, title) {
+    const html = _artifacts[aid];
+    if (!html) return;
+    _artifactCurrent = aid;
+    document.getElementById("artifact-panel-title").textContent = title || "Artifact";
+    document.getElementById("artifact-iframe").srcdoc = html;
+    document.getElementById("artifact-panel").classList.add("open");
+  }
+
+  function closeArtifactPanel() {
+    document.getElementById("artifact-panel").classList.remove("open");
+    _artifactCurrent = null;
+  }
+
+  function artifactNewTab() {
+    const aid  = _artifactCurrent;
+    const html = aid ? _artifacts[aid] : null;
+    if (!html) return;
+    const w = window.open("", "_blank");
+    w.document.write(html);
+    w.document.close();
+  }
+
+  function artifactDownload() {
+    if (_artifactCurrent) artifactDownloadById(_artifactCurrent);
+  }
+
+  function artifactDownloadById(aid) {
+    const html = _artifacts[aid];
+    if (!html) return;
+    const title = (html.match(/<title>([^<]*)<\/title>/i) || [])[1] || "holo-artifact";
+    const blob = new Blob([html], { type: "text/html" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = title.replace(/[^a-z0-9]/gi, "-").toLowerCase() + ".html";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function artifactPrint() {
+    const iframe = document.getElementById("artifact-iframe");
+    if (!iframe) return;
+    iframe.contentWindow.print();
+  }
+
+  // ---- Artifact registry (saved artifacts panel) ----------------------------
+
+  let _artifactRegistry = [];
+  let _activePanelTab = "threads";
+
+  function switchPanelTab(tab) {
+    _activePanelTab = tab;
+    document.getElementById("tab-threads").classList.toggle("active", tab === "threads");
+    document.getElementById("tab-artifacts").classList.toggle("active", tab === "artifacts");
+    document.getElementById("thread-new-btn").style.display  = tab === "threads"   ? "" : "none";
+    document.getElementById("thread-list").style.display     = tab === "threads"   ? "" : "none";
+    document.getElementById("artifact-list").style.display   = tab === "artifacts" ? "" : "none";
+    if (tab === "artifacts" && _artifactRegistry.length === 0) loadArtifactList();
+  }
+
+  async function loadArtifactList() {
+    if (!capsuleToken) {
+      document.getElementById("artifact-list").innerHTML =
+        `<div style="padding:16px 12px;font-size:13px;color:var(--text3);">Sign in to access saved artifacts.</div>`;
+      return;
+    }
+    try {
+      const res = await fetch("/v1/artifacts", {
+        headers: { "x-api-key": API_KEY, "Authorization": `Bearer ${capsuleToken}` }
+      });
+      if (!res.ok) return;
+      const { artifacts } = await res.json();
+      _artifactRegistry = artifacts || [];
+      renderArtifactList();
+    } catch (e) {}
+  }
+
+  function renderArtifactList() {
+    const el = document.getElementById("artifact-list");
+    if (_artifactRegistry.length === 0) {
+      el.innerHTML = `<div id="artifact-list-empty" style="padding:16px 12px;font-size:13px;color:var(--text3);">Artifacts Holo generates will appear here.</div>`;
+      return;
+    }
+    el.innerHTML = _artifactRegistry.map(a => `
+      <div class="artifact-list-item" onclick="openSavedArtifact('${escHtml(a.artifact_id)}', '${escHtml(a.title || "Artifact")}')">
+        <div class="artifact-list-title">${escHtml(a.title || "Artifact")}</div>
+        <div class="artifact-list-time">${timeAgo(a.created_at)}</div>
+      </div>`).join("");
+  }
+
+  async function openSavedArtifact(artifactId, title) {
+    // Check in-memory store first (current session)
+    if (_artifacts[artifactId]) {
+      openArtifactPanel(artifactId, title);
+      return;
+    }
+    // Fetch from server
+    try {
+      const res = await fetch(`/v1/artifacts/${artifactId}`, {
+        headers: { "x-api-key": API_KEY, "Authorization": `Bearer ${capsuleToken}` }
+      });
+      if (!res.ok) return;
+      const artifact = await res.json();
+      _artifacts[artifactId] = artifact.content;
+      openArtifactPanel(artifactId, title);
+    } catch (e) {}
+  }
+
+  // ---- Thread summary tooltip -----------------------------------------------
+
+  const _ttSummaryCache = {};
+  let _ttHoverTimer = null;
+  let _ttCurrentSid = null;
+  let _loadingSessionId = null;
+
+  function threadTooltipShow(el, sid) {
+    _ttCurrentSid = sid;
+    clearTimeout(_ttHoverTimer);
+    _ttHoverTimer = setTimeout(() => {
+      const tip = document.getElementById("thread-summary-tooltip");
+      // Position vertically centred on the hovered item
+      const rect = el.getBoundingClientRect();
+      const tipH = 80; // estimated height
+      let top = rect.top + (rect.height / 2) - (tipH / 2);
+      top = Math.max(8, Math.min(top, window.innerHeight - tipH - 8));
+      tip.style.top = top + "px";
+
+      if (_ttSummaryCache[sid]) {
+        tip.innerHTML = _ttSummaryCache[sid];
+        tip.classList.add("visible");
+        return;
+      }
+
+      tip.innerHTML = `<span class="tstt-loading">Reading thread…</span>`;
+      tip.classList.add("visible");
+
+      fetch(`/v1/chat/${sid}/summary`, {
+        headers: { "x-api-key": API_KEY, "Authorization": `Bearer ${capsuleToken}` }
+      })
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+          const text = data?.summary || "";
+          _ttSummaryCache[sid] = text || "<em>No summary available.</em>";
+          // Only update if still hovering this item
+          if (_ttCurrentSid === sid) {
+            tip.innerHTML = _ttSummaryCache[sid];
+          }
+        })
+        .catch(() => {
+          if (_ttCurrentSid === sid) tip.classList.remove("visible");
+        });
+    }, 350);
+  }
+
+  function threadTooltipHide() {
+    _ttCurrentSid = null;
+    clearTimeout(_ttHoverTimer);
+    const tip = document.getElementById("thread-summary-tooltip");
+    tip.classList.remove("visible");
+  }
+
+  async function deleteThread(sid) {
+    if (!confirm("Delete this thread? This cannot be undone.")) return;
+    try {
+      const res = await fetch(`/v1/session/${sid}`, {
+        method: "DELETE",
+        headers: { "x-api-key": API_KEY, "Authorization": `Bearer ${capsuleToken}` },
+      });
+      if (!res.ok) throw new Error("Delete failed.");
+      _sessionList = _sessionList.filter(s => s.id !== sid);
+      if (sid === sessionId) {
+        sessionId = null;
+        document.getElementById("messages").innerHTML = "";
+        document.getElementById("empty")?.remove();
+      }
+      renderThreadList();
+    } catch (e) {
+      alert("Could not delete thread. Try again.");
+    }
+  }
+
+  async function loadSession(sid) {
+    if (sid === sessionId || sid === _loadingSessionId) return;
+    _loadingSessionId = sid;
+    try {
+      const res = await fetch(`/v1/chat/${sid}/history`, {
+        headers: { "x-api-key": API_KEY, "Authorization": `Bearer ${capsuleToken}` }
+      });
+      if (!res.ok) return;
+      const { history } = await res.json();
+      if (!history || history.length === 0) return;
+
+      sessionId = sid;
+      turnCount = Math.floor(history.length / 2);
+
+      document.getElementById("empty")?.remove();
+      document.getElementById("holo-onboarding")?.remove();
+      const container = document.getElementById("messages");
+      container.innerHTML = "";
+
+      history.forEach(msg => {
+        if (msg.role === "user") {
+          appendMessage("user", msg.content);
+        } else {
+          const el = document.createElement("div");
+          el.className = "msg holo";
+          el.innerHTML = `<div class="holo-icon">✦</div><div class="holo-body"><div class="bubble">${renderMarkdown(msg.content)}</div></div>`;
+          container.appendChild(el);
+        }
+      });
+      scrollToBottom();
+      renderThreadList(); // update active highlight
+    } catch (e) {}
+    finally { _loadingSessionId = null; }
+  }
+
+  // Called after first turn so new session appears at top of list immediately
+  function prependSession(sid, preview) {
+    _sessionList = _sessionList.filter(s => s.id !== sid);
+    _sessionList.unshift({ id: sid, at: new Date().toISOString(), preview });
+    renderThreadList();
+  }
+
+  function timeAgo(iso) {
+    if (!iso) return "";
+    const diff = Date.now() - new Date(iso).getTime();
+    const m = Math.floor(diff / 60000);
+    if (m < 1)   return "Just now";
+    if (m < 60)  return `${m}m ago`;
+    const h = Math.floor(m / 60);
+    if (h < 24)  return `${h}h ago`;
+    const d = Math.floor(h / 24);
+    if (d < 7)   return `${d}d ago`;
+    return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  }
+
+  // ---- Service worker registration -----------------------------------------
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js")
+        .catch(e => console.warn("SW registration failed:", e));
+    });
+  }
+</script>
+</body>
+</html>

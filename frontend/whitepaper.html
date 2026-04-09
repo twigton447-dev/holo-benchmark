@@ -556,7 +556,7 @@
   <div class="section-label">Executive Summary</div>
   <p style="margin-top:0.75rem">AI agents are now being deployed into the most critical workflows in the global economy: approving payments, executing contracts, granting access, and initiating operational changes on behalf of real organizations. These systems are increasingly being built on a small number of frontier models. The practical question is no longer whether these models are impressive. <strong>It is where they fail when the cost of failure becomes irreversible.</strong></p>
   <p>This paper documents a targeted search for that breaking point at the <strong>action boundary</strong>: the moment just before an AI system's output becomes a real-world commitment.</p>
-  <p>To test that boundary fairly, we evaluated some of the strongest publicly available frontier models from multiple labs at the time of testing — GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro — as solo baselines. We then tested Holo Engine against those same baselines. Holo is model-agnostic, but the purpose of this benchmark was to measure what was possible against the most capable solo systems available at the time, not against weaker controls.</p>
+  <p>To test that boundary fairly, we evaluated three of the strongest publicly available frontier models from multiple labs at the time of testing — GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro — as solo baselines. We then tested Holo Engine against those same baselines. Holo is model-agnostic, but the purpose of this benchmark was to measure what was possible against the most capable solo systems available at the time, not against weaker controls.</p>
   <p>In the benchmark's primary finding, <strong>all three frontier baseline models independently approved a fraudulent transaction.</strong> Holo Engine, a runtime trust layer and adversarial checkpoint architecture designed for the action boundary, escalated it correctly. The failure was not a quirk of one model. It was a structural pattern: <strong>solo judgment has a ceiling when faced with a plausible but unverifiable narrative.</strong></p>
   <p>This is not an argument against any one model or lab. It is evidence that <strong>strong solo frontier models can still fail in materially important ways at the moment before execution</strong>, and that a properly structured adversarial architecture can remain strong where solo judgment breaks.</p>
   <p>The benchmark presented here covers an eight-domain research program focused on high-consequence AI actions. This paper publishes flagship findings from the first two domains and establishes the initial structure of the <strong>Blindspot Atlas</strong>: a growing corpus of domain-specific failure patterns at the action boundary, designed to improve Holo's own coverage and, over time, help the frontier labs themselves better understand and reduce these blindspots. Additional cases and domains remain in development.</p>
@@ -677,7 +677,7 @@
     </table>
   </div>
 
-  <p style="font-size:0.875rem;color:var(--ink-faint)">This four-case structure is the intended benchmark design per domain. Not every domain published in this paper yet has all four case types locked as public benchmark objects. The precision case and full threshold coverage for both published domains remain in active development.</p>
+  <p style="font-size:0.875rem;color:var(--ink-faint)">This four-case structure is the intended benchmark design per domain. Not every domain published in this paper yet has all four case types locked as public benchmark objects.</p>
 
   <h3>2.4 &nbsp; Scope and Fairness</h3>
   <p>This is a vendor-built benchmark. The solo comparison conditions use the same frontier models that appear inside Holo's adversarial reactor: GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro. Holo is not being compared against weaker models. It is being compared against the same frontier models deployed in solo mode.</p>
@@ -765,7 +765,7 @@
 
   <h3>3.4 &nbsp; Precision Testing</h3>
   <p>A benchmark that only tests escalation proves only that a system escalates. The precision case function is the opposite: confirm that the system correctly clears suspicious-looking but legitimate transactions, and that ESCALATE is an earned signal, not a default posture.</p>
-  <p>Precision case validation for Domain 1 is ongoing. Calibration work has been conducted across both published domains, and the evidentiary discipline rule has been validated under false-positive pressure. Full precision case publication requires meeting the same six-gate standard as gap case publication and is in progress.</p>
+  <p>Precision case validation for Domain 1 is ongoing. Calibration work has been conducted across both published domains, and the evidentiary discipline rule has been pressure-tested under false-positive conditions. Full precision case publication requires meeting the same six-gate standard as gap case publication and is in progress.</p>
   <div class="pullquote">These results matter as much as the gap case. Without them, the gap result proves only that Holo escalates. With them, it proves that Holo escalates when the evidence warrants it.</div>
 </div>
 
@@ -909,7 +909,7 @@
   <div class="objection">
     <h3>"This is vendor bias."</h3>
     <p>Yes. This is a vendor-built benchmark. The same team designed the scenarios, built the architecture, and reported the results. That is a real limitation, not a disclosure formality.</p>
-    <p>The strongest fairness control applied here was structural: the solo comparison conditions use the same frontier models that appear inside Holo's adversarial reactor. Holo is not being compared against weaker baselines or obsolete systems. It is being tested against some of the strongest publicly available frontier models from multiple labs at the time of evaluation: GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro.</p>
+    <p>The strongest fairness control applied here was structural: the solo comparison conditions use the same frontier models that appear inside Holo's adversarial reactor. Holo is not being compared against weaker baselines or obsolete systems. It is being tested against three of the strongest publicly available frontier models from multiple labs at the time of evaluation: GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro.</p>
     <p>The results should therefore be read as disclosed internal evidence, not independent validation. The correct next step is held-out scenario authorship, third-party replication, and eventually external benchmark governance.</p>
   </div>
 
@@ -1076,7 +1076,7 @@
   </div>
   <div class="limitation">
     <div class="limitation-label">Small sample size</div>
-    <p>Two domains and a limited set of published results are not sufficient to support broad claims about frontier-model behavior. They are sufficient to support the narrow claim stated in this paper: under these conditions, the architecture added measurable value. The intended four-case benchmark structure per domain is ahead of the currently published evidence set; precision case and threshold case publication for both domains remains in progress.</p>
+    <p>Two domains and a limited set of published results are not sufficient to support broad claims about frontier-model behavior. They are sufficient to support the narrow claim stated in this paper: under these conditions, the architecture added measurable value. The intended four-case benchmark structure per domain is ahead of the currently published evidence set.</p>
   </div>
   <div class="limitation">
     <div class="limitation-label">No adversarial testing of architecture</div>

@@ -3,5 +3,20 @@
 
 [[redirects]]
   from = "/benchmark"
-  to = "/"
+  to = "/benchmark.html"
+  status = 200
+
+[[redirects]]
+  from = "/appendix"
+  to = "/appendix.html"
+  status = 200
+
+[[redirects]]
+  from = "/whitepaper"
+  to = "/whitepaper.html"
+  status = 200
+
+[[redirects]]
+  from = "/payloads"
+  to = "/payloads/"
   status = 200

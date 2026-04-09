@@ -21,8 +21,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
   <style>
     :root {
       --bg:       #1e1e1e;
@@ -675,25 +673,6 @@
     });
   }
 
-  async function readFileAsText(file) {
-    if (file.type === "application/pdf" || file.name.endsWith(".pdf")) {
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      const pages = [];
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        pages.push(content.items.map(item => item.str).join(" "));
-      }
-      return pages.join("\n\n");
-    }
-    return await file.text();
-  }
-
-  function isPdfFile(file) {
-    return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
-  }
-
   async function readAttachmentsAsText() {
     const parts  = [];
     const images = [];
@@ -703,13 +682,6 @@
           const data = await readFileAsBase64(file);
           images.push({ name: file.name, data, mimeType: file.type || "image/jpeg" });
         } catch { parts.push(`\n\n[Attached image: ${file.name} — could not read]`); }
-      } else if (isPdfFile(file)) {
-        // Send as native PDF — Anthropic and Google read it natively (including scanned pages).
-        // OpenAI gets a graceful fallback note injected by the backend.
-        try {
-          const data = await readFileAsBase64(file);
-          images.push({ name: file.name, data, mimeType: "application/pdf" });
-        } catch { parts.push(`\n\n[Attached PDF: ${file.name} — could not read]`); }
       } else {
         try {
           const text = await file.text();
@@ -1539,15 +1511,15 @@
 
     input.value = "";
     autoResize(input);
+    // Collect object URLs for image previews before clearing attachedFiles
+    const imagePreviewUrls = attachedFiles
+      .filter(isImageFile)
+      .map(f => URL.createObjectURL(f));
     attachedFiles = [];
     document.getElementById("attachments-bar").innerHTML = "";
     isLoading = true;
     document.getElementById("send").disabled = true;
 
-    // Collect object URLs for image previews before clearing attachedFiles
-    const imagePreviewUrls = attachedFiles
-      .filter(isImageFile)
-      .map(f => URL.createObjectURL(f));
     appendMessage("user", text, imagePreviewUrls); // show text + image previews
     const typingEl = appendTyping();
     scrollToBottom();

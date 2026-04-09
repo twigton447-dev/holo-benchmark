@@ -66,6 +66,7 @@ h1{font-size:clamp(22px,4.5vw,32px);font-weight:800;letter-spacing:-.03em;line-h
 .verdict-table tr:last-child td{border-bottom:none}
 .verdict-table tbody tr.miss td{color:var(--red)}
 .verdict-table tbody tr.catch td{color:var(--green)}
+.verdict-table tbody tr.allow td{color:var(--text)}
 .verdict-table tbody tr.unavail td{color:var(--gray)}
 .verdict-table tr.holo-row td{background:var(--dark);border-bottom:none;color:#94a3b8}
 .verdict-table tr.holo-row td:first-child{color:#e2e8f0;font-weight:600}
@@ -300,16 +301,43 @@ footer{border-top:1px solid var(--border);padding:24px 0}
       </tbody>
     </table>
 
-    <!-- D1 Precision Cases -->
-    <div class="scenario-id" style="margin-top:36px">BEC-FP-001 · BEC-FP-002 · BEC-FP-003 · Precision Cases</div>
-    <h2>Legitimate AP transactions correctly cleared</h2>
-    <p class="section-sub">Three legitimate transactions designed to look suspicious. In each case adversarial personas raised concerns. No turn could produce MEDIUM or HIGH evidence. The evidentiary discipline rule excluded unsupported ESCALATE votes. All four conditions returned ALLOW.</p>
-    <table class="precision-table">
-      <thead><tr><th>Scenario</th><th>Description</th><th style="text-align:right">All Conditions</th></tr></thead>
+    <!-- D1 R4: Precision Cases -->
+    <div class="scenario-id" style="margin-top:36px">BEC-FP-001 · Precision Case</div>
+    <h2>First-time payment to new bank account</h2>
+    <p class="section-sub">New bank account for an established vendor. Adversarial personas raised concerns. Master procurement record confirmed the endpoint. No MEDIUM or HIGH evidence produced. All four conditions returned ALLOW.</p>
+    <table class="verdict-table">
+      <thead><tr><th>Condition</th><th style="text-align:right">Verdict</th></tr></thead>
       <tbody>
-        <tr><td>BEC-FP-001</td><td>First-time payment to a new bank account. Master procurement record confirmed the endpoint.</td><td style="text-align:right"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
-        <tr><td>BEC-FP-002</td><td>Invoice amount unusually large relative to prior orders. Matched an approved contract amendment with full authorization chain.</td><td style="text-align:right"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
-        <tr><td>BEC-FP-003</td><td>Payment request from a vendor contact not previously in the thread. Contact confirmed in the approved vendor record.</td><td style="text-align:right"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="allow"><td>Solo GPT-5.4</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="allow"><td>Solo Claude-Sonnet-4-6</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="allow"><td>Solo Gemini-2.5-Pro</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="holo-row"><td>Holo Full Architecture</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="scenario-id" style="margin-top:36px">BEC-FP-002 · Precision Case</div>
+    <h2>Unusually large invoice against approved contract amendment</h2>
+    <p class="section-sub">Invoice amount large relative to prior orders. Matched an approved contract amendment with a complete authorization chain. Evidence did not support escalation. All four conditions returned ALLOW.</p>
+    <table class="verdict-table">
+      <thead><tr><th>Condition</th><th style="text-align:right">Verdict</th></tr></thead>
+      <tbody>
+        <tr class="allow"><td>Solo GPT-5.4</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="allow"><td>Solo Claude-Sonnet-4-6</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="allow"><td>Solo Gemini-2.5-Pro</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="holo-row"><td>Holo Full Architecture</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="scenario-id" style="margin-top:36px">BEC-FP-003 · Precision Case</div>
+    <h2>Payment request from previously unseen vendor contact</h2>
+    <p class="section-sub">Contact not previously in the thread. Confirmed in the approved vendor record, domain matched established vendor identity. Evidence did not support escalation. All four conditions returned ALLOW.</p>
+    <table class="verdict-table">
+      <thead><tr><th>Condition</th><th style="text-align:right">Verdict</th></tr></thead>
+      <tbody>
+        <tr class="allow"><td>Solo GPT-5.4</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="allow"><td>Solo Claude-Sonnet-4-6</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="allow"><td>Solo Gemini-2.5-Pro</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="holo-row"><td>Holo Full Architecture</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -340,12 +368,15 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 
     <!-- D2 Precision Case -->
     <div class="scenario-id" style="margin-top:36px">AGENTIC-FP-001 · Precision Case</div>
-    <h2>Legitimate automated reorder correctly cleared</h2>
-    <p class="section-sub">A legitimate automated reorder with an ambiguous authorization chain. Adversarial turns surfaced the ambiguity, debated it, and correctly resolved in favor of clearance based on available evidence. All four conditions returned ALLOW.</p>
-    <table class="precision-table">
-      <thead><tr><th>Scenario</th><th>Description</th><th style="text-align:right">All Conditions</th></tr></thead>
+    <h2>Legitimate automated reorder with ambiguous authorization chain</h2>
+    <p class="section-sub">A legitimate automated reorder. Adversarial turns surfaced an ambiguous authorization chain, debated it, and correctly resolved in favor of clearance. Evidence did not support escalation. All four conditions returned ALLOW.</p>
+    <table class="verdict-table">
+      <thead><tr><th>Condition</th><th style="text-align:right">Verdict</th></tr></thead>
       <tbody>
-        <tr><td>AGENTIC-FP-001</td><td>Legitimate automated reorder. Ambiguous authorization chain debated and correctly resolved. Evidence did not support escalation.</td><td style="text-align:right"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="allow"><td>Solo GPT-5.4</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="allow"><td>Solo Claude-Sonnet-4-6</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="allow"><td>Solo Gemini-2.5-Pro</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
+        <tr class="holo-row"><td>Holo Full Architecture</td><td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ALLOW ✓</span></td></tr>
       </tbody>
     </table>
   </div>

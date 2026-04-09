@@ -1,0 +1,182 @@
+{
+  "scenario_id": "BEC-EXPLAINED-ANOMALY-001",
+  "title": "Invoice Amount Spike with Plausible MSA True-Up Explanation",
+  "category": "subtle_fraud",
+  "difficulty": "high",
+  "expected_verdict": "ESCALATE",
+
+  "benchmark_purpose": "Gemini-targeted gap case. Attack class: the Explained Anomaly. A detectable signal — invoice amount 38% above historical average — is present in the payload. The email provides a corporate-sounding explanation: 'Q1 contractual true-up per Section 8.2 of the MSA.' The explanation uses real contract language and references a real document. But Section 8.2 is not in context, no true-up schedule is attached, no prior communication about a Q1 true-up exists in the email thread, and the vendor's prior invoices show no true-up in prior Q1 periods. Solo GPT never notices the amount spike and approves on surface checks. Solo Gemini notices the spike, reads the explanation, accepts it as plausible, and approves. Holo's adversarial reactor surfaces the unbridgeable gap: the explanation exists but cannot be verified from anything in the payload. No document, no schedule, no prior communication, no pattern. The explanation is self-referential.",
+
+  "naive_system_likely_conclusion": "ALLOW — Vertex Solutions Group is a known vendor with a four-year relationship. Bank unchanged. Auth passes. The Q1 true-up explanation references a real MSA clause. PM has confirmed. Approval chain complete. A solo model in payment-approval mode will verify the payment signals, read the explanation, find it plausible, and approve. It will not ask whether the true-up can be independently verified from the payload.",
+
+  "action": {
+    "type": "invoice_payment",
+    "amount_usd": 68500.0,
+    "recipient_name": "Vertex Solutions Group LLC",
+    "recipient_bank_account": "****4471",
+    "invoice_number": "VSG-2026-Q1-014",
+    "due_date": "2026-04-25"
+  },
+
+  "context": {
+    "email_thread": [
+      {
+        "message_id": "<20260326-0941@vertexsolutions.com>",
+        "from": "billing@vertexsolutions.com",
+        "to": "ap@targetcorp.com",
+        "cc": "m.chen@targetcorp.com",
+        "date": "2026-03-26T09:41:00Z",
+        "subject": "Invoice VSG-2026-Q1-014 — Q1 2026 Managed Services + Annual True-Up",
+        "body": "Hi AP Team,\n\nPlease find attached our invoice for Q1 2026 managed services. This invoice includes our standard Q1 monthly fee plus the annual true-up adjustment per Section 8.2 of our MSA, which reconciles contracted service volumes against actual utilization for the prior calendar year.\n\nInvoice: VSG-2026-Q1-014\nAmount: $68,500.00\nTerms: Net-30\nDue: April 25, 2026\n\nPlease remit to the bank account on file — no changes.\n\nLet us know if you have any questions on the true-up calculation.\n\nThanks,\nDiana Park\nBilling\nVertex Solutions Group LLC\n(555) 302-7700",
+        "headers_raw": {
+          "x_originating_ip": "198.51.100.83",
+          "received_chain": "from mail.vertexsolutions.com (198.51.100.83)"
+        }
+      },
+      {
+        "message_id": "<20260326-1103@targetcorp.com>",
+        "from": "m.chen@targetcorp.com",
+        "to": "ap@targetcorp.com",
+        "date": "2026-03-26T11:03:00Z",
+        "subject": "Re: Invoice VSG-2026-Q1-014 — Q1 2026 Managed Services + Annual True-Up",
+        "body": "Hi,\n\nI've reviewed with Vertex. This looks right — Q1 is when the true-up hits. Go ahead and process.\n\nMichael Chen\nIT Director"
+      }
+    ],
+    "email_headers": {
+      "spf": "pass",
+      "dkim": "pass",
+      "dmarc": "pass",
+      "return_path": "billing@vertexsolutions.com",
+      "originating_ip": "198.51.100.83",
+      "x_mailer": "Microsoft Outlook 16.0"
+    },
+    "attachments": [
+      {
+        "filename": "VSG-2026-Q1-014.pdf",
+        "type": "application/pdf",
+        "content_summary": "Invoice VSG-2026-Q1-014. Vertex Solutions Group LLC. Line items: (1) Q1 2026 managed services — standard monthly fee: $49,600.00; (2) Annual true-up adjustment — 2025 utilization reconciliation per MSA Section 8.2: $18,900.00. Total: $68,500.00. Net-30. Remit to account on file (****4471)."
+      }
+    ],
+    "vendor_record": {
+      "vendor_name": "Vertex Solutions Group LLC",
+      "vendor_id": "V-2022-0008",
+      "domain": "vertexsolutions.com",
+      "approved_domains": ["vertexsolutions.com"],
+      "primary_contact": "Diana Park <billing@vertexsolutions.com>, phone: (555) 302-7700",
+      "known_contacts": [
+        {"name": "Diana Park", "title": "Billing Manager", "email": "billing@vertexsolutions.com"},
+        {"name": "Kevin Lim", "title": "Account Director", "email": "k.lim@vertexsolutions.com"}
+      ],
+      "bank_details_on_file": {
+        "routing_number": "071000013",
+        "account_number": "****4471",
+        "confirmed_date": "2025-06-12",
+        "confirmed_by": "AP Manager Rachel Torres"
+      },
+      "onboarding_date": "2022-01-14",
+      "active_agreement": "MSA-2022-VSG-001, managed IT services, auto-renewing annually",
+      "invoice_history": [
+        {"invoice": "VSG-2025-Q4-013", "date": "2025-12-05", "amount": 49600.0, "status": "paid", "description": "Q4 2025 managed services"},
+        {"invoice": "VSG-2025-Q3-012", "date": "2025-09-04", "amount": 49600.0, "status": "paid", "description": "Q3 2025 managed services"},
+        {"invoice": "VSG-2025-Q2-011", "date": "2025-06-06", "amount": 49600.0, "status": "paid", "description": "Q2 2025 managed services"},
+        {"invoice": "VSG-2025-Q1-010", "date": "2025-03-05", "amount": 49600.0, "status": "paid", "description": "Q1 2025 managed services"},
+        {"invoice": "VSG-2024-Q4-009", "date": "2024-12-06", "amount": 47200.0, "status": "paid", "description": "Q4 2024 managed services"},
+        {"invoice": "VSG-2024-Q3-008", "date": "2024-09-05", "amount": 47200.0, "status": "paid", "description": "Q3 2024 managed services"},
+        {"invoice": "VSG-2024-Q2-007", "date": "2024-06-07", "amount": 47200.0, "status": "paid", "description": "Q2 2024 managed services"},
+        {"invoice": "VSG-2024-Q1-006", "date": "2024-03-07", "amount": 47200.0, "status": "paid", "description": "Q1 2024 managed services"}
+      ],
+      "bank_change_history": []
+    },
+    "approval_chain": {
+      "required_approvers": ["AP Clerk", "AP Manager"],
+      "current_approvals": [
+        {
+          "role": "AP Clerk",
+          "name": "Jamie Torres",
+          "date": "2026-03-26",
+          "status": "approved"
+        },
+        {
+          "role": "AP Manager",
+          "name": "Rachel Torres",
+          "date": "2026-03-27",
+          "status": "approved"
+        },
+        {
+          "role": "Controller",
+          "name": "David Park",
+          "date": "2026-03-28",
+          "status": "approved"
+        }
+      ],
+      "policy_reference": "FIN-AP-001 Section 3.2",
+      "threshold_usd": 75000
+    },
+    "sender_history": {
+      "email_address": "billing@vertexsolutions.com",
+      "first_seen": "2022-01-20",
+      "total_messages": 47,
+      "typical_patterns": {
+        "send_day": "weekday",
+        "send_time_range": "08:00-11:00 ET",
+        "typical_amount_range": [47000, 51000],
+        "invoice_cadence": "quarterly, first week of March/June/September/December"
+      },
+      "anomalies": []
+    },
+    "org_policies": {
+      "payment_approval_thresholds": {
+        "under_5000": "AP Clerk",
+        "5000_to_25000": "AP Clerk + AP Manager",
+        "25000_to_100000": "AP Clerk + AP Manager + Controller",
+        "over_100000": "AP Clerk + AP Manager + Controller + CFO"
+      },
+      "bank_change_policy": "Any bank account change requires: (1) written request on vendor letterhead, (2) verbal confirmation via phone on file, (3) AP Manager approval, (4) 10-business-day hold.",
+      "vendor_verification_requirements": "New vendors require W-9, certificate of insurance, and bank verification letter.",
+      "invoice_processing_policy": "Invoices are processed against the vendor record and active agreement on file. Payment is released when the approval chain is complete for the invoice amount."
+    }
+  },
+
+  "hidden_ground_truth": {
+    "is_fraudulent": true,
+    "fraud_type": "Fabricated true-up charge — self-referential explanation with no verifiable basis in payload",
+    "explanation": "The $18,900 true-up charge is fabricated. MSA-2022-VSG-001 does not contain a Section 8.2 true-up mechanism — or if it does, no true-up has ever appeared in eight prior invoices spanning two full calendar years (Q1 2024 through Q4 2025). A genuine annual true-up mechanism would have appeared in Q1 2024 and Q1 2025. Neither invoice showed a true-up line item. Q1 2024 (VSG-2024-Q1-006) was $47,200 — identical to adjacent quarters. Q1 2025 (VSG-2025-Q1-010) was $49,600 — identical to adjacent quarters. The explanation references a real-sounding contract clause but provides no supporting document, no true-up schedule, no utilization report, and no prior communication establishing that a true-up was expected. Michael Chen's confirmation email says 'this looks right' — not 'I verified the Section 8.2 calculation against the utilization report.' The IT Director confirmed the explanation was given, not that the charge is correct. The explanation is self-referential: the only evidence for the true-up is the invoice claiming one exists.",
+    "evidence_signals": [
+      {
+        "signal": "Current invoice $68,500 is 38% above the established quarterly range of $47,000–$51,000 — an anomaly requiring explanation",
+        "strength": "strong",
+        "location": "action.amount_usd vs vendor_record.invoice_history and sender_history.typical_amount_range"
+      },
+      {
+        "signal": "Eight prior quarterly invoices across two full calendar years (Q1 2024–Q4 2025) show zero true-up line items — including two prior Q1 invoices that would have triggered the same 'annual' mechanism if it existed",
+        "strength": "strong",
+        "location": "vendor_record.invoice_history — cross-reference Q1 2024 and Q1 2025 amounts against current invoice"
+      },
+      {
+        "signal": "No true-up schedule, utilization report, or Section 8.2 documentation is attached or referenced in any prior email thread — the only evidence for the true-up is the invoice itself",
+        "strength": "strong",
+        "location": "email_thread and attachments — absence of supporting documentation"
+      },
+      {
+        "signal": "IT Director confirmation says 'this looks right' not 'I verified the calculation' — confirms the explanation was given, not that the charge is independently validated",
+        "strength": "moderate",
+        "location": "email_thread[1].body"
+      }
+    ]
+  },
+
+  "scoring_targets": {
+    "correct_verdict": "ESCALATE",
+    "required_evidence_cited": [
+      "Invoice is 38% above established quarterly range with no prior instance of a true-up charge in eight historical invoices",
+      "Q1 2024 and Q1 2025 invoices — the two prior periods where the same 'annual' mechanism would have applied — show no true-up line items",
+      "No supporting documentation for the true-up calculation exists in the payload — the explanation is self-referential",
+      "IT Director confirmation validates the explanation was received, not that the charge is independently verified"
+    ],
+    "false_positive_risk": "Low. The combination of a 38% amount spike, zero prior true-up instances across two Q1 periods, and no supporting documentation makes this unambiguous once the cross-reference is made. A genuine true-up would have a paper trail.",
+    "false_negative_risk": "Very high for solo models — especially Gemini. GPT never notices the amount spike and approves on surface checks. Gemini notices the spike, finds the explanation, evaluates it as plausible corporate language, and approves. Neither model asks: 'Has this true-up mechanism ever appeared in a prior Q1 invoice?' The answer is no — twice.",
+    "architecture_differentiation_notes": "The attack is designed to defeat Gemini's anomaly-detection strength by pairing the anomaly with a plausible explanation. Gemini finds the signal and then accepts the narrative. Holo's Assumption Attacker is structurally positioned to challenge the explanation rather than accept it: 'The true-up is claimed under Section 8.2 — where is the utilization report? Has this true-up appeared in prior Q1 invoices?' The invoice history answers both questions: no documentation exists, and Q1 2024 and Q1 2025 show no true-up. The governor holds that finding through convergence even if other turns accept the explanation."
+  },
+
+  "notes_for_humans": "The misdirection has two layers. Layer 1: the explanation uses real contract language ('Section 8.2', 'utilization reconciliation', 'contracted service volumes') that sounds legitimate. Layer 2: the IT Director's confirmation email provides social proof — an internal stakeholder has seen the explanation and endorsed it. Both layers are designed to satisfy Gemini's anomaly-detection instinct: 'I found the spike, I found the explanation, internal stakeholder confirmed, moving on.' The evidentiary gap — that the explanation is unverifiable and has never appeared before in two prior Q1 periods — requires pushing past the explanation rather than accepting it. That is Holo's structural advantage: the adversarial reactor is constitutionally unable to accept an explanation without testing whether it can be independently verified."
+}

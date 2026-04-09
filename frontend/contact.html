@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMMFBGFND8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WMMFBGFND8');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holo — Contact</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #090d18;
+      --border:  rgba(180,165,130,0.13);
+      --gold:    #b89e68;
+      --cream:   #dcd8d0;
+      --muted:   #525864;
+      --surface: rgba(255,255,255,0.03);
+      --sans:    'Inter', system-ui, sans-serif;
+      --serif:   'Cormorant Garamond', Georgia, serif;
+      --mono:    'JetBrains Mono', monospace;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--cream);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo { display: flex; align-items: center; }
+
+    .nav-links { display: flex; list-style: none; }
+    .nav-links li + li { margin-left: 36px; }
+
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.45;
+      transition: opacity 0.15s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-links a.active { opacity: 1; color: var(--gold); }
+
+    /* MAIN */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 40px 48px;
+    }
+
+    .contact-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .contact-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .contact-header h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--cream);
+      line-height: 1.1;
+    }
+
+    /* FORM */
+    form {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.45;
+    }
+
+    input, textarea, select {
+      font-family: var(--sans);
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--cream);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: var(--muted);
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--gold);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.6;
+    }
+
+    select {
+      cursor: pointer;
+      color: var(--cream);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23b89e68' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    select option {
+      background: #0f1420;
+      color: var(--cream);
+    }
+
+    .submit-btn {
+      margin-top: 8px;
+      padding: 14px 32px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      align-self: flex-start;
+    }
+
+    .submit-btn:hover { opacity: 0.85; }
+
+    .form-note {
+      margin-top: 4px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* SUCCESS STATE */
+    .success-msg {
+      display: none;
+      text-align: center;
+      max-width: 400px;
+    }
+
+    .success-msg h2 {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 12px;
+    }
+
+    .success-msg p {
+      font-size: 14px;
+      color: var(--cream);
+      opacity: 0.45;
+      line-height: 1.7;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 16px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+    }
+
+    footer p {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 24px; }
+      .nav-links li + li { margin-left: 20px; }
+      main { padding: 48px 24px 36px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="landing.html" class="nav-logo">
+      <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+        <polygon points="50,4 96,27 96,73 50,96 4,73 4,27"             stroke="#b89e68" stroke-width="2"   fill="none" opacity="0.32"/>
+        <polygon points="50,20 80,37 80,63 50,80 20,63 20,37"          stroke="#b89e68" stroke-width="2.5" fill="none" opacity="0.62"/>
+        <polygon points="50,36 65,44.5 65,55.5 50,64 35,55.5 35,44.5" stroke="#b89e68" stroke-width="3"   fill="none"/>
+        <circle cx="50" cy="50" r="4.5" fill="#b89e68"/>
+      </svg>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="research.html">Research</a></li>
+      <li><a href="index.html">Benchmark</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <div class="contact-header">
+      <span class="contact-label">Get in touch</span>
+      <h1>Contact</h1>
+    </div>
+
+    <!--
+      FORM HANDLER: swap the action URL for your Formspree endpoint.
+      1. Go to formspree.io → New Form → copy your endpoint URL
+      2. Replace action="#" with action="https://formspree.io/f/YOUR_ID"
+      That's it — no backend needed.
+    -->
+    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="contact-form">
+
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name" required />
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@company.com" required />
+      </div>
+
+      <div class="field">
+        <label for="reason">Reason for reaching out</label>
+        <select id="reason" name="reason">
+          <option value="" disabled selected>Select one</option>
+          <option value="investment">Investment</option>
+          <option value="design-partner">Design partnership</option>
+          <option value="research">Research collaboration</option>
+          <option value="press">Press</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="What's on your mind?"></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Send message</button>
+      <p class="form-note">Or email directly: hello@holoengine.ai</p>
+
+    </form>
+
+    <!-- shown after successful Formspree submission via JS -->
+    <div class="success-msg" id="success-msg">
+      <h2>Sent.</h2>
+      <p>We'll be in touch shortly.</p>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>Holo Engine &nbsp;&middot;&nbsp; hello@holoengine.ai</p>
+  </footer>
+
+  <script>
+    // Formspree AJAX submission — keeps user on page, shows success state
+    const form = document.getElementById('contact-form');
+    const successMsg = document.getElementById('success-msg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          form.style.display = 'none';
+          successMsg.style.display = 'block';
+        } else {
+          // fallback: let it submit normally
+          form.submit();
+        }
+      } catch {
+        form.submit();
+      }
+    });
+  </script>
+
+</body>
+</html>

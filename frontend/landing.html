@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMMFBGFND8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WMMFBGFND8');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holo — The Decision Engine for AI Agents</title>
+  <meta name="description" content="Holo is the decision engine for AI agents." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:     #fff;
+      --border: rgba(80,62,36,0.10);
+      --ink:    #090d18;
+      --gold:   #8c7a50;
+      --muted:  #8c7a50;
+      --serif:  'Cormorant Garamond', Georgia, serif;
+      --sans:   'Inter', system-ui, sans-serif;
+      --mono:   'JetBrains Mono', monospace;
+    }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo { display: flex; align-items: center; }
+
+    .nav-links { display: flex; list-style: none; }
+    .nav-links li + li { margin-left: 36px; }
+
+    .nav-links a {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0.58;
+      transition: opacity 0.15s;
+    }
+    .nav-links a:hover { opacity: 1; }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 48px 40px 36px;
+    }
+
+    .hero-mark { margin-bottom: 28px; }
+
+    /* ── WORDMARK ──
+       paint-stroke trick: hair-thin text-shadow in same color
+       thickens the letterform without changing weight class      */
+    .hero-wordmark {
+      font-family: var(--serif);
+      font-size: clamp(5rem, 14vw, 9.5rem);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-indent: 0.22em;
+      color: var(--ink);
+      /* subtle shadow in all four directions thickens strokes */
+      text-shadow:
+        0.7px  0px   0 var(--ink),
+       -0.7px  0px   0 var(--ink),
+        0px    0.7px 0 var(--ink),
+        0px   -0.7px 0 var(--ink);
+      line-height: 1;
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    /* ── TAGLINE ── */
+    .hero-tagline {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── DIVIDER ── */
+    .hero-divider {
+      width: 32px;
+      height: 1px;
+      background: var(--border);
+      margin: 36px auto;
+    }
+
+    /* ── BODY COPY ── */
+    .hero-body { max-width: 480px; }
+
+    .hero-body p {
+      font-family: var(--sans);
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.65;
+      color: var(--ink);
+      opacity: 0.75;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── RAISE LINE ── */
+    .raise-line {
+      margin-top: 44px;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 16px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+    }
+
+    footer p {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 24px; }
+      .nav-links li + li { margin-left: 20px; }
+      main { padding: 36px 24px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">
+      <!-- nav: 3 equal-weight rings + governor dot -->
+      <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+        <polygon points="50,4 96,27 96,73 50,96 4,73 4,27"              stroke="#090d18" stroke-width="2" fill="none" opacity="0.55"/>
+        <polygon points="50,20 80,37 80,63 50,80 20,63 20,37"           stroke="#090d18" stroke-width="2" fill="none" opacity="0.55"/>
+        <polygon points="50,36 65,44.5 65,55.5 50,64 35,55.5 35,44.5"  stroke="#090d18" stroke-width="2" fill="none" opacity="0.55"/>
+        <circle cx="50" cy="50" r="4.5" fill="#7a6840"/>
+      </svg>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="research.html">Research</a></li>
+      <li><a href="index.html">Benchmark</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- hero mark: 3 equal-weight rings + governor dot -->
+    <div class="hero-mark">
+      <svg width="130" height="130" viewBox="0 0 100 100" fill="none">
+        <polygon points="50,4 96,27 96,73 50,96 4,73 4,27"              stroke="#090d18" stroke-width="1.6" fill="none" opacity="0.55"/>
+        <polygon points="50,20 80,37 80,63 50,80 20,63 20,37"           stroke="#090d18" stroke-width="1.6" fill="none" opacity="0.55"/>
+        <polygon points="50,36 65,44.5 65,55.5 50,64 35,55.5 35,44.5"  stroke="#090d18" stroke-width="1.6" fill="none" opacity="0.55"/>
+        <circle cx="50" cy="50" r="5.5" fill="#7a6840"/>
+      </svg>
+    </div>
+
+    <span class="hero-wordmark">HOLO</span>
+    <div class="hero-tagline">The Decision Engine for AI Agents</div>
+
+    <div class="hero-divider"></div>
+
+    <div class="hero-body">
+      <p>AI agents are making real decisions with real consequences and we're the first to challenge them before they act.</p>
+    </div>
+
+    <div class="raise-line">$750K Pre-Seed &nbsp;//&nbsp; SAFE</div>
+
+  </main>
+
+  <footer>
+    <p>Holo Engine &nbsp;&middot;&nbsp; hello@holoengine.ai</p>
+  </footer>
+
+</body>
+</html>

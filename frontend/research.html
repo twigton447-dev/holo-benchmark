@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMMFBGFND8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WMMFBGFND8');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holo Research</title>
+  <meta name="description" content="Research publications and benchmark from Holo Engine." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --text:      #0f0f0e;
+      --muted:     #2e2e2a;
+      --rule:      #d4d0c8;
+      --serif:     'EB Garamond', Georgia, serif;
+      --sans:      'Inter', system-ui, sans-serif;
+      --mono:      'JetBrains Mono', monospace;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: var(--serif);
+      background: #fff;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+    }
+
+    a { color: var(--text); }
+    a:hover { text-decoration: underline; }
+
+    /* LAYOUT */
+    .container {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* NAV */
+    nav {
+      padding: 32px 0 28px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 72px;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .nav-home {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .nav-home:hover {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-title {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* MASTHEAD */
+    .masthead {
+      margin-bottom: 64px;
+    }
+
+    .masthead-label {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8c7a50;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .masthead h1 {
+      font-family: var(--serif);
+      font-size: clamp(1.9rem, 4vw, 2.6rem);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: 0.01em;
+      margin-bottom: 28px;
+    }
+
+    .masthead p {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 580px;
+    }
+
+    /* RULE */
+    .rule {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 56px 0;
+    }
+
+    /* SECTION */
+    .section-label {
+      font-family: var(--sans);
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    /* PUBLICATION ENTRY */
+    .pub-entry {
+      margin-bottom: 48px;
+    }
+
+    .pub-entry h2 {
+      font-family: var(--serif);
+      font-size: 1.3rem;
+      font-weight: 500;
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+
+    .pub-meta {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 14px;
+    }
+
+    .pub-abstract {
+      font-size: 0.97rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    .pub-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .pub-link {
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .pub-link:hover {
+      text-decoration: underline;
+    }
+
+    .pub-link-arrow {
+      font-size: 11px;
+      opacity: 0.5;
+    }
+
+    /* BENCHMARK ENTRY */
+    .bench-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .bench-entry:first-of-type {
+      border-top: 1px solid var(--rule);
+    }
+
+    .bench-name {
+      font-size: 1rem;
+    }
+
+    .bench-link {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .bench-link:hover {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top: 80px;
+      padding: 32px 0 40px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer p {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 0 20px; }
+      nav { margin-bottom: 48px; }
+      .masthead { margin-bottom: 48px; }
+    }
+  </style>
+  <script data-goatcounter="https://holoengine.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="landing.html" class="nav-home">← Holo</a>
+        <a href="index.html" class="nav-home">Benchmark →</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="masthead">
+      <span class="masthead-label">Holo Engine · Working Paper · April 2026</span>
+      <h1>Blindspots at the Action Boundary</h1>
+      <p>
+        GPT-5.4 approved a fraudulent wire transfer. Claude approved a routine reorder from a compromised automated system. All three frontier models missed an invoice-clustering attack designed to stay just below a dual-approval threshold. In each case, the surface was clean. The fraud lived in what was absent, not what was labeled.
+      </p>
+      <p style="margin-top: 16px;">
+        This paper presents the methodology and results from the first structured benchmark of AI agent judgment at the point of irreversible action. Two domains completed. Three flagship results published. The finding is architectural: no single frontier model has consistent coverage across attack classes, and the gaps are unpredictable in advance.
+      </p>
+      <div class="pub-links" style="margin-top: 32px;">
+        <a href="whitepaper.html" class="pub-link">Read online <span class="pub-link-arrow">→</span></a>
+        <a href="https://github.com/twigton447-dev/holo-benchmark/releases/download/v1.0/Blindspots.at.the.Action.Boundary.Holo.Engine.pdf" class="pub-link">Download PDF <span class="pub-link-arrow">↓</span></a>
+        <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank" class="pub-link">GitHub <span class="pub-link-arrow">↗</span></a>
+        <a href="index.html" class="pub-link">Benchmark Results <span class="pub-link-arrow">→</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <p>Holo Engine &nbsp;&middot;&nbsp; 2026</p>
+        <p><a href="mailto:hello@holoengine.ai">hello@holoengine.ai</a></p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

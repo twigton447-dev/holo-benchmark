@@ -238,10 +238,13 @@ footer{border-top:1px solid var(--border);padding:24px 0}
   <div class="w">
     <div class="section-tag">Executive Summary</div>
     <div class="exec-summary">
-      <p>AI agents are now making irreversible decisions on behalf of real people and organizations: approving payments, executing contracts, granting access, and initiating operational changes. The current security stack operates before and after these decisions. The moment just before execution, when the action is fully specified but not yet committed, remains comparatively unserved.</p>
-      <p>This benchmark tests frontier AI models at that boundary.</p>
-      <p>The benchmark has produced a confirmed symmetric collapse result: a single, gate-passing scenario, BEC-EXPLAINED-ANOMALY-001, in which all three solo frontier models independently approved a fraudulent transaction that Holo escalated correctly. This is the primary finding. It shows that the failure mode is not an isolated blindspot in one model, but a structural ceiling on solo-model judgment when faced with a plausible but unverifiable narrative.</p>
-      <p>Across two completed domains, Holo also cleared precision cases designed to test false-positive resistance. These results do not establish a universal law of model failure. They show that under the tested conditions, adversarial multi-model evaluation can surface risks that strong solo frontier models miss at the moment before execution.</p>
+      <p><strong>AI agents are now approving payments, executing contracts, granting access, and initiating operational changes on behalf of real organizations.</strong> The security stack around these systems focuses on what happens before and after. The moment just before execution — when the action is fully formed but not yet committed — remains comparatively unserved.</p>
+      <p>This benchmark tests what happens at that moment.</p>
+      <p>In the benchmark's primary finding, <strong>all three leading frontier models independently approved a fraudulent transaction that Holo's architecture escalated correctly.</strong> GPT never found the signal. Claude found it, then reasoned itself back to approval. Gemini accepted the explanation, invented alternative concerns, discarded them, and also approved. The failure was not a quirk of one model. It was a structural pattern: solo judgment has a ceiling when faced with a plausible but unverifiable narrative.</p>
+      <p>Across two completed domains, Holo also passed precision cases designed to test false-positive resistance. <strong>The architecture adds measurable value at the action boundary under the tested conditions.</strong></p>
+      <p>This is a vendor-built benchmark. The sample is small. The scenarios were designed by the same team that built the architecture. Those limitations are stated directly in Section 10. The contribution is narrower than a universal claim: a benchmark method, two completed domains, and evidence that adversarial multi-model evaluation catches risks that strong solo models miss before the action becomes irreversible.</p>
+      <p><strong>Models tested:</strong> GPT-5.4 · Claude-Sonnet-4.6 · Gemini-2.5-Pro · Holo Full Architecture</p>
+      <p>The benchmark covers eight domains where autonomous agents operate today. Two are complete. Six are in development.</p>
     </div>
   </div>
 </section>

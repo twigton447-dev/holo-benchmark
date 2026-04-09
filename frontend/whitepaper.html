@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blindspots at the Action Boundary — Holo Engine</title>
+<title>Blindspots at the Action Boundary · Holo Engine</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@300;400;500;600&display=swap');
 
@@ -569,11 +569,11 @@
 
   <h3>1.2 &nbsp; The Action Boundary</h3>
   <p>Everyone knows the action boundary. It is the moment before your plane takes off. The moment your pen touches the contract. The moment you type your bank account number into the portal and hover over Submit.</p>
-  <p>Human beings feel it. There is a physiological response. AI agents have the same boundary — but they do not feel it. There is no hesitation, no second thought, no instinct that something is off.</p>
+  <p>Human beings feel it. There is a physiological response. AI agents have the same boundary, but they do not feel it. There is no hesitation, no second thought, no instinct that something is off.</p>
   <p>In this paper, the <strong>action boundary</strong> refers to the point at which an AI system's output stops being analysis and becomes execution: a wire is approved, a purchase is placed, access is granted, a contract is issued, or a system change is executed.</p>
 
   <h3>1.3 &nbsp; The Gap Nobody Filled</h3>
-  <p><strong>Upstream controls</strong> focus on sanitizing inputs. They are structurally incapable of evaluating whether the action a model proposes — based on clean and legitimate inputs — is itself safe to execute.</p>
+  <p><strong>Upstream controls</strong> focus on sanitizing inputs. They are structurally incapable of evaluating whether the action a model proposes (based on clean and legitimate inputs) is itself safe to execute.</p>
   <p><strong>Downstream controls</strong> focus on monitoring outputs after the fact. They are not designed for prevention. By the time they fire, the wire has cleared.</p>
   <div class="pullquote">The moment just before execution, when the agent has formed its intent, the action is fully specified, and the commitment is about to become irreversible, is the highest-leverage intervention point in the entire agentic stack.</div>
   <p>This is not a moment that benefits from a checklist or a pattern-match. It benefits from adversarial pressure: a system that asks not just "does this look right" but "what would have to be true for this to be wrong."</p>
@@ -593,7 +593,7 @@
 
   <h3>1.6 &nbsp; The Symmetric Arms Race</h3>
   <p>The same frontier models available to a Fortune 500 company's procurement team are available to anyone with a credit card and an API key. The intelligence is not classified. It is not scarce. It is a commodity. And commoditized intelligence means commoditized attack capability.</p>
-  <p>The only viable response is an architecture that scales with the threat — one that uses the same improving models to pressure-test decisions rather than simply execute them. As the underlying models improve, Holo improves with them.</p>
+  <p>The only viable response is an architecture that scales with the threat: one that uses the same improving models to pressure-test decisions rather than simply execute them. As the underlying models improve, Holo improves with them.</p>
 </div>
 
 <!-- SECTION 2 -->
@@ -772,7 +772,7 @@
     <div class="failure-card">
       <div class="model-name">Claude-Sonnet-4-6</div>
       <div class="failure-type">Persuasion Failure</div>
-      <p>Found the correct signal in Turn 2, rated it MEDIUM. By Turn 3, had downgraded the flag back to LOW. Not a failure to see the signal — a failure to hold it against a plausible narrative.</p>
+      <p>Found the correct signal in Turn 2, rated it MEDIUM. By Turn 3, had downgraded the flag back to LOW. Not a failure to see the signal. A failure to hold it against a plausible narrative.</p>
     </div>
     <div class="failure-card">
       <div class="model-name">Gemini-2.5-Pro</div>
@@ -844,7 +844,7 @@
   </div>
   <div class="objection">
     <h3>"Models are getting better. Won't this problem solve itself?"</h3>
-    <p>The flagship cases were evaluated against GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro — among the strongest publicly available models at time of testing. At least one missed a flagship case in each completed domain. On one scenario, all three missed simultaneously. The symmetric arms race applies: as models improve for defenders, they improve for adversaries at the same rate. The structural problem does not disappear with a model update. It shifts.</p>
+    <p>The flagship cases were evaluated against GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro, among the strongest publicly available models at time of testing. At least one missed a flagship case in each completed domain. On one scenario, all three missed simultaneously. The symmetric arms race applies: as models improve for defenders, they improve for adversaries at the same rate. The structural problem does not disappear with a model update. It shifts.</p>
     <p style="font-size:0.825rem;color:var(--ink-faint)">Anh-Hoang et al. "Survey and analysis of hallucinations in large language models." Frontiers in Artificial Intelligence, September 2025. DOI: 10.3389/frai.2025.1622292</p>
   </div>
   <div class="objection">
@@ -872,7 +872,7 @@
 
   <div class="callout-key">The Blindspot Atlas: A structured, domain-by-domain map of where frontier models fail at the action boundary. Built from adversarial pressure testing under realistic conditions, not from theoretical analysis or synthetic data.</div>
 
-  <p>The Atlas serves three compounding functions. First, it informs scenario design — failure patterns discovered in one domain often suggest attack classes worth testing in adjacent domains. Second, it informs governor tuning with domain-specific risk tolerances. Third, it is the institutional memory of the research program. A competitor who builds a similar reactor tomorrow starts with no Atlas.</p>
+  <p>The Atlas serves three compounding functions. First, it informs scenario design: failure patterns discovered in one domain often suggest attack classes worth testing in adjacent domains. Second, it informs governor tuning with domain-specific risk tolerances. Third, it is the institutional memory of the research program. A competitor who builds a similar reactor tomorrow starts with no Atlas.</p>
 </div>
 
 <!-- SECTION 9 -->
@@ -996,7 +996,7 @@
   </div>
 
   <p>AI agents are making irreversible decisions today. The security infrastructure around those decisions was not designed for them.</p>
-  <p>This paper does not claim to have solved that problem. It claims to have identified a specific, testable gap at the action boundary, built a methodology for evaluating it, and produced results across two completed domains — including a confirmed symmetric collapse — that justify further scrutiny.</p>
+  <p>This paper does not claim to have solved that problem. It claims to have identified a specific, testable gap at the action boundary, built a methodology for evaluating it, and produced results across two completed domains, including a confirmed symmetric collapse, that justify further scrutiny.</p>
 
   <div class="pullquote">The benchmark is how we learned where the ambushes are. Holo is how we make sure your agents never walk into one.</div>
 

@@ -1,2 +1,7 @@
 [build]
   publish = "frontend"
+
+[[redirects]]
+  from = "/benchmark"
+  to = "/"
+  status = 200

@@ -185,7 +185,36 @@ footer{border-top:1px solid var(--border);padding:24px 0}
   <div class="w">
     <div class="eyebrow">Holo Engine · Adversarial Benchmark Program · April 2026</div>
     <h1>Testing AI agent judgment at the point of irreversible action</h1>
-    <p class="hero-sub">An eight-domain benchmark that runs frontier AI models against adversarially designed scenarios at the action boundary. Results are published on an ongoing basis as domains are completed and verified. Each published result reflects a confirmed scenario in which at least one frontier solo model returned the wrong verdict.</p>
+    <p class="hero-sub">An eight-domain benchmark that tests four conditions — GPT-5.4, Claude-Sonnet-4.6, Gemini-2.5-Pro, and Holo Full Architecture — against adversarially designed scenarios at the action boundary. Each domain runs a four-element structure: a floor case, a gap case, and precision cases. Every published result must clear a six-gate publication standard. Results are published on an ongoing basis as domains are completed and verified.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px">
+      <div style="border:1.5px solid var(--border);border-radius:6px;padding:14px 16px">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Models Tested</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:600;color:var(--text)">
+          <span>GPT-5.4</span>
+          <span>Claude-Sonnet-4.6</span>
+          <span>Gemini-2.5-Pro</span>
+          <span style="color:var(--green)">Holo Full Architecture</span>
+        </div>
+      </div>
+      <div style="border:1.5px solid var(--border);border-radius:6px;padding:14px 16px">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Scenario Structure</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:600;color:var(--text)">
+          <span>Floor Case</span>
+          <span>Gap Case</span>
+          <span>Precision Case</span>
+          <span style="color:var(--muted);font-weight:400;font-size:11px">per domain</span>
+        </div>
+      </div>
+      <div style="border:1.5px solid var(--border);border-radius:6px;padding:14px 16px">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">Publication Gates</div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-size:12px;color:var(--text)">
+          <span><span style="color:var(--green);font-weight:700">6</span> gates required</span>
+          <span style="font-weight:600">All must pass</span>
+          <span style="color:var(--muted);font-weight:400;font-size:11px">5 of 6 is not enough</span>
+        </div>
+      </div>
+    </div>
 
     <div class="progress-row">
       <span class="progress-label">Domains complete</span>

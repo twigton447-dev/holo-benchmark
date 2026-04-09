@@ -4,13 +4,17 @@
 
 ---
 
-## What This Is
+## Executive Summary
 
-A multi-domain benchmark proving one structural thesis:
+AI agents are now being deployed into the most critical workflows in the global economy: approving payments, executing contracts, and granting access to sensitive systems. These agents are not a diverse ecosystem. They are almost all built on one of a handful of frontier models. The race is on to find the structural limits of those models before the cost of failure becomes irreversible.
 
-**No single frontier model sees the full shape of a sophisticated attack. Their blindspots are real, distributed, and unpredictable. A structured multi-model adversarial architecture closes the gaps that scale alone does not.**
+This benchmark documents a targeted search for that breaking point.
 
-This is not a model leaderboard. It is a structural proof. The same frontier models that power Holo also run as solo conditions — same scenarios, same context, same turn budget. The only variable is architecture.
+Our benchmark was designed to find the threshold where solo-model judgment fails under adversarial pressure. **In the primary finding, all three leading frontier models independently approved a fraudulent transaction that Holo's architecture escalated correctly.** The failure was not a quirk of one model. It was a structural pattern: solo judgment has a ceiling when faced with a plausible but unverifiable narrative.
+
+This is not a flaw in any single model. It is a limit on how any single mind, human or artificial, can reason under pressure. Holo's architecture is designed to operate above that ceiling by forcing the agent's proposed action to survive adversarial scrutiny before it can become real. To ensure fairness, Holo was tested against the same frontier models that run inside its own reactor.
+
+The benchmark covers an eight-domain atlas of high-consequence actions. Two domains are complete. The results, and the methodology for replicating them, are published here.
 
 ---
 

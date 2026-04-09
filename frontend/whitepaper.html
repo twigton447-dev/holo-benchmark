@@ -550,11 +550,13 @@
 <!-- EXECUTIVE SUMMARY -->
 <div class="exec-summary">
   <div class="section-label">Executive Summary</div>
-  <p style="margin-top:0.75rem">AI agents are now being deployed into the most critical workflows in the global economy: approving payments, executing contracts, and granting access to sensitive systems. These agents are not a diverse ecosystem. They are almost all built on one of a handful of frontier models. The race is on to find the structural limits of those models before the cost of failure becomes irreversible.</p>
-  <p>This paper documents a targeted search for that breaking point.</p>
-  <p>Our benchmark was designed to find the threshold where solo-model judgment fails under adversarial pressure. <strong>In the primary finding, all three leading frontier models independently approved a fraudulent transaction that Holo's architecture escalated correctly.</strong> The failure was not a quirk of one model. It was a structural pattern: solo judgment has a ceiling when faced with a plausible but unverifiable narrative.</p>
-  <p>This is not a flaw in any single model. It is a limit on how any single mind, human or artificial, can reason under pressure. Holo's architecture is designed to operate above that ceiling by forcing the agent's proposed action to survive adversarial scrutiny before it can become real. To ensure fairness, Holo was tested against the same frontier models that run inside its own reactor.</p>
-  <p>The benchmark covers an eight-domain atlas of high-consequence actions. Two domains are complete. The results, and the methodology for replicating them, are published here.</p>
+  <p style="margin-top:0.75rem">AI agents are now being deployed into the most critical workflows in the global economy: approving payments, executing contracts, granting access, and initiating operational changes on behalf of real organizations. These systems are increasingly being built on a small number of frontier models. The practical question is no longer whether these models are impressive. It is where they fail when the cost of failure becomes irreversible.</p>
+  <p>This paper documents a targeted search for that breaking point at the action boundary: the moment just before an AI system's output becomes a real-world commitment.</p>
+  <p>To test that boundary fairly, we evaluated the strongest publicly available frontier models from multiple labs at the time of testing — GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro — as solo baselines. We then tested Holo Engine against those same baselines. Holo is model-agnostic, but the purpose of this benchmark was to measure what was possible against the most capable solo systems available at the time, not against weaker controls.</p>
+  <p>In the benchmark's primary finding, all three frontier baseline models independently approved a fraudulent transaction. Holo Engine, a runtime trust layer and adversarial checkpoint architecture designed for the action boundary, escalated it correctly. The failure was not a quirk of one model. It was a structural pattern: solo judgment has a ceiling when faced with a plausible but unverifiable narrative.</p>
+  <p>This is not an argument against any one model or lab. It is evidence that strong solo frontier models can still fail in materially important ways at the moment before execution, and that a properly structured adversarial architecture can remain strong where solo judgment breaks.</p>
+  <p>The benchmark presented here covers an eight-domain research program focused on high-consequence AI actions. Two domains are complete and published in this paper. Six are in development. Together they form the beginning of the Blindspot Atlas: a growing corpus of domain-specific failure patterns at the action boundary, designed to improve Holo's own coverage and, over time, help the frontier labs themselves better understand and reduce these blindspots.</p>
+  <p style="font-size:0.875rem;color:var(--ink-faint)">Models tested: GPT-5.4 &nbsp;·&nbsp; Claude-Sonnet-4-6 &nbsp;·&nbsp; Gemini-2.5-Pro &nbsp;·&nbsp; Holo Full Architecture</p>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid var(--rule);border-radius:6px;overflow:hidden;margin-top:16px;margin-bottom:20px">
     <div style="padding:10px 14px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);display:flex;align-items:flex-start;gap:8px">
@@ -606,9 +608,9 @@
 
   <h3>1.1 &nbsp; The Agentic Transition</h3>
   <p>We are in the early stages of a transition that will touch every critical workflow in the global economy. AI agents are not a future possibility. They are being deployed today across accounts payable, procurement, contract review, access management, compliance, HR, infrastructure operations, and financial reporting.</p>
-  <p>The agents doing that work are built on a small number of frontier models: the same GPT, Claude, and Gemini available to anyone with an API key. Those models were not designed for autonomous action under adversarial conditions. They were designed to be helpful, accurate, and responsive.</p>
+  <p>The agents doing that work are built on a small number of frontier models: specifically GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro — the same models available via API that currently power most serious agentic deployments. Those models were not designed for autonomous action under adversarial conditions. They were designed to be helpful, accurate, and responsive.</p>
   <div class="callout-key">Helpful, accurate, and responsive is not the same as safe at the action boundary.</div>
-  <p>This is an early-stage working paper presenting the first two completed domains of a planned eight-domain benchmark program. The goal of the full program is to build a comprehensive Blindspot Atlas mapping where frontier models fail at the action boundary across major agentic workflows.</p>
+  <p>This benchmark program is designed to find where those models break under adversarial conditions at the action boundary. This paper presents the first two completed domains of a planned eight-domain program. The goal of the full program is to build the Blindspot Atlas: a structured, domain-by-domain corpus of failure patterns at the action boundary across the major agentic workflows where these systems operate today.</p>
 
   <h3>1.2 &nbsp; The Action Boundary</h3>
   <p>Everyone knows the action boundary. It is the moment before your plane takes off. The moment your pen touches the contract. The moment you type your bank account number into the portal and hover over Submit.</p>
@@ -627,6 +629,7 @@
   <p>The agent is not the principal. It is the proxy. And proxies can be exploited.</p>
   <p>An adversary who understands this system does not need to fool the human. They only need to fool the agent. And because the adversary has access to the same frontier models the agent is built on, they can test their attack against the agent's own reasoning until they find the version that passes.</p>
   <div class="callout-key">Overconfidence in a solo model is not a minor calibration problem. At the action boundary, it is a structural vulnerability.</div>
+  <p>This is consistent with emerging research showing that agentic systems can create insider-threat-style risk surfaces and that model-level reliability remains probabilistic even in high-stakes settings.</p>
   <p>The answer is not simply a smarter agent. A smarter agent may still carry smarter blindspots. The answer is a checkpoint: a system that does not trust the agent's confidence, does not accept its verdict at face value, and forces the proposed action to survive adversarial scrutiny before it is allowed to become real.</p>
   <p style="font-size:0.825rem;color:var(--ink-faint)">Lynch, A. et al. "Agentic Misalignment: How LLMs Could Be Insider Threats." arXiv:2510.05179. Anthropic Research. October 2025.</p>
 
@@ -637,6 +640,8 @@
   <h3>1.6 &nbsp; The Symmetric Arms Race</h3>
   <p>The same frontier models available to a Fortune 500 company's procurement team are available to anyone with a credit card and an API key. The intelligence is not classified. It is not scarce. It is a commodity. And commoditized intelligence means commoditized attack capability.</p>
   <p>The only viable response is an architecture that scales with the threat: one that uses the same improving models to pressure-test decisions rather than simply execute them. As the underlying models improve, Holo improves with them.</p>
+  <p>Recent survey work on hallucination in large language models suggests that unsupported inference and fabricated reasoning remain persistent failure modes even as models improve. That matters at the action boundary because a plausible but unverified explanation can be enough to trigger irreversible action.</p>
+  <p style="font-size:0.825rem;color:var(--ink-faint)">Anh-Hoang et al. "Survey and analysis of hallucinations in large language models." <em>Frontiers in Artificial Intelligence,</em> September 2025. DOI: 10.3389/frai.2025.1622292</p>
 </div>
 
 <!-- SECTION 2 -->
@@ -879,28 +884,63 @@
 
   <div class="objection">
     <h3>"This is vendor bias."</h3>
-    <p>Yes. This is a vendor-built benchmark. The paper acknowledges that because it is a real limitation, not a box to check. The strongest fairness control we applied was to use the same frontier models in both conditions. The results should be read as disclosed internal evidence, not independent validation. The right next step is third-party scenario authorship and independent replication.</p>
+    <p>Yes. This is a vendor-built benchmark. The same team designed the scenarios, built the architecture, and reported the results. That is a real limitation, not a disclosure formality.</p>
+    <p>The strongest fairness control applied here was structural: the solo comparison conditions use the same frontier models that appear inside Holo's adversarial reactor. Holo is not being compared against weaker baselines or obsolete systems. It is being tested against the strongest publicly available frontier models from multiple labs at the time of evaluation: GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro.</p>
+    <p>The results should therefore be read as disclosed internal evidence, not independent validation. The correct next step is held-out scenario authorship, third-party replication, and eventually external benchmark governance.</p>
   </div>
+
   <div class="objection">
     <h3>"The sample size is too small."</h3>
-    <p>Correct. Two domains and eight scenario types are not enough to support universal claims about frontier-model judgment. They are enough to support a narrower claim: under this benchmark design, across two completed domains, Holo surfaced risks that at least one strong solo frontier model missed.</p>
+    <p>Correct. Two completed domains and a limited number of published scenarios are not enough to support universal claims about frontier-model judgment.</p>
+    <p>They are enough to support a narrower claim: under this benchmark design, across two completed domains, Holo surfaced risks that at least one strong solo frontier model missed, and in one flagship case all three solo frontier models missed simultaneously.</p>
+    <p>This paper should be read as a proof-of-method and an early evidence base, not as a final census of model capability. The larger research program is the Blindspot Atlas: an expanding corpus of domain-specific failure patterns at the action boundary, built to grow beyond the initial benchmark set presented here.</p>
   </div>
+
   <div class="objection">
     <h3>"Models are getting better. Won't this problem solve itself?"</h3>
-    <p>The flagship cases were evaluated against GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro, among the strongest publicly available models at time of testing. At least one missed a flagship case in each completed domain. On one scenario, all three missed simultaneously. The symmetric arms race applies: as models improve for defenders, they improve for adversaries at the same rate. The structural problem does not disappear with a model update. It shifts.</p>
-    <p style="font-size:0.825rem;color:var(--ink-faint)">Anh-Hoang et al. "Survey and analysis of hallucinations in large language models." Frontiers in Artificial Intelligence, September 2025. DOI: 10.3389/frai.2025.1622292</p>
+    <p>Model improvement matters. It does not eliminate the problem described here.</p>
+    <p>The strongest publicly available frontier models at the time of testing still missed at least one flagship case in each completed domain. In one benchmark scenario, all three solo models independently returned the wrong verdict while Holo returned the correct one.</p>
+    <p>More importantly, the problem is not only one of raw capability. It is also one of structure. A solo model can become more knowledgeable, more fluent, and more accurate overall while still failing at the action boundary when a plausible narrative is presented without verifiable support.</p>
+    <p>This distinction is consistent with broader research on hallucination and reliability in large language models. Survey work has shown that hallucinations and unsupported inferences are not fully eliminated by scale alone, and that stronger models can remain vulnerable to confident but ungrounded outputs in high-stakes settings.</p>
+    <p>Anh-Hoang et al. describe hallucination as a persistent systems problem rather than a narrow training defect, noting that improvements in performance do not straightforwardly eliminate unsupported generation or reasoning failures. Their survey is relevant here because the benchmark cases in this paper often do not hinge on ignorance. They hinge on whether a model will accept a plausible explanation without verifying it against the available record.</p>
+    <p>This is also consistent with the emerging distinction between probabilistic reliability and enforceable guarantees. Reducing the probability of failure is not the same as creating a reliable guarantee when real money or real authority is at stake. That distinction is central to this paper. Holo does not assume the underlying model is perfect. It assumes failure remains possible and places adversarial pressure at the moment before execution.</p>
+    <!-- TODO: ARS citation — add formal citation for "Agentic Risk Standard" paper when source details are confirmed. -->
+    <p style="font-size:0.825rem;color:var(--ink-faint)">Anh-Hoang et al. "Survey and analysis of hallucinations in large language models." <em>Frontiers in Artificial Intelligence,</em> September 2025. DOI: 10.3389/frai.2025.1622292</p>
   </div>
+
   <div class="objection">
     <h3>"A fine-tuned specialist model would do better."</h3>
-    <p>Possibly, on known attack classes. Fine-tuning is retrospective. It captures patterns that already exist in training data. Novel attacks, by definition, are not there. Holo's adversarial roles do not ask "does this match a known pattern." They ask "what would have to be true for this to be wrong."</p>
+    <p>Possibly, on known attack classes.</p>
+    <p>A specialist model may outperform a general frontier model on attack patterns that are already well understood and represented in training or tuning data. But that does not remove the structural problem. Fine-tuning is retrospective. It captures what has already been seen. Novel attacks, by definition, are not yet in the corpus.</p>
+    <p>The benchmark cases that matter most are not the ones that look obviously fraudulent in hindsight. They are the ones that remain plausible until a model asks the one question that breaks the narrative. Holo's adversarial roles are designed to generate that pressure dynamically, not simply match against a known pattern library.</p>
   </div>
+
   <div class="objection">
     <h3>"How do we know Holo is not just more paranoid?"</h3>
-    <p>The precision cases answer this directly. Across both completed domains, Holo cleared precision cases designed to test false-positive resistance. The adversarial personas raised concerns. The evidentiary discipline rule required evidence. They could not produce it. The verdict held.</p>
+    <p>The precision cases address this directly.</p>
+    <p>Across the completed domains, Holo was also tested on suspicious-looking but legitimate transactions and actions designed to trigger false positives. In those cases, the adversarial personas raised concerns, but the evidentiary discipline rule required those concerns to be substantiated against the record. Where the evidence did not hold, the system returned ALLOW.</p>
+    <p>That distinction matters. A trust layer that only escalates is not useful. It becomes noise. The benchmark was designed to test not just whether Holo catches threats, but whether it can also clear legitimate actions under pressure.</p>
   </div>
+
+  <div class="objection">
+    <h3>"Isn't this just a bundle of models voting?"</h3>
+    <p>No. The architecture is model-agnostic, but it is not simply a bundle of models voting.</p>
+    <p>Holo uses frontier models as adversarial analysts inside a structured checkpoint architecture. The important property is not plurality by itself. It is role separation, evidentiary discipline, randomized assignment, and a deterministic governor that computes the verdict from the evidence rather than from the confidence of the last model to speak.</p>
+    <p>That distinction matters because the benchmark is not claiming that more models automatically solves the problem. The claim is narrower: a properly structured adversarial checkpoint can remain strong in cases where solo frontier judgment fails.</p>
+  </div>
+
   <div class="objection">
     <h3>"What stops a competitor from copying this?"</h3>
-    <p>The durable advantage is the benchmark corpus: the scenario libraries, the domain-specific failure patterns, the calibration work required to separate floor cases from true gap cases. A competitor could copy the visible architecture faster than they could replicate the research program that makes the architecture effective. In that sense, the defensible asset is not just the reactor. It is the map.</p>
+    <p>The visible architecture can be copied faster than the research program behind it.</p>
+    <p>The durable asset is not just the reactor. It is the benchmark corpus: the scenario libraries, the domain-specific failure patterns, the calibration work that separates floor cases from threshold cases, and the Blindspot Atlas that accumulates where and how frontier models fail at the action boundary.</p>
+    <p>That corpus compounds. Each completed domain improves the next one. Each new failure pattern sharpens both product behavior and benchmark design. Over time, the Atlas may also become useful to the labs themselves as a structured map of attack-class-specific blindspots that are difficult to see from generic benchmark suites alone.</p>
+  </div>
+
+  <div class="objection">
+    <h3>"Why not just use the strongest single model?"</h3>
+    <p>Because the strongest single model changes by domain, by attack class, and by failure mode.</p>
+    <p>In the completed domains presented here, no single solo model had complete coverage across the flagship cases. GPT missed where Claude caught. Claude missed where Gemini caught. In one case, all three missed simultaneously.</p>
+    <p>That is the practical lesson of the benchmark. The problem is not that one lab has the wrong model. The problem is that solo deployment leaves attack-class-specific coverage gaps at the action boundary. Holo's role is to reduce that deployment risk by forcing the proposed action to survive adversarial scrutiny before it becomes irreversible.</p>
   </div>
 </div>
 
@@ -1020,7 +1060,7 @@
   </div>
   <div class="limitation">
     <div class="limitation-label">Model version sensitivity</div>
-    <p>Benchmark results are tied to specific model versions at a specific point in time. Results reported here reflect GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro as evaluated in April 2026. Future model versions may produce different outcomes on the same scenarios.</p>
+    <p>Benchmark results are tied to specific model versions at a specific point in time. Results reported here reflect GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro as evaluated in April 2026. Future model versions may produce different outcomes on the same scenarios. For that reason, the Blindspot Atlas matters more than any single benchmark object: the durable contribution is the growing map of failure patterns, not the permanence of any one scenario result.</p>
   </div>
   <div class="limitation">
     <div class="limitation-label">Precision case calibration</div>
@@ -1060,6 +1100,7 @@
     <div class="reference-item">Lynch, A. et al. "Agentic Misalignment: How LLMs Could Be Insider Threats." arXiv:2510.05179. Anthropic Research. October 2025.</div>
     <div class="reference-item">NIST AI 600-1 (2024). <em>Generative AI Risk Management Framework.</em> DOI: 10.6028/NIST.AI.600-1</div>
     <div class="reference-item">NIST Center for AI Standards and Innovation. Federal Register Docket NIST-2025-0035. January 8, 2026.</div>
+    <div class="reference-item">MITRE Corporation. "MITRE ATT&amp;CK Enterprise Framework." attack.mitre.org. Accessed 2026.</div>
   </div>
 </div>
 

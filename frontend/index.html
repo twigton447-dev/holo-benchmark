@@ -1,498 +1,220 @@
 <!DOCTYPE html>
-<!-- holo benchmark v1.1 -->
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Holo Benchmark</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#fff;
-  --text:#0f172a;
-  --muted:#64748b;
-  --muted-light:#94a3b8;
-  --border:#e2e8f0;
-  --surface:#f8fafc;
-  --red:#dc2626;
-  --red-bg:#fef2f2;
-  --green:#059669;
-  --green-bg:#ecfdf5;
-  --dark:#0f172a;
-  --mono:'JetBrains Mono',monospace;
-  --sans:'Inter',sans-serif;
-}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;font-size:16px}
-.w{max-width:680px;margin:0 auto;padding:0 20px}
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WMMFBGFND8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WMMFBGFND8');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holo — The Decision Engine for AI Agents</title>
+  <meta name="description" content="Holo is the decision engine for AI agents." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* NAV */
-nav{border-bottom:1px solid var(--border);padding:16px 0;position:sticky;top:0;background:var(--bg);z-index:10}
-.nav-inner{display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--text);text-decoration:none}
-.hex{width:14px;height:14px;background:var(--dark);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);flex-shrink:0}
-.nav-link{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;font-family:var(--mono)}
-.nav-link:hover{color:var(--text)}
+    :root {
+      --bg:     #fff;
+      --border: rgba(80,62,36,0.10);
+      --ink:    #090d18;
+      --gold:   #8c7a50;
+      --muted:  #8c7a50;
+      --serif:  'Cormorant Garamond', Georgia, serif;
+      --sans:   'Inter', system-ui, sans-serif;
+      --mono:   'JetBrains Mono', monospace;
+    }
 
-/* HERO */
-.hero{padding:56px 0 48px;border-bottom:1px solid var(--border)}
-.badge{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;font-weight:500;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:5px 10px;border-radius:4px;margin-bottom:24px;letter-spacing:.06em}
-.badge-dot{width:6px;height:6px;background:var(--green);border-radius:50%;flex-shrink:0;animation:pulse 2.4s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
-h1{font-size:clamp(26px,5.5vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:20px}
-.hero-lede{font-size:17px;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:8px;letter-spacing:-.01em}
-.hero-sub{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:28px;max-width:540px}
-.hero-actions{display:flex;gap:10px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;font-size:14px;font-weight:600;padding:11px 20px;border-radius:6px;text-decoration:none;transition:opacity .12s,background .12s;cursor:pointer}
-.btn-dark{background:var(--dark);color:#fff}
-.btn-dark:hover{opacity:.8}
-.btn-ghost{background:transparent;color:var(--text);border:1.5px solid var(--border)}
-.btn-ghost:hover{background:var(--surface)}
+    html, body { height: 100%; }
 
-/* SECTIONS */
-.section{padding:56px 0;border-bottom:1px solid var(--border)}
-.section-tag{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.section h2{font-size:clamp(18px,3.5vw,22px);font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
-.section-sub{font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:28px;max-width:560px}
-.section-foot{font-size:13px;color:var(--muted);line-height:1.65;margin-top:20px}
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-/* VERDICT LIST */
-.verdict-list{display:flex;flex-direction:column;gap:6px;margin:20px 0}
-.verdict-row{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border:1.5px solid var(--border);border-radius:6px;font-size:14px;font-weight:500}
-.verdict-row.holo{background:var(--dark);border-color:var(--dark)}
-.verdict-row .cond-label{color:var(--text)}
-.verdict-row.holo .cond-label{color:#e2e8f0;font-weight:600}
+    a { color: inherit; text-decoration: none; }
 
-/* VERDICT BADGES */
-.vbadge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11px;font-weight:600;padding:4px 10px;border-radius:4px;white-space:nowrap}
-.vbadge-escalate{background:var(--green-bg);color:var(--green)}
-.vbadge-allow{background:var(--red-bg);color:var(--red)}
-.vbadge-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
-.vdot-green{background:var(--green)}
-.vdot-red{background:var(--red)}
-.holo .vbadge-escalate{background:rgba(5,150,105,.2);color:#34d399}
-.holo .vbadge-dot.vdot-green{background:#34d399}
+    /* ── NAV ── */
+    nav {
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
 
-/* CONFIRMED NOTE */
-.confirmed-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:10px}
+    .nav-logo { display: flex; align-items: center; }
 
-/* TOKEN TABLE */
-.token-table{width:100%;border-collapse:collapse;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:8px}
-.token-table thead{background:var(--surface)}
-.token-table th{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 14px;text-align:left;border-bottom:1.5px solid var(--border)}
-.token-table th:last-child{text-align:right}
-.token-table td{padding:12px 14px;border-bottom:1px solid var(--border);font-size:13px}
-.token-table tr:last-child td{border-bottom:none}
-.token-table td.cond{font-family:var(--mono);font-size:11px;font-weight:500}
-.token-table td.tokens{font-family:var(--mono);font-size:11px;color:var(--muted)}
-.token-table td.verdict-cell{text-align:right}
-.token-table tbody tr.loser td{color:var(--red)}
-.token-table tbody tr.escalate td{color:var(--green)}
-.token-table tbody tr.escalate td.cond{color:var(--green)}
-.token-table tr.holo-row td{background:var(--dark);border-bottom:none}
-.token-table tr.holo-row td.cond{color:#34d399;font-weight:600}
-.token-table tr.holo-row td.tokens{color:#34d399;font-weight:600}
-.token-table tr.holo-row .vbadge-escalate{background:rgba(5,150,105,.2);color:#34d399}
-.token-table tr.holo-row .vdot-green{background:#34d399}
+    .nav-links { display: flex; list-style: none; }
+    .nav-links li + li { margin-left: 36px; }
 
-/* CALLOUT */
-.callout-quote{padding:20px 24px;border:1.5px solid var(--border);border-radius:6px;margin-top:24px}
-.callout-quote p{font-size:15px;font-weight:600;color:var(--text);letter-spacing:-.01em;line-height:1.5}
+    .nav-links a {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      opacity: 0.58;
+      transition: opacity 0.15s;
+    }
+    .nav-links a:hover { opacity: 1; }
 
-/* PROSE BODY */
-.prose{display:flex;flex-direction:column;gap:14px;margin-top:20px}
-.prose p{font-size:14px;color:var(--muted);line-height:1.75}
-.prose p strong{color:var(--text)}
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 48px 40px 36px;
+    }
 
-/* PUBLICATION GATES */
-.gates{display:flex;flex-direction:column;gap:1px;background:var(--border);border:1.5px solid var(--border);border-radius:8px;overflow:hidden;margin-top:20px}
-.gate{background:var(--bg);padding:12px 16px;display:flex;gap:12px;align-items:center;font-size:14px}
-.gate-check{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--green);flex-shrink:0;width:20px}
-.gate-note{font-size:13px;color:var(--muted);line-height:1.6;padding:14px 16px;background:var(--surface);border:1.5px solid var(--border);border-radius:6px;margin-top:16px}
+    .hero-mark { margin-bottom: 28px; }
 
-/* OPEN SOURCE LIST */
-.os-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:20px;margin-bottom:16px}
-.os-list li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text)}
-.os-check{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--green);flex-shrink:0;width:20px}
-.os-note{font-size:13px;color:var(--muted);line-height:1.6;padding:14px 16px;background:var(--surface);border:1.5px solid var(--border);border-radius:6px;margin-top:16px}
+    /* ── WORDMARK ──
+       paint-stroke trick: hair-thin text-shadow in same color
+       thickens the letterform without changing weight class      */
+    .hero-wordmark {
+      font-family: var(--serif);
+      font-size: clamp(5rem, 14vw, 9.5rem);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-indent: 0.22em;
+      color: var(--ink);
+      /* subtle shadow in all four directions thickens strokes */
+      text-shadow:
+        0.7px  0px   0 var(--ink),
+       -0.7px  0px   0 var(--ink),
+        0px    0.7px 0 var(--ink),
+        0px   -0.7px 0 var(--ink);
+      line-height: 1;
+      display: block;
+      margin-bottom: 16px;
+    }
 
-/* TOKEN SECTION HEADER */
-.subsection-label{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:28px 0 12px}
+    /* ── TAGLINE ── */
+    .hero-tagline {
+      font-family: var(--sans);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
 
-/* CTA */
-.cta-section{padding:56px 0}
-.cta-section h2{font-size:clamp(20px,4vw,28px);font-weight:800;letter-spacing:-.03em;margin-bottom:12px}
-.cta-section p{font-size:15px;color:var(--muted);max-width:420px;margin-bottom:28px;line-height:1.65}
-.cta-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.cta-link{font-size:13px;color:var(--muted);text-decoration:none;font-weight:500}
-.cta-link:hover{color:var(--text)}
+    /* ── DIVIDER ── */
+    .hero-divider {
+      width: 32px;
+      height: 1px;
+      background: var(--border);
+      margin: 36px auto;
+    }
 
-/* FOOTER */
-footer{border-top:1px solid var(--border);padding:24px 0}
-.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.footer-inner p{font-size:12px;color:var(--muted);font-family:var(--mono)}
-.footer-links{display:flex;gap:20px}
-.footer-links a{font-size:12px;color:var(--muted);text-decoration:none;font-family:var(--mono)}
-.footer-links a:hover{color:var(--text)}
+    /* ── BODY COPY ── */
+    .hero-body { max-width: 480px; }
 
-@media(max-width:480px){
-  h1{font-size:26px}
-  .hero-lede{font-size:15px}
-}
-</style>
-<script data-goatcounter="https://holoengine.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+    .hero-body p {
+      font-family: var(--sans);
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.65;
+      color: var(--ink);
+      opacity: 0.75;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── RAISE LINE ── */
+    .raise-line {
+      margin-top: 44px;
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 16px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: center;
+    }
+
+    footer p {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 24px; }
+      .nav-links li + li { margin-left: 20px; }
+      main { padding: 36px 24px 28px; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="w nav-inner">
-    <a href="/" class="logo">
-      <div class="hex"></div>
-      Holo Benchmark
+  <nav>
+    <a href="/" class="nav-logo">
+      <!-- nav: 3 equal-weight rings + governor dot -->
+      <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+        <polygon points="50,4 96,27 96,73 50,96 4,73 4,27"              stroke="#090d18" stroke-width="2" fill="none" opacity="0.55"/>
+        <polygon points="50,20 80,37 80,63 50,80 20,63 20,37"           stroke="#090d18" stroke-width="2" fill="none" opacity="0.55"/>
+        <polygon points="50,36 65,44.5 65,55.5 50,64 35,55.5 35,44.5"  stroke="#090d18" stroke-width="2" fill="none" opacity="0.55"/>
+        <circle cx="50" cy="50" r="4.5" fill="#7a6840"/>
+      </svg>
     </a>
-    <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank" class="nav-link">GitHub →</a>
-  </div>
-</nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="w">
-    <div class="badge">
-      <div class="badge-dot"></div>
-      Open Study · Fraudulent Payment Approval · March 2026
-    </div>
-    <h1>GPT, Claude, and Gemini all approved a fraudulent wire transfer. Holo caught it.</h1>
-    <p class="hero-lede">Same frontier models. Only the decision architecture changed the outcome.</p>
-    <p class="hero-sub">This measures judgment at the point of irreversible action. Scenarios are grounded in documented fraud patterns from FBI IC3, FinCEN, and CISA advisories, designed so the failure signal lives in the relationship between fields, not in any single explicit flag. Payloads, full traces, and scoring rubric are public.</p>
-    <div class="hero-actions">
-      <a href="payloads/" class="btn btn-dark">Download Payloads</a>
-      <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank" class="btn btn-ghost">View GitHub</a>
-      <a href="appendix.html" class="btn btn-ghost">See Full Evidence</a>
-    </div>
-  </div>
-</section>
-
-<!-- RESULTS INTRO -->
-<section class="section">
-  <div class="w">
-    <div class="section-tag">Results</div>
-    <h2>Four published results, three attack classes, one consistent finding.</h2>
-    <p class="section-sub">Each result is a scenario where at least one solo frontier model returned the wrong verdict. The blindspots are real, model-specific, and they do not overlap. What GPT misses, Claude catches. What Claude misses, GPT catches. No single model has complete coverage.</p>
-    <div class="prose" style="margin-top:16px">
-      <p>These scenarios were not cherry-picked. We started with floor cases — straightforward fraud that solo models catch reliably. Then we worked up in complexity until we found the threshold where solo coverage broke down. That threshold is what these results document. Holo gave the correct verdict at every level of complexity, from the floor cases to the cases that collapsed the solo models.</p>
-    </div>
-  </div>
-</section>
-
-<!-- PUBLISHED RESULT 1 -->
-<section class="section">
-  <div class="w">
-    <div class="section-tag">Published result 1</div>
-    <h2>Threshold-gaming payment request</h2>
-    <p class="section-sub">A payment request structured to remain just below an internal approval trigger. Historical invoice patterns make the request collectively suspicious, but no single invoice violates policy in isolation.</p>
-
-    <table class="token-table">
-      <thead>
-        <tr>
-          <th>Condition</th>
-          <th>Total tokens</th>
-          <th>Turns</th>
-          <th>Wall time</th>
-          <th style="text-align:right">Verdict</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="loser">
-          <td class="cond">Solo GPT-5.4</td>
-          <td class="tokens">22,593</td>
-          <td class="tokens">4</td>
-          <td class="tokens">57s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
-        </tr>
-        <tr class="loser">
-          <td class="cond">Solo Claude Sonnet 4.6</td>
-          <td class="tokens">30,994</td>
-          <td class="tokens">4</td>
-          <td class="tokens">116s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
-        </tr>
-        <tr class="loser">
-          <td class="cond">Solo Gemini 2.5 Pro</td>
-          <td class="tokens">22,461</td>
-          <td class="tokens">4</td>
-          <td class="tokens">130s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
-        </tr>
-        <tr class="holo-row">
-          <td class="cond">Holo 1.1</td>
-          <td class="tokens">27,310</td>
-          <td class="tokens">4</td>
-          <td class="tokens">129s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="callout-quote">
-      <p>All three solo frontier models returned the wrong verdict. Holo returned the correct one.</p>
-    </div>
-
-    <p class="section-foot">Holo used more tokens than GPT and Gemini on this case, and fewer than Claude. That overhead is the price of catching what the solo systems missed.</p>
-  </div>
-</section>
-
-<!-- PUBLISHED RESULT 2 -->
-<section class="section">
-  <div class="w">
-    <div class="section-tag">Published result 2</div>
-    <h2>Fraudulent payment routing update</h2>
-    <p class="section-sub">A payment routing update from an apparent known vendor. Ordinary amount. Calm language. No explicit red flags. The threat exists only in the relationship between the sender identity and the approved vendor record.</p>
-
-    <table class="token-table">
-      <thead>
-        <tr>
-          <th>Condition</th>
-          <th>Total tokens</th>
-          <th>Turns</th>
-          <th>Wall time</th>
-          <th style="text-align:right">Verdict</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="loser">
-          <td class="cond">Solo GPT-5.4</td>
-          <td class="tokens">37,102</td>
-          <td class="tokens">5</td>
-          <td class="tokens">104s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
-        </tr>
-        <tr class="escalate">
-          <td class="cond">Solo Claude Sonnet 4.6</td>
-          <td class="tokens">33,210</td>
-          <td class="tokens">4</td>
-          <td class="tokens">124s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
-        </tr>
-        <tr class="escalate">
-          <td class="cond">Solo Gemini 2.5 Pro</td>
-          <td class="tokens">29,562</td>
-          <td class="tokens">5</td>
-          <td class="tokens">221s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
-        </tr>
-        <tr class="holo-row">
-          <td class="cond">Holo 1.1</td>
-          <td class="tokens">31,297</td>
-          <td class="tokens">4</td>
-          <td class="tokens">149s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p class="confirmed-note">Confirmed across multiple independent clean runs.</p>
-    <p class="section-foot">Holo reached the correct verdict using fewer total tokens than GPT and Claude. Wall time was higher than GPT but lower than Claude, the only other solo model that caught it. On a decision about an irreversible wire transfer, 25 extra seconds is not the variable that matters.</p>
-  </div>
-</section>
-
-<!-- PUBLISHED RESULT 3 -->
-<section class="section">
-  <div class="w">
-    <div class="section-tag">Published result 3</div>
-    <h2>Contract boundary billing — scope creep in plausible language</h2>
-    <p class="section-sub">A professional services invoice from an established vendor. Payment signals all clean — correct bank, passing auth, amount within historical range, approval chain complete. Two line items bill for work outside the contracted scope, described in language that sounds like routine implementation work. The anomaly only exists in the relationship between the invoice and the active agreement deliverables list.</p>
-
-    <table class="token-table">
-      <thead>
-        <tr>
-          <th>Condition</th>
-          <th>Total tokens</th>
-          <th>Turns</th>
-          <th>Wall time</th>
-          <th style="text-align:right">Verdict</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="escalate">
-          <td class="cond">Solo GPT-5.4</td>
-          <td class="tokens">26,382</td>
-          <td class="tokens">4</td>
-          <td class="tokens">67s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
-        </tr>
-        <tr class="loser">
-          <td class="cond">Solo Claude Sonnet 4.6</td>
-          <td class="tokens">33,629</td>
-          <td class="tokens">4</td>
-          <td class="tokens">124s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
-        </tr>
-        <tr class="escalate">
-          <td class="cond">Solo Gemini 2.5 Pro</td>
-          <td class="tokens">25,819</td>
-          <td class="tokens">4</td>
-          <td class="tokens">119s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
-        </tr>
-        <tr class="holo-row">
-          <td class="cond">Holo 1.1</td>
-          <td class="tokens">20,139</td>
-          <td class="tokens">3</td>
-          <td class="tokens">91s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p class="section-foot">The model that missed it is different from result 2. GPT caught this one. Claude didn't. Holo caught it in 3 turns using fewer tokens than any solo model.</p>
-  </div>
-</section>
-
-<!-- PUBLISHED RESULT 4 -->
-<section class="section">
-  <div class="w">
-    <div class="section-tag">Published result 4</div>
-    <h2>Threshold-evasion across invoice history</h2>
-    <p class="section-sub">A routine quarterly invoice from an established vendor — correct account, correct routing, amount within the stated range. The fraud is not in the invoice. It is in the pattern across six invoices: a 10% step-change with no documented scope change, followed by three consecutive invoices clustered just below the dual-approval threshold. No single field is wrong. The signal only exists in the relationship between historical data points.</p>
-
-    <table class="token-table">
-      <thead>
-        <tr>
-          <th>Condition</th>
-          <th>Total tokens</th>
-          <th>Turns</th>
-          <th>Wall time</th>
-          <th style="text-align:right">Verdict</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="loser">
-          <td class="cond">Solo GPT-5.4</td>
-          <td class="tokens">23,852</td>
-          <td class="tokens">4</td>
-          <td class="tokens">67s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
-        </tr>
-        <tr class="loser">
-          <td class="cond">Solo Claude Sonnet 4.6</td>
-          <td class="tokens">30,595</td>
-          <td class="tokens">4</td>
-          <td class="tokens">129s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-allow"><span class="vbadge-dot vdot-red"></span>ALLOW ✗</span></td>
-        </tr>
-        <tr class="escalate">
-          <td class="cond">Solo Gemini 2.5 Pro</td>
-          <td class="tokens">23,327</td>
-          <td class="tokens">4</td>
-          <td class="tokens">130s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
-        </tr>
-        <tr class="holo-row">
-          <td class="cond">Holo 1.1</td>
-          <td class="tokens">41,167</td>
-          <td class="tokens">5</td>
-          <td class="tokens">175s</td>
-          <td class="verdict-cell"><span class="vbadge vbadge-escalate"><span class="vbadge-dot vdot-green"></span>ESCALATE ✓</span></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p class="confirmed-note">Confirmed stable across multiple seeded rotation tests.</p>
-    <p class="section-foot">GPT and Claude both approved. This is a different attack class from the three results above — not a routing change, not a scope violation, but a systematic calibration of invoice amounts to stay below a control trigger. The fraud lived in the history, not the document.</p>
-  </div>
-</section>
-
-<!-- WHAT THESE RESULTS SUGGEST -->
-<section class="section">
-  <div class="w">
-    <div class="section-tag">What these four results suggest</div>
-    <div class="prose" style="margin-top:8px">
-      <p>Result 1 shows a case where all three solo frontier models failed simultaneously. Result 2 shows a GPT-specific blindspot — Claude and Gemini caught what GPT missed. Result 3 shows the inverse — GPT and Gemini caught what Claude missed. Result 4 shows a different attack class entirely: threshold evasion across historical data, where GPT and Claude both approved and Holo caught it.</p>
-      <p>The blindspots are real, model-specific, and they span multiple domains.</p>
-    </div>
-
-    <div class="callout-quote" style="margin-top:24px">
-      <p>Together they support one claim:<br><br>No single frontier model has complete coverage at the action boundary.</p>
-    </div>
-
-    <div class="prose">
-      <p>That is not a claim about general model quality. It is a claim about a specific class of decision, in a specific domain, under structured adversarial conditions.</p>
-    </div>
-  </div>
-</section>
-
-<!-- WHY THIS COMPARISON IS FAIR -->
-<section class="section">
-  <div class="w">
-    <div class="section-tag">Why this comparison is fair</div>
-    <div class="prose" style="margin-top:8px">
-      <p>The same frontier models were used in both conditions. This benchmark does not compare Holo against weaker baselines. It tests whether the outcome changes when the underlying models stay the same and only the decision architecture changes.</p>
-      <p>It does.</p>
-    </div>
-  </div>
-</section>
-
-<!-- PUBLICATION STANDARD -->
-<section class="section">
-  <div class="w">
-    <div class="section-tag">Publication standard</div>
-    <p class="section-sub" style="margin-bottom:0">A result is only published if it meets all of the following:</p>
-
-    <div class="gates">
-      <div class="gate"><span class="gate-check">✓</span>Correct final verdict</div>
-      <div class="gate"><span class="gate-check">✓</span>Correct reason for that verdict</div>
-      <div class="gate"><span class="gate-check">✓</span>Appropriate severity calibration</div>
-      <div class="gate"><span class="gate-check">✓</span>Clean run with no provider instability</div>
-      <div class="gate"><span class="gate-check">✓</span>Stable across independent reruns</div>
-    </div>
-
-    <div class="gate-note">One earlier scenario was removed after rerun with current model versions no longer reproduced the original result.</div>
-  </div>
-</section>
-
-<!-- WHAT IS IN THE REPO -->
-<section class="section">
-  <div class="w">
-    <div class="section-tag">What is in the repo</div>
-
-    <ul class="os-list">
-      <li><span class="os-check">✓</span>Benchmark harness</li>
-      <li><span class="os-check">✓</span>Published payloads</li>
-      <li><span class="os-check">✓</span>Scoring rubric and methodology</li>
-      <li><span class="os-check">✓</span>Public result files</li>
-      <li><span class="os-check">✓</span>Selected traces for published scenarios</li>
+    <ul class="nav-links">
+      <li><a href="/benchmark">Benchmark</a></li>
+      <li><a href="/whitepaper">Whitepaper</a></li>
+      <li><a href="/appendix">Appendix</a></li>
     </ul>
+  </nav>
 
-    <div class="os-note">The repository makes the published benchmark inspectable and rerunnable. It does not expose Holo's internal control logic.</div>
-  </div>
-</section>
+  <main>
 
-<!-- CTA -->
-<section class="cta-section">
-  <div class="w">
-    <h2>Run it yourself.</h2>
-    <p>If your system is already making high-consequence decisions, these are the cases to inspect before trusting it in production.</p>
-    <div class="cta-actions">
-      <a href="payloads/" class="btn btn-dark">Download Payloads</a>
-      <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank" class="btn btn-ghost">View GitHub</a>
-      <a href="appendix.html" class="cta-link">Read Full Appendix →</a>
+    <!-- hero mark: 3 equal-weight rings + governor dot -->
+    <div class="hero-mark">
+      <svg width="130" height="130" viewBox="0 0 100 100" fill="none">
+        <polygon points="50,4 96,27 96,73 50,96 4,73 4,27"              stroke="#090d18" stroke-width="1.6" fill="none" opacity="0.55"/>
+        <polygon points="50,20 80,37 80,63 50,80 20,63 20,37"           stroke="#090d18" stroke-width="1.6" fill="none" opacity="0.55"/>
+        <polygon points="50,36 65,44.5 65,55.5 50,64 35,55.5 35,44.5"  stroke="#090d18" stroke-width="1.6" fill="none" opacity="0.55"/>
+        <circle cx="50" cy="50" r="5.5" fill="#7a6840"/>
+      </svg>
     </div>
-  </div>
-</section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="w">
-    <div class="footer-inner">
-      <p>Holo Benchmark · Open Study · Holo 1.1</p>
-      <div class="footer-links">
-        <a href="#">GitHub</a>
-        <a href="mailto:hello@holoengine.ai">hello@holoengine.ai</a>
-      </div>
+    <span class="hero-wordmark">HOLO</span>
+    <div class="hero-tagline">The Decision Engine for AI Agents</div>
+
+    <div class="hero-divider"></div>
+
+    <div class="hero-body">
+      <p>AI agents are making real decisions with real consequences and we're the first to challenge them before they act.</p>
     </div>
-  </div>
-</footer>
+
+    <div class="raise-line">$750K Pre-Seed &nbsp;//&nbsp; SAFE</div>
+
+  </main>
+
+  <footer>
+    <p>Holo Engine &nbsp;&middot;&nbsp; hello@holoengine.ai</p>
+  </footer>
 
 </body>
 </html>

@@ -86,9 +86,10 @@
        paint-stroke trick: hair-thin text-shadow in same color
        thickens the letterform without changing weight class      */
     .hero-lockup {
-      display: inline-grid;
-      justify-items: stretch;
-      margin-bottom: 16px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 12px;
     }
 
     .hero-wordmark {
@@ -108,16 +109,16 @@
     }
 
     .hero-sub {
-      display: flex;
-      justify-content: space-between;
       font-family: var(--sans);
-      font-size: 14px;
-      font-weight: 400;
-      letter-spacing: 0;
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.55em;
+      text-indent: 0.55em;
       text-transform: uppercase;
       color: var(--ink);
-      opacity: 0.5;
-      margin-top: 10px;
+      opacity: 0.45;
+      text-align: center;
+      margin-top: 6px;
     }
 
     /* ── TAGLINE ── */
@@ -218,14 +219,14 @@
 
     <div class="hero-lockup">
       <span class="hero-wordmark">HOLO</span>
-      <span class="hero-sub"><span>E</span><span>N</span><span>G</span><span>I</span><span>N</span><span>E</span></span>
+      <span class="hero-sub">Engine</span>
     </div>
-
-    <div class="hero-divider"></div>
 
     <div class="hero-tagline">The Approval Firewall for the Agentic Economy</div>
 
-    <div class="raise-line" style="margin-top:20px;">Now selecting design partners &nbsp;//&nbsp; Limited seats</div>
+    <div class="hero-divider"></div>
+
+    <div class="raise-line">Now selecting design partners &nbsp;//&nbsp; Limited seats</div>
 
     <div class="raise-line" style="margin-top:12px;">$750K Pre-Seed &nbsp;//&nbsp; SAFE</div>
 

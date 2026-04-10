@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WMMFBGFND8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WMMFBGFND8');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Running OpenClaw in the Enterprise · Holo Engine</title>
+<meta name="description" content="OpenClaw gives AI agents hands. Holo Engine provides the judgment. A security brief on the trust gap and how to close it.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@300;400;500;600&display=swap');
+
+  :root {
+    --ink: #0f0f0e;
+    --ink-muted: #2e2e2a;
+    --ink-faint: #565650;
+    --rule: #d4d0c8;
+    --rule-strong: #b0ac9f;
+    --cream: #fafaf8;
+    --cream-warm: #f7f7f5;
+    --gold: #6b7280;
+    --gold-light: #9ca3af;
+    --accent: #2a3d5c;
+    --danger-bg: #fdf6f0;
+    --danger-border: #c8a878;
+    --page-max: 820px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 16px; background: var(--cream); color: var(--ink); }
+
+  body {
+    font-family: 'Source Sans 3', Georgia, sans-serif;
+    font-weight: 400;
+    line-height: 1.75;
+    max-width: var(--page-max);
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .cover {
+    padding: 3rem 0 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .cover-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+  }
+
+  .cover h1 {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    font-weight: 500;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+
+  .cover-subtitle {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--ink-muted);
+    margin-bottom: 3rem;
+    line-height: 1.5;
+    max-width: 640px;
+  }
+
+  .cover-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 0.5px solid var(--rule);
+  }
+
+  .cover-meta-item label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .cover-meta-item p {
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    line-height: 1.4;
+  }
+
+  .cover-meta-item a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .exec-summary {
+    background: var(--cream-warm);
+    border-left: 4px solid var(--gold);
+    border-top: 1.5px solid var(--gold-light);
+    padding: 2.25rem 2.75rem;
+    margin-bottom: 4rem;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.055);
+  }
+
+  .exec-summary .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .exec-summary p {
+    font-size: 1rem;
+    color: var(--ink-muted);
+    margin-bottom: 1rem;
+  }
+
+  .exec-summary p:last-child { margin-bottom: 0; }
+
+  .section {
+    margin-bottom: 4.5rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    padding-bottom: 0.875rem;
+    border-bottom: 0.5px solid var(--rule);
+  }
+
+  .section-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 0.2rem;
+  }
+
+  .section-header h2 {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1.65rem;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 2rem 0 0.75rem;
+    letter-spacing: 0.01em;
+  }
+
+  p {
+    font-size: 0.975rem;
+    color: var(--ink-muted);
+    margin-bottom: 1.25rem;
+    line-height: 1.75;
+  }
+
+  ul {
+    margin: 0 0 1.5rem 1.25rem;
+  }
+
+  ul li {
+    font-size: 0.975rem;
+    color: var(--ink-muted);
+    margin-bottom: 0.6rem;
+    line-height: 1.65;
+  }
+
+  .verdict-block {
+    background: var(--cream-warm);
+    border-left: 3px solid var(--rule-strong);
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+  }
+
+  .verdict-block p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .verdict-block p:last-child { margin-bottom: 0; }
+
+  .verdict-allow {
+    border-left-color: #4a7c59;
+  }
+
+  .verdict-escalate {
+    border-left-color: #8a4a3a;
+  }
+
+  .verdict-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .verdict-allow .verdict-label { color: #4a7c59; }
+  .verdict-escalate .verdict-label { color: #8a4a3a; }
+
+  .flow-steps {
+    counter-reset: steps;
+    margin: 2rem 0;
+    list-style: none;
+    padding: 0;
+  }
+
+  .flow-steps li {
+    counter-increment: steps;
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .flow-steps li::before {
+    content: counter(steps);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gold);
+    background: var(--cream-warm);
+    border: 1px solid var(--rule);
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .flow-steps li p {
+    margin-bottom: 0;
+  }
+
+  .cta-block {
+    background: var(--cream-warm);
+    border-top: 1.5px solid var(--rule-strong);
+    border-bottom: 1.5px solid var(--rule-strong);
+    padding: 2.5rem 2.75rem;
+    margin-top: 4rem;
+  }
+
+  .cta-block .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .cta-block p {
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-block a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .cta-block a:hover {
+    text-decoration: underline;
+  }
+
+  .nav-footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 0.5px solid var(--rule);
+    display: flex;
+    gap: 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .nav-footer a {
+    color: var(--ink-faint);
+    text-decoration: none;
+  }
+
+  .nav-footer a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 0 1.25rem 4rem; }
+    .cover-meta { grid-template-columns: 1fr; gap: 1.25rem; }
+    .exec-summary { padding: 1.5rem 1.5rem; }
+    .cta-block { padding: 1.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <p class="cover-eyebrow">Holo Engine · Security Brief</p>
+  <h1>Running OpenClaw in the Enterprise:<br>The Trust Gap and How to Close It</h1>
+  <p class="cover-subtitle">OpenClaw gives AI agents hands. That is why it is spreading. That is also why it is dangerous.</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <label>Published</label>
+      <p>April 2026</p>
+    </div>
+    <div class="cover-meta-item">
+      <label>Topic</label>
+      <p>Agentic AI · Enterprise Security · Action Boundary Risk</p>
+    </div>
+    <div class="cover-meta-item">
+      <label>Related</label>
+      <p><a href="/whitepaper">Whitepaper →</a></p>
+    </div>
+    <div class="cover-meta-item">
+      <label>Benchmark</label>
+      <p><a href="/benchmark">Results →</a></p>
+    </div>
+  </div>
+</div>
+
+<div class="exec-summary">
+  <span class="section-label">Summary</span>
+  <p>OpenClaw can execute actions before anyone has verified that the action itself is sound. A solo model may misread intent, accept a false explanation, or follow a compromised instruction. Once the action executes, the damage is done.</p>
+  <p>Holo Engine is a runtime trust layer that sits between an AI agent and an irreversible action. It evaluates the action using an adversarial multi-model architecture and returns <strong>ALLOW</strong> or <strong>ESCALATE</strong> before execution.</p>
+  <p>The integration is a single API call. The skill is open source.</p>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <span class="section-number">01</span>
+    <h2>The Problem</h2>
+  </div>
+
+  <p>OpenClaw gives AI agents hands. It can browse, click, fill forms, read email, manage files, and execute real-world tasks through the same interfaces humans use. That is why it is spreading so quickly. It is useful immediately, and it works inside the tools people already use.</p>
+
+  <p>That is also why it is dangerous.</p>
+
+  <p>The recent ClawHub marketplace compromise was not an edge case. It was an early warning. OpenClaw is powerful enough to become shadow IT inside real companies before those companies have any serious answer to the question of trust.</p>
+
+  <p>The problem is not whether OpenClaw works. It clearly does.</p>
+
+  <p>The problem is that OpenClaw can execute actions before anyone has verified that the action itself is sound.</p>
+
+  <p>A solo model may:</p>
+
+  <ul>
+    <li>misread a user's intent</li>
+    <li>accept a plausible but false explanation</li>
+    <li>follow a compromised instruction</li>
+    <li>approve a transaction or access change that is syntactically valid but semantically wrong</li>
+  </ul>
+
+  <p>Once the action executes, the damage is already done.</p>
+
+  <p>That is the trust gap.</p>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <span class="section-number">02</span>
+    <h2>The Enterprise Problem</h2>
+  </div>
+
+  <p>For enterprise security teams, OpenClaw creates three immediate risks.</p>
+
+  <h3>Prompt injection and instruction hijacking</h3>
+  <p>An agent reading a malicious email or webpage can be manipulated into executing actions the user never intended.</p>
+
+  <h3>Hallucinated intent</h3>
+  <p>The model may construct a valid-looking action payload that is fundamentally wrong. The rail executes it perfectly. The decision was the problem.</p>
+
+  <h3>Unvetted skill ecosystems</h3>
+  <p>Third-party skills and local automations create a growing attack surface inside authenticated enterprise sessions.</p>
+
+  <p>None of these are theoretical. They are the predictable result of giving agents execution power without a checkpoint.</p>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <span class="section-number">03</span>
+    <h2>The Missing Layer</h2>
+  </div>
+
+  <p>What OpenClaw lacks is not capability. It lacks adjudication.</p>
+
+  <p>Holo Engine is a runtime trust layer that sits between an AI agent and an irreversible action. Before the action executes, Holo evaluates it and returns one of two outcomes:</p>
+
+  <div class="verdict-block verdict-allow">
+    <span class="verdict-label">Allow</span>
+    <p>The action is sufficiently supported by the available evidence. Proceed.</p>
+  </div>
+
+  <div class="verdict-block verdict-escalate">
+    <span class="verdict-label">Escalate</span>
+    <p>The action should pause for human review.</p>
+  </div>
+
+  <p>This is not post-incident monitoring. It is not a log. It is not a dashboard.</p>
+
+  <p>It is a checkpoint at the action boundary.</p>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <span class="section-number">04</span>
+    <h2>How the Integration Works</h2>
+  </div>
+
+  <ol class="flow-steps">
+    <li><p>The OpenClaw skill intercepts any action classified as irreversible before execution.</p></li>
+    <li><p>That payload is sent to Holo Engine.</p></li>
+    <li><p>Holo evaluates the action using its adversarial architecture and returns ALLOW or ESCALATE.</p></li>
+    <li><p>If ALLOW, OpenClaw proceeds.</p></li>
+    <li><p>If ESCALATE, the action pauses and the user is notified in their active channel.</p></li>
+  </ol>
+
+  <p>The result is simple: OpenClaw keeps its hands. Holo provides the judgment.</p>
+</div>
+
+<div class="section">
+  <div class="section-header">
+    <span class="section-number">05</span>
+    <h2>Why This Matters</h2>
+  </div>
+
+  <p>Banning OpenClaw will not work. The utility is too high and the adoption curve is already too steep. Developers will route around any blanket prohibition.</p>
+
+  <p>The only viable path is to secure it.</p>
+
+  <p>That means giving enterprises a way to let agents act without trusting every action by default.</p>
+
+  <p>That is what Holo Engine does.</p>
+</div>
+
+<div class="cta-block">
+  <span class="section-label">Availability</span>
+  <p>Holo Engine is available as a native OpenClaw skill. Developers can integrate it with a single API call.</p>
+  <p>The skill is open source: <a href="https://github.com/twigton447-dev/holo-mvp/blob/main/openclaw_skill.py">github.com/twigton447-dev/holo-mvp</a></p>
+  <p>Enterprise teams interested in design partner access: <a href="mailto:hello@holoengine.ai">hello@holoengine.ai</a></p>
+</div>
+
+<div class="nav-footer">
+  <a href="/">Holo Engine</a>
+  <a href="/whitepaper">Whitepaper</a>
+  <a href="/benchmark">Benchmark</a>
+</div>
+
+</body>
+</html>

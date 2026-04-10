@@ -16,10 +16,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:
 .w{max-width:720px;margin:0 auto;padding:0 24px}
 nav{border-bottom:1px solid var(--border);padding:16px 0}
 .nav-inner{display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--text);text-decoration:none}
-.hex{width:14px;height:14px;background:var(--dark);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);flex-shrink:0}
-.back{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;font-family:var(--mono)}
-.back:hover{color:var(--text)}
+.nav-link{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;font-family:var(--mono)}
+.nav-link:hover{color:var(--text)}
 
 /* PAGE HEADER */
 .page-header{padding:48px 0 40px;border-bottom:1px solid var(--border)}
@@ -146,11 +144,10 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:20px}
 <!-- NAV -->
 <nav>
   <div class="w nav-inner">
-    <a href="/benchmark" class="logo">
-      <div class="hex"></div>
-      Holo Benchmark
-    </a>
-    <a href="/benchmark" class="back">← Back to results</a>
+    <a href="https://holoengine.ai" class="nav-link">Holo Engine ↗</a>
+    <a href="/benchmark" class="nav-link">Benchmark</a>
+    <a href="/whitepaper" class="nav-link">Whitepaper</a>
+    <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank" class="nav-link">GitHub →</a>
   </div>
 </nav>
 

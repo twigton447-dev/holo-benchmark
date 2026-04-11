@@ -933,6 +933,14 @@
     <p>In the completed domains presented here, no single solo model had complete coverage across the flagship cases. GPT missed where Claude caught. Claude missed where Gemini caught. In one case, all three missed simultaneously.</p>
     <p>That is the practical lesson of the benchmark. The problem is not that one lab has the wrong model. The problem is that solo deployment leaves attack-class-specific coverage gaps at the action boundary. Holo's role is to reduce that deployment risk by forcing the proposed action to survive adversarial scrutiny before it becomes irreversible.</p>
   </div>
+
+  <div class="objection">
+    <h3>"Why wouldn't the frontier labs just build this themselves?"</h3>
+    <p>Two reasons, and both matter.</p>
+    <p>The first is structural incentive. A lab's product roadmap is oriented toward making its own model stronger, not toward validating the gaps in it. Building a trust layer that routes enterprise decisions through competing models is not consistent with that incentive structure. It is not a criticism of any lab. It is simply not their business.</p>
+    <p>The second is architectural. The adversarial reactor depends on genuine DNA diversity across its constituent models. Models from the same provider family share training lineage, alignment patterns, and likely overlapping blindspots. Running two models from the same lab in sequence does not produce a skeptic and a believer. It produces two analysts with similar priors reinforcing each other. The coverage gap the architecture is designed to close would remain open.</p>
+    <p>Holo's model-agnostic design is not a feature added for flexibility. It is a requirement of the architecture. That requirement is structurally incompatible with a single-lab product.</p>
+  </div>
 </div>
 
 <!-- SECTION 8 -->

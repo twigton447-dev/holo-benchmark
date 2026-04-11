@@ -507,6 +507,47 @@
     line-height: 1.8;
   }
 
+  /* ── TOC ── */
+  .toc {
+    margin: 2.5rem 0 3rem;
+    padding: 1.5rem 1.75rem;
+    border: 0.5px solid var(--rule-strong);
+    background: var(--cream-warm);
+  }
+  .toc-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .toc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .toc-list a {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    text-decoration: none;
+    color: var(--ink-muted);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    transition: color 0.15s;
+  }
+  .toc-list a:hover { color: var(--ink); }
+  .toc-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gold-light);
+    min-width: 1.4rem;
+    flex-shrink: 0;
+  }
+  .toc-title { font-weight: 500; }
+
   /* ── PRINT ── */
   @media print {
     body { max-width: none; padding: 0; background: white; }
@@ -601,8 +642,26 @@
 
 </div>
 
+<!-- TABLE OF CONTENTS -->
+<nav class="toc">
+  <div class="toc-label">Contents</div>
+  <ol class="toc-list">
+    <li><a href="#s1"><span class="toc-num">01</span><span class="toc-title">Introduction</span></a></li>
+    <li><a href="#s2"><span class="toc-num">02</span><span class="toc-title">Methodology</span></a></li>
+    <li><a href="#s3"><span class="toc-num">03</span><span class="toc-title">Domain 1 — Accounts Payable / Business Email Compromise</span></a></li>
+    <li><a href="#s4"><span class="toc-num">04</span><span class="toc-title">Domain 2 — Agentic Commerce</span></a></li>
+    <li><a href="#s5"><span class="toc-num">05</span><span class="toc-title">Coverage Gaps Across Models</span></a></li>
+    <li><a href="#s6"><span class="toc-num">06</span><span class="toc-title">Architecture</span></a></li>
+    <li><a href="#s7"><span class="toc-num">07</span><span class="toc-title">Objections</span></a></li>
+    <li><a href="#s8"><span class="toc-num">08</span><span class="toc-title">The Blindspot Atlas</span></a></li>
+    <li><a href="#s9"><span class="toc-num">09</span><span class="toc-title">What Comes Next</span></a></li>
+    <li><a href="#s10"><span class="toc-num">10</span><span class="toc-title">Limitations</span></a></li>
+    <li><a href="#s11"><span class="toc-num">11</span><span class="toc-title">Conclusion</span></a></li>
+  </ol>
+</nav>
+
 <!-- SECTION 1 -->
-<div class="section">
+<div id="s1" class="section">
   <div class="section-header">
     <span class="section-number">Section 01</span>
     <h2>Introduction</h2>
@@ -651,7 +710,7 @@
 </div>
 
 <!-- SECTION 2 -->
-<div class="section">
+<div id="s2" class="section">
   <div class="section-header">
     <span class="section-number">Section 02</span>
     <h2>Methodology</h2>
@@ -700,7 +759,7 @@
 </div>
 
 <!-- SECTION 3 -->
-<div class="section">
+<div id="s3" class="section">
   <div class="section-header">
     <span class="section-number">Section 03</span>
     <h2>Domain 1: Accounts Payable / Business Email Compromise</h2>
@@ -751,7 +810,7 @@
 </div>
 
 <!-- SECTION 4 -->
-<div class="section">
+<div id="s4" class="section">
   <div class="section-header">
     <span class="section-number">Section 04</span>
     <h2>Domain 2: Agentic Commerce</h2>
@@ -789,7 +848,7 @@
 </div>
 
 <!-- SECTION 5 -->
-<div class="section">
+<div id="s5" class="section">
   <div class="section-header">
     <span class="section-number">Section 05</span>
     <h2>Coverage Gaps Across Models</h2>
@@ -826,7 +885,7 @@
 </div>
 
 <!-- SECTION 6 -->
-<div class="section">
+<div id="s6" class="section">
   <div class="section-header">
     <span class="section-number">Section 06</span>
     <h2>Architecture</h2>
@@ -865,7 +924,7 @@
 </div>
 
 <!-- SECTION 7 -->
-<div class="section">
+<div id="s7" class="section">
   <div class="section-header">
     <span class="section-number">Section 07</span>
     <h2>Objections</h2>
@@ -944,7 +1003,7 @@
 </div>
 
 <!-- SECTION 8 -->
-<div class="section">
+<div id="s8" class="section">
   <div class="section-header">
     <span class="section-number">Section 08</span>
     <h2>The Blindspot Atlas</h2>
@@ -958,7 +1017,7 @@
 </div>
 
 <!-- SECTION 9 -->
-<div class="section">
+<div id="s9" class="section">
   <div class="section-header">
     <span class="section-number">Section 09</span>
     <h2>What Comes Next</h2>
@@ -1038,7 +1097,7 @@
 </div>
 
 <!-- SECTION 10 -->
-<div class="section">
+<div id="s10" class="section">
   <div class="section-header">
     <span class="section-number">Section 10</span>
     <h2>Limitations</h2>
@@ -1072,7 +1131,7 @@
 </div>
 
 <!-- CONCLUSION -->
-<div class="section">
+<div id="s11" class="section">
   <div class="section-header">
     <h2>Conclusion</h2>
   </div>

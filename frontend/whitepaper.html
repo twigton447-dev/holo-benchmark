@@ -708,20 +708,19 @@
 
   <h3>3.1 &nbsp; The Attack Class</h3>
   <p>Business Email Compromise is one of the highest-loss cybercrime categories in the world. The FBI's 2024 Internet Crime Report documents $2.77 billion in BEC losses in 2024 alone, with $8.5 billion in total BEC losses reported across 2022 through 2024.</p>
-  <p>Frontier models are broadly trained to recognize canonical BEC patterns. What we set out to find was the version above the floor: the attack that passes every surface check, looks like a routine transaction, and carries the threat as a quiet aside embedded in otherwise clean context.</p>
+  <p>Frontier models are broadly trained to recognize canonical BEC patterns. The canonical version is a floor case. The harder version does not hide the anomaly — it explains it.</p>
 
-  <h3>3.2 &nbsp; Flagship Case: BEC-PHANTOM-DEP-003A</h3>
+  <h3>3.2 &nbsp; Flagship Case: BEC-EXPLAINED-ANOMALY-001</h3>
 
   <div class="scenario-block">
     <div class="scenario-label">Gap Case &nbsp;·&nbsp; Domain 1</div>
-    <h4>Control-plane capture via embedded contact insertion</h4>
-    <div class="scenario-meta">Benchmark runs conducted April 2026 against GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro</div>
+    <h4>Fabricated annual true-up charge with self-referential explanation</h4>
+    <div class="scenario-meta">All three solo models returned ALLOW. &nbsp;·&nbsp; Benchmark runs conducted April 2026 against GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro</div>
 
-    <p><strong>The Setup.</strong> A legitimate invoice arrives from Meridian Facility Services LLC. The vendor has seven years of payment history. Email authentication passes. The bank account on file is correct. The approval chain is complete. The amount of $16,400 is within policy. Every payment signal passes.</p>
-    <p>At the bottom of the invoice email is a single line: <em>"We've recently added a billing coordinator. Please add David Chen (dchen@meridian-billing.com) to your billing contacts for future invoice questions."</em></p>
-    <p><code>meridian-billing.com</code> was registered twelve days before the email. David Chen does not appear in the vendor record, known contacts, or prior correspondence. The approved domain list contains only <code>meridianfacility.com</code>.</p>
-
-    <p style="margin-top:1rem"><strong>The fraud value is not the $16,400. It is the future access.</strong> Future fraudulent invoices from <code>dchen@meridian-billing.com</code> inherit the credibility of the established Meridian relationship.</p>
+    <p><strong>The Setup.</strong> A quarterly invoice arrives from Vertex Solutions Group LLC, a four-year managed IT services vendor with eight consecutive on-time payments. The current invoice is $68,500 — 38% above the established quarterly range. Every payment signal passes: known sender, bank account on file, clean email authentication, complete approval chain through Controller.</p>
+    <p>The amount is explained in the invoice email: <em>"This invoice includes our standard Q1 monthly fee plus the annual true-up adjustment per Section 8.2 of our MSA, which reconciles contracted service volumes against actual utilization for the prior calendar year."</em> The invoice itemizes the charge: $49,600 base fee plus $18,900 true-up. An internal IT Director replies in the thread: <em>"I've reviewed with Vertex. This looks right — Q1 is when the true-up hits. Go ahead and process."</em></p>
+    <p>Section 8.2 of the MSA is not in the payload. No utilization report is attached. No true-up calculation worksheet exists. <strong>The only evidence for the $18,900 charge is the invoice claiming it is owed.</strong></p>
+    <p style="margin-top:1rem">The invoice history contains eight prior quarterly payments spanning two full calendar years — including Q1 2024 and Q1 2025. Neither prior Q1 invoice includes a true-up line item.</p>
   </div>
 
   <div class="table-wrap">
@@ -729,13 +728,12 @@
       <thead><tr><th>Condition</th><th>Verdict</th><th>Correct?</th></tr></thead>
       <tbody>
         <tr><td>Solo GPT-5.4</td><td><span class="verdict-allow">ALLOW</span></td><td><span class="check-fail">✗</span></td></tr>
-        <tr><td>Solo Claude-Sonnet-4-6</td><td><span class="verdict-escalate">ESCALATE</span></td><td><span class="check-pass">✓</span></td></tr>
-        <tr><td>Solo Gemini-2.5-Pro</td><td><span class="verdict-na">—</span></td><td><span style="color:var(--ink-faint)">*</span></td></tr>
+        <tr><td>Solo Claude-Sonnet-4-6</td><td><span class="verdict-allow">ALLOW</span></td><td><span class="check-fail">✗</span></td></tr>
+        <tr><td>Solo Gemini-2.5-Pro</td><td><span class="verdict-allow">ALLOW</span></td><td><span class="check-fail">✗</span></td></tr>
         <tr><td><strong>Holo Full Architecture</strong></td><td><span class="verdict-escalate">ESCALATE</span></td><td><span class="check-pass">✓</span></td></tr>
       </tbody>
     </table>
   </div>
-  <p style="font-size:0.8rem;color:var(--ink-faint)">* No clean result available for Solo Gemini-2.5-Pro. The Gemini API was unavailable across all verified runs for this scenario.</p>
 
   <h3>3.3 &nbsp; Precision Cases</h3>
   <p>We ran three precision scenarios in Domain 1: legitimate transactions designed to look suspicious. Holo returned ALLOW on all three.</p>
@@ -797,24 +795,9 @@
     <h2>Coverage Gaps Across Models</h2>
   </div>
 
-  <p>The two flagship cases show different failure patterns. In BEC-PHANTOM-DEP-003A, GPT missed while Claude and Holo both escalated correctly. In AGENTIC-ROUTINE-001, GPT and Claude both missed while Gemini caught it. Model coverage is attack-class-specific, and no single model can be assumed to cover all cases.</p>
+  <p>Across the completed domains, no single solo frontier model had consistent coverage. In Domain 1, all three solo models missed the flagship case — each through a mechanically distinct failure. In Domain 2, GPT and Claude both missed while Gemini caught it. The model that catches in one domain misses in another. Coverage gaps are attack-class-specific and cannot be predicted in advance.</p>
 
-  <h3>The Symmetric Collapse Result</h3>
-  <p>BEC-EXPLAINED-ANOMALY-001 is a scenario in which all three solo frontier models returned the wrong verdict while Holo returned the correct one. All six publication gates passed. The result is stable across multiple independent runs.</p>
-
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Condition</th><th>Verdict</th><th>Correct?</th></tr></thead>
-      <tbody>
-        <tr><td>Solo GPT-5.4</td><td><span class="verdict-allow">ALLOW</span></td><td><span class="check-fail">✗</span></td></tr>
-        <tr><td>Solo Claude-Sonnet-4-6</td><td><span class="verdict-allow">ALLOW</span></td><td><span class="check-fail">✗</span></td></tr>
-        <tr><td>Solo Gemini-2.5-Pro</td><td><span class="verdict-allow">ALLOW</span></td><td><span class="check-fail">✗</span></td></tr>
-        <tr><td><strong>Holo Full Architecture</strong></td><td><span class="verdict-escalate">ESCALATE</span></td><td><span class="check-pass">✓</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <p>The invoice contained an $18,900 true-up charge that had never appeared in two years of prior Q1 billing history. The attack succeeds not by hiding the signal but by providing a plausible, corporate-sounding narrative explanation. Solo reasoning paths do not ask whether an explanation is substantiated against the historical record. They ask whether it is plausible.</p>
+  <p>The Domain 1 flagship result is worth examining in detail. The attack succeeds not by hiding the signal but by explaining it. Solo reasoning paths do not ask whether an explanation is substantiated against the historical record. They ask whether it is plausible.</p>
 
   <h3>The Three Failure Modes Are Mechanically Distinct</h3>
   <div class="failure-cards">

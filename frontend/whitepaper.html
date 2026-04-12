@@ -277,10 +277,10 @@
   tbody tr:hover td { background: var(--cream-warm); }
 
   .verdict-allow { color: #c0392b; font-weight: 500; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
-  .verdict-escalate { color: #059669; font-weight: 600; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
+  .verdict-escalate { color: #27645a; font-weight: 500; font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
   .verdict-na { color: var(--ink-faint); font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; }
 
-  .check-pass { color: #059669; font-weight: 700; }
+  .check-pass { color: #27645a; font-weight: 600; }
   .check-fail { color: #c0392b; font-weight: 600; }
 
   /* ── SCENARIO BLOCK ── */
@@ -584,7 +584,7 @@
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-eyebrow">April 2026</div>
+  <div class="cover-eyebrow">Version 2.0 &nbsp;·&nbsp; April 12, 2026</div>
   <h1>Blindspots at the Action Boundary</h1>
   <p class="cover-subtitle">Why Frontier Models Fail on High-Consequence AI Decisions: and What Architecture Can Do About It</p>
   <div class="cover-meta">
@@ -605,50 +605,73 @@
 <!-- EXECUTIVE SUMMARY -->
 <div class="exec-summary">
   <div class="section-label">Executive Summary</div>
-  <p style="margin-top:0.75rem">AI agents are now being deployed into the most critical workflows in the global economy: approving payments, executing contracts, granting access, and initiating operational changes on behalf of real organizations. These systems are increasingly being built on a small number of frontier models. The practical question is no longer whether these models are impressive. <strong>It is where they fail when the cost of failure becomes irreversible.</strong></p>
-  <p>This paper documents a targeted search for that breaking point at the <strong>action boundary</strong>: the moment just before an AI system's output becomes a real-world commitment.</p>
-  <p>To test that boundary fairly, we evaluated some of the strongest publicly available frontier models from multiple labs at the time of testing — GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro — as solo baselines. We then tested Holo Engine against those same baselines. Holo is model-agnostic, but the purpose of this benchmark was to measure what was possible against the most capable solo systems available at the time, not against weaker controls.</p>
-  <p>In the benchmark's primary finding, <strong>all three frontier baseline models independently approved a fraudulent transaction.</strong> Holo Engine, a runtime trust layer and adversarial checkpoint architecture designed for the action boundary, escalated it correctly. The failure was not a quirk of one model. It was a structural pattern: <strong>solo judgment has a ceiling when faced with a plausible but unverifiable narrative.</strong></p>
+
+  <p style="margin-top:0.75rem">AI systems are no longer confined to analysis. They are beginning to approve payments, grant access, issue contracts, place orders, and trigger system changes in real workflows.</p>
+
+  <p>That shift creates a new problem. The most important moment in any agentic workflow is not when the model begins reasoning. It is <strong>the final moment before its output becomes a real-world consequence.</strong></p>
+
+  <p>We call that moment the <strong>action boundary</strong>.</p>
+
+  <p>The action boundary is the last reversible instant before an AI decision becomes execution: before a wire transfer is submitted, before access is granted, before a purchase order is approved, before a contract step commits. Human beings recognize this moment instinctively. AI agents do not. <strong>They do not hesitate, second-guess, or feel consequence. They continue unless something external stops them.</strong></p>
+
+  <p><strong>Holo Engine was built for that moment.</strong></p>
+
+  <div class="callout-key" style="margin:1.25rem 0 1rem">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:0.5rem">Holo Engine in one sentence</span>
+    Holo Engine ensures every AI transaction is intentional by intercepting actions at the last reversible moment before execution and determining whether they are authorized, contextually coherent, and safe to carry out.
+  </div>
+
+  <p>Holo Engine is a runtime trust layer that sits at the action boundary of agentic workflows, intercepting irreversible AI-initiated actions and returning <strong>ALLOW</strong> or <strong>ESCALATE</strong> before execution proceeds.</p>
+
+  <p>This paper presents benchmark evidence that <strong>solo frontier-model judgment has a structural ceiling at the action boundary.</strong> Across high-consequence scenarios, strong standalone models can still approve actions that should not proceed. Holo's architecture was designed to intervene at that final checkpoint and stop those failures before they become real.</p>
+
+  <p>To test that boundary fairly, we evaluated some of the strongest publicly available frontier models from multiple labs — GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro — as solo baselines. We then tested Holo Engine against those same baselines. Holo is model-agnostic, but the purpose of this benchmark was to measure what was possible against the most capable solo systems available at the time, not against weaker controls.</p>
+
+  <p>In one benchmark scenario, <strong>all three frontier baseline models independently approved a fraudulent transaction.</strong> Holo Engine escalated it correctly. The failure was not a quirk of one model. It was a structural pattern: <strong>solo judgment has a ceiling when faced with a plausible but unverifiable narrative.</strong></p>
+
   <p>This is not an argument against any one model or lab. It is evidence that <strong>strong solo frontier models can still fail in materially important ways at the moment before execution</strong>, and that a properly structured adversarial architecture can remain strong where solo judgment breaks.</p>
-  <p>The benchmark presented here covers an eight-domain research program focused on high-consequence AI actions. Two domains are complete and published in this paper. Six are in development. Together they form the beginning of the <strong>Blindspot Atlas</strong>: a growing corpus of domain-specific failure patterns at the action boundary, designed to improve Holo's own coverage and, over time, help the frontier labs themselves better understand and reduce these blindspots.</p>
+
+  <p>The benchmark covers an eight-domain research program focused on high-consequence AI actions. Two domains are complete and published in this paper. Six are in development. Together they form the beginning of the <strong>Blindspot Atlas</strong>: a growing corpus of domain-specific failure patterns at the action boundary.</p>
+
   <p style="font-size:0.875rem;color:var(--ink-faint)">Models tested: GPT-5.4 &nbsp;·&nbsp; Claude-Sonnet-4-6 &nbsp;·&nbsp; Gemini-2.5-Pro &nbsp;·&nbsp; Holo Full Architecture</p>
 
-  <p style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-top:24px;margin-bottom:12px;font-weight:600">Domains</p>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:2px solid var(--gold);border-radius:6px;overflow:hidden;margin-top:0;margin-bottom:20px">
-    <div style="padding:14px 18px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);display:flex;align-items:flex-start;gap:10px;background:rgba(138,122,82,0.06)">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;background:var(--gold);color:#fff;padding:3px 7px;border-radius:2px;flex-shrink:0;margin-top:2px">1</span>
-      <div><div style="font-size:14px;font-weight:700;color:var(--ink)">Accounts Payable / BEC</div><div style="font-size:11px;color:var(--gold);font-family:'IBM Plex Mono',monospace;font-weight:700;letter-spacing:0.1em;margin-top:3px">Complete</div></div>
+  <p style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-top:24px;margin-bottom:10px;font-weight:500">Domains</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid var(--rule);border-radius:6px;overflow:hidden;margin-top:0;margin-bottom:20px">
+    <div style="padding:10px 14px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);display:flex;align-items:flex-start;gap:8px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;background:var(--gold);color:#fff;padding:2px 5px;border-radius:2px;flex-shrink:0;margin-top:2px">1</span>
+      <div><div style="font-size:12px;font-weight:600;color:var(--ink)">Accounts Payable / BEC</div><div style="font-size:11px;color:var(--gold);font-family:'IBM Plex Mono',monospace;font-weight:500">Complete</div></div>
     </div>
-    <div style="padding:14px 18px;border-bottom:1px solid var(--rule);display:flex;align-items:flex-start;gap:10px;background:rgba(138,122,82,0.06)">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;background:var(--gold);color:#fff;padding:3px 7px;border-radius:2px;flex-shrink:0;margin-top:2px">2</span>
-      <div><div style="font-size:14px;font-weight:700;color:var(--ink)">Agentic Commerce</div><div style="font-size:11px;color:var(--gold);font-family:'IBM Plex Mono',monospace;font-weight:700;letter-spacing:0.1em;margin-top:3px">Complete</div></div>
+    <div style="padding:10px 14px;border-bottom:1px solid var(--rule);display:flex;align-items:flex-start;gap:8px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;background:var(--gold);color:#fff;padding:2px 5px;border-radius:2px;flex-shrink:0;margin-top:2px">2</span>
+      <div><div style="font-size:12px;font-weight:600;color:var(--ink)">Agentic Commerce</div><div style="font-size:11px;color:var(--gold);font-family:'IBM Plex Mono',monospace;font-weight:500">Complete</div></div>
     </div>
-    <div style="padding:14px 18px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);display:flex;align-items:flex-start;gap:10px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;background:var(--rule-strong);color:#fff;padding:3px 7px;border-radius:2px;flex-shrink:0;margin-top:2px">3</span>
-      <div><div style="font-size:14px;font-weight:500;color:var(--ink-muted)">Contract Execution</div><div style="font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;margin-top:3px">In Design</div></div>
+    <div style="padding:10px 14px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);display:flex;align-items:flex-start;gap:8px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;background:var(--rule-strong);color:#fff;padding:2px 5px;border-radius:2px;flex-shrink:0;margin-top:2px">3</span>
+      <div><div style="font-size:12px;font-weight:500;color:var(--ink-muted)">Contract Execution</div><div style="font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace">Pending</div></div>
     </div>
-    <div style="padding:14px 18px;border-bottom:1px solid var(--rule);display:flex;align-items:flex-start;gap:10px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;background:var(--rule-strong);color:#fff;padding:3px 7px;border-radius:2px;flex-shrink:0;margin-top:2px">4</span>
-      <div><div style="font-size:14px;font-weight:500;color:var(--ink-muted)">Identity and Access Provisioning</div><div style="font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;margin-top:3px">In Design</div></div>
+    <div style="padding:10px 14px;border-bottom:1px solid var(--rule);display:flex;align-items:flex-start;gap:8px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;background:var(--rule-strong);color:#fff;padding:2px 5px;border-radius:2px;flex-shrink:0;margin-top:2px">4</span>
+      <div><div style="font-size:12px;font-weight:500;color:var(--ink-muted)">Identity and Access Provisioning</div><div style="font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace">Pending</div></div>
     </div>
-    <div style="padding:14px 18px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);display:flex;align-items:flex-start;gap:10px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;background:var(--rule-strong);color:#fff;padding:3px 7px;border-radius:2px;flex-shrink:0;margin-top:2px">5</span>
-      <div><div style="font-size:14px;font-weight:500;color:var(--ink-muted)">Legal and Compliance</div><div style="font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;margin-top:3px">In Design</div></div>
+    <div style="padding:10px 14px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);display:flex;align-items:flex-start;gap:8px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;background:var(--rule-strong);color:#fff;padding:2px 5px;border-radius:2px;flex-shrink:0;margin-top:2px">5</span>
+      <div><div style="font-size:12px;font-weight:500;color:var(--ink-muted)">Legal and Compliance</div><div style="font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace">Pending</div></div>
     </div>
-    <div style="padding:14px 18px;border-bottom:1px solid var(--rule);display:flex;align-items:flex-start;gap:10px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;background:var(--rule-strong);color:#fff;padding:3px 7px;border-radius:2px;flex-shrink:0;margin-top:2px">6</span>
-      <div><div style="font-size:14px;font-weight:500;color:var(--ink-muted)">HR and Employment Actions</div><div style="font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;margin-top:3px">In Design</div></div>
+    <div style="padding:10px 14px;border-bottom:1px solid var(--rule);display:flex;align-items:flex-start;gap:8px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;background:var(--rule-strong);color:#fff;padding:2px 5px;border-radius:2px;flex-shrink:0;margin-top:2px">6</span>
+      <div><div style="font-size:12px;font-weight:500;color:var(--ink-muted)">HR and Employment Actions</div><div style="font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace">Pending</div></div>
     </div>
-    <div style="padding:14px 18px;border-right:1px solid var(--rule);display:flex;align-items:flex-start;gap:10px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;background:var(--rule-strong);color:#fff;padding:3px 7px;border-radius:2px;flex-shrink:0;margin-top:2px">7</span>
-      <div><div style="font-size:14px;font-weight:500;color:var(--ink-muted)">Infrastructure and Security Operations</div><div style="font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;margin-top:3px">In Design</div></div>
+    <div style="padding:10px 14px;border-right:1px solid var(--rule);display:flex;align-items:flex-start;gap:8px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;background:var(--rule-strong);color:#fff;padding:2px 5px;border-radius:2px;flex-shrink:0;margin-top:2px">7</span>
+      <div><div style="font-size:12px;font-weight:500;color:var(--ink-muted)">Infrastructure and Security Operations</div><div style="font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace">Pending</div></div>
     </div>
-    <div style="padding:14px 18px;display:flex;align-items:flex-start;gap:10px">
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;background:var(--rule-strong);color:#fff;padding:3px 7px;border-radius:2px;flex-shrink:0;margin-top:2px">8</span>
-      <div><div style="font-size:14px;font-weight:500;color:var(--ink-muted)">Financial Reporting and Audit</div><div style="font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace;margin-top:3px">In Design</div></div>
+    <div style="padding:10px 14px;display:flex;align-items:flex-start;gap:8px">
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;background:var(--rule-strong);color:#fff;padding:2px 5px;border-radius:2px;flex-shrink:0;margin-top:2px">8</span>
+      <div><div style="font-size:12px;font-weight:500;color:var(--ink-muted)">Financial Reporting and Audit</div><div style="font-size:11px;color:var(--ink-faint);font-family:'IBM Plex Mono',monospace">Pending</div></div>
     </div>
   </div>
 
+  <p style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-top:1.5rem;margin-bottom:0;font-weight:500">Ensuring every AI transaction is intentional.</p>
 
 </div>
 
@@ -656,7 +679,7 @@
 <nav class="toc">
   <div class="toc-label">Contents</div>
   <ol class="toc-list">
-    <li><a href="#s1"><span class="toc-num">01</span><span class="toc-title">Introduction</span></a></li>
+    <li><a href="#s1"><span class="toc-num">01</span><span class="toc-title">Introduction — incl. The Action Boundary &amp; The Capability Horizon</span></a></li>
     <li><a href="#s2"><span class="toc-num">02</span><span class="toc-title">Methodology</span></a></li>
     <li><a href="#s3"><span class="toc-num">03</span><span class="toc-title">Domain 1 — Accounts Payable / Business Email Compromise</span></a></li>
     <li><a href="#s4"><span class="toc-num">04</span><span class="toc-title">Domain 2 — Agentic Commerce</span></a></li>
@@ -687,19 +710,34 @@
   <p>This benchmark program is designed to find where those models break under adversarial conditions at the action boundary. This paper presents the first two completed domains of a planned eight-domain program. The goal of the full program is to build the Blindspot Atlas: a structured, domain-by-domain corpus of failure patterns at the action boundary across the major agentic workflows where these systems operate today.</p>
 
   <h3>1.2 &nbsp; The Action Boundary</h3>
-  <p>Everyone knows the action boundary. It is the moment before your plane takes off. The moment your pen touches the contract. The moment you type your bank account number into the portal and hover over Submit.</p>
-  <p>Human beings feel it. There is a physiological response. AI agents have the same boundary, but they do not feel it. There is no hesitation, no second thought, no instinct that something is off.</p>
-  <p>In this paper, the <strong>action boundary</strong> refers to the point at which an AI system's output stops being analysis and becomes execution: a wire is approved, a purchase is placed, access is granted, a contract is issued, or a system change is executed.</p>
+  <p>The action boundary is the last reversible instant before a decision becomes a consequence.</p>
+  <p>It is the moment before a plane leaves the runway. The moment before a contract is signed. The moment before a wire transfer is submitted, access is granted, a purchase order is approved, or a system change is executed.</p>
+  <p>Human beings recognize this moment instinctively. There is often a pause — a final check, a flicker of doubt, a confirmation that the conditions are right. AI agents do not experience that pause. They do not feel hesitation, risk, or consequence. They continue unless something external stops them.</p>
+  <p>In this paper, the <strong>action boundary</strong> refers to the point at which an AI system's output stops being analysis and becomes execution. At that moment, the question is no longer whether the system can produce a plausible answer. The question is whether the action should happen at all.</p>
+  <p>Every irreversible action is the endpoint of a story. Messages, approvals, identities, thresholds, prior behavior, missing checks, and contextual signals all led to this exact moment. That story contains the closest available evidence of whether the action is authorized, contextually coherent, and safe to carry out.</p>
+  <p>Holo Engine freezes time at the action boundary. It reconstructs the decision path that produced the action, tests whether that action is authorized, contextually coherent, and safe to execute, and returns a single answer before anything becomes irreversible.</p>
+  <div class="callout-key">Ensuring every AI transaction is intentional.</div>
+  <p>In most cases, the story holds together and the action proceeds. When it does not, Holo stops the process at the last moment it can still be stopped.</p>
+  <p><em>That is the only moment that matters.</em></p>
 
-  <h3>1.3 &nbsp; The Gap Nobody Filled</h3>
+  <h3>1.3 &nbsp; The Capability Horizon</h3>
+  <p>The threat model this paper addresses is not hypothetical. It is accelerating.</p>
+  <p>On April 7, 2026, Anthropic announced Project Glasswing and the Claude Mythos Preview — a frontier model with unusually strong autonomous cyber capability, including the ability to discover and exploit zero-day vulnerabilities. Anthropic cited significant misuse risk and made Mythos available only through controlled access, not broad release. The current response to Mythos-class capability is gated access: restricting which operators can deploy it and under what conditions.</p>
+  <p>That strategy is appropriate today. It will not be sufficient indefinitely.</p>
+  <p>AI capability at this level will not remain concentrated. As Mythos-class capability proliferates to open-weight models — as it inevitably will — gating access will cease to be a viable security strategy. Organizations will face autonomous AI agents with sophisticated capability that no one credentialed or approved. The question of what these agents are authorized to do, in what context, and with what oversight will not be answerable at the access layer. It will have to be answered at the execution layer.</p>
+  <div class="pullquote">Project Glasswing materially strengthens the case that high-consequence AI capabilities are emerging faster than deployment safeguards, reinforcing the need for model-agnostic runtime control at the point of execution.</div>
+  <p>A runtime trust layer that intercepts irreversible execution before it proceeds is not a niche security tool. In a post-proliferation environment, it is a necessary defense posture.</p>
+  <p style="font-size:0.825rem;color:var(--ink-faint)">Note: We do not claim Anthropic's access-gating strategy endorses runtime interception, nor that Project Glasswing directly validates Holo's architecture. We note it because it is public evidence that even the labs developing these capabilities recognize the gap between capability and deployment safety. Their current answer is access control. The necessary complement is execution control.</p>
+
+  <h3>1.4 &nbsp; The Gap Nobody Filled</h3>
   <p><strong>Upstream controls</strong> focus on sanitizing inputs. They are structurally incapable of evaluating whether the action a model proposes (based on clean and legitimate inputs) is itself safe to execute.</p>
   <p><strong>Downstream controls</strong> focus on monitoring outputs after the fact. They are not designed for prevention. By the time they fire, the wire has cleared.</p>
   <div class="pullquote">The moment just before execution, when the agent has formed its intent, the action is fully specified, and the commitment is about to become irreversible, is the highest-leverage intervention point in the entire agentic stack.</div>
   <p>This is not a moment that benefits from a checklist or a pattern-match. It benefits from adversarial pressure: a system that asks not just "does this look right" but "what would have to be true for this to be wrong."</p>
-  <p>No existing security layer is designed to do this. Holo is.</p>
+  <p>The action boundary has been largely unguarded. Holo is a runtime trust layer designed to fill that gap.</p>
   <p style="font-size:0.825rem;color:var(--ink-faint)">NIST AI 600-1 (2024), DOI: 10.6028/NIST.AI.600-1 &nbsp;·&nbsp; NIST CAISI Federal Register Docket NIST-2025-0035, January 8, 2026</p>
 
-  <h3>1.4 &nbsp; The Real Stakes</h3>
+  <h3>1.5 &nbsp; The Real Stakes</h3>
   <p>The agent is not the principal. It is the proxy. And proxies can be exploited.</p>
   <p>An adversary who understands this system does not need to fool the human. They only need to fool the agent. And because the adversary has access to the same frontier models the agent is built on, they can test their attack against the agent's own reasoning until they find the version that passes.</p>
   <div class="callout-key">Overconfidence in a solo model is not a minor calibration problem. At the action boundary, it is a structural vulnerability.</div>
@@ -707,12 +745,13 @@
   <p>The answer is not simply a smarter agent. A smarter agent may still carry smarter blindspots. The answer is a checkpoint: a system that does not trust the agent's confidence, does not accept its verdict at face value, and forces the proposed action to survive adversarial scrutiny before it is allowed to become real.</p>
   <p style="font-size:0.825rem;color:var(--ink-faint)">Lynch, A. et al. "Agentic Misalignment: How LLMs Could Be Insider Threats." arXiv:2510.05179. Anthropic Research. October 2025.</p>
 
-  <h3>1.5 &nbsp; What Holo Is, in Plain Terms</h3>
-  <p>The closest real-world analogy to Holo is airport security. Every item receives the same structured treatment. A coordinated team examines it from multiple angles using different instruments. Most items clear immediately. Some require a second look. A small number are flagged for intervention.</p>
+  <h3>1.6 &nbsp; What Holo Is, in Plain Terms</h3>
+  <p><strong>Holo Engine is a runtime trust layer that sits at the action boundary of agentic workflows, intercepting irreversible AI-initiated actions and returning ALLOW or ESCALATE before execution proceeds.</strong></p>
+  <p>The closest real-world analogy is airport security. Every item receives the same structured treatment. A coordinated team examines it from multiple angles using different instruments. Most items clear immediately. Some require a second look. A small number are flagged for intervention.</p>
   <p>In enterprise security terms, Holo functions as a semantic policy decision point: a runtime checkpoint that evaluates the business meaning of a proposed action, not just its surface compliance with fixed rules.</p>
   <p>The true power of the system is not only what it catches. It is also what is never attempted because the checkpoint exists. Deterrence is a documented and legitimate security outcome. Holo operates on the same principle at the action boundary.</p>
 
-  <h3>1.6 &nbsp; The Symmetric Arms Race</h3>
+  <h3>1.7 &nbsp; The Symmetric Arms Race</h3>
   <p>The same frontier models available to a Fortune 500 company's procurement team are available to anyone with a credit card and an API key. The intelligence is not classified. It is not scarce. It is a commodity. And commoditized intelligence means commoditized attack capability.</p>
   <p>The only viable response is an architecture that scales with the threat: one that uses the same improving models to pressure-test decisions rather than simply execute them. As the underlying models improve, Holo improves with them.</p>
   <p>Recent survey work on hallucination in large language models suggests that unsupported inference and fabricated reasoning remain persistent failure modes even as models improve. That matters at the action boundary because a plausible but unverified explanation can be enough to trigger irreversible action.</p>
@@ -891,7 +930,7 @@
 
   <div class="pullquote">A solo model cannot be both the skeptic and the believer at the same time. Holo's architecture separates those roles across different models by design.</div>
 
-  <div class="callout-key">Holo should not be read as an argument against any one frontier model. The operational lesson is narrower and more important: solo deployment of any single model leaves coverage gaps at the action boundary. Holo's role is to reduce that deployment risk, including for organizations that standardize on Claude, GPT, or Gemini.</div>
+  <div class="callout-key">Holo should not be read as an argument against any one frontier model. The operational lesson is narrower and more important: solo deployment of any single model leaves coverage gaps at the action boundary that are model-specific and non-overlapping. Holo's role is to reduce that deployment risk, including for organizations that standardize on Claude, GPT, or Gemini.</div>
 </div>
 
 <!-- SECTION 6 -->
@@ -1154,7 +1193,7 @@
   <p>What that means in practice is a semantic policy decision point at the action boundary: a layer that makes autonomous approvals safe enough to turn on.</p>
 
   <p>Behind every agentic workflow in this benchmark is a person who might not know an AI made the decision. The small business owner whose vendor payment was rerouted. The employee whose system access was quietly expanded. The company whose contract now contains terms no one approved. They did not interact with the model. They did not see the payload. The action boundary is invisible to them. That is exactly why it cannot be unguarded.</p>
-  <p><strong>We are building it.</strong></p>
+  <p style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-top:1.75rem;font-weight:500">Ensuring every AI transaction is intentional.</p>
 </div>
 
 <!-- REFERENCES -->
@@ -1167,6 +1206,7 @@
     <div class="reference-item">Anh-Hoang et al. "Survey and analysis of hallucinations in large language models." <em>Frontiers in Artificial Intelligence,</em> September 2025. DOI: 10.3389/frai.2025.1622292</div>
     <div class="reference-item">Chao, P. et al. "JailbreakBench: An Open Robustness Benchmark for Jailbreaking Large Language Models." <em>NeurIPS Datasets and Benchmarks Track,</em> 2024.</div>
     <div class="reference-item">FBI Internet Crime Complaint Center. <em>2024 Internet Crime Report.</em> ic3.gov/AnnualReport/Reports/2024_IC3Report.pdf</div>
+    <div class="reference-item">Anthropic. "Project Glasswing / Claude Mythos Preview." Announced April 7, 2026.</div>
     <div class="reference-item">Lynch, A. et al. "Agentic Misalignment: How LLMs Could Be Insider Threats." arXiv:2510.05179. Anthropic Research. October 2025.</div>
     <div class="reference-item">NIST AI 600-1 (2024). <em>Generative AI Risk Management Framework.</em> DOI: 10.6028/NIST.AI.600-1</div>
     <div class="reference-item">NIST Center for AI Standards and Innovation. Federal Register Docket NIST-2025-0035. January 8, 2026.</div>
@@ -1179,7 +1219,7 @@
   <div class="footer-meta">
     holoengine.ai &nbsp;·&nbsp; hello@holoengine.ai<br>
     U.S. Provisional Patent Application No. 63/987,899<br>
-    Working Paper &nbsp;·&nbsp; April 2026
+    Working Paper &nbsp;·&nbsp; Version 2.0 &nbsp;·&nbsp; April 12, 2026
   </div>
 </footer>
 

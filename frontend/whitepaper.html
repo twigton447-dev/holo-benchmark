@@ -621,8 +621,6 @@
     Holo Engine ensures every AI transaction is intentional by intercepting actions at the last reversible moment before execution and determining whether they are authorized, contextually coherent, and safe to carry out.
   </div>
 
-  <p>Holo Engine is a runtime trust layer that sits at the action boundary of agentic workflows, intercepting irreversible AI-initiated actions and returning <strong>ALLOW</strong> or <strong>ESCALATE</strong> before execution proceeds.</p>
-
   <p>This paper presents benchmark evidence that <strong>solo frontier-model judgment has a structural ceiling at the action boundary.</strong> Across high-consequence scenarios, strong standalone models can still approve actions that should not proceed. Holo's architecture was designed to intervene at that final checkpoint and stop those failures before they become real.</p>
 
   <p>To test that boundary fairly, we evaluated some of the strongest publicly available frontier models from multiple labs — GPT-5.4, Claude-Sonnet-4-6, and Gemini-2.5-Pro — as solo baselines. We then tested Holo Engine against those same baselines. Holo is model-agnostic, but the purpose of this benchmark was to measure what was possible against the most capable solo systems available at the time, not against weaker controls.</p>
@@ -716,15 +714,14 @@
   <p>In this paper, the <strong>action boundary</strong> refers to the point at which an AI system's output stops being analysis and becomes execution. At that moment, the question is no longer whether the system can produce a plausible answer. The question is whether the action should happen at all.</p>
   <p>Every irreversible action is the endpoint of a story. Messages, approvals, identities, thresholds, prior behavior, missing checks, and contextual signals all led to this exact moment. That story contains the closest available evidence of whether the action is authorized, contextually coherent, and safe to carry out.</p>
   <p>Holo Engine freezes time at the action boundary. It reconstructs the decision path that produced the action, tests whether that action is authorized, contextually coherent, and safe to execute, and returns a single answer before anything becomes irreversible.</p>
-  <div class="callout-key">Ensuring every AI transaction is intentional.</div>
+  <p style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin:1.5rem 0;font-weight:500">Ensuring every AI transaction is intentional.</p>
   <p>In most cases, the story holds together and the action proceeds. When it does not, Holo stops the process at the last moment it can still be stopped.</p>
   <p><em>That is the only moment that matters.</em></p>
 
   <h3>1.3 &nbsp; The Capability Horizon</h3>
   <p>The threat model this paper addresses is not hypothetical. It is accelerating.</p>
   <p>On April 7, 2026, Anthropic announced Project Glasswing and the Claude Mythos Preview — a frontier model with unusually strong autonomous cyber capability, including the ability to discover and exploit zero-day vulnerabilities. Anthropic cited significant misuse risk and made Mythos available only through controlled access, not broad release. The current response to Mythos-class capability is gated access: restricting which operators can deploy it and under what conditions.</p>
-  <p>That strategy is appropriate today. It will not be sufficient indefinitely.</p>
-  <p>AI capability at this level will not remain concentrated. As Mythos-class capability proliferates to open-weight models — as it inevitably will — gating access will cease to be a viable security strategy. Organizations will face autonomous AI agents with sophisticated capability that no one credentialed or approved. The question of what these agents are authorized to do, in what context, and with what oversight will not be answerable at the access layer. It will have to be answered at the execution layer.</p>
+  <p>That strategy is appropriate today. It will not be sufficient indefinitely. Mythos-class capability will not remain concentrated. As it proliferates to open-weight models, gating access will cease to be a viable security strategy. The paradigm must shift from restricting who has the model to governing what the model can do at the moment of execution.</p>
   <div class="pullquote">Project Glasswing materially strengthens the case that high-consequence AI capabilities are emerging faster than deployment safeguards, reinforcing the need for model-agnostic runtime control at the point of execution.</div>
   <p>A runtime trust layer that intercepts irreversible execution before it proceeds is not a niche security tool. In a post-proliferation environment, it is a necessary defense posture.</p>
   <p style="font-size:0.825rem;color:var(--ink-faint)">Note: We do not claim Anthropic's access-gating strategy endorses runtime interception, nor that Project Glasswing directly validates Holo's architecture. We note it because it is public evidence that even the labs developing these capabilities recognize the gap between capability and deployment safety. Their current answer is access control. The necessary complement is execution control.</p>
@@ -748,10 +745,11 @@
   <h3>1.6 &nbsp; What Holo Is, in Plain Terms</h3>
   <p><strong>Holo Engine is a runtime trust layer that sits at the action boundary of agentic workflows, intercepting irreversible AI-initiated actions and returning ALLOW or ESCALATE before execution proceeds.</strong></p>
   <p>The closest real-world analogy is airport security. Every item receives the same structured treatment. A coordinated team examines it from multiple angles using different instruments. Most items clear immediately. Some require a second look. A small number are flagged for intervention.</p>
-  <p>In enterprise security terms, Holo functions as a semantic policy decision point: a runtime checkpoint that evaluates the business meaning of a proposed action, not just its surface compliance with fixed rules.</p>
+  <p>In enterprise security terms, Holo functions as a semantic policy decision point: a runtime checkpoint that evaluates the business meaning of a proposed action, not just its surface compliance with fixed rules. In plain terms: a checkpoint that asks whether the action makes sense given everything known, not just whether it follows a rule.</p>
   <p>The true power of the system is not only what it catches. It is also what is never attempted because the checkpoint exists. Deterrence is a documented and legitimate security outcome. Holo operates on the same principle at the action boundary.</p>
 
   <h3>1.7 &nbsp; The Symmetric Arms Race</h3>
+  <p>The structural vulnerability described above is not static. It compounds.</p>
   <p>The same frontier models available to a Fortune 500 company's procurement team are available to anyone with a credit card and an API key. The intelligence is not classified. It is not scarce. It is a commodity. And commoditized intelligence means commoditized attack capability.</p>
   <p>The only viable response is an architecture that scales with the threat: one that uses the same improving models to pressure-test decisions rather than simply execute them. As the underlying models improve, Holo improves with them.</p>
   <p>Recent survey work on hallucination in large language models suggests that unsupported inference and fabricated reasoning remain persistent failure modes even as models improve. That matters at the action boundary because a plausible but unverified explanation can be enough to trigger irreversible action.</p>
@@ -768,8 +766,7 @@
   <p>Standard AI benchmarks measure knowledge and reasoning in the abstract. They do not test whether a model can hold a correct verdict when the context has been adversarially shaped and the action cannot be undone.</p>
   <div class="callout-key">Our benchmark is designed as a crash-testing lab for AI actions, not a leaderboard.</div>
 
-  <h3>2.1 &nbsp; The Governing Design Rule</h3>
-  <p>A scenario that includes a field labeled <code>bankaccountverified: false</code> is not testing judgment. It is testing reading comprehension. The benchmark became meaningful only when the attack signal lived in the absence of something, not the presence of a labeled failure. These are not flags the model can read. They are gaps the model must recognize.</p>
+  <p>The benchmark became meaningful only when we imposed one strict rule: <strong>the answer key cannot be in the context.</strong> A scenario that includes a field labeled <code>bankaccountverified: false</code> is not testing judgment — it is testing reading comprehension. The correct design places the attack signal in the <em>absence</em> of something, not the presence of a labeled failure. These are not flags the model can read. They are gaps the model must recognize.</p>
 
   <h3>2.2 &nbsp; Scenario Sourcing</h3>
   <p>Each domain's scenario library is derived from documented, real-world attack classes and established cybersecurity doctrine from authoritative sources: FBI IC3 annual reports for AP/BEC, CISA guidance for agentic commerce, and MITRE ATT&amp;CK framework (e.g., TA0004: Privilege Escalation) for planned domains.</p>
@@ -855,6 +852,7 @@
       </tbody>
     </table>
   </div>
+  <p>A system that only escalates will be routed around within weeks. Precision is not a secondary concern — it is what keeps escalation meaningful.</p>
   <div class="pullquote">These results matter as much as the gap case. Without them, the gap result proves only that Holo escalates. With them, it proves that Holo escalates when the evidence warrants it.</div>
 </div>
 
@@ -894,6 +892,8 @@
       </tbody>
     </table>
   </div>
+
+  <p>Unlike Domain 1, Gemini caught this case solo while GPT and Claude missed it. The coverage gap is not symmetric across models or attack classes. That is the point: you cannot know in advance which transactions will hit your model's blindspot.</p>
 </div>
 
 <!-- SECTION 5 -->
@@ -928,6 +928,8 @@
 
   <p>None of the three solo models asked the question that breaks the narrative: <em>if this true-up mechanism has been in the master services agreement since 2022, why did it not appear in Q1 2024 or Q1 2025?</em> Holo's adversarial reactor generated that question because it is constitutionally prohibited from accepting an explanation without testing whether it can be verified against the available record.</p>
 
+  <p>The Domain 2 failure pattern is different. There, GPT and Claude missed entirely — no relevant signal surfaced across any turn — while Gemini caught it. The Domain 1 failure was about accepting a narrative. The Domain 2 failure was about not asking a provenance question at all. Two mechanically distinct failures, two different solo models catching one and missing the other. The detailed failure mode taxonomy above reflects Domain 1 specifically and will be extended domain by domain as the Atlas grows.</p>
+
   <div class="pullquote">A solo model cannot be both the skeptic and the believer at the same time. Holo's architecture separates those roles across different models by design.</div>
 
   <div class="callout-key">Holo should not be read as an argument against any one frontier model. The operational lesson is narrower and more important: solo deployment of any single model leaves coverage gaps at the action boundary that are model-specific and non-overlapping. Holo's role is to reduce that deployment risk, including for organizations that standardize on Claude, GPT, or Gemini.</div>
@@ -959,16 +961,15 @@
 
   <h3>6.3 &nbsp; Models Are Not Blinded: The Role Is the Lens</h3>
   <p>Each model in the adversarial reactor sees the complete, unedited history of every prior turn. The Assumption Attacker is explicitly instructed to challenge prior conclusions. The Edge Case Hunter is explicitly instructed to look for what was missed. The model that accepts an explanation in one turn is never the model assigned to pressure-test it in the next. That is not a tuning decision. It is an architectural property.</p>
+  <div class="callout-key">A solo model cannot be both the skeptic and the believer at the same time. Holo's architecture separates those roles across different models by design.</div>
 
   <h3>6.4 &nbsp; The Static Governor</h3>
   <p>The governor is deterministic and algorithmic. It does not learn from prior evaluations. This was a deliberate choice. A learned governor could itself be trained into a blindspot. A static governor has predictable, auditable behavior.</p>
   <div class="callout-key">It is a judge, not a participant.</div>
 
-  <h3>6.5 &nbsp; Full Raw State</h3>
-  <p>No summarization occurs between turns. Summarization is lossy. The compressor decides what matters, which means it can bury the signal the next analyst needs to find. A model cannot surface a contradiction in Turn 3 if the summary from Turn 2 edited that contradiction out. Full raw state is more expensive. It is the correct tradeoff.</p>
-
-  <h3>6.6 &nbsp; No Synthesis Turn</h3>
-  <p>The final verdict is computed by the governor, not by a model. This avoids anchoring: a synthesizing model is influenced by the most recent turn, the most confidently expressed finding, or the most rhetorically forceful prior analyst.</p>
+  <h3>6.5 &nbsp; State Integrity</h3>
+  <p><strong>No summarization between turns.</strong> Summarization is lossy. The compressor decides what matters, which means it can bury the signal the next analyst needs to find. A model cannot surface a contradiction in Turn 3 if the summary from Turn 2 edited that contradiction out. Full raw state is more expensive. It is the correct tradeoff.</p>
+  <p><strong>No synthesis turn.</strong> The final verdict is computed by the governor, not by a model. This avoids anchoring: a synthesizing model is influenced by the most recent turn, the most confidently expressed finding, or the most rhetorically forceful prior analyst.</p>
   <div class="callout-key">The verdict reflects the evidence. Not the last voice in the room.</div>
 </div>
 
@@ -1031,7 +1032,7 @@
   <div class="objection">
     <h3>"What stops a competitor from copying this?"</h3>
     <p>The visible architecture can be copied faster than the research program behind it.</p>
-    <p>The durable asset is not just the reactor. It is the benchmark corpus: the scenario libraries, the domain-specific failure patterns, the calibration work that separates floor cases from threshold cases, and the Blindspot Atlas that accumulates where and how frontier models fail at the action boundary.</p>
+    <p>The durable asset is not just the reactor. It is the benchmark corpus: the scenario libraries, the domain-specific failure patterns, the calibration work that separates floor cases from threshold cases, and the Blindspot Atlas that accumulates where and how frontier models fail at the action boundary. The research program also compounds in ways that depend on domain expertise, scenario design judgment, and calibration work that cannot be replicated by copying the reactor alone.</p>
     <p>That corpus compounds. Each completed domain improves the next one. Each new failure pattern sharpens both product behavior and benchmark design. Over time, the Atlas may also become useful to the labs themselves as a structured map of attack-class-specific blindspots that are difficult to see from generic benchmark suites alone.</p>
   </div>
 
@@ -1045,7 +1046,7 @@
   <div class="objection">
     <h3>"Why wouldn't the frontier labs just build this themselves?"</h3>
     <p>Two reasons, and both matter.</p>
-    <p>The first is structural incentive. A lab's product roadmap is oriented toward making its own model stronger, not toward validating the gaps in it. Building a trust layer that routes enterprise decisions through competing models is not consistent with that incentive structure. It is not a criticism of any lab. It is simply not their business.</p>
+    <p>The first is structural incentive. A lab's product roadmap is oriented toward making its own model stronger, not toward validating the gaps in it. Building a trust layer that routes enterprise decisions through competing models is not consistent with that incentive structure. It is simply not their business.</p>
     <p>The second is architectural. The adversarial reactor depends on genuine DNA diversity across its constituent models. Models from the same provider family share training lineage, alignment patterns, and likely overlapping blindspots. Running two models from the same lab in sequence does not produce a skeptic and a believer. It produces two analysts with similar priors reinforcing each other. The coverage gap the architecture is designed to close would remain open.</p>
     <p>Holo's model-agnostic design is not a feature added for flexibility. It is a requirement of the architecture. That requirement is structurally incompatible with a single-lab product.</p>
   </div>
@@ -1063,6 +1064,7 @@
   <div class="callout-key">The Blindspot Atlas: A structured, domain-by-domain map of where frontier models fail at the action boundary. Built from adversarial pressure testing under realistic conditions, not from theoretical analysis or synthetic data.</div>
 
   <p>The Atlas serves three compounding functions. First, it informs scenario design: failure patterns discovered in one domain often suggest attack classes worth testing in adjacent domains. Second, it informs governor tuning with domain-specific risk tolerances. Third, it is the institutional memory of the research program. A competitor who builds a similar reactor tomorrow starts with no Atlas.</p>
+  <p>Over time, the Atlas may become useful to the labs themselves as a structured map of attack-class-specific failure patterns that are difficult to surface through generic benchmark suites.</p>
 </div>
 
 <!-- SECTION 9 -->
@@ -1158,6 +1160,10 @@
     <p>The same team designed the scenarios and built the system being evaluated. This is the most significant limitation of this paper. It cannot be fully mitigated by internal controls. The right resolution is third-party scenario authorship and independent replication. That work is not yet done.</p>
   </div>
   <div class="limitation">
+    <div class="limitation-label">Governor tuning</div>
+    <p>The evidentiary discipline rule was developed and tuned on the same benchmark set it is now evaluated against. This creates a risk of overfitting to known cases. The rule has not yet been validated on out-of-sample scenarios from domains outside the two completed here.</p>
+  </div>
+  <div class="limitation">
     <div class="limitation-label">Small sample size</div>
     <p>Two domains and eight scenario types are not sufficient to support broad claims about frontier-model behavior. They are sufficient to support the narrow claim stated in this paper: under these conditions, the architecture added measurable value.</p>
   </div>
@@ -1171,11 +1177,7 @@
   </div>
   <div class="limitation">
     <div class="limitation-label">Precision case calibration</div>
-    <p>The Domain 2 precision case initially produced a false positive due to a schema mismatch in the <code>payment_endpoint_integrity</code> category logic. The issue was diagnosed, a fix implemented, and a rerun on April 8, 2026 confirmed success. Documented here to provide a transparent record of calibration, not just final results.</p>
-  </div>
-  <div class="limitation">
-    <div class="limitation-label">Governor tuning</div>
-    <p>The evidentiary discipline rule was developed and tuned on the same benchmark set it is now evaluated against. This creates a risk of overfitting to known cases. The rule has not yet been validated on out-of-sample scenarios from domains outside the two completed here.</p>
+    <p>The Domain 2 precision case initially produced a false positive due to a schema mismatch in the <code>payment_endpoint_integrity</code> category logic. The issue was diagnosed, a fix implemented, and a rerun on April 8, 2026 confirmed success.</p>
   </div>
 </div>
 

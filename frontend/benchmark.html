@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Holo Benchmark</title>
+<title>Holo Engine · Benchmark</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -83,14 +83,15 @@ h1{font-size:clamp(26px,5.5vw,40px);font-weight:800;letter-spacing:-.03em;line-h
 .token-table th:last-child{text-align:right}
 .token-table td{padding:12px 14px;border-bottom:1px solid var(--border);font-size:13px}
 .token-table tr:last-child td{border-bottom:none}
-.token-table td.cond{font-family:var(--mono);font-size:11px;font-weight:600}
+.token-table td.cond{font-family:var(--mono);font-size:11px;font-weight:500}
 .token-table td.tokens{font-family:var(--mono);font-size:11px;color:var(--muted)}
 .token-table td.verdict-cell{text-align:right}
 .token-table tbody tr.loser td{color:var(--red)}
 .token-table tbody tr.escalate td{color:var(--green)}
+.token-table tbody tr.escalate td.cond{color:var(--green)}
 .token-table tr.holo-row td{background:var(--dark);border-bottom:none}
 .token-table tr.holo-row td.cond{color:#34d399;font-weight:600}
-.token-table tr.holo-row td.tokens{color:#34d399}
+.token-table tr.holo-row td.tokens{color:#34d399;font-weight:600}
 .token-table tr.holo-row .vbadge-escalate{background:rgba(5,150,105,.2);color:#34d399}
 .token-table tr.holo-row .vdot-green{background:#34d399}
 
@@ -161,23 +162,85 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <!-- HERO -->
 <section class="hero">
   <div class="w">
-    <h1>Holo Benchmark Study: April 2026</h1>
-    <p class="hero-sub">GPT, Claude, and Gemini all approved a fraudulent wire transfer. Holo escalated it. Seven adversarial scenarios across two domains, grounded in documented fraud patterns from FBI IC3, FinCEN, and CISA advisories. Payloads, traces, and scoring rubric are public.</p>
+    <h1>Holo Engine Benchmark · April 2026</h1>
+    <p class="hero-lede">Testing AI judgment at the action boundary.</p>
+    <p class="hero-sub">Seven adversarial scenarios across two domains, grounded in documented fraud patterns from FBI IC3, FinCEN, and CISA advisories. Each scenario targets the last reversible moment before an AI-initiated action becomes irreversible. Payloads, traces, and scoring rubric are public.</p>
     <div class="hero-actions">
       <a href="payloads/" class="btn btn-dark">Download Payloads</a>
-      <a href="whitepaper.html" class="btn btn-ghost">Read Whitepaper</a>
-      <a href="appendix.html" class="btn btn-ghost">Full Evidence</a>
+      <a class='btn btn-ghost' href='/whitepaper'>Read Whitepaper</a>
+      <a class='btn btn-ghost' href='/appendix'>Full Evidence</a>
       <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank" class="btn btn-ghost">GitHub</a>
     </div>
   </div>
 </section>
 
-<!-- RESULTS INTRO -->
+<!-- DOMAIN COVERAGE MAP -->
 <section class="section">
   <div class="w">
-    <div class="section-tag">Results · 7 Published · 2 Domains</div>
-    <h2>GPT, Claude, and Gemini all approved a fraudulent wire transfer. Holo caught it.</h2>
-    <p class="section-sub">Same frontier models. Only the decision architecture changed the outcome. No single model has complete coverage — which model misses changes by attack class and domain.</p>
+    <div class="section-tag">Domain Coverage · 2 Complete · 6 In Design</div>
+    <h2>Eight domains. Two live.</h2>
+    <p class="section-sub" style="margin-bottom:24px">Each domain targets a distinct attack surface at the action boundary. Published domains have full results, payloads, and traces. Remaining domains are in active design.</p>
+
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:12px 16px;border:1.5px solid var(--border);border-radius:6px;background:var(--dark)">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;color:#94a3b8;margin-bottom:3px">DOMAIN 1</div>
+          <div style="font-size:14px;font-weight:600;color:#fff">Accounts Payable / Business Email Compromise</div>
+          <div style="font-size:12px;color:#94a3b8;margin-top:2px">5 published results</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:#34d399;background:rgba(5,150,105,.15);padding:5px 12px;border-radius:4px;white-space:nowrap">COMPLETE</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:12px 16px;border:1.5px solid var(--border);border-radius:6px;background:var(--dark)">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;color:#94a3b8;margin-bottom:3px">DOMAIN 2</div>
+          <div style="font-size:14px;font-weight:600;color:#fff">Agentic Commerce</div>
+          <div style="font-size:12px;color:#94a3b8;margin-top:2px">2 published results</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:#34d399;background:rgba(5,150,105,.15);padding:5px 12px;border-radius:4px;white-space:nowrap">COMPLETE</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:12px 16px;border:1.5px solid var(--border);border-radius:6px">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--muted-light);margin-bottom:3px">DOMAIN 3</div>
+          <div style="font-size:14px;font-weight:500;color:var(--muted)">Identity &amp; Access Escalation</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--muted);background:var(--surface);padding:5px 12px;border-radius:4px;white-space:nowrap;border:1px solid var(--border)">IN DESIGN</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:12px 16px;border:1.5px solid var(--border);border-radius:6px">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--muted-light);margin-bottom:3px">DOMAIN 4</div>
+          <div style="font-size:14px;font-weight:500;color:var(--muted)">Supply Chain &amp; Vendor Integrity</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--muted);background:var(--surface);padding:5px 12px;border-radius:4px;white-space:nowrap;border:1px solid var(--border)">IN DESIGN</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:12px 16px;border:1.5px solid var(--border);border-radius:6px">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--muted-light);margin-bottom:3px">DOMAIN 5</div>
+          <div style="font-size:14px;font-weight:500;color:var(--muted)">Contractual &amp; Legal Authorization</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--muted);background:var(--surface);padding:5px 12px;border-radius:4px;white-space:nowrap;border:1px solid var(--border)">IN DESIGN</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:12px 16px;border:1.5px solid var(--border);border-radius:6px">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--muted-light);margin-bottom:3px">DOMAIN 6</div>
+          <div style="font-size:14px;font-weight:500;color:var(--muted)">Data Exfiltration &amp; Insider Risk</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--muted);background:var(--surface);padding:5px 12px;border-radius:4px;white-space:nowrap;border:1px solid var(--border)">IN DESIGN</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:12px 16px;border:1.5px solid var(--border);border-radius:6px">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--muted-light);margin-bottom:3px">DOMAIN 7</div>
+          <div style="font-size:14px;font-weight:500;color:var(--muted)">Financial Reporting &amp; Audit Integrity</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--muted);background:var(--surface);padding:5px 12px;border-radius:4px;white-space:nowrap;border:1px solid var(--border)">IN DESIGN</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;padding:12px 16px;border:1.5px solid var(--border);border-radius:6px">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--muted-light);margin-bottom:3px">DOMAIN 8</div>
+          <div style="font-size:14px;font-weight:500;color:var(--muted)">Regulatory &amp; Compliance Boundary</div>
+        </div>
+        <div style="font-family:var(--mono);font-size:11px;font-weight:600;color:var(--muted);background:var(--surface);padding:5px 12px;border-radius:4px;white-space:nowrap;border:1px solid var(--border)">IN DESIGN</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -600,6 +663,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 
     <div class="callout-quote" style="margin-top:24px">
       <p>Together they support one claim:<br><br>No single frontier model has complete coverage at the action boundary. The architecture is the variable that changes the outcome.</p>
+      <p style="margin-top:12px;font-size:12px;font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600">Ensuring every AI transaction is intentional.</p>
     </div>
 
     <div class="prose">
@@ -659,11 +723,11 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <section class="cta-section">
   <div class="w">
     <h2>Run it yourself.</h2>
-    <p>If your system is already making high-consequence decisions, these are the cases to inspect before trusting it in production.</p>
+    <p>If your agents are already making high-consequence decisions, these are the scenarios to inspect before trusting solo model judgment at the action boundary.</p>
     <div class="cta-actions">
       <a href="payloads/" class="btn btn-dark">Download Payloads</a>
       <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank" class="btn btn-ghost">View GitHub</a>
-      <a href="appendix.html" class="cta-link">Read Full Appendix →</a>
+      <a class='cta-link' href='/appendix'>Read Full Appendix →</a>
     </div>
   </div>
 </section>
@@ -672,7 +736,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <footer>
   <div class="w">
     <div class="footer-inner">
-      <p>Holo Benchmark · Open Study · Holo 1.1</p>
+      <p>Holo Engine · Benchmark · Open Study · April 2026</p>
       <div class="footer-links">
         <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank">GitHub</a>
         <a href="mailto:hello@holoengine.ai">hello@holoengine.ai</a>
@@ -681,5 +745,6 @@ footer{border-top:1px solid var(--border);padding:24px 0}
   </div>
 </footer>
 
-</body>
+
+<script async id="netlify-rum-container" src="/.netlify/scripts/rum" data-netlify-rum-site-id="848b69bb-148c-4d95-a280-4675c1ea8dc8" data-netlify-deploy-branch="main" data-netlify-deploy-context="production" data-netlify-cwv-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXRlX2lkIjoiODQ4YjY5YmItMTQ4Yy00ZDk1LWEyODAtNDY3NWMxZWE4ZGM4IiwiYWNjb3VudF9pZCI6IjY5YzE5MDJhYmQ5NWRkMGM3N2Y4NWRiNyIsImRlcGxveV9pZCI6IjY5ZGE5NDFjYTA1NjQ3MDAwOWIzNDFkZSIsImlzc3VlciI6Im5mc2VydmVyIn0.ULWhcLay1aQtSju_3zQWNOMtba5wr7VQEBwvc7f5R7c"></script></body>
 </html>

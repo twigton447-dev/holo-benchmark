@@ -968,7 +968,7 @@
   <p>The governor is deterministic and algorithmic. It does not learn from prior evaluations. This was a deliberate choice. A learned governor could itself be trained into a blindspot. A static governor has predictable, auditable behavior.</p>
 
   <h3>6.5 &nbsp; State and Verdict Integrity</h3>
-  <p>No summarization occurs between turns. Summarization is lossy. The compressor decides what matters, which means it can bury the signal the next analyst needs to find. A model cannot surface a contradiction in Turn 3 if the summary from Turn 2 edited that contradiction out. Full raw state is more expensive. It is the correct tradeoff.</p>
+  <p>No summarization occurs between turns. Summarization is lossy. Whatever compresses the state decides what matters, which means it can bury the signal the next analyst needs to find. A model cannot surface a contradiction in Turn 3 if the summary from Turn 2 edited that contradiction out. Full raw state is more expensive. It is the correct tradeoff.</p>
   <p>This same discipline extends to how the final verdict is computed. The final verdict is computed by the governor, not by a model. This avoids anchoring: a synthesizing model is influenced by the most recent turn, the most confidently expressed finding, or the most rhetorically forceful prior analyst.</p>
   <div class="pullquote">The verdict reflects the evidence. Not the last voice in the room.</div>
   <div class="callout-key">It is a judge, not a participant.</div>

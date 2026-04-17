@@ -602,7 +602,7 @@
 
   <p>At that moment, solo frontier models have a structural problem. They do not hesitate. They hallucinate confidence. Their blindspots are real, they are non-overlapping, and they are exploitable. A pattern that one model catches, another approves. An attack designed to exploit narrative acceptance will fool a model that resists authority spoofing. <strong>No single model has consistent coverage across attack classes.</strong></p>
 
-  <p>This paper presents empirical evidence of that failure. In controlled benchmark testing across two domains: AP/BEC wire fraud and agentic commerce: GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro each independently approved a fraudulent transaction constructed using documented real-world attack patterns. <strong>Holo Engine caught it every time.</strong></p>
+  <p>This paper presents empirical evidence of that failure. In controlled benchmark testing across two domains (AP/BEC wire fraud and agentic commerce), GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro each independently approved a fraudulent transaction constructed using documented real-world attack patterns. These are not proxies for agents. They are the agents. <strong>Holo Engine caught it every time.</strong></p>
 
   <div class="callout-key" style="margin:1.25rem 0 1rem">
     <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:0.5rem">Holo Engine in one sentence</span>
@@ -611,7 +611,9 @@
 
   <p>The benchmark is public. The payloads are reproducible. The API is live.</p>
 
-  <p>The finding is not that frontier models are weak. It is that <strong>solo judgment has a structural ceiling at the action boundary</strong>, and that ceiling is lower than most deployment teams assume.</p>
+  <p>The finding is not that frontier models are weak. These are the models that power modern agents. Testing them in isolation establishes the structural ceiling of those agents in 2026. That ceiling is lower than most deployment teams assume. And it cannot be raised by waiting for a better model, because the same structural problem applies to every solo judgment at the action boundary.</p>
+
+  <p>Holo uses those same models, run adversarially against each other. No single model decides. As each model improves, Holo inherits those improvements across the full panel. <strong>The architecture does not compete with the frontier. It compounds it.</strong></p>
 
   <p>The roadmap goes further. Cryptographic signing of every decision record, anchored to an immutable ledger, means any auditor can verify independently, without trusting Holo's infrastructure. <strong>The record of the decision becomes as trustworthy as the decision itself.</strong></p>
 

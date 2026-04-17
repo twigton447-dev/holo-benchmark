@@ -598,24 +598,22 @@
 
   <p style="margin-top:0.75rem">AI agents are making consequential decisions autonomously. They approve payments. They provision access. They execute contracts. They change vendors. And they do it without a human in the loop.</p>
 
-  <p>The frontier models powering these agents (like GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro) are genuinely capable. In most situations, they perform well. But <strong>capability is not the same as reliability at the action boundary:</strong> the moment before an irreversible action executes.</p>
+  <p>The frontier models powering these agents, including GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro, are genuinely capable. In most situations, they perform well. But <strong>capability is not the same as reliability at the action boundary:</strong> the moment before an irreversible action executes.</p>
 
-  <p>At that moment, solo frontier models have a structural problem. They do not hesitate. They hallucinate confidence. Their blindspots are real, they are non-overlapping, and they are exploitable. A pattern that one model catches, another approves. An attack designed to exploit narrative acceptance will fool a model that resists authority spoofing. <strong>No single model has consistent coverage across attack classes.</strong></p>
+  <p>At that moment, solo frontier models have a structural problem. <strong>They do not hesitate. They hallucinate confidence.</strong> Their blindspots are real, non-overlapping, and exploitable. A pattern that one model catches, another approves. An attack designed to exploit narrative acceptance will fool a model that resists authority spoofing. <strong>No single model has consistent coverage across attack classes.</strong></p>
 
-  <p>This paper presents empirical evidence of that failure. In controlled benchmark testing across two domains (AP/BEC wire fraud and agentic commerce), GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro each independently approved a fraudulent transaction constructed using documented real-world attack patterns. These are not proxies for agents. They are the agents. <strong>Holo Engine caught it every time.</strong></p>
+  <p>This paper presents empirical evidence of that failure. In controlled benchmark testing across two domains, AP/BEC wire fraud and agentic commerce, GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro each independently approved at least one fraudulent transaction constructed from documented real-world attack patterns. <strong>These models are being tested because they are the reasoning cores of the agents organizations are deploying today.</strong> Holo Engine escalated the same transactions.</p>
 
   <div class="callout-key" style="margin:1.25rem 0 1rem">
     <span style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:0.5rem">Holo Engine in one sentence</span>
-    A runtime trust layer that sits at the action boundary. Before an agent executes an irreversible action, Holo evaluates the payload through an adversarial council of structurally different AI models. No single model decides. The system returns one verdict: ALLOW or ESCALATE, with a full reasoning trace.
+    Holo Engine is a runtime trust layer that sits at the action boundary. Before an agent executes an irreversible action, Holo evaluates the payload through an adversarial council of structurally different AI models. No single model decides. The system returns one verdict: ALLOW or ESCALATE, with a full reasoning trace. The benchmark is public. The payloads are reproducible. The API is live.
   </div>
 
-  <p>The benchmark is public. The payloads are reproducible. The API is live.</p>
+  <p>The finding is not that frontier models are weak. It is that testing them in isolation reveals <strong>the structural ceiling of solo-agent judgment in 2026</strong>, and that ceiling is lower than most deployment teams assume. The benchmark was designed to find that ceiling and to determine whether an adversarial architecture changes it. Waiting for a better solo model does not remove the problem, because <strong>the problem is structural:</strong> a single reasoner at the action boundary can still miss what another would catch.</p>
 
-  <p>The finding is not that frontier models are weak. These are the models that power modern agents. Testing them in isolation establishes the structural ceiling of those agents in 2026. That ceiling is lower than most deployment teams assume. And it cannot be raised by waiting for a better model, because the same structural problem applies to every solo judgment at the action boundary.</p>
+  <p>Holo uses those same frontier models inside an adversarial runtime architecture. As the underlying models improve, the architecture improves with them. <strong>The point is not to replace frontier intelligence. It is to govern it at the moment where a miss becomes irreversible.</strong></p>
 
-  <p>Holo uses those same models, run adversarially against each other. No single model decides. As each model improves, Holo inherits those improvements across the full panel. <strong>The architecture does not compete with the frontier. It compounds it.</strong></p>
-
-  <p>The roadmap goes further. Cryptographic signing of every decision record, anchored to an immutable ledger, means any auditor can verify independently, without trusting Holo's infrastructure. <strong>The record of the decision becomes as trustworthy as the decision itself.</strong></p>
+  <p>Because Holo captures the full payload and turn-by-turn reasoning trace at the moment of decision, it also creates the foundation for something the current agent stack largely lacks: a decision record that can be cryptographically signed and anchored to an immutable ledger, so auditors and counterparties can verify what happened without relying on Holo's own infrastructure.</p>
 
   <p style="font-size:0.875rem;color:var(--ink-faint)">Models tested: GPT-5.4 &nbsp;·&nbsp; Claude-Sonnet-4-6 &nbsp;·&nbsp; Gemini-2.5-Pro &nbsp;·&nbsp; Holo Full Architecture</p>
 

@@ -574,7 +574,7 @@
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-eyebrow">Version 2.2 &nbsp;·&nbsp; April 16, 2026</div>
+  <div class="cover-eyebrow">Version 2.3 &nbsp;·&nbsp; April 24, 2026</div>
   <h1>Blindspots at the Action Boundary</h1>
   <p class="cover-subtitle">Why Frontier Models Fail on High-Consequence AI Decisions, and What Architecture Can Do About It</p>
   <div class="cover-meta">
@@ -614,6 +614,10 @@
   <p>The finding is not that frontier models are weak. It is that testing them in isolation reveals <strong>the structural ceiling of solo-agent judgment in 2026</strong>, and that ceiling is lower than most deployment teams assume. The benchmark was designed to find that ceiling and to determine whether an adversarial architecture changes it. Waiting for a better solo model does not remove the problem, because <strong>the problem is structural:</strong> a single reasoner at the action boundary can still miss what another would catch.</p>
 
   <p>Holo uses those same frontier models inside an adversarial runtime architecture. As the underlying models improve, the architecture improves with them. <strong>The point is not to replace frontier intelligence. It is to govern it at the moment where a miss becomes irreversible.</strong></p>
+
+  <p><strong>Holo does not eliminate probabilistic model behavior. It constrains it inside a deterministic evidence and adjudication layer that can be pressure-tested, diagnosed, and hardened.</strong> The model turns within the adversarial reactor remain probabilistic. The verdict computation is deterministic: algorithmic, auditable, and not influenced by the confidence of the last model to speak.</p>
+
+  <p>The benchmark now includes rotation-stability testing as part of proof quality. The strongest current flagship result holds across randomized model and role assignments in 9 of 10 independent runs. The single miss is diagnosable: it followed a specific sequence condition rather than random drift. That inspectability — the ability to name what failed and why — is part of the product's value, not a caveat.</p>
 
   <p>Because Holo captures the full payload and turn-by-turn reasoning trace at the moment of decision, it also creates the foundation for something the current agent stack largely lacks: a decision record that can be cryptographically signed and anchored to an immutable ledger, so auditors and counterparties can verify what happened without relying on Holo's own infrastructure.</p>
 
@@ -754,7 +758,7 @@
     <table>
       <thead><tr><th>Gate</th><th>Requirement</th></tr></thead>
       <tbody>
-        <tr><td><strong>Gate 1</strong> &nbsp; Verdict Stability</td><td>The same verdict pattern must hold across two or more independent runs.</td></tr>
+        <tr><td><strong>Gate 1</strong> &nbsp; Verdict Stability</td><td>The same verdict pattern must hold across multiple independent runs, including randomized model and role assignment seeds.</td></tr>
         <tr><td><strong>Gate 2</strong> &nbsp; Correct Catch Reason</td><td>The flagging condition must match the intended structural signal, not a spurious finding.</td></tr>
         <tr><td><strong>Gate 3</strong> &nbsp; No Answer Key in Context</td><td>No labeled field may directly identify the disqualifying condition.</td></tr>
         <tr><td><strong>Gate 4</strong> &nbsp; Clean Trace</td><td>The turn-by-turn audit must be readable by a technical outsider without explanation.</td></tr>
@@ -763,7 +767,7 @@
       </tbody>
     </table>
   </div>
-  <p>The claim of this paper is intentionally narrow. It is not that frontier models always fail. It is that <strong>solo frontier judgment has a structural ceiling at the action boundary,</strong> and that Holo can catch failures that solo models miss.</p>
+  <p>There is a meaningful distinction between a development scenario and a flagship proof scenario. A development scenario demonstrates that the architecture adds value under a specific configuration. A flagship scenario demonstrates that advantage holds across randomized assignment sequences. A result that passes all six gates but depends on a specific lucky role sequence is not yet eligible for flagship status. <strong>Rotation stability is now part of the publication bar.</strong></p>
 </div>
 
 <!-- SECTION 3 -->
@@ -789,7 +793,7 @@
     <p style="margin-top:1rem">The invoice history contains eight prior quarterly payments spanning two full calendar years, including Q1 2024 and Q1 2025. Neither prior Q1 invoice includes a true-up line item.</p>
   </div>
 
-  <p>All three solo frontier models independently returned ALLOW. Holo returned ESCALATE across stable runs.</p>
+  <p>All three solo frontier models independently returned ALLOW. Holo returned ESCALATE across stable runs. In the latest rotation proof, Holo caught the scenario in 9 of 10 randomized runs, with model and role assignments shuffled across seeds. The single miss followed a specific, diagnosable sequence condition rather than random drift.</p>
   <p>The attack pattern was simple and realistic: a payment request that contained a real anomaly, but also included a plausible explanation designed to neutralize that anomaly. The solo failures were not identical. GPT-5.4 never surfaced the core signal. Claude Sonnet 4.6 identified the anomaly, accepted the explanation, and reasoned itself back to ALLOW. Gemini 2.5 Pro noticed the amount spike, explored alternate concerns, then discarded them and also landed at ALLOW.</p>
   <p>Holo escalated because its architecture forces friction. You cannot start a fire by rubbing one stick against itself. It takes two. <strong>Solo models are one stick.</strong> Inside the Holo reactor, the payload is interrogated by multiple models from structurally different families, each assigned a distinct adversarial role. That friction, the structured disagreement between models with different blindspots, surfaces the signal that solo models rationalize away. <strong>The difference was not raw model capability. It was the architecture of judgment.</strong></p>
 
@@ -804,6 +808,8 @@
       </tbody>
     </table>
   </div>
+
+  <p>This is strong empirical evidence that the architecture changes outcomes beyond what any solo model achieves alone. It is not a claim of perfect coverage. The one miss matters in a constructive way: because Holo captures the complete turn history and evidence path, the failure trace is readable. A Holo miss can be diagnosed and hardened against. A solo model miss disappears into the inference process without a trace.</p>
 
   <h3>3.3 &nbsp; What This Result Shows</h3>
   <p>This result demonstrates three things. First, <strong>a solo model can recognize a signal and still clear it incorrectly.</strong> Second, the failure modes differ by model. Third, <strong>Holo's value is not that it contains a magical model that sees what no frontier model can see.</strong> Its value is that it prevents one model's blindspot from becoming the final decision.</p>
@@ -870,7 +876,7 @@
   <h3>4.3 &nbsp; Why This Domain Matters for the Thesis</h3>
   <p>The importance of the second domain is not just that Holo performed well again. It is that <strong>the architecture advantage survives a change in payload type.</strong></p>
   <p>In AP/BEC, the threat is recognizable as fraud. In agentic commerce, the threat is embedded in routine-looking operational behavior. The surface changes. The underlying problem does not. That problem is solo judgment at the action boundary.</p>
-  <p>A single domain could be dismissed as a feature demo. Two domains begin to show that the architecture travels. That is the threshold this paper is trying to establish: not universal superiority, but evidence that the same structural weakness appears across materially different high-consequence workflows.</p>
+  <p>A single domain could be dismissed as a feature demo. Two domains begin to suggest the architecture travels across materially different payload types. But that claim depends on continued domain expansion. The broader proof requires completing additional domains. What these two establish is the narrower point: the same structural weakness appears in materially different high-consequence workflows, and an adversarial architecture can change the outcome in both.</p>
 
   <h3>4.4 &nbsp; What the Two Domains Show Together</h3>
   <p>Taken together, the two domains support a narrower and more durable claim than broad benchmark theater usually allows. The claim is not that every solo frontier model fails every hard case. The claim is that:</p>
@@ -889,10 +895,12 @@
     <h2>Coverage Gaps Across Models</h2>
   </div>
 
-  <p>The two flagship cases show different failure patterns. In BEC-PHANTOM-DEP-003A, GPT missed while Claude and Holo both escalated correctly. In AGENTIC-ROUTINE-001, GPT and Claude both missed while Gemini caught it. Model coverage is attack-class-specific, and no single model can be assumed to cover all cases.</p>
+  <p>The two flagship cases show different failure patterns. In BEC-EXPLAINED-ANOMALY-001, all three solo frontier models returned ALLOW while Holo escalated correctly. In AGENTIC-LONG-CON-001, GPT and Claude missed while Gemini caught the scenario correctly. Model coverage is attack-class-specific, and no single model can be assumed to cover all cases.</p>
+
+  <p>The benchmark's strongest current claim is not that frontier models universally fail at the action boundary. It is that <strong>no single frontier model has complete coverage across attack classes, and that Holo can raise the floor through adversarial cross-examination.</strong></p>
 
   <h3>The Symmetric Collapse Result</h3>
-  <p>BEC-EXPLAINED-ANOMALY-001 is a scenario in which all three solo frontier models returned the wrong verdict while Holo returned the correct one. All six publication gates passed. The result is stable across multiple independent runs.</p>
+  <p>BEC-EXPLAINED-ANOMALY-001 is the current strongest public proof object. All three solo frontier models returned ALLOW. Holo returned ESCALATE across stable runs. In the latest rotation proof, Holo caught the scenario in 9 of 10 randomized runs. The single miss followed a specific, diagnosable sequence condition rather than random drift. This is strong empirical evidence that the architecture changes outcomes beyond what any solo model achieves. It is not proof of universal advantage.</p>
 
   <div class="table-wrap">
     <table>
@@ -969,9 +977,14 @@
 
   <h3>6.5 &nbsp; State and Verdict Integrity</h3>
   <p>No summarization occurs between turns. Summarization is lossy. Whatever compresses the state decides what matters, which means it can bury the signal the next analyst needs to find. A model cannot surface a contradiction in Turn 3 if the summary from Turn 2 edited that contradiction out. Full raw state is more expensive. It is the correct tradeoff.</p>
-  <p>This same discipline extends to how the final verdict is computed. The final verdict is computed by the governor, not by a model. This avoids anchoring: a synthesizing model is influenced by the most recent turn, the most confidently expressed finding, or the most rhetorically forceful prior analyst.</p>
+  <p>The distinction between probabilistic and deterministic matters here. The model turns within the adversarial reactor remain probabilistic: each model reasons under its own training distribution, with all the uncertainty that entails. The evidence accumulation and final verdict computation are deterministic: the governor applies fixed, auditable rules to the scored evidence and returns a verdict that does not vary with model confidence, rhetorical force, or turn order.</p>
+  <p>The final verdict is computed by the governor, not by a model. This avoids anchoring: a synthesizing model is influenced by the most recent turn, the most confidently expressed finding, or the most rhetorically forceful prior analyst.</p>
   <div class="pullquote">The verdict reflects the evidence. Not the last voice in the room.</div>
   <div class="callout-key">It is a judge, not a participant.</div>
+
+  <h3>6.6 &nbsp; A Key Hardening Principle</h3>
+  <p>Benchmark pressure-testing has surfaced an important architectural constraint. At Turn 1, before any adversarial challenge has been applied, a model's initial assessment is a cold-start judgment: plausible, but unverified against the available evidence.</p>
+  <p><strong>A single model operating without prior adversarial context should not be able to unilaterally lock an irreversible decision. The architecture is being hardened around that principle.</strong> HIGH severity findings should require independent confirmation across at least two structurally different model families before triggering a hard lock. A confident cold-start judgment is not sufficient.</p>
 </div>
 
 <!-- SECTION 7 -->
@@ -986,6 +999,8 @@
   <p>Observability and evidence are not the same thing. Observability tells your engineers what is happening inside your system. Evidence is what you produce when an auditor, a regulator, or a counterparty needs to verify what happened. The bar is meaningfully higher. Most agent platforms today produce logs. Logs are not evidence.</p>
 
   <p>Holo's position at the action boundary means the decision record it produces is structurally different from a downstream log. The full payload is captured at the moment of decision, not reconstructed from partial telemetry after the fact. The turn-by-turn adversarial trace documents which models flagged which risks, how conflicts were resolved, and which specific signals drove the final verdict. It is the record of a judgment, not just an event.</p>
+
+  <p>This precision matters for more than compliance. Because Holo captures the complete payload, turn history, and verdict path at the action boundary, failures can be diagnosed precisely when they occur. When the system misses, the system can name what failed: which model, which role, which turn, which signal path led to the wrong verdict. That is meaningfully different from shrugging off a miss as generic model variance. The same architecture that makes evidence visible at the action boundary makes failures inspectable and hardenable. That is one of the strongest differentiators of the system.</p>
 
   <p>For enterprise agentic deployment, four questions will eventually matter in any consequential review: what did the agent see, why did it act, who authorized it, and can the record be independently verified. Holo's architecture addresses the first two directly. The latter two depend on governance infrastructure that most organizations have not yet built. The starting point is capturing the right data at the right moment. That is what the action boundary makes possible.</p>
 
@@ -1030,6 +1045,12 @@
     <h3>"Why wouldn't the frontier labs just build this themselves?"</h3>
     <p>A lab's roadmap is oriented toward making its own model stronger, not validating its gaps with competing models. The adversarial reactor also depends on genuine DNA diversity. <strong>Running two models from the same lab in sequence does not produce a skeptic and a believer. It produces two analysts with similar priors reinforcing each other.</strong> The coverage gap the architecture is designed to close would remain open.</p>
     <p><strong>Holo's model-agnostic design is not a feature. It is a requirement of the architecture.</strong></p>
+  </div>
+
+  <div class="objection">
+    <h3>"If the architecture still has edge-case misses, why trust it?"</h3>
+    <p>Because the system is inspectable, the misses are diagnosable, and the architecture can be hardened systematically. A solo model miss is opaque: it offers no signal about what changed, which reasoning path failed, or how to prevent recurrence. A Holo miss produces a failure trace. The system can identify which model, which role, which turn, and which signal path produced the wrong outcome. That trace is the input to the next round of hardening.</p>
+    <p>The question is not whether a system has misses. The question is whether those misses can be identified and reduced over time. Holo's architecture makes that possible.</p>
   </div>
 </div>
 
@@ -1156,6 +1177,18 @@
     <div class="limitation-label">Model version sensitivity</div>
     <p>Benchmark results are tied to specific model versions at a specific point in time. Results reported here reflect models as evaluated in April 2026. Future model versions may produce different outcomes on the same scenarios. For that reason, the Blindspot Atlas matters more than any single benchmark object: the durable contribution is the growing map of failure patterns, not the permanence of any one scenario result.</p>
   </div>
+  <div class="limitation">
+    <div class="limitation-label">Rotation and sequence sensitivity</div>
+    <p>Some benchmark scenarios remain role-sensitive or sequence-sensitive under specific model assignment orders. These should be treated as development scenarios rather than flagship proof objects. Rotation stability — the ability of a result to hold across randomized assignment seeds — is now part of the publication bar. A result that passes all six gates but depends on a specific assignment sequence has not yet earned flagship status.</p>
+  </div>
+  <div class="limitation">
+    <div class="limitation-label">Current flagship confidence</div>
+    <p>The strongest current flagship result is high-confidence, not perfect. In the latest rotation proof for BEC-EXPLAINED-ANOMALY-001, Holo caught the scenario in 9 of 10 randomized runs. The single miss is diagnosable. That is the appropriate level of confidence to claim: strong empirical stability, not zero-variance proof.</p>
+  </div>
+  <div class="limitation">
+    <div class="limitation-label">Benchmark as hardening instrument</div>
+    <p>The benchmark is not only a marketing artifact. It is a pressure-testing instrument. The hardening process — running scenarios across seeds, identifying failures, tracing them to specific model and role conditions — is an ongoing function, not a one-time evaluation. Results published here represent a snapshot of a system under continuous pressure-testing.</p>
+  </div>
 </div>
 
 <!-- CONCLUSION -->
@@ -1166,11 +1199,9 @@
   </div>
 
   <p>AI agents are making irreversible decisions today. The security infrastructure around those decisions was not designed for them.</p>
-  <p>This paper does not claim to have solved that problem. It claims to have identified a specific, testable gap at the action boundary, built a methodology for evaluating it, and produced results across two completed domains that justify further scrutiny.</p>
+  <p>This paper does not claim to have solved that problem. It claims to have identified a specific, testable gap at the action boundary, built a methodology for pressure-testing it, and produced results that justify further scrutiny. Holo is not a system that simply wins benchmarks. It is a system that can identify where solo model judgment breaks down at the action boundary, intervene at the moment that matters, and be hardened through systematic pressure-testing. When it misses, the failure is traceable. When it catches, the verdict is explained. The benchmark is how Holo learns where the ambushes are, and the runtime is how it acts on that knowledge.</p>
 
   <div class="pullquote">The benchmark is how we learned where the ambushes are. Holo is how we make sure your agents never walk into one.</div>
-
-  <p>What that means in practice is a runtime checkpoint at the action boundary: a layer that makes autonomous approvals safe enough to turn on.</p>
 
   <p>Behind every agentic workflow in this benchmark is a person who might not know an AI made the decision. The small business owner whose vendor payment was rerouted. The employee whose system access was quietly expanded. The company whose contract now contains terms no one approved. They did not interact with the model. They did not see the payload. The action boundary is invisible to them.</p>
   <p><strong>That is exactly why it cannot be unguarded.</strong></p>
@@ -1200,7 +1231,7 @@
   <div class="footer-meta">
     holoengine.ai &nbsp;·&nbsp; hello@holoengine.ai<br>
     U.S. Provisional Patent Application No. 63/987,899<br>
-    Working Paper &nbsp;·&nbsp; Version 2.2 &nbsp;·&nbsp; April 16, 2026
+    Working Paper &nbsp;·&nbsp; Version 2.3 &nbsp;·&nbsp; April 24, 2026
   </div>
 </footer>
 

@@ -574,7 +574,7 @@
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-eyebrow">Version 2.3 &nbsp;·&nbsp; April 24, 2026</div>
+  <div class="cover-eyebrow">Version 2.4 &nbsp;·&nbsp; April 24, 2026</div>
   <h1>Blindspots at the Action Boundary</h1>
   <p class="cover-subtitle">Why Frontier Models Fail on High-Consequence AI Decisions, and What Architecture Can Do About It</p>
   <div class="cover-meta">
@@ -600,7 +600,7 @@
 
   <p>The frontier models powering these agents, including GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro, are genuinely capable. In most situations, they perform well. But <strong>capability is not the same as reliability at the action boundary:</strong> the moment before an irreversible action executes.</p>
 
-  <p>At that moment, solo frontier models have a structural problem. <strong>They do not hesitate. They hallucinate confidence.</strong> Their blindspots are real, non-overlapping, and exploitable. A pattern that one model catches, another approves. An attack designed to exploit narrative acceptance will fool a model that resists authority spoofing. <strong>No single model has consistent coverage across attack classes.</strong></p>
+  <p>At that moment, solo frontier models have a structural problem. <strong>They do not hesitate. They produce confident outputs without appropriate uncertainty signaling.</strong> Their blindspots are real, non-overlapping, and exploitable. A pattern that one model catches, another approves. An attack designed to exploit narrative acceptance will fool a model that resists authority spoofing. <strong>No single model has consistent coverage across attack classes.</strong></p>
 
   <p>This paper presents empirical evidence of that failure. In controlled benchmark testing across two domains, AP/BEC wire fraud and agentic commerce, GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro each independently approved at least one fraudulent transaction constructed from documented real-world attack patterns. <strong>These models are being tested because they are the reasoning cores of the agents organizations are deploying today.</strong> Holo Engine escalated the same transactions.</p>
 
@@ -615,7 +615,7 @@
 
   <p>Holo uses those same frontier models inside an adversarial runtime architecture. As the underlying models improve, the architecture improves with them. <strong>The point is not to replace frontier intelligence. It is to govern it at the moment where a miss becomes irreversible.</strong></p>
 
-  <p><strong>Holo does not eliminate probabilistic model behavior. It constrains it inside a deterministic evidence and adjudication layer that can be pressure-tested, diagnosed, and hardened.</strong> The model turns within the adversarial reactor remain probabilistic. The verdict computation is deterministic: algorithmic, auditable, and not influenced by the confidence of the last model to speak.</p>
+  <p><strong>Holo does not eliminate probabilistic model behavior. It constrains it inside a deterministic evidence and adjudication layer that can be pressure-tested, diagnosed, and hardened.</strong> The model turns within the adversarial reactor remain probabilistic. The verdict computation is deterministic: algorithmic, auditable, and not influenced by the confidence of the last model to speak. That distinction matters because it is what makes the system inspectable rather than opaque.</p>
 
   <p>The benchmark now includes rotation-stability testing as part of proof quality. The strongest current flagship result holds across randomized model and role assignments in 9 of 10 independent runs. The single miss is diagnosable: it followed a specific sequence condition rather than random drift. That inspectability — the ability to name what failed and why — is part of the product's value, not a caveat.</p>
 
@@ -1231,7 +1231,7 @@
   <div class="footer-meta">
     holoengine.ai &nbsp;·&nbsp; hello@holoengine.ai<br>
     U.S. Provisional Patent Application No. 63/987,899<br>
-    Working Paper &nbsp;·&nbsp; Version 2.3 &nbsp;·&nbsp; April 24, 2026
+    Working Paper &nbsp;·&nbsp; Version 2.4 &nbsp;·&nbsp; April 24, 2026
   </div>
 </footer>
 

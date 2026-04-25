@@ -574,7 +574,7 @@
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-eyebrow">Version 2.4 &nbsp;·&nbsp; April 24, 2026</div>
+  <div class="cover-eyebrow">Version 2.5 &nbsp;·&nbsp; April 25, 2026</div>
   <h1>Blindspots at the Action Boundary</h1>
   <p class="cover-subtitle">Why Frontier Models Fail on High-Consequence AI Decisions, and What Architecture Can Do About It</p>
   <div class="cover-meta">
@@ -617,7 +617,8 @@
 
   <p><strong>Holo does not eliminate probabilistic model behavior. It constrains it inside a deterministic evidence and adjudication layer that can be pressure-tested, diagnosed, and hardened.</strong> The model turns within the adversarial reactor remain probabilistic. The verdict computation is deterministic: algorithmic, auditable, and not influenced by the confidence of the last model to speak. That distinction matters because it is what makes the system inspectable rather than opaque.</p>
 
-  <p>The benchmark now includes rotation-stability testing as part of proof quality. The strongest current flagship result holds across randomized model and role assignments in 9 of 10 independent runs. The single miss is diagnosable: it followed a specific sequence condition rather than random drift. That inspectability — the ability to name what failed and why — is part of the product's value, not a caveat.</p>
+  <p>The benchmark now includes rotation-stability testing in two distinct modes. The <strong>Architecture Stability Test</strong> runs every seed at a fixed turn budget with full adversarial pressure, testing whether the architectural catch holds regardless of sequence. The <strong>Runtime Distribution</strong> runs under production-convergence conditions, where the governor exits early when a case stabilizes, characterizing what the deployed system experiences. These two modes answer different questions and are reported separately.</p>
+  <p>The strongest current flagship result holds in 9 of 10 sequences under Architecture Stability Test conditions. The single miss is diagnosable: it followed a specific sequence condition rather than random drift. That inspectability — the ability to name what failed and why — is part of the product's value, not a caveat.</p>
 
   <p>Because Holo captures the full payload and turn-by-turn reasoning trace at the moment of decision, it also creates the foundation for something the current agent stack largely lacks: a decision record that can be cryptographically signed and anchored to an immutable ledger, so auditors and counterparties can verify what happened without relying on Holo's own infrastructure.</p>
 
@@ -768,6 +769,12 @@
     </table>
   </div>
   <p>There is a meaningful distinction between a development scenario and a flagship proof scenario. A development scenario demonstrates that the architecture adds value under a specific configuration. A flagship scenario demonstrates that advantage holds across randomized assignment sequences. A result that passes all six gates but depends on a specific lucky role sequence is not yet eligible for flagship status. <strong>Rotation stability is now part of the publication bar.</strong></p>
+
+  <h3>2.5 &nbsp; Two Benchmark Modes</h3>
+  <p>Rotation stability testing uses two distinct configurations that answer different questions.</p>
+  <p><strong>Architecture Stability Test:</strong> Every seed receives the same fixed turn budget with full adversarial pressure. No early convergence exit is permitted. This tests whether the architectural result holds across randomized model and role assignments independently of sequence convergence timing. The question it answers: is the catch a property of the architecture, or does it depend on a lucky sequence?</p>
+  <p><strong>Runtime Distribution:</strong> The governor exits when the case stabilizes, as it does in deployment. Some seeds run fewer turns. This characterizes what the deployed system experiences under realistic runtime conditions. The question it answers: across production conditions, what fraction of sequences produce the correct verdict?</p>
+  <p>These two modes measure different properties of the system. Results from one mode should not be reported alongside results from the other without distinguishing which is which. Where a result appears in this paper, the mode is specified.</p>
 </div>
 
 <!-- SECTION 3 -->
@@ -793,7 +800,7 @@
     <p style="margin-top:1rem">The invoice history contains eight prior quarterly payments spanning two full calendar years, including Q1 2024 and Q1 2025. Neither prior Q1 invoice includes a true-up line item.</p>
   </div>
 
-  <p>All three solo frontier models independently returned ALLOW. Holo returned ESCALATE across stable runs. In the latest rotation proof, Holo caught the scenario in 9 of 10 randomized runs, with model and role assignments shuffled across seeds. The single miss followed a specific, diagnosable sequence condition rather than random drift.</p>
+  <p>All three solo frontier models independently returned ALLOW. Holo returned ESCALATE across stable runs. In the Architecture Stability Test — ten seeds, fixed turn budget, full adversarial pressure on every sequence — Holo caught the scenario in 9 of 10 randomized sequences. The single miss followed a specific, diagnosable sequence condition rather than random drift.</p>
   <p>The attack pattern was simple and realistic: a payment request that contained a real anomaly, but also included a plausible explanation designed to neutralize that anomaly. The solo failures were not identical. GPT-5.4 never surfaced the core signal. Claude Sonnet 4.6 identified the anomaly, accepted the explanation, and reasoned itself back to ALLOW. Gemini 2.5 Pro noticed the amount spike, explored alternate concerns, then discarded them and also landed at ALLOW.</p>
   <p>Holo escalated because its architecture forces friction. You cannot start a fire by rubbing one stick against itself. It takes two. <strong>Solo models are one stick.</strong> Inside the Holo reactor, the payload is interrogated by multiple models from structurally different families, each assigned a distinct adversarial role. That friction, the structured disagreement between models with different blindspots, surfaces the signal that solo models rationalize away. <strong>The difference was not raw model capability. It was the architecture of judgment.</strong></p>
 
@@ -900,7 +907,7 @@
   <p>The benchmark's strongest current claim is not that frontier models universally fail at the action boundary. It is that <strong>no single frontier model has complete coverage across attack classes, and that Holo can raise the floor through adversarial cross-examination.</strong></p>
 
   <h3>The Symmetric Collapse Result</h3>
-  <p>BEC-EXPLAINED-ANOMALY-001 is the current strongest public proof object. All three solo frontier models returned ALLOW. Holo returned ESCALATE across stable runs. In the latest rotation proof, Holo caught the scenario in 9 of 10 randomized runs. The single miss followed a specific, diagnosable sequence condition rather than random drift. This is strong empirical evidence that the architecture changes outcomes beyond what any solo model achieves. It is not proof of universal advantage.</p>
+  <p>BEC-EXPLAINED-ANOMALY-001 is the current strongest public proof object. All three solo frontier models returned ALLOW. Holo returned ESCALATE across stable runs. In the Architecture Stability Test — ten seeds, fixed turn budget — Holo caught the scenario in 9 of 10 randomized sequences. The single miss followed a specific, diagnosable sequence condition rather than random drift. This is strong empirical evidence that the architecture changes outcomes beyond what any solo model achieves. It is not proof of universal advantage.</p>
 
   <div class="table-wrap">
     <table>
@@ -1179,11 +1186,11 @@
   </div>
   <div class="limitation">
     <div class="limitation-label">Rotation and sequence sensitivity</div>
-    <p>Some benchmark scenarios remain role-sensitive or sequence-sensitive under specific model assignment orders. These should be treated as development scenarios rather than flagship proof objects. Rotation stability — the ability of a result to hold across randomized assignment seeds — is now part of the publication bar. A result that passes all six gates but depends on a specific assignment sequence has not yet earned flagship status.</p>
+    <p>Some benchmark scenarios remain role-sensitive or sequence-sensitive under specific model assignment orders. These should be treated as development scenarios rather than flagship proof objects. Rotation stability — the ability of a result to hold across randomized assignment seeds — is now part of the publication bar. A result that passes all six gates but depends on a specific assignment sequence has not yet earned flagship status. Rotation stability is evaluated in two modes: Architecture Stability Test and Runtime Distribution. A scenario must pass the Architecture Stability Test before it is eligible for flagship status; the Runtime Distribution is reported separately.</p>
   </div>
   <div class="limitation">
     <div class="limitation-label">Current flagship confidence</div>
-    <p>The strongest current flagship result is high-confidence, not perfect. In the latest rotation proof for BEC-EXPLAINED-ANOMALY-001, Holo caught the scenario in 9 of 10 randomized runs. The single miss is diagnosable. That is the appropriate level of confidence to claim: strong empirical stability, not zero-variance proof.</p>
+    <p>The strongest current flagship result is high-confidence, not perfect. In the Architecture Stability Test for BEC-EXPLAINED-ANOMALY-001 — ten seeds, fixed turn budget — Holo caught the scenario in 9 of 10 randomized sequences. The Runtime Distribution for the same scenario, reflecting production-convergence conditions, has not yet been formally characterized across enough seeds to report a stable estimate. The 9/10 figure is an Architecture Stability Test result and should not be read as a deployment probability. The single miss in the Architecture Stability Test is diagnosable. That is the appropriate level of confidence to claim: strong empirical stability under controlled pressure, not a universal runtime guarantee.</p>
   </div>
   <div class="limitation">
     <div class="limitation-label">Benchmark as hardening instrument</div>
@@ -1231,7 +1238,7 @@
   <div class="footer-meta">
     holoengine.ai &nbsp;·&nbsp; hello@holoengine.ai<br>
     U.S. Provisional Patent Application No. 63/987,899<br>
-    Working Paper &nbsp;·&nbsp; Version 2.4 &nbsp;·&nbsp; April 24, 2026
+    Working Paper &nbsp;·&nbsp; Version 2.5 &nbsp;·&nbsp; April 25, 2026
   </div>
 </footer>
 

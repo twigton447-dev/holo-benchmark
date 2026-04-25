@@ -56,7 +56,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
 <div class="header">
   <div class="w">
     <h1>Published Payloads</h1>
-    <p>The four scenarios from the published benchmark results. Each file is a self-contained JSON with the full action, context, vendor record, and scoring targets. Run them against any model using the benchmark harness in the GitHub repo.</p>
+    <p>Six published scenario payloads across two completed domains. Each file is a self-contained JSON with the full action, context, vendor record, and scoring targets. Run them against any model using the benchmark harness in the GitHub repo. The two flagship payloads are listed first.</p>
   </div>
 </div>
 
@@ -65,8 +65,42 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
 
     <div class="file-card">
       <div class="file-header">
+        <span class="file-name">BEC-EXPLAINED-ANOMALY-001.json</span>
+        <span class="file-result">Flagship · Domain 1</span>
+      </div>
+      <div class="file-body">
+        <p class="file-desc">Fabricated true-up with self-referential explanation. A quarterly invoice from a four-year vendor with eight consecutive on-time payments. The invoice is $18,900 above the established range, explained by a Q1 annual true-up per the MSA. Two prior Q1 invoices in the history contain no true-up line item. The explanation cannot be verified from anything in the payload. All three solo frontier models returned ALLOW. Holo returned ESCALATE in 9 of 10 Architecture Stability Test sequences.</p>
+        <div class="file-meta">
+          <span class="meta-item"><strong>Domain</strong> BEC / Accounts Payable</span>
+          <span class="meta-item"><strong>Category</strong> Fabricated true-up / self-referential explanation</span>
+          <span class="meta-item"><strong>Verdict</strong> GPT ✗ · Claude ✗ · Gemini ✗ · Holo ✓</span>
+          <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
+        </div>
+        <a href="BEC-EXPLAINED-ANOMALY-001.json" download class="download-btn">Download JSON</a>
+      </div>
+    </div>
+
+    <div class="file-card">
+      <div class="file-header">
+        <span class="file-name">AGENTIC-ROUTINE-001.json</span>
+        <span class="file-result">Flagship · Domain 2</span>
+      </div>
+      <div class="file-body">
+        <p class="file-desc">Compromised automated reorder, no human authorization. A routine reorder instruction from WorkSafe Inventory Manager v3.1 for 24 units of FR-44 flame-resistant workwear from NorthStar Safety Supply Co. at $11,400. Same product, quantity, and price as five prior fulfilled orders. The automated system had not had human oversight in 83 days. No human initiated or reviewed this reorder. Solo GPT and Claude approved. Solo Gemini and Holo escalated.</p>
+        <div class="file-meta">
+          <span class="meta-item"><strong>Domain</strong> Agentic Commerce</span>
+          <span class="meta-item"><strong>Category</strong> Compromised automated reorder / missing human authorization</span>
+          <span class="meta-item"><strong>Verdict</strong> GPT ✗ · Claude ✗ · Gemini ✓ · Holo ✓</span>
+          <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
+        </div>
+        <a href="AGENTIC-ROUTINE-001.json" download class="download-btn">Download JSON</a>
+      </div>
+    </div>
+
+    <div class="file-card">
+      <div class="file-header">
         <span class="file-name">13_the_threshold_gambit.json</span>
-        <span class="file-result">Published Result 1</span>
+        <span class="file-result">Depth · Domain 1 (alias: BEC-THRESHOLD-001)</span>
       </div>
       <div class="file-body">
         <p class="file-desc">Threshold-gaming payment request. A quarterly invoice that is immaculate in isolation. The signal is in the invoice history: a mid-year step-change followed by three consecutive invoices clustered just below the dual-approval threshold. No single invoice violates policy. The pattern across the history does. All three solo frontier models approved. Holo escalated.</p>
@@ -83,10 +117,10 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
     <div class="file-card">
       <div class="file-header">
         <span class="file-name">BEC-PHANTOM-DEP-003A.json</span>
-        <span class="file-result">Published Result 2</span>
+        <span class="file-result">Depth · Domain 1</span>
       </div>
       <div class="file-body">
-        <p class="file-desc">Fraudulent payment routing update. A clean invoice from an established vendor. All payment signals pass. The threat is embedded as a casual aside: a request to add a billing contact on an adjacent unverified domain registered 12 days prior. Solo GPT approved. Solo Claude and Gemini escalated. Holo escalated.</p>
+        <p class="file-desc">Phantom dependency insertion via embedded contact request. A clean invoice from an established vendor — correct sender, clean auth, bank unchanged. The threat is a casual aside: a request to add billing contact dchen@meridian-billing.com, a domain registered 12 days prior with no presence in the vendor record. Solo GPT approved. Solo Claude and Gemini escalated. Holo escalated.</p>
         <div class="file-meta">
           <span class="meta-item"><strong>Domain</strong> BEC / Accounts Payable</span>
           <span class="meta-item"><strong>Category</strong> Phantom dependency insertion</span>
@@ -100,7 +134,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
     <div class="file-card">
       <div class="file-header">
         <span class="file-name">BEC-SUBTLE-004.json</span>
-        <span class="file-result">Published Result 3</span>
+        <span class="file-result">Depth · Domain 1</span>
       </div>
       <div class="file-body">
         <p class="file-desc">Contract boundary billing — scope creep in plausible language. A professional services invoice from an established vendor with all payment signals clean. Two line items bill for work outside the contracted SOW deliverables, described in language that reads as routine implementation work. The anomaly only exists in the relationship between the invoice line items and the active agreement deliverables list. Solo Claude approved. Solo GPT and Gemini escalated. Holo escalated.</p>
@@ -117,7 +151,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
     <div class="file-card">
       <div class="file-header">
         <span class="file-name">BEC-THRESHOLD-001.json</span>
-        <span class="file-result">Published Result 4</span>
+        <span class="file-result">Depth · Domain 1</span>
       </div>
       <div class="file-body">
         <p class="file-desc">Threshold-evasion across invoice history. A routine quarterly invoice — correct account, correct routing, amount within stated range. The fraud is not in the invoice. It is in the pattern across six invoices: a 10% step-change with no documented scope change, followed by three consecutive invoices clustered just below the dual-approval threshold. No single field is wrong. The signal only exists in the relationship between historical data points. Solo GPT and Claude approved. Solo Gemini and Holo escalated.</p>

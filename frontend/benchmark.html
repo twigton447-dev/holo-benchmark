@@ -198,12 +198,17 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <section class="hero">
   <div class="w">
     <div class="hero-eyebrow">Holo Engine · Open Benchmark · April 2026</div>
-    <h1>Benchmark</h1>
-    <p class="hero-lede">Adversarial scenarios at the action boundary. Payloads, traces, and scoring rubric are public. Results are vendor-reported. Read the limitations before drawing conclusions.</p>
-    <div class="hero-actions">
+    <h1>Runtime policy can intercept the action. Holo adjudicates the unresolved middle.</h1>
+    <p class="hero-lede">Some high-consequence agent actions are not clearly malicious, not clearly compliant, and not safe to auto-clear. Holo evaluates those actions at the last reversible moment before execution and returns one operational verdict: ALLOW or ESCALATE.</p>
+    <div class="prose" style="margin-top:20px">
+      <p>This benchmark tests that seam. It does not test obvious prompt injection or explicit policy violations. It tests high-consequence actions that appear operationally valid, pass surface checks, and still contain unresolved semantic contradictions that should stop execution.</p>
+      <p>In BEC-EXPLAINED-ANOMALY-001, GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro returned ALLOW on a fraudulent AP/BEC action. Holo returned ESCALATE. The result held in 9 of 10 Architecture Stability Test sequences.</p>
+      <p><strong>The 9 of 10 result should not be read as a deployment probability.</strong> It shows that the catch was not dependent on one lucky sequence. The single miss matters because it was diagnosable: the trace shows which sequence condition failed and why. Holo's value is not that misses are impossible. It is that misses can be named, diagnosed, and hardened against.</p>
+      <p>Holo is not a replacement for runtime security, policy enforcement, or observability. It is the second-stage adjudicator for high-consequence actions those systems should escalate rather than decide alone.</p>
+    </div>
+    <div class="hero-actions" style="margin-top:28px">
       <a href="payloads/" class="btn btn-dark">Run the Payloads</a>
-      <a href="/appendix" class="btn btn-ghost">Full Appendix</a>
-      <a href="/whitepaper" class="btn btn-ghost">Whitepaper</a>
+      <a href="/appendix" class="btn btn-ghost">Review the Traces</a>
     </div>
   </div>
 </section>
@@ -473,7 +478,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
       </tbody>
     </table>
 
-    <p style="font-size:12px;color:var(--muted);margin-top:14px;line-height:1.6">Note on naming: scenario IDs in the appendix, payload files, and this page use the identifiers above. Where the current public GitHub README uses older labels, the appendix is authoritative. Audit trail documents in the appendix carry the canonical ID for each scenario.</p>
+    <p style="font-size:12px;color:var(--muted);margin-top:14px;line-height:1.6">Canonical scenario IDs are defined in the appendix. Older payload or README labels (e.g. <span style="font-family:var(--mono)">13_the_threshold_gambit</span> for BEC-THRESHOLD-001) are retained only as aliases for trace continuity. The appendix is authoritative where labels diverge.</p>
 
     <div style="margin-top:24px;padding:14px 16px;background:var(--surface);border:1.5px solid var(--border);border-radius:6px">
       <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Domains in active development</div>
@@ -598,12 +603,12 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <!-- CTA -->
 <section class="cta-section">
   <div class="w">
-    <h2>Run it yourself.</h2>
-    <a href="payloads/" class="cta-url">holoengine.ai/appendix/payloads</a>
+    <h2>Run the two-payload teardown.</h2>
+    <p style="font-size:15px;color:var(--muted);margin-top:8px;margin-bottom:24px;max-width:480px;line-height:1.7">If your runtime layer catches these payloads cleanly, Holo is not needed there. If it does not, the seam is real.</p>
     <div class="cta-actions">
-      <a href="payloads/" class="btn btn-dark">Download Payloads</a>
-      <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank" class="btn btn-ghost">GitHub</a>
-      <a href="/appendix" class="cta-link">Full Appendix with Traces →</a>
+      <a href="payloads/" class="btn btn-dark">Run the Payloads</a>
+      <a href="/appendix" class="btn btn-ghost">Review the Traces</a>
+      <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank" class="cta-link">GitHub →</a>
     </div>
   </div>
 </section>

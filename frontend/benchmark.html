@@ -198,17 +198,13 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <section class="hero">
   <div class="w">
     <div class="hero-eyebrow">Holo Engine · Open Benchmark · April 2026</div>
-    <h1>Most AI security catches what is visible. Holo is built for what passes.</h1>
-    <p class="hero-lede">Most AI security catches what is visible or prohibited: prompt injection, jailbreaks, policy violations, data leaks, and obvious rule breaks. Holo Engine is built for the actions that pass those checks but still do not add up.</p>
+    <h1>Runtime policy can intercept the action. Holo adjudicates the unresolved middle.</h1>
+    <p class="hero-lede">Some high-consequence agent actions are not clearly malicious, not clearly compliant, and not safe to auto-clear. Holo evaluates those actions at the last reversible moment before execution and returns one operational verdict: ALLOW or ESCALATE.</p>
     <div class="prose" style="margin-top:20px">
-      <p>The invoice looks clean. The vendor is known. Bank details are unchanged. The approval path is complete. The claimed Q1 true-up matches the amount. But prior Q1 invoices show this true-up pattern never existed. The explanation contradicts the record.</p>
-      <p>The reorder looks routine. The vendor, item, quantity, and price match five prior orders. It sits inside the autonomous threshold. But the inventory system that generated it had no human review for 83 days. No trusted person initiated or approved this specific action. The authorization chain is broken.</p>
-      <p>These are not always fraud. Sometimes an AI system or automation chain fills a missing context, relies on stale data, hallucinates an assumption upstream, or continues a workflow after the human authorization link has gone cold.</p>
-      <p>Holo is the last reversible checkpoint before a high-consequence AI action executes. It does not replace runtime security, policy engines, DLP, or observability. Those layers handle what is known or prohibited. Holo adjudicates the unresolved middle: actions that pass surface checks but contain contradictions in history, provenance, or authorization.</p>
-      <p>It uses structured adversarial review across models to compensate for their distributed blindspots. The output is simple and auditable: ALLOW or ESCALATE.</p>
-      <p>The benchmark is public. The payloads are reproducible. The API is live.</p>
-      <p>The strongest current flagship result (BEC-EXPLAINED-ANOMALY-001) holds in 9 of 10 sequences under Architecture Stability Test conditions. The single miss is diagnosable. This is not universal coverage — it is proof of a narrow but commercially important class of high-consequence actions where surface policy passes, solo model judgment fails, and adversarial adjudication changes the outcome.</p>
-      <p>Holo is not a replacement for Layer 1 systems. It is the second-stage adjudicator those systems should call when they can see the action but should not decide it alone.</p>
+      <p>This benchmark tests that seam. It does not test obvious prompt injection or explicit policy violations. It tests high-consequence actions that appear operationally valid, pass surface checks, and still contain unresolved semantic contradictions that should stop execution.</p>
+      <p>In BEC-EXPLAINED-ANOMALY-001, GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro returned ALLOW on a fraudulent AP/BEC action. Holo returned ESCALATE. The result held in 9 of 10 Architecture Stability Test sequences.</p>
+      <p><strong>The 9 of 10 result should not be read as a deployment probability.</strong> It shows that the catch was not dependent on one lucky sequence. The single miss matters because it was diagnosable: the trace shows which sequence condition failed and why. Holo's value is not that misses are impossible. It is that misses can be named, diagnosed, and hardened against.</p>
+      <p>Holo is not a replacement for runtime security, policy enforcement, or observability. It is the second-stage adjudicator for high-consequence actions those systems should escalate rather than decide alone.</p>
     </div>
     <div class="hero-actions" style="margin-top:28px">
       <a href="payloads/" class="btn btn-dark">Run the Payloads</a>

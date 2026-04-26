@@ -199,13 +199,13 @@ footer{border-top:1px solid var(--border);padding:24px 0}
   <div class="w">
     <div class="hero-eyebrow">Holo Engine · Open Benchmark · April 2026</div>
     <h1>Runtime policy can intercept the action. Holo adjudicates the unresolved middle.</h1>
-    <p class="hero-lede">Some high-consequence agent actions are not clearly malicious, not clearly compliant, and not safe to auto-clear. Holo evaluates those actions at the last reversible moment before execution and returns one operational verdict: ALLOW or ESCALATE.</p>
-    <div class="prose" style="margin-top:20px">
-      <p>This benchmark tests that seam. It does not test obvious prompt injection or explicit policy violations. It tests high-consequence actions that appear operationally valid, pass surface checks, and still contain unresolved semantic contradictions that should stop execution.</p>
-      <p>In BEC-EXPLAINED-ANOMALY-001, GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro returned ALLOW on a fraudulent AP/BEC action. Holo returned ESCALATE. The result held in 9 of 10 Architecture Stability Test sequences.</p>
-      <p><strong>The 9 of 10 result should not be read as a deployment probability.</strong> It shows that the catch was not dependent on one lucky sequence. The single miss matters because it was diagnosable: the trace shows which sequence condition failed and why. Holo's value is not that misses are impossible. It is that misses can be named, diagnosed, and hardened against.</p>
-      <p>Holo is not a replacement for runtime security, policy enforcement, or observability. It is the second-stage adjudicator for high-consequence actions those systems should escalate rather than decide alone.</p>
+    <p class="hero-lede">Some high-consequence agent actions pass surface checks and still contain contradictions that should stop execution. This benchmark tests that seam.</p>
+    <div style="margin-top:24px;padding:20px 24px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px">
+      <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Headline Result · BEC-EXPLAINED-ANOMALY-001</div>
+      <p style="font-size:15px;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:10px">GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro each returned <span style="color:var(--red)">ALLOW</span> on a fraudulent AP/BEC action. Holo returned <span style="color:var(--green)">ESCALATE</span>.</p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.6">The result held in <strong>9 of 10 Architecture Stability Test sequences.</strong> The single miss is diagnosable: the trace shows which sequence condition failed and why.</p>
     </div>
+    <p style="margin-top:16px;font-size:13px;color:var(--muted);line-height:1.7">Holo is not a replacement for runtime security or observability. It is the second-stage adjudicator for high-consequence actions those systems should escalate rather than decide alone.</p>
     <div class="hero-actions" style="margin-top:28px">
       <a href="payloads/" class="btn btn-dark">Run the Payloads</a>
       <a href="/appendix" class="btn btn-ghost">Review the Traces</a>

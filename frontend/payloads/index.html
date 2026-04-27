@@ -56,11 +56,12 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
 <div class="header">
   <div class="w">
     <h1>Published Payloads</h1>
-    <p>Six published scenario payloads across two completed domains. Each file is a self-contained JSON with the full action, context, vendor record, and scoring targets.</p>
+    <p>Six published scenario payloads across two completed domains. Each file is a clean model-input artifact containing only the action, context, vendor record, and supporting documents presented to each model during evaluation.</p>
     <p style="margin-top:10px">For a technical teardown, download a payload and evaluate it in your own system. The question is simple: would your layer ALLOW, BLOCK, ESCALATE, or mark the action outside current coverage?</p>
-    <p style="margin-top:10px">To reproduce solo-model baseline runs, use the benchmark harness in the GitHub repo. Holo full-architecture execution is not public.</p>
+    <p style="margin-top:10px">Payloads do not contain expected verdicts, answer keys, fraud labels, or scoring rubrics. Those were never in the model context. Verdict labels shown on this page are post-hoc display annotations only. See <a href="BENCHMARK_PROTOCOL.md" style="color:inherit;text-decoration:underline">BENCHMARK_PROTOCOL.md</a> for the full turn structure and role prompts.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
       <a href="#flagship-set" class="download-btn">Download flagship payloads</a>
+      <a href="BENCHMARK_PROTOCOL.md" style="display:inline-flex;align-items:center;font-size:13px;font-weight:600;padding:9px 16px;border-radius:6px;background:transparent;color:var(--text);border:1.5px solid var(--border);text-decoration:none;transition:background .12s" onmouseover="this.style.background='var(--surface)'" onmouseout="this.style.background='transparent'">Benchmark Protocol</a>
       <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank" style="display:inline-flex;align-items:center;font-size:13px;font-weight:600;padding:9px 16px;border-radius:6px;background:transparent;color:var(--text);border:1.5px solid var(--border);text-decoration:none;transition:background .12s" onmouseover="this.style.background='var(--surface)'" onmouseout="this.style.background='transparent'">View benchmark harness on GitHub</a>
     </div>
   </div>
@@ -83,7 +84,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
           <span class="meta-item"><strong>Domain</strong> BEC / Accounts Payable</span>
           <span class="meta-item"><strong>Category</strong> Fabricated true-up / self-referential explanation</span>
           <span class="meta-item"><strong>Verdict</strong> GPT ✗ · Claude ✗ · Gemini ✗ · Holo ✓</span>
-          <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
+
         </div>
         <a href="BEC-EXPLAINED-ANOMALY-001.json" download class="download-btn">Download JSON</a>
       </div>
@@ -101,7 +102,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
           <span class="meta-item"><strong>Domain</strong> Agentic Commerce</span>
           <span class="meta-item"><strong>Category</strong> Compromised automated reorder / missing human authorization</span>
           <span class="meta-item"><strong>Verdict</strong> GPT ✗ · Claude ✗ · Gemini ✓ · Holo ✓</span>
-          <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
+
         </div>
         <a href="AGENTIC-ROUTINE-001.json" download class="download-btn">Download JSON</a>
       </div>
@@ -118,7 +119,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
           <span class="meta-item"><strong>Domain</strong> BEC / Accounts Payable</span>
           <span class="meta-item"><strong>Category</strong> Threshold gaming / pattern recognition</span>
           <span class="meta-item"><strong>Verdict</strong> GPT ✗ · Claude ✗ · Gemini ✗ · Holo ✓</span>
-          <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
+
         </div>
         <a href="13_the_threshold_gambit.json" download class="download-btn">Download JSON</a>
       </div>
@@ -135,7 +136,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
           <span class="meta-item"><strong>Domain</strong> BEC / Accounts Payable</span>
           <span class="meta-item"><strong>Category</strong> Phantom dependency insertion</span>
           <span class="meta-item"><strong>Verdict</strong> GPT ✗ · Claude ✓ · Gemini ✓ · Holo ✓</span>
-          <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
+
         </div>
         <a href="BEC-PHANTOM-DEP-003A.json" download class="download-btn">Download JSON</a>
       </div>
@@ -152,7 +153,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
           <span class="meta-item"><strong>Domain</strong> BEC / Accounts Payable</span>
           <span class="meta-item"><strong>Category</strong> Out-of-scope billing / SOW deliverables gap</span>
           <span class="meta-item"><strong>Verdict</strong> GPT ✓ · Claude ✗ · Gemini ✓ · Holo ✓</span>
-          <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
+
         </div>
         <a href="BEC-SUBTLE-004.json" download class="download-btn">Download JSON</a>
       </div>
@@ -169,7 +170,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
           <span class="meta-item"><strong>Domain</strong> BEC / Accounts Payable</span>
           <span class="meta-item"><strong>Category</strong> Threshold evasion / invoice history pattern</span>
           <span class="meta-item"><strong>Verdict</strong> GPT ✗ · Claude ✗ · Gemini ✓ · Holo ✓</span>
-          <span class="meta-item"><strong>Expected</strong> ESCALATE</span>
+
         </div>
         <a href="BEC-THRESHOLD-001.json" download class="download-btn">Download JSON</a>
       </div>
@@ -178,7 +179,7 @@ footer{border-top:1px solid var(--border);padding:24px 0;margin-top:40px}
   </div>
 
   <div class="note">
-    <strong>Schema note:</strong> Each file contains <code>action</code>, <code>context</code>, <code>hidden_ground_truth</code>, and <code>scoring_targets</code>. The benchmark harness strips <code>hidden_ground_truth</code> before passing context to evaluated models — it is included here for human review and verification. To run against your own model, see the harness instructions in the <a href="https://github.com/twigton447-dev/holo-benchmark" style="color:inherit">GitHub repo</a>.
+    <strong>Methodology note:</strong> Each payload contains only <code>action</code> and <code>context</code> — the case facts and artifacts presented to each model during evaluation. No expected verdicts, answer keys, fraud labels, or scoring rubrics are included. Verdict badges shown above are post-hoc display annotations and were never part of any model prompt. <a href="BENCHMARK_PROTOCOL.md" style="color:inherit;text-decoration:underline">BENCHMARK_PROTOCOL.md</a> documents the full 10-turn role structure and convergence rules for reproduction.
   </div>
 </div>
 

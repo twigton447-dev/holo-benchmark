@@ -670,6 +670,7 @@
     <li><a href="#s9"><span class="toc-num">09</span><span class="toc-title">The Blindspot Atlas</span></a></li>
     <li><a href="#s10"><span class="toc-num">10</span><span class="toc-title">What Comes Next</span></a></li>
     <li><a href="#s11"><span class="toc-num">11</span><span class="toc-title">Limitations</span></a></li>
+    <li><a href="#point-in-time"><span class="toc-num">—</span><span class="toc-title">Point-in-Time Evidence, Living Control Layer</span></a></li>
     <li><a href="#conclusion"><span class="toc-num">—</span><span class="toc-title">Conclusion</span></a></li>
   </ol>
 </nav>
@@ -767,6 +768,20 @@
   <p><strong>Architecture Stability Test:</strong> Every seed receives the same fixed turn budget with full adversarial pressure. No early convergence exit is permitted. This tests whether the architectural result holds across randomized model and role assignments independently of sequence convergence timing. The question it answers: is the catch a property of the architecture, or does it depend on a lucky sequence?</p>
   <p><strong>Runtime Distribution:</strong> The governor exits when the case stabilizes, as it does in deployment. Some seeds run fewer turns. This characterizes what the deployed system experiences under realistic runtime conditions. The question it answers: across production conditions, what fraction of sequences produce the correct verdict?</p>
   <p>These two modes measure different properties of the system. Results from one mode should not be reported alongside results from the other without distinguishing which is which. Where a result appears in this paper, the mode is specified.</p>
+
+  <h3>2.6 &nbsp; Model Selection and Parity</h3>
+  <p>For each benchmark run, we used the strongest accessible frontier models available to us from the three major model families at the time of testing.</p>
+  <p>In some cases, the latest announced model was not available through the benchmark harness or compatible API path. For example, if a newer Gemini model was not accessible for this test path, we used the strongest compatible Gemini model available at the time.</p>
+  <p><strong>The important control is parity.</strong></p>
+  <p>The same model versions used in the solo baselines were also used inside the Holo adjudication condition. A solo GPT run used the same GPT version represented in Holo. A solo Claude run used the same Claude version represented in Holo. A solo Gemini run used the same Gemini version represented in Holo.</p>
+  <p>This means the benchmark is not comparing weak solo models against stronger Holo models. It is comparing decision architectures:</p>
+  <ul>
+    <li>single-model baseline judgment</li>
+    <li>single-model adversarial scaffold, where applicable</li>
+    <li>multi-model adversarial adjudication with deterministic governor logic</li>
+  </ul>
+  <p>The question is not "which model is smartest forever?" The question is whether a structured action-boundary adjudication process produces a safer, more inspectable decision than relying on one model family alone.</p>
+  <p style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--ink-faint);border-left:3px solid var(--gold);padding-left:12px;margin-top:1.25rem"><strong style="color:var(--gold)">Model parity note:</strong> Solo baselines use the same model versions represented in the Holo run. The comparison is architecture versus architecture, not weak models versus stronger models.</p>
 </div>
 
 <!-- SECTION 3 -->
@@ -1190,6 +1205,26 @@
   <div class="limitation">
     <div class="limitation-label">Benchmark as hardening instrument</div>
     <p>The benchmark is not only a marketing artifact. It is a pressure-testing instrument. The hardening process — running scenarios across seeds, identifying failures, tracing them to specific model and role conditions — is an ongoing function, not a one-time evaluation. Results published here represent a snapshot of a system under continuous pressure-testing.</p>
+  </div>
+</div>
+
+<!-- POINT-IN-TIME EVIDENCE -->
+<div id="point-in-time" class="section">
+  <div class="section-header">
+    <span class="section-number">—</span>
+    <h2>Point-in-Time Evidence, Living Control Layer</h2>
+  </div>
+
+  <p>Benchmark results should be read as point-in-time evidence, not fixed laws of model behavior.</p>
+  <p>A public scenario can be rerun later and produce a different result. That is expected. Frontier models are versioned systems. Their behavior changes across releases, system prompts, temperature settings, tool context, runtime environments, and vendor-side updates that may not be fully visible to the tester.</p>
+  <p>This does not weaken the benchmark. It is part of the problem Holo is built to address.</p>
+  <p>The action boundary cannot rely on the assumption that one model will consistently recognize every high-consequence anomaly. Coverage is model-specific, version-specific, protocol-specific, and attack-class-specific. As models improve, adversarial tactics improve with them. The blind spots do not disappear; they move.</p>
+  <p>Holo is designed as a living control layer at the action boundary. Its model roster, adversarial scenario library, evaluation policy, and hardening logic can evolve as new models and new failure classes appear. The goal is not to preserve one static benchmark forever. The goal is to maintain a continuously updated adjudication process for irreversible actions.</p>
+  <p>The Blindspot Atlas should therefore be understood as a growing evidence base. Each scenario records what was tested, when it was tested, under which protocol, and how the architecture behaved. Future scenarios and future model runs will expand that atlas rather than replace the core thesis.</p>
+
+  <div class="limitation" style="margin-top: 1.5rem;">
+    <div class="limitation-label">Run metadata recommendation</div>
+    <p>Each published result should include: scenario ID, payload version or hash, protocol version, run date, model name, model version when available, turn mode (convergence or fixed AST), max turns, convergence settings, final verdict, and whether the run was solo baseline, solo adversarial scaffold, or Holo adjudication.</p>
   </div>
 </div>
 

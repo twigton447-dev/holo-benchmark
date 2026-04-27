@@ -292,6 +292,16 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 
     <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-top:16px">See <a href="/whitepaper" style="color:var(--text);text-decoration:underline">Whitepaper v2.8</a> for full methodology, architecture description, and annotated traces.</p>
 
+    <div style="margin-top:20px;padding:14px 18px;border:1px solid var(--border);border-left:3px solid var(--amber);border-radius:5px;background:var(--surface)">
+      <p style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:8px">Model parity note</p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7">Solo baselines use the same model versions represented in the Holo run. The comparison is architecture versus architecture, not weak models versus stronger models.</p>
+    </div>
+
+    <div style="margin-top:12px;padding:14px 18px;border:1px solid var(--border);border-left:3px solid #94a3b8;border-radius:5px;background:var(--surface)">
+      <p style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Benchmark variance and versioning</p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7">These results are point-in-time evidence, not permanent claims about any model. Frontier model behavior is probabilistic, versioned, and environment-sensitive. The same payload may produce different results across model versions, system prompts, temperatures, or future reruns. <strong style="color:var(--text)">That variance is part of the thesis.</strong> Holo is designed as a living control layer that updates its model roster, scenario library, and evaluation policy as models and adversarial tactics evolve.</p>
+    </div>
+
     <div class="callout" style="margin-top:24px">
       <p>A result counts as a real win only when it passes all six publication gates.</p>
     </div>

@@ -599,19 +599,19 @@
 <div class="exec-summary">
   <div class="section-label">Executive Summary</div>
 
-  <p style="margin-top:0.75rem">In human-driven workflows, the point of no return is the commit boundary&#8212;the final check before code is pushed or regulated content is published. In autonomous AI systems, that exact same threshold is the action boundary&#8212;the millisecond before an agent wires money, provisions server access, or executes a legal contract. The vocabulary changes, but the structural vulnerability is identical: once crossed, the action is irreversible.</p>
+  <p style="margin-top:0.75rem">In human-driven workflows, the point of no return is the commit boundary: the final check before code is pushed or regulated content is published. In autonomous AI systems, that exact same threshold is the action boundary: the millisecond before an agent wires money, provisions server access, or executes a legal contract. The vocabulary changes, but the structural vulnerability is identical: once crossed, the action is irreversible.</p>
 
-  <p>And in both worlds, the most dangerous failures are not the obvious ones. They are the actions that look clean, compliant, and complete&#8212;right up until the damage is done.</p>
+  <p>And in both worlds, the most dangerous failures are not the obvious ones. They are the actions that look clean, compliant, and complete, right up until the damage is done.</p>
 
   <p>Most AI security is built to catch visible violations: prompt injection, jailbreaks, policy breaches, and data leakage. It is much weaker at a harder class of failure, where a payment request can come from a known vendor, the approval path is complete, and the metadata looks clean. And yet, the business story does not add up. The payment pattern never existed. The explanation contradicts prior records. The authorization chain has gone stale.</p>
 
   <p><strong>Nothing is obviously broken, but the action should still not proceed.</strong></p>
 
-  <p>Holo Engine was built to govern this exact gap. It is the last reversible checkpoint before a high-consequence AI action executes. Its architecture uses adversarial multi-model review to pressure-test the full context of an action before it binds. The output is simple and auditable: ALLOW or ESCALATE.</p>
+  <p>Holo Engine was built to govern this exact gap. It is the last reversible checkpoint before a high-consequence AI action executes. Its architecture uses adversarial multi-model review to pressure-test the full context of an action before it binds. The output is simple and auditable: <strong>ALLOW or ESCALATE.</strong></p>
 
   <p>In the benchmark&#8217;s flagship test case, all three solo frontier models approved a fraudulent transaction. Under the exact same conditions, Holo&#8217;s architecture returned ESCALATE consistently across repeated, seeded runs. This is not a claim of universal coverage or production reliability. It is evidence that adjudication architecture can change the outcome on a narrow but commercially important class of actions where surface policy passes, solo model judgment fails, and a second-stage decision architecture catches what the solo model misses.</p>
 
-  <p>Holo does not replace runtime security, policy engines, or observability. Those systems handle what is known or prohibited. Holo adjudicates the unresolved middle&#8212;actions that pass every surface check but still require a final, adversarial judgment call.</p>
+  <p>Holo does not replace runtime security, policy engines, or observability. Those systems handle what is known or prohibited. Holo adjudicates the unresolved middle: actions that pass every surface check but still require a final, adversarial judgment call.</p>
 
   <p style="font-size:0.875rem;color:var(--ink-faint)">Models tested: GPT-5.4 &nbsp;·&nbsp; Claude-Sonnet-4-6 &nbsp;·&nbsp; Gemini-2.5-Pro &nbsp;·&nbsp; Holo Full Architecture</p>
 
@@ -759,8 +759,8 @@
 
   <h3>1.5 &nbsp; Why Existing Controls Miss This Moment</h3>
   <p>Most enterprise AI governance sits upstream or downstream of the action boundary.</p>
-  <p><strong>Upstream controls</strong> — prompt engineering, system instructions, fine-tuning — shape how the model reasons before it encounters a specific payload. They are general. They cannot anticipate the specific adversarial construction in front of the model at runtime.</p>
-  <p><strong>Downstream controls</strong> — transaction monitoring, anomaly detection, audit logs — operate after execution. They are forensic. By the time they flag a problem, the wire has cleared.</p>
+  <p><strong>Upstream controls</strong> (prompt engineering, system instructions, fine-tuning) shape how the model reasons before it encounters a specific payload. They are general. They cannot anticipate the specific adversarial construction in front of the model at runtime.</p>
+  <p><strong>Downstream controls</strong> (transaction monitoring, anomaly detection, audit logs) operate after execution. They are forensic. By the time they flag a problem, the wire has cleared.</p>
   <div class="pullquote">The moment just before execution, when the agent has formed its intent, the action is fully specified, and the commitment is about to become irreversible, is the highest-leverage intervention point in the entire agentic stack.</div>
   <p>Neither layer addresses that specific moment. That is the gap Holo fills: a runtime checkpoint, at the action boundary, before the window closes.</p>
   <p>The proxy problem compounds this. When an agent approves a fraudulent transaction, the legal and operational question is not "did the AI make a mistake?" It is "who authorized this action?" Holo produces a reasoning trace on every verdict. <strong>That trace is the audit record.</strong> It is the difference between "the AI approved it" and "here is exactly what the system evaluated and why it escalated."</p>
@@ -923,7 +923,7 @@
 
   <p>When Holo misses, the failure is inspectable. The trace shows which model, which role, which turn, and which signal path drove the outcome. That does not make misses acceptable, but it makes them diagnosable and hardenable. A solo-model miss usually leaves far less usable evidence about what failed.</p>
 
-  <p><strong>What this result shows.</strong> First, <strong>a solo model can recognize a signal and still clear it incorrectly.</strong> Second, the failure modes differ by model. Third, <strong>Holo's value is not that it contains a magical model that sees what no frontier model can see.</strong> Its value is that it prevents one model's blindspot from becoming the final decision.</p>
+  <p><strong>What this result shows.</strong> First, a solo model can recognize a signal and still clear it incorrectly. Second, the failure modes differ by model. Third, Holo's value is not that it contains a magical model that sees what no frontier model can see. Its value is that it prevents one model's blindspot from becoming the final decision.</p>
 
   <div class="failure-cards">
     <div class="failure-card">
@@ -1083,7 +1083,7 @@
 
   <h3>6.6 &nbsp; A Key Hardening Principle</h3>
   <p>Benchmark pressure-testing has surfaced an important architectural constraint: a single model operating without prior adversarial context should not be able to unilaterally lock an irreversible decision. At Turn 1, before any adversarial challenge has been applied, a model's initial assessment is a cold-start judgment, plausible, but unverified against the available evidence.</p>
-  <p><strong>A single model operating without prior adversarial context should not be able to unilaterally lock an irreversible decision. The architecture is being hardened around that principle:</strong> a cold-start judgment should not be able to unilaterally determine an irreversible outcome without sufficient adversarial confirmation. A confident first-pass judgment is not sufficient.</p>
+  <p><strong>A cold-start judgment should not be able to lock an irreversible outcome without adversarial confirmation.</strong> A confident first-pass verdict is not sufficient.</p>
 </div>
 
 <!-- SECTION 7 -->
@@ -1115,7 +1115,7 @@
     <h2>Evidence vs. Observability</h2>
   </div>
 
-  <p>The current industry conversation around AI agent safety is focused on guardrails, preventing an agent from taking a prohibited action. This is necessary but insufficient. A locked door reduces the chance of a break-in, but if one happens, you don't show the lock to the judge. You show the security footage. The agent governance space today is almost entirely focused on building better locks. Very few are building the camera.</p>
+  <p>The current industry conversation around AI agent safety is focused on guardrails: preventing an agent from taking a prohibited action. This is necessary but insufficient. A locked door reduces the chance of a break-in, but if one happens, you don't show the lock to the judge. You show the security footage. The agent governance space today is almost entirely focused on building better locks. Very few are building the camera.</p>
 
   <p>Observability and evidence are not the same thing. Observability tells your engineers what is happening inside your system. Evidence is what you produce when an auditor, a regulator, or a counterparty needs to verify what happened. The bar is meaningfully higher. Most agent platforms today produce logs. Logs are not evidence.</p>
 

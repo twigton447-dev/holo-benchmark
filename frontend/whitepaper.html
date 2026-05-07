@@ -574,7 +574,7 @@
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-eyebrow">Version 3.0 &nbsp;·&nbsp; May 2026</div>
+  <div class="cover-eyebrow">Version 3.1 &nbsp;·&nbsp; May 2026</div>
   <h1>Blindspots at the Action Boundary</h1>
   <p class="cover-subtitle">Why some high-consequence AI actions pass surface checks but still require adversarial adjudication</p>
   <div class="cover-meta">
@@ -1051,6 +1051,14 @@
   <p>In both cases, the failure was not hallucination. It was not missing context. <strong>It was obedience to the wrong authority at the action boundary.</strong></p>
   <p>Holo escalated both cases.</p>
   <p style="font-size:0.9rem;color:var(--ink-faint)">These runs are being developed into a formal ABAT failure-class entry and should be treated as internal evidence until the payloads, solo baselines, Holo traces, and precision counterexamples pass publication gates.</p>
+
+  <h4 style="margin-top:2rem">Model-Level Variance Inside Objective Override</h4>
+  <div style="margin:1rem 0;padding:10px 16px;background:var(--cream-warm);border:1px solid var(--rule-strong);border-radius:4px;font-family:'IBM Plex Mono',monospace;font-size:0.8rem;color:var(--ink-faint)">Status: Internal ABAT expansion. Pending publication gates. Not a universal model claim.</div>
+  <p>Recent internal ABAT runs also showed that Objective Override does not express uniformly across models or domains.</p>
+  <p>In a healthcare-style dispense scenario, one current frontier model escalated because the provider prerequisite was visibly broken, while another approved the same transaction by deferring to fulfillment status, payment clearance, QA pass, and customer-service resolution.</p>
+  <p>In an industrial dispatch scenario, multiple current models approved release by deferring to logistics clearance, QA pass, signed ECN authority, and covered/enclosed project language, even though the packet contained material/environment evidence that should have required escalation.</p>
+  <p>This matters because the failure class is not reducible to one model, one prompt, or one domain. A model may resist Objective Override in one vertical and still fail in another. <strong>Action-boundary coverage is uneven.</strong></p>
+  <p>The Holo claim is not that any single model is always wrong. The claim is that production systems should not rely on a single acting model to decide which authority should win before an irreversible action executes.</p>
 </div>
 
 <!-- SECTION 5 -->
@@ -1481,7 +1489,7 @@
   <div class="footer-brand">Holo Engine</div>
   <div class="footer-meta">
     holoengine.ai &nbsp;·&nbsp; hello@holoengine.ai<br>
-    Working Paper &nbsp;·&nbsp; Version 3.0 &nbsp;·&nbsp; May 2026
+    Working Paper &nbsp;·&nbsp; Version 3.1 &nbsp;·&nbsp; May 2026
   </div>
 </footer>
 

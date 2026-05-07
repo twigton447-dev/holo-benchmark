@@ -197,10 +197,14 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <!-- HERO -->
 <section class="hero">
   <div class="w">
-    <div class="hero-eyebrow">Holo Engine · Open Benchmark v2.9 · May 2026</div>
-    <h1>Open Benchmark v2.9</h1>
+    <div class="hero-eyebrow">Holo Engine · Open Benchmark v3.0 · May 2026</div>
+    <h1>Open Benchmark v3.0</h1>
     <p style="font-size:15px;font-weight:600;color:var(--muted);letter-spacing:-.01em;margin-bottom:16px;line-height:1.4">Point-in-time architecture comparison for action-boundary adjudication</p>
     <p class="hero-lede">Same model roster. Same payloads. Solo adjudication versus Holo's adversarial council and deterministic Governor.<br><br>This benchmark tests whether adjudication architecture changes verdict behavior when the model roster is held constant.</p>
+    <div style="margin-top:20px;padding:14px 18px;background:var(--amber-bg);border:1.5px solid #fcd34d;border-radius:6px">
+      <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:8px">New internal ABAT class in development: Objective Override / Role-Boundary Rationalization</div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7">In this class, a solo model reads disqualifying evidence but approves the action because its assigned operational objective frames the evidence as outside scope. Early internal runs show Holo escalating cases where the solo model approved under fulfillment/logistics role pressure. These cases are not yet flagship-published.</p>
+    </div>
     <div style="margin-top:24px;padding:20px 24px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px">
       <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Canonical Case · BEC-EXPLAINED-ANOMALY-001</div>
       <p style="font-size:15px;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:10px">GPT-5.4, Claude Sonnet 4.6, and Gemini 2.5 Pro each returned <span style="color:var(--red)">ALLOW</span> on a fraudulent AP/BEC action. Holo returned <span style="color:var(--green)">ESCALATE</span>.</p>
@@ -301,11 +305,12 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 
     <div class="prose">
       <p>Each scenario targets a class of decision where the fraud signal is not a labeled field but a relationship between fields. The question is not whether a model can read a document. It is whether it can hold prior evidence against a plausible current explanation and refuse to let one override the other without verification. The test happens at the last reversible moment before execution.</p>
+      <p>Some newer ABAT probes test a related but distinct problem: the model sees the relationship and still refuses to act on it because its operational role tells it not to. This is Objective Override. The issue is not whether the model can read the packet. The issue is whether the acting agent should be trusted to decide when its own business objective is safe to obey.</p>
       <p>This benchmark supports a narrow claim: in the disclosed test set, no solo frontier model demonstrated complete coverage at the action boundary. Holo changed verdict behavior by adding adversarial cross-examination and deterministic Governor adjudication.</p>
       <p>This is not a claim about general model quality, production reliability, benchmark generalizability, or domains beyond the completed test set.</p>
     </div>
 
-    <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-top:16px">See <a href="/whitepaper" style="color:var(--text);text-decoration:underline">Whitepaper v2.9</a> for full methodology, architecture description, and annotated traces.</p>
+    <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-top:16px">See <a href="/whitepaper" style="color:var(--text);text-decoration:underline">Whitepaper v3.0</a> for full methodology, architecture description, and annotated traces.</p>
 
     <div style="margin-top:20px;padding:18px 22px;border:1.5px solid var(--border);border-radius:8px;background:var(--surface)">
       <p style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Model Roster Parity</p>
@@ -565,6 +570,46 @@ footer{border-top:1px solid var(--border);padding:24px 0}
       <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Domains in active development</div>
       <p style="font-size:13px;color:var(--muted);line-height:1.6">Six additional attack surfaces are in design: Identity and Access Escalation, Supply Chain and Vendor Integrity, Contractual and Legal Authorization, Data Exfiltration and Insider Risk, Financial Reporting and Audit Integrity, and Regulatory and Compliance Boundary. None are published yet.</p>
     </div>
+
+    <div style="margin-top:28px">
+      <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:12px">Failure classes in development</div>
+      <div style="padding:16px 20px;border:1.5px solid #fcd34d;border-radius:8px;background:var(--amber-bg)">
+        <div style="font-family:var(--mono);font-size:12px;font-weight:700;color:var(--text);margin-bottom:6px">Objective Override / Role-Boundary Rationalization</div>
+        <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);margin-bottom:10px">Status: Internal ABAT expansion</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:13px;color:var(--muted);line-height:1.6"><strong style="color:var(--text);font-size:12px;font-family:var(--mono)">Pattern:</strong> Solo model reads disqualifying evidence, then treats it as outside scope because of assigned operational role/KPI.</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6"><strong style="color:var(--text);font-size:12px;font-family:var(--mono)">Observed domains:</strong> Healthcare-style fulfillment, industrial dispatch.</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6"><strong style="color:var(--text);font-size:12px;font-family:var(--mono)">Public status:</strong> Not yet flagship-published. Pending locked payloads, trace review, rotation testing, and precision counterexamples.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;font-size:12px">
+          <thead style="background:var(--surface)">
+            <tr>
+              <th style="font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:9px 12px;text-align:left;border-bottom:1.5px solid var(--border)">Failure class</th>
+              <th style="font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:9px 12px;text-align:left;border-bottom:1.5px solid var(--border)">Solo model behavior</th>
+              <th style="font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:9px 12px;text-align:left;border-bottom:1.5px solid var(--border)">Holo behavior</th>
+              <th style="font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:9px 12px;text-align:left;border-bottom:1.5px solid var(--border)">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:top;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--text)">Objective Override</td>
+              <td style="padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--muted);line-height:1.5">Reads disqualifying evidence, then approves because operational role/KPI frames it as outside scope</td>
+              <td style="padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:top"><span class="vbadge vbadge-escalate" style="font-size:10px"><span class="vbadge-dot vdot-green"></span>ESCALATE</span></td>
+              <td style="padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:top"><span class="badge-dev">Internal ABAT</span></td>
+            </tr>
+            <tr>
+              <td style="padding:11px 12px;border-bottom:none;vertical-align:top;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--text)">Role-Boundary Rationalization</td>
+              <td style="padding:11px 12px;border-bottom:none;vertical-align:top;color:var(--muted);line-height:1.5">"I am fulfillment/logistics, not clinical/engineering" becomes the approval rationale</td>
+              <td style="padding:11px 12px;border-bottom:none;vertical-align:top"><span class="vbadge vbadge-escalate" style="font-size:10px"><span class="vbadge-dot vdot-green"></span>ESCALATE</span></td>
+              <td style="padding:11px 12px;border-bottom:none;vertical-align:top"><span class="badge-dev">Internal ABAT</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -692,7 +737,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <footer>
   <div class="w">
     <div class="footer-inner">
-      <p>Holo Engine · Benchmark · Open Study · v2.9 · May 2026</p>
+      <p>Holo Engine · Benchmark · Open Study · v3.0 · May 2026</p>
       <div class="footer-links">
         <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank">GitHub</a>
         <a href="mailto:hello@holoengine.ai">hello@holoengine.ai</a>

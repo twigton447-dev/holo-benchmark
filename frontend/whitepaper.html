@@ -574,7 +574,7 @@
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-eyebrow">Version 2.8 &nbsp;·&nbsp; May 1, 2026</div>
+  <div class="cover-eyebrow">Version 2.9 &nbsp;·&nbsp; May 2026</div>
   <h1>Blindspots at the Action Boundary</h1>
   <p class="cover-subtitle">Why some high-consequence AI actions pass surface checks but still require adversarial adjudication</p>
   <div class="cover-meta">
@@ -670,6 +670,13 @@
 
   <p>It claims that Action Boundary Adversarial Testing is a useful testing discipline for this class of failure.</p>
 
+  <ul>
+    <li>Holo tests high-consequence ALLOWs because the upstream system may be confidently wrong.</li>
+    <li>Solo models were given generous packet access and domain context.</li>
+    <li>Holo's benchmark advantage comes from adversarial adjudication, not hidden evidence.</li>
+    <li>The benchmark demonstrates non-uniform solo-model coverage at the action boundary.</li>
+  </ul>
+
   <h3>What This Paper Does Not Claim</h3>
 
   <ul>
@@ -678,6 +685,11 @@
     <li><strong>Not universal coverage.</strong> Two completed domains are not a census of model capability at the action boundary.</li>
     <li><strong>Not a permanent claim about any model provider.</strong> The results reflect a specific model roster at a specific point in time.</li>
     <li><strong>Not public reproducibility of Holo's proprietary control layer.</strong> The Governor logic, adversarial reactor configuration, model-routing details, turn heuristics, and verdict computation layer are proprietary.</li>
+    <li>This does not claim every solo model fails every case.</li>
+    <li>This does not claim the benchmark is statistically representative of all enterprise workflows.</li>
+    <li>This does not claim Holo has production coverage across every domain.</li>
+    <li>This does not claim Holo replaces runtime policy, observability, identity, access control, or human review.</li>
+    <li>This does not claim solo models were deprived of relevant context.</li>
   </ul>
 
   <p>The benchmark is a point-in-time internal architecture comparison from April 2026. The same API-available frontier models were used inside and outside Holo. The variable being tested is adjudication architecture: isolated single-model judgment versus shared adversarial review with deterministic Governor adjudication.</p>
@@ -858,6 +870,23 @@
   <p>This matters. If Holo used stronger, newer, or different models than the solo baselines, the result could be confounded by model capability. The benchmark would not show whether the architecture changed the outcome; it might only show that stronger models performed better.</p>
   <p>To avoid that confound, the canonical comparison holds the model roster constant. The same models that were tested as solo adjudicators were also used inside Holo. The variable being tested is the adjudication architecture: isolated single-model judgment versus shared adversarial review plus deterministic Governor adjudication.</p>
   <p>The models were selected because they were API-available, operationally stable, and represented different frontier model families at the time of testing. The benchmark should be read as a point-in-time architecture comparison, not a permanent ranking of model capability.</p>
+
+  <h3>3.9 &nbsp; Generous Solo Baselines</h3>
+  <p>The solo-model baselines in this paper are intentionally conservative.</p>
+  <p>Solo frontier models are not deprived of context. They receive the same model-facing evidence packet and domain framing available at the action boundary: records, policies, transactional context, relevant history, and the ALLOW / ESCALATE decision task.</p>
+  <p>They do not receive Holo's internal adjudication process. They are not given the expected verdict, adversarial council structure, Governor mechanics, convergence rules, internal scoring criteria, or answer key.</p>
+  <p>This distinction is central to the benchmark.</p>
+  <p>Holo does not win by seeing evidence the solo models never saw. Holo's advantage is procedural: it forces adversarial evidence review before a deterministic verdict is issued.</p>
+
+  <h3>3.10 &nbsp; Adversarial Discovery vs. Validation</h3>
+  <p>The benchmark cases were developed through adversarial discovery, not random sampling.</p>
+  <p>That is intentional.</p>
+  <p>The purpose of Action Boundary Adversarial Testing is to search for plausible failure seams: cases where a high-consequence action appears authorized, policy-compliant, and operationally reasonable, but contains a contradiction distributed across documents, systems, history, or business context.</p>
+  <p>After discovery, the case is frozen. The payload is locked. The expected verdict is kept out of the model-facing packet. Solo models and Holo are then evaluated against the same evidence packet under the benchmark protocol.</p>
+  <p style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--ink-faint);border-left:3px solid var(--gold);padding-left:12px;margin-top:1.25rem"><strong style="color:var(--gold)">In other words:</strong> Discovery is adversarial. Validation is locked.</p>
+  <p>This prevents the benchmark from becoming a claim that all models always fail. That is not the claim.</p>
+  <p>The claim is more operationally important: solo-model coverage is incomplete and non-uniform at the action boundary. Different frontier models miss different cases. A model may be strong across nine workflows and confidently wrong on the tenth. In production, the organization does not know which tenth will appear next.</p>
+  <p>Holo is designed to convert heterogeneous model blindspots into adversarial coverage before execution.</p>
 </div>
 
 <!-- SECTION 4 -->
@@ -1430,7 +1459,7 @@
   <div class="footer-brand">Holo Engine</div>
   <div class="footer-meta">
     holoengine.ai &nbsp;·&nbsp; hello@holoengine.ai<br>
-    Working Paper &nbsp;·&nbsp; Version 2.8 &nbsp;·&nbsp; May 1, 2026
+    Working Paper &nbsp;·&nbsp; Version 2.9 &nbsp;·&nbsp; May 2026
   </div>
 </footer>
 

@@ -197,8 +197,8 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <!-- HERO -->
 <section class="hero">
   <div class="w">
-    <div class="hero-eyebrow">Holo Engine · Open Benchmark v2.8 · Updated May 1, 2026</div>
-    <h1>Open Benchmark v2.8</h1>
+    <div class="hero-eyebrow">Holo Engine · Open Benchmark v2.9 · May 2026</div>
+    <h1>Open Benchmark v2.9</h1>
     <p style="font-size:15px;font-weight:600;color:var(--muted);letter-spacing:-.01em;margin-bottom:16px;line-height:1.4">Point-in-time architecture comparison for action-boundary adjudication</p>
     <p class="hero-lede">Same model roster. Same payloads. Solo adjudication versus Holo's adversarial council and deterministic Governor.<br><br>This benchmark tests whether adjudication architecture changes verdict behavior when the model roster is held constant.</p>
     <div style="margin-top:24px;padding:20px 24px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px">
@@ -305,7 +305,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
       <p>This is not a claim about general model quality, production reliability, benchmark generalizability, or domains beyond the completed test set.</p>
     </div>
 
-    <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-top:16px">See <a href="/whitepaper" style="color:var(--text);text-decoration:underline">Whitepaper v2.8</a> for full methodology, architecture description, and annotated traces.</p>
+    <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-top:16px">See <a href="/whitepaper" style="color:var(--text);text-decoration:underline">Whitepaper v2.9</a> for full methodology, architecture description, and annotated traces.</p>
 
     <div style="margin-top:20px;padding:18px 22px;border:1.5px solid var(--border);border-radius:8px;background:var(--surface)">
       <p style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Model Roster Parity</p>
@@ -367,6 +367,57 @@ footer{border-top:1px solid var(--border);padding:24px 0}
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+
+<!-- METHODOLOGY NOTE -->
+<section class="section">
+  <div class="w">
+
+    <div style="padding:20px 24px;background:var(--dark);border-radius:8px;margin-bottom:28px">
+      <p style="font-size:15px;font-weight:600;color:#fff;line-height:1.55;margin-bottom:10px">Holo's advantage was not more information.</p>
+      <p style="font-size:13px;color:#94a3b8;line-height:1.7">Solo models received the same model-facing evidence packet and domain context. Holo's advantage was the adjudication process: adversarial evidence collision, structured challenge, and a deterministic ALLOW / ESCALATE verdict contract.</p>
+    </div>
+
+    <div class="section-tag">Methodology · Baseline Design</div>
+    <h2>Baseline Methodology Note</h2>
+
+    <div class="prose" style="margin-top:16px">
+      <p>Solo frontier models were tested under a generous baseline.</p>
+      <p>They were given the same model-facing evidence packet and domain context available at the action boundary, including the relevant records, policy framing, decision context, and ALLOW / ESCALATE task.</p>
+      <p>They were not given the expected verdict, Holo's adversarial council process, Governor mechanics, convergence logic, internal scoring rules, or answer key.</p>
+      <p>This matters because the benchmark is not designed to prove that solo models fail when deprived of context. It tests a harder question:</p>
+    </div>
+
+    <div class="callout" style="margin-top:16px;margin-bottom:16px">
+      <p>Can a single frontier model reach the correct ALLOW / ESCALATE verdict when given the relevant context, but without adversarial evidence collision?</p>
+    </div>
+
+    <div class="prose">
+      <p>In several cases, the answer was no. Even with complete packet access and generous framing, solo models accepted plausible explanations that Holo escalated after adversarial review.</p>
+    </div>
+
+    <div style="margin-top:32px">
+      <div class="section-tag">Methodology · Case Selection</div>
+      <h2>Adversarial Discovery, Locked Validation</h2>
+
+      <div class="prose" style="margin-top:16px">
+        <p>These cases were not randomly sampled.</p>
+        <p>They were developed through adversarial discovery: we searched for plausible action-boundary seams where a high-consequence action appeared authorized, policy-compliant, and business-plausible, but contained a material contradiction distributed across the evidence packet.</p>
+        <p>Once a credible seam was identified, the payload was locked and evaluated under the benchmark protocol.</p>
+        <p>This mirrors how serious red-team evaluation works:</p>
+      </div>
+
+      <div style="margin-top:16px;padding:16px 20px;background:var(--surface);border:1.5px solid var(--border);border-left:4px solid var(--dark);border-radius:6px;font-family:var(--mono);font-size:14px;font-weight:600;color:var(--text)">
+        Discovery is adversarial. Validation is locked.
+      </div>
+
+      <div class="prose" style="margin-top:16px">
+        <p>The claim is not that every model fails every case. The claim is that solo-model coverage is incomplete and non-uniform at the action boundary. Different frontier models miss different high-consequence cases. Because production systems cannot know in advance which blindspot a workflow will trigger, no single model should be treated as the final authority for irreversible ALLOW decisions.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -640,7 +691,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <footer>
   <div class="w">
     <div class="footer-inner">
-      <p>Holo Engine · Benchmark · Open Study · May 1, 2026</p>
+      <p>Holo Engine · Benchmark · Open Study · v2.9 · May 2026</p>
       <div class="footer-links">
         <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank">GitHub</a>
         <a href="mailto:hello@holoengine.ai">hello@holoengine.ai</a>

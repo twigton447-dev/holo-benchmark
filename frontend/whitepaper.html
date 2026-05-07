@@ -611,9 +611,9 @@
 
   <p>In the benchmark&#8217;s flagship test case, <strong>all three solo frontier models approved a fraudulent transaction.</strong> Under the exact same conditions, Holo&#8217;s architecture returned ESCALATE consistently across repeated, seeded runs. This is not a claim of universal coverage or production reliability. It is evidence that adjudication architecture can change the outcome on a narrow but commercially important class of actions where surface policy passes, solo model judgment fails, and a second-stage decision architecture catches what the solo model misses.</p>
 
-  <p>The solo baseline conditions were as generous as the benchmark could make them. Solo models received the same model-facing evidence packet, the same domain context, and were evaluated through the same multi-turn harness with identical prompts and the same turn structure. A production solo deployment would not receive this scaffolding. The solo baselines had more structured opportunity to find the signal than a deployed solo model would. They still missed.</p>
+  <p>The solo baseline conditions were as generous as the benchmark could make them. Solo models received the same model-facing evidence packet, the same domain context, and were evaluated through the same multi-turn harness with identical prompts and the same turn structure. A production solo deployment would not receive this scaffolding. The solo baselines had more structured opportunity to find the signal than a deployed solo model would. <strong>They still missed.</strong></p>
 
-  <p>Holo does not replace runtime security, policy engines, or observability. Those systems handle what is known or prohibited. Holo adjudicates the unresolved middle: actions that pass every surface check but still require a final, adversarial judgment call.</p>
+  <p>Holo does not replace runtime security, policy engines, or observability. Those systems handle what is known or prohibited. Holo adjudicates the unresolved middle: <strong>actions that pass every surface check but still require a final, adversarial judgment call.</strong></p>
 
   <p style="font-size:0.875rem;color:var(--ink-faint)">Models tested: GPT-5.4 &nbsp;·&nbsp; Claude-Sonnet-4-6 &nbsp;·&nbsp; Gemini-2.5-Pro &nbsp;·&nbsp; Holo Full Architecture</p>
 
@@ -675,8 +675,8 @@
   <ul>
     <li>Holo tests high-consequence ALLOWs because the upstream system may be confidently wrong.</li>
     <li>Solo models were given generous packet access and domain context.</li>
-    <li>Holo's benchmark advantage comes from adversarial adjudication, not hidden evidence.</li>
-    <li>The benchmark demonstrates non-uniform solo-model coverage at the action boundary.</li>
+    <li><strong>Holo's benchmark advantage comes from adversarial adjudication, not hidden evidence.</strong></li>
+    <li><strong>The benchmark demonstrates non-uniform solo-model coverage at the action boundary.</strong></li>
   </ul>
 
   <h3>What This Paper Does Not Claim</h3>
@@ -729,28 +729,28 @@
 
   <h3>1.1 &nbsp; Agents Are Already Deciding</h3>
   <p>Large language models did not stay in chat windows. They became the reasoning core of autonomous systems: agents that browse, retrieve, draft, approve, and execute without waiting for human confirmation.</p>
-  <p>This transition happened faster than the safety infrastructure around it. The same models that were evaluated for conversational accuracy are now approving wire transfers, provisioning admin credentials, and signing off on vendor contracts. The evaluation criteria did not change. The stakes did.</p>
+  <p>This transition happened faster than the safety infrastructure around it. The same models that were evaluated for conversational accuracy are now approving wire transfers, provisioning admin credentials, and signing off on vendor contracts. The evaluation criteria did not change. <strong>The stakes did.</strong></p>
   <div class="callout-key">A model that hallucinates a restaurant recommendation is an inconvenience. A model that approves a fraudulent $47,000 wire transfer to a ghost vendor is a liability. The difference is not the model. It is the action.</div>
 
   <h3>1.2 &nbsp; The Action Boundary</h3>
   <p>Every agentic workflow has a moment of no return. Before that moment, a mistake is recoverable. After it, the wire has cleared, the access has been provisioned, the contract has executed. The window to intervene has closed.</p>
   <p>That moment, the last point before an irreversible action executes, is the <strong>action boundary.</strong></p>
   <p>Solo frontier models are not designed to treat this moment differently from any other. They evaluate the payload in front of them, apply their training, and return a verdict. They do not know they are at the action boundary. They do not apply additional scrutiny. They do not convene a second opinion.</p>
-  <p>This is the structural gap. Not a bug in any one model. A gap in how solo models are deployed at the moment that matters most.</p>
+  <p>This is the structural gap. <strong>Not a bug in any one model.</strong> A gap in how solo models are deployed at the moment that matters most.</p>
   <p>Human review remains necessary in some workflows, but it is not a complete safety architecture.</p>
   <p>At agent speed, across fragmented records, prior invoices, policy exceptions, stale approvals, contract language, vendor history, and plausible explanations, a human reviewer is often being asked to reconstruct an evidence graph faster than the workflow itself can be understood.</p>
-  <p>The action boundary is where this becomes dangerous. The system may have followed every rule, passed every surface check, and still be wrong.</p>
+  <p>The action boundary is where this becomes dangerous. <strong>The system may have followed every rule, passed every surface check, and still be wrong.</strong></p>
 
   <h3>1.3 &nbsp; What Solo Models Miss, and Why</h3>
   <p>The failure is not random. It follows a pattern.</p>
   <p>In the benchmark traces observed so far, different frontier models failed in different ways under adversarial pressure. One accepted a plausible narrative and cleared a flag it had correctly raised. Another missed cross-document aggregation. A third sensed something was wrong but resolved the ambiguity in the wrong direction.</p>
   <p>These are not presented here as permanent model traits. They are observed failure patterns from the current benchmark. The security concern is that any stable reasoning tendency at the action boundary can become exploitable once an attacker learns how a deployed model tends to resolve ambiguity.</p>
-  <p>The result: blindspots that are model-specific, non-overlapping, and persistent. The gap one model leaves open, another fills, but only if both are in the room.</p>
+  <p>The result: <strong>blindspots that are model-specific, non-overlapping, and persistent.</strong> The gap one model leaves open, another fills, but only if both are in the room.</p>
 
   <h3>1.4 &nbsp; What Holo Engine Is</h3>
   <p><strong>Holo Engine is a runtime trust layer that sits at the action boundary.</strong></p>
   <p>Before an agent executes an irreversible action, it sends the payload to Holo. Holo evaluates it through an adversarial council: multiple AI models from structurally different families, each assigned a distinct evaluative role. One model looks for reasons to approve. Another looks for reasons to escalate. A third pressure-tests the reasoning of the first two. A deterministic governor computes the final verdict.</p>
-  <p>No single model decides. No model reviews its own reasoning. The system is designed so that the blindspot of any one participant is covered by the structural perspective of another.</p>
+  <p><strong>No single model decides. No model reviews its own reasoning.</strong> The system is designed so that the blindspot of any one participant is covered by the structural perspective of another.</p>
   <p>The output is simple: ALLOW or ESCALATE, with a full reasoning trace and audit ID. One API call. One verdict. Before the action becomes irreversible.</p>
 
   <h3>1.5 &nbsp; Why Existing Controls Miss This Moment</h3>
@@ -788,9 +788,9 @@
     <li>A required ALLOW or ESCALATE decision before execution</li>
   </ol>
 
-  <p>ABAT is the testing method. Holo Engine is the runtime adjudication layer. The benchmark is the evidence object.</p>
+  <p><strong>ABAT is the testing method. Holo Engine is the runtime adjudication layer. The benchmark is the evidence object.</strong></p>
 
-  <p>This distinction matters. Holo is not claiming to replace red teaming, penetration testing, fraud detection, compliance review, or human oversight. It addresses a different seam: the moment when an AI agent is about to act, the formal checks appear satisfied, and the remaining risk is semantic.</p>
+  <p>This distinction matters. Holo is not claiming to replace red teaming, penetration testing, fraud detection, compliance review, or human oversight. It addresses a different seam: the moment when an AI agent is about to act, the formal checks appear satisfied, and <strong>the remaining risk is semantic.</strong></p>
 </div>
 
 <!-- SECTION 3 -->
@@ -805,7 +805,7 @@
   <div class="callout-key">Our benchmark is designed as a crash-testing lab for AI actions, not a leaderboard.</div>
 
   <h3>3.1 &nbsp; The Governing Design Rule</h3>
-  <p>A scenario that includes a field labeled <code>bankaccountverified: false</code> is not testing judgment. It is testing reading comprehension. The benchmark became meaningful only when the attack signal lived in the absence of something, not the presence of a labeled failure. These are not flags the model can read. They are gaps the model must recognize.</p>
+  <p>A scenario that includes a field labeled <code>bankaccountverified: false</code> is not testing judgment. It is testing reading comprehension. The benchmark became meaningful only when the attack signal lived in the absence of something, not the presence of a labeled failure. <strong>These are not flags the model can read. They are gaps the model must recognize.</strong></p>
 
   <h3>3.2 &nbsp; Scenario Sourcing</h3>
   <p>Each domain's scenario library is derived from documented, real-world attack classes and established cybersecurity doctrine from authoritative sources: FBI IC3 annual reports for AP/BEC, CISA guidance for agentic commerce, and MITRE ATT&amp;CK framework for planned domains.</p>
@@ -857,7 +857,7 @@
     <li>single-model adversarial scaffold, where applicable</li>
     <li>multi-model adversarial adjudication with deterministic governor logic</li>
   </ul>
-  <p>The question is not "which model is smartest forever?" The question is whether a structured action-boundary adjudication process produces a safer, more inspectable decision than relying on one model family alone.</p>
+  <p>The question is not "which model is smartest forever?" <strong>The question is whether a structured action-boundary adjudication process produces a safer, more inspectable decision than relying on one model family alone.</strong></p>
   <p style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--ink-faint);border-left:3px solid var(--gold);padding-left:12px;margin-top:1.25rem"><strong style="color:var(--gold)">Model parity note:</strong> Solo baselines use the same model versions represented in the Holo run. The comparison is architecture versus architecture, not weak models versus stronger models.</p>
 
   <h3>3.7 &nbsp; Public, Private, and Future Validation</h3>
@@ -878,8 +878,8 @@
   <p>Solo frontier models are not deprived of context. They receive the same model-facing evidence packet and domain framing available at the action boundary: records, policies, transactional context, relevant history, and the ALLOW / ESCALATE decision task.</p>
   <p>They do not receive Holo's internal adjudication process. They are not given the expected verdict, adversarial council structure, Governor mechanics, convergence rules, internal scoring criteria, or answer key.</p>
   <p>This distinction is central to the benchmark.</p>
-  <p>Solo models were also evaluated through the same multi-turn benchmark harness, using identical prompts and the same turn structure at each step. A production solo deployment would typically receive a single-pass evaluation without this scaffolding. The solo baselines received more structured evaluation opportunity than real deployment conditions would provide.</p>
-  <p>Holo does not win by seeing evidence the solo models never saw, or by receiving more time or turns to find the signal. Holo's advantage is procedural: it forces adversarial evidence review before a deterministic verdict is issued.</p>
+  <p>Solo models were also evaluated through the same multi-turn benchmark harness, using identical prompts and the same turn structure at each step. A production solo deployment would typically receive a single-pass evaluation without this scaffolding. <strong>The solo baselines received more structured evaluation opportunity than real deployment conditions would provide.</strong></p>
+  <p>Holo does not win by seeing evidence the solo models never saw, or by receiving more time or turns to find the signal. <strong>Holo's advantage is procedural: it forces adversarial evidence review before a deterministic verdict is issued.</strong></p>
 
   <h3>3.10 &nbsp; Adversarial Discovery vs. Validation</h3>
   <p>The benchmark cases were developed through adversarial discovery, not random sampling.</p>
@@ -888,7 +888,7 @@
   <p>After discovery, the case is frozen. The payload is locked. The expected verdict is kept out of the model-facing packet. Solo models and Holo are then evaluated against the same evidence packet under the benchmark protocol.</p>
   <p style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--ink-faint);border-left:3px solid var(--gold);padding-left:12px;margin-top:1.25rem"><strong style="color:var(--gold)">In other words:</strong> Discovery is adversarial. Validation is locked.</p>
   <p>This prevents the benchmark from becoming a claim that all models always fail. That is not the claim.</p>
-  <p>The claim is more operationally important: solo-model coverage is incomplete and non-uniform at the action boundary. Different frontier models miss different cases. A model may be strong across nine workflows and confidently wrong on the tenth. In production, the organization does not know which tenth will appear next.</p>
+  <p>The claim is more operationally important: <strong>solo-model coverage is incomplete and non-uniform at the action boundary.</strong> Different frontier models miss different cases. A model may be strong across nine workflows and confidently wrong on the tenth. In production, the organization does not know which tenth will appear next.</p>
   <p>Holo is designed to convert heterogeneous model blindspots into adversarial coverage before execution.</p>
 </div>
 
@@ -902,8 +902,8 @@
   <h3>4.1 &nbsp; Domain 1: Accounts Payable / Business Email Compromise</h3>
 
   <h4 style="font-family:'EB Garamond',Georgia,serif;font-size:1rem;font-weight:600;color:var(--ink);margin:1.5rem 0 0.5rem">4.1.1 &nbsp; Why AP / BEC Matters</h4>
-  <p>Accounts payable and business email compromise are a natural first domain for action-boundary testing because the failure is immediate, legible, and expensive. A fraudulent wire transfer does not require a model to be broadly incompetent. It requires only one wrong approval at one irreversible moment.</p>
-  <p>The FBI's 2024 Internet Crime Report documents $2.77 billion in BEC losses in 2024 alone, with $8.5 billion in total BEC losses reported across 2022 through 2024.</p>
+  <p>Accounts payable and business email compromise are a natural first domain for action-boundary testing because the failure is immediate, legible, and expensive. A fraudulent wire transfer does not require a model to be broadly incompetent. It requires only <strong>one wrong approval at one irreversible moment.</strong></p>
+  <p>The FBI's 2024 Internet Crime Report documents <strong>$2.77 billion in BEC losses in 2024 alone,</strong> with $8.5 billion in total BEC losses reported across 2022 through 2024.</p>
 
   <h4 style="font-family:'EB Garamond',Georgia,serif;font-size:1rem;font-weight:600;color:var(--ink);margin:1.5rem 0 0.5rem">4.1.2 &nbsp; Flagship Result: BEC-EXPLAINED-ANOMALY-001</h4>
 
@@ -991,7 +991,7 @@
 
     <p><strong>The Setup.</strong> A procurement agent receives an automatic reorder instruction from WorkSafe Inventory Manager v3.1 for 24 units of FR-44 flame-resistant workwear from NorthStar Safety Supply Co. at $11,400. NorthStar is a three-year approved vendor. The order is identical in product, quantity, and price to five prior fulfilled orders. The amount is within the autonomous approval threshold. There is no urgency framing. There are no process bypasses.</p>
     <p>The only visible breadcrumb is the inventory management system's last human review date: <strong>January 8, 2026.</strong> The compromise of the inventory management system occurred eleven days after that date. A false inventory threshold alert was injected. Current stock is adequate through Q3 2026. No human initiated or reviewed this reorder.</p>
-    <p><strong>What Holo does.</strong> The adversarial turns pressure the provenance of the instruction itself. The automated system that generated this spend decision has not had human oversight in 83 days. No human confirmation artifact is attached to the current order. <code>data_provenance</code> and <code>authorization_chain</code> both reach MEDIUM. Solo models that missed never reached MEDIUM on any category. The signal was not suppressed. It was never seen.</p>
+    <p><strong>What Holo does.</strong> The adversarial turns pressure the provenance of the instruction itself. The automated system that generated this spend decision has not had human oversight in 83 days. No human confirmation artifact is attached to the current order. <code>data_provenance</code> and <code>authorization_chain</code> both reach MEDIUM. Solo models that missed never reached MEDIUM on any category. The signal was not suppressed. <strong>It was never seen.</strong></p>
   </div>
 
   <div class="table-wrap">
@@ -1006,7 +1006,7 @@
     </table>
   </div>
 
-  <p>Unlike Domain 1, Gemini caught this case while GPT and Claude missed it. Coverage gaps are not symmetric across models or attack classes. That asymmetry is the point.</p>
+  <p>Unlike Domain 1, Gemini caught this case while GPT and Claude missed it. <strong>Coverage gaps are not symmetric across models or attack classes.</strong> That asymmetry is the point.</p>
 
   <h4 style="font-family:'EB Garamond',Georgia,serif;font-size:1rem;font-weight:600;color:var(--ink);margin:1.5rem 0 0.5rem">4.2.3 &nbsp; Why This Domain Matters for the Thesis</h4>
   <p>The importance of the second domain is not just that Holo performed well again. It is that <strong>the architecture advantage survives a change in payload type.</strong></p>
@@ -1048,7 +1048,7 @@
 
   <p>In observed runs, this shared-thread structure changed behavior. Models became more willing to acknowledge uncertainty, challenge prior conclusions, and revisit assumptions after another model exposed a blindspot.</p>
 
-  <p>This matters because many high-consequence failures are not caused by absence of intelligence. They are caused by unchallenged plausibility. A single model can produce a coherent explanation for why an action should proceed. A shared adversarial trace gives later models an opportunity to inspect that coherence, test it against the evidence, and identify what the first model normalized or missed.</p>
+  <p>This matters because many high-consequence failures are not caused by absence of intelligence. They are caused by <strong>unchallenged plausibility.</strong> A single model can produce a coherent explanation for why an action should proceed. A shared adversarial trace gives later models an opportunity to inspect that coherence, test it against the evidence, and <strong>identify what the first model normalized or missed.</strong></p>
 
   <p>This is not yet a universal behavioral claim. It is an observed architecture finding from the current benchmark traces and should be tested further through controlled comparisons between isolated reasoning, blinded multi-model review, and shared-thread adjudication.</p>
 </div>
@@ -1078,18 +1078,18 @@
   <p>A trust layer that fires on clean transactions will be routed around. Evidentiary discipline is what keeps ESCALATE meaningful.</p>
 
   <h3>6.2 &nbsp; Randomized Model and Role Assignment</h3>
-  <p>A fixed evaluation sequence creates a predictable attack surface. An adversary who studies the system could learn the sequence and engineer a payload specifically designed to survive it in order. Think of it like a patrol route: a fixed route can be studied and ambushed. A randomized route cannot.</p>
+  <p><strong>A fixed evaluation sequence creates a predictable attack surface.</strong> An adversary who studies the system could learn the sequence and engineer a payload specifically designed to survive it in order. Think of it like a patrol route: a fixed route can be studied and ambushed. A randomized route cannot.</p>
   <p>The architecture uses provider-family diversity and assignment controls to reduce the risk that one model family's reasoning pattern dominates the adjudication.</p>
 
   <h3>6.3 &nbsp; Models Are Not Blinded: The Role Is the Lens</h3>
   <p>Each model in the adversarial reactor sees the complete, unedited history of prior turns. Different evaluative roles are used to challenge prior conclusions, test assumptions, and surface missed evidence. The goal is not to produce a majority vote. The goal is to create structured adversarial pressure before the Governor computes a verdict.</p>
 
   <h3>6.4 &nbsp; The Static Governor</h3>
-  <p>The Governor is not another model asked to summarize the council. It is a deterministic adjudication layer that converts surfaced evidence, unresolved contradictions, and risk indicators into an ALLOW or ESCALATE decision. The exact scoring and computation logic remain proprietary, but the design principle is simple: the final verdict should reflect the evidence surfaced during adversarial review, not the rhetorical force, position, or recency of any single model turn.</p>
-  <p>The governor is deterministic and algorithmic. It does not learn from prior evaluations. This was a deliberate choice. A learned governor could itself be trained into a blindspot. A static governor has predictable, auditable behavior.</p>
+  <p>The Governor is not another model asked to summarize the council. It is a deterministic adjudication layer that converts surfaced evidence, unresolved contradictions, and risk indicators into an ALLOW or ESCALATE decision. The exact scoring and computation logic remain proprietary, but the design principle is simple: the final verdict should reflect the evidence surfaced during adversarial review, <strong>not the rhetorical force, position, or recency of any single model turn.</strong></p>
+  <p>The governor is deterministic and algorithmic. It does not learn from prior evaluations. This was a deliberate choice. A learned governor could itself be trained into a blindspot. <strong>A static governor has predictable, auditable behavior.</strong></p>
 
   <h3>6.5 &nbsp; State and Verdict Integrity</h3>
-  <p>No summarization occurs between turns. Summarization is lossy. Whatever compresses the state decides what matters, which means it can bury the signal the next analyst needs to find. A model cannot surface a contradiction in Turn 3 if the summary from Turn 2 edited that contradiction out. Full raw state is more expensive. It is the correct tradeoff.</p>
+  <p>No summarization occurs between turns. Summarization is lossy. Whatever compresses the state decides what matters, which means it can bury the signal the next analyst needs to find. A model cannot surface a contradiction in Turn 3 if the summary from Turn 2 edited that contradiction out. Full raw state is more expensive. <strong>It is the correct tradeoff.</strong></p>
   <p>The distinction between probabilistic and deterministic matters here. The model turns within the adversarial reactor remain probabilistic: each model reasons under its own training distribution, with all the uncertainty that entails. The evidence accumulation and final verdict computation are deterministic: the governor applies fixed, auditable rules to the scored evidence and returns a verdict that does not vary with model confidence, rhetorical force, or turn order.</p>
   <p>The final verdict is computed by the governor, not by a model. This avoids anchoring: a synthesizing model is influenced by the most recent turn, the most confidently expressed finding, or the most rhetorically forceful prior analyst.</p>
   <div class="pullquote">The verdict reflects the evidence. Not the last voice in the room.</div>
@@ -1113,13 +1113,13 @@
 
   <p>Agents can operate at machine speed. Humans review under time pressure. Agents can assemble actions from fragmented context. Humans are often shown only the final request. Agents may rely on prior state, policy exceptions, vendor history, contract clauses, and implicit authorization chains. Humans are asked to approve or reject without reconstructing the full evidence graph.</p>
 
-  <p>In that setting, human review becomes both a bottleneck and a liability. The reviewer is responsible for the decision but may not have enough context to make it.</p>
+  <p>In that setting, human review becomes both a bottleneck and a liability. <strong>The reviewer is responsible for the decision but may not have enough context to make it.</strong></p>
 
   <p>Holo's origin reflects this limitation. Before Holo, the founder used cross-model adversarial verification in high-consequence output workflows because unsupported human review, including the founder's own review, was not reliable enough under ambiguity, deadline pressure, and volume.</p>
 
   <p>The lesson was not that humans should be removed. The lesson was that humans need structured adjudication support, and some decisions should be escalated only when the unresolved evidence requires it.</p>
 
-  <p>Holo does not replace all human review. It makes escalation more selective and evidence-based. The goal is not to add another human checkpoint to every action. The goal is to determine which actions deserve human attention before execution, and why.</p>
+  <p>Holo does not replace all human review. <strong>It makes escalation more selective and evidence-based.</strong> The goal is not to add another human checkpoint to every action. The goal is to determine which actions deserve human attention before execution, and why.</p>
 </div>
 
 <!-- SECTION 8 -->
@@ -1131,13 +1131,13 @@
 
   <p>The current industry conversation around AI agent safety is focused on guardrails: preventing an agent from taking a prohibited action. This is necessary but insufficient. A locked door reduces the chance of a break-in, but if one happens, you don't show the lock to the judge. You show the security footage. The agent governance space today is almost entirely focused on building better locks. Very few are building the camera.</p>
 
-  <p>Observability and evidence are not the same thing. Observability tells your engineers what is happening inside your system. Evidence is what you produce when an auditor, a regulator, or a counterparty needs to verify what happened. The bar is meaningfully higher. Most agent platforms today produce logs. Logs are not evidence.</p>
+  <p><strong>Observability and evidence are not the same thing.</strong> Observability tells your engineers what is happening inside your system. Evidence is what you produce when an auditor, a regulator, or a counterparty needs to verify what happened. The bar is meaningfully higher. Most agent platforms today produce logs. <strong>Logs are not evidence.</strong></p>
 
   <p>Holo's position at the action boundary means the decision record it produces is structurally different from a downstream log. The full payload is captured at the moment of decision, not reconstructed from partial telemetry after the fact. The turn-by-turn adversarial trace documents which models flagged which risks, how conflicts were resolved, and which specific signals drove the final verdict. It is the record of a judgment, not just an event.</p>
 
   <p>A Holo decision record should make the basis of an action-boundary verdict inspectable after the fact. At minimum, the record should identify the action type, payload ID or hash, workflow class, final verdict, escalation reason, evidence conflicts detected, trace availability, run timestamp, provider degradation state if applicable, and a Governor decision summary.</p>
 
-  <p>The point is not merely to observe that an agent acted. The point is to preserve why a proposed action was allowed or escalated before execution.</p>
+  <p>The point is not merely to observe that an agent acted. <strong>The point is to preserve why a proposed action was allowed or escalated before execution.</strong></p>
 
   <p>This precision matters for more than compliance. Because Holo captures the complete payload, turn history, and verdict path at the action boundary, failures can be diagnosed precisely when they occur. When the system misses, the system can name what failed: which model, which role, which turn, which signal path led to the wrong verdict. That is meaningfully different from shrugging off a miss as generic model variance. The same architecture that makes evidence visible at the action boundary makes failures inspectable and hardenable. That is one of the strongest differentiators of the system.</p>
 
@@ -1430,7 +1430,7 @@
     <h2>Conclusion</h2>
   </div>
 
-  <p>AI agents are making irreversible decisions today. The security infrastructure around those decisions was not designed for them.</p>
+  <p><strong>AI agents are making irreversible decisions today.</strong> The security infrastructure around those decisions was not designed for them.</p>
   <p>This paper does not claim to have solved that problem. It claims to have identified a specific, testable gap at the action boundary, built a methodology for pressure-testing it, and produced results that justify further scrutiny. Holo is not a system that simply wins benchmarks. It is a system that can identify where solo model judgment breaks down at the action boundary, intervene at the moment that matters, and be hardened through systematic pressure-testing. When it misses, the failure is traceable. When it catches, the verdict is explained. The benchmark is how Holo learns where the ambushes are, and the runtime is how it acts on that knowledge.</p>
 
   <div class="pullquote">The benchmark shows where some of the ambushes are. Holo is an attempt to make those ambushes visible before the action executes.</div>

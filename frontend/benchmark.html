@@ -386,6 +386,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
     <div class="prose" style="margin-top:16px">
       <p>Solo frontier models were tested under a generous baseline.</p>
       <p>They were given the same model-facing evidence packet and domain context available at the action boundary, including the relevant records, policy framing, decision context, and ALLOW / ESCALATE task.</p>
+      <p>They were also run through the same multi-turn benchmark harness with identical prompts and the same turn structure. A production solo deployment would not receive this scaffolding — one shot, no structured adversarial turns. The solo baselines here had more structured opportunity to find the signal than a deployed solo model would.</p>
       <p>They were not given the expected verdict, Holo's adversarial council process, Governor mechanics, convergence logic, internal scoring rules, or answer key.</p>
       <p>This matters because the benchmark is not designed to prove that solo models fail when deprived of context. It tests a harder question:</p>
     </div>

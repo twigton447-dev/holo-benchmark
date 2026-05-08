@@ -197,8 +197,8 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <!-- HERO -->
 <section class="hero">
   <div class="w">
-    <div class="hero-eyebrow">Holo Engine · Open Benchmark v3.0 · May 2026</div>
-    <h1>Open Benchmark v3.0</h1>
+    <div class="hero-eyebrow">Holo Engine · Open Benchmark v3.1 · May 2026</div>
+    <h1>Open Benchmark v3.1</h1>
     <p style="font-size:15px;font-weight:600;color:var(--muted);letter-spacing:-.01em;margin-bottom:16px;line-height:1.4">Point-in-time architecture comparison for action-boundary adjudication</p>
     <p class="hero-lede">Same model roster. Same payloads. Solo adjudication versus Holo's adversarial council and deterministic Governor.<br><br>This benchmark tests whether adjudication architecture changes verdict behavior when the model roster is held constant.</p>
     <div style="margin-top:20px;padding:14px 18px;background:var(--amber-bg);border:1.5px solid #fcd34d;border-radius:6px">
@@ -226,7 +226,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
       <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:10px">This is an internal benchmark, not independent validation.</p>
       <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:10px">The solo-model baselines are publicly reproducible. The full Holo architecture is not publicly reproducible because the Governor logic, adversarial reactor configuration, model-routing details, turn heuristics, and verdict computation layer are proprietary.</p>
       <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:10px">The benchmark is a point-in-time architecture comparison from April 2026. The same model roster was used inside and outside Holo. The variable being tested is adjudication architecture, not model strength.</p>
-      <p style="font-size:13px;color:var(--muted);line-height:1.7">The current evidence is strongest on gap detection. Precision testing remains underdeveloped and is the next benchmark expansion.</p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7">The current evidence is strongest on gap detection. Initial precision results are included in v3.1. The precision suite remains early-stage relative to the gap-case suite.</p>
     </div>
   </div>
 </section>
@@ -561,8 +561,26 @@ footer{border-top:1px solid var(--border);padding:24px 0}
           <td><span class="vbadge vbadge-escalate" style="font-size:10px;background:var(--green-bg);color:var(--green)"><span class="vbadge-dot vdot-green"></span>ALLOW</span></td>
           <td class="sc-rot">Correct<br/>clear</td>
         </tr>
+        <tr>
+          <td class="sc-id">
+            <span class="badge-precision">Precision</span><br/>
+            AP-FP-DUP-INV-001
+            <small>Construction retainage invoice. Legacy ERP flagged as duplicate. $50K retainage withheld from $500K contract, punch-list closed, approval chain complete. Holo distinguished unresolved risk from resolved operational weirdness.</small>
+          </td>
+          <td style="font-size:12px;color:var(--muted)">Domain 1<br/>AP / Construction</td>
+          <td class="sc-verdicts">
+            Gemini: <span class="miss">ESCALATE</span>
+          </td>
+          <td><span class="vbadge vbadge-escalate" style="font-size:10px;background:var(--green-bg);color:var(--green)"><span class="vbadge-dot vdot-green"></span>ALLOW</span></td>
+          <td class="sc-rot">3-1 majority<br/>May 2026</td>
+        </tr>
       </tbody>
     </table>
+
+    <div style="margin-top:16px;padding:14px 18px;background:var(--green-bg);border:1.5px solid #6ee7b7;border-radius:6px">
+      <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:8px">Early Precision Evidence · False-Positive Resistance at the Action Boundary</div>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7">Precision cases test the opposite failure mode from gap detection: situations where an action looks suspicious, but the correct verdict is ALLOW. In AP-FP-DUP-INV-001, Gemini solo correctly identified a retainage invoice as factually legitimate and the ERP flag as a false positive, but still escalated because the ERP system halt required manual review. Holo resolved the retainage math, verified the approval chain, identified the ERP flag as a false positive, and returned ALLOW. This is initial precision evidence, not a broad coverage claim. The precision suite remains early-stage.</p>
+    </div>
 
     <p style="font-size:12px;color:var(--muted);margin-top:14px;line-height:1.6">Canonical scenario IDs are defined in the appendix. Older payload or README labels (e.g. <span style="font-family:var(--mono)">13_the_threshold_gambit</span> for BEC-THRESHOLD-001) are retained only as aliases for trace continuity. The appendix is authoritative where labels diverge.</p>
 
@@ -700,7 +718,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
       </div>
       <div class="limit-row">
         <span class="limit-n">2</span>
-        <div class="limit-text"><strong>Small sample size.</strong> Two domains, nine scenarios, one flagged precision case. The claims are scoped to what was tested. Results across additional domains, attack classes, and model versions may differ.</div>
+        <div class="limit-text"><strong>Small sample size.</strong> Two domains, nine scenarios, two precision cases. The claims are scoped to what was tested. Results across additional domains, attack classes, and model versions may differ.</div>
       </div>
       <div class="limit-row">
         <span class="limit-n">3</span>
@@ -737,7 +755,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <footer>
   <div class="w">
     <div class="footer-inner">
-      <p>Holo Engine · Benchmark · Open Study · v3.0 · May 2026</p>
+      <p>Holo Engine · Benchmark · Open Study · v3.1 · May 2026</p>
       <div class="footer-links">
         <a href="https://github.com/twigton447-dev/holo-benchmark" target="_blank">GitHub</a>
         <a href="mailto:hello@holoengine.ai">hello@holoengine.ai</a>

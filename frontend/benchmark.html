@@ -200,7 +200,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
     <div class="hero-eyebrow">Holo Engine · Open Benchmark v3.2 · May 2026</div>
     <h1>Open Benchmark v3.2</h1>
     <p style="font-size:15px;font-weight:600;color:var(--muted);letter-spacing:-.01em;margin-bottom:16px;line-height:1.4">Point-in-time architecture comparison for action-boundary adjudication</p>
-    <p class="hero-lede">Same model roster. Same payloads. Solo adjudication versus Holo's adversarial council and deterministic Governor.<br><br>This benchmark tests whether adjudication architecture changes verdict behavior when the model roster is held constant.</p>
+    <p class="hero-lede">Same model roster. Same payloads. Solo adjudication versus Holo's adversarial council and constrained Governor layer.<br><br>This benchmark tests whether adjudication architecture changes verdict behavior when the model roster is held constant.</p>
     <div style="margin-top:20px;padding:14px 18px;background:var(--amber-bg);border:1.5px solid #fcd34d;border-radius:6px">
       <div style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:8px">New internal ABAT class in development: Objective Override / Role-Boundary Rationalization</div>
       <p style="font-size:13px;color:var(--muted);line-height:1.7">In this class, a solo model reads disqualifying evidence but approves the action because its assigned operational objective frames the evidence as outside scope. Early internal runs show Holo escalating cases where the solo model approved under fulfillment/logistics role pressure. These cases are not yet flagship-published.</p>
@@ -306,7 +306,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
     <div class="prose">
       <p>Each scenario targets a class of decision where the fraud signal is not a labeled field but a relationship between fields. The question is not whether a model can read a document. It is whether it can hold prior evidence against a plausible current explanation and refuse to let one override the other without verification. The test happens at the last reversible moment before execution.</p>
       <p>Some newer ABAT probes test a related but distinct problem: the model sees the relationship and still refuses to act on it because its operational role tells it not to. This is Objective Override. The issue is not whether the model can read the packet. The issue is whether the acting agent should be trusted to decide when its own business objective is safe to obey.</p>
-      <p>This benchmark supports a narrow claim: in the disclosed test set, no solo frontier model demonstrated complete coverage at the action boundary. Holo changed verdict behavior by adding adversarial cross-examination and deterministic Governor adjudication.</p>
+      <p>This benchmark supports a narrow claim: in the disclosed test set, no solo frontier model demonstrated complete coverage at the action boundary. Holo changed verdict behavior by adding adversarial cross-examination and constrained Governor adjudication.</p>
       <p>This is not a claim about general model quality, production reliability, benchmark generalizability, or domains beyond the completed test set.</p>
     </div>
 
@@ -316,7 +316,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
       <p style="font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Model Roster Parity</p>
       <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:10px">Solo baselines use the same model versions represented inside the Holo run. The comparison is architecture versus architecture, not weak models versus stronger models.</p>
       <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:10px">If Holo used stronger, newer, or different models than the solo baselines, the result could be confounded by model capability. To avoid that, the canonical comparison holds the model roster constant.</p>
-      <p style="font-size:13px;color:var(--muted);line-height:1.7">The variable being tested is adjudication architecture: isolated single-model judgment versus shared adversarial review plus deterministic Governor adjudication.</p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.7">The variable being tested is adjudication architecture: isolated single-model judgment versus shared adversarial review plus constrained Governor adjudication.</p>
     </div>
 
     <div style="margin-top:12px;padding:14px 18px;border:1px solid var(--border);border-left:3px solid #94a3b8;border-radius:5px;background:var(--surface)">
@@ -382,7 +382,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 
     <div style="padding:20px 24px;background:var(--dark);border-radius:8px;margin-bottom:28px">
       <p style="font-size:15px;font-weight:600;color:#fff;line-height:1.55;margin-bottom:10px">Holo's advantage was not more information.</p>
-      <p style="font-size:13px;color:#94a3b8;line-height:1.7">Solo models received the same model-facing evidence packet and domain context. Holo's advantage was the adjudication process: adversarial evidence collision, structured challenge, and a deterministic ALLOW / ESCALATE verdict contract.</p>
+      <p style="font-size:13px;color:#94a3b8;line-height:1.7">Solo models received the same model-facing evidence packet and domain context. Holo's advantage was the adjudication process: adversarial evidence collision, structured challenge, and a constrained ALLOW / ESCALATE verdict issued through the Governor layer.</p>
     </div>
 
     <div class="section-tag">Methodology · ABAT Integrity</div>

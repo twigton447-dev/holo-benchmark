@@ -611,7 +611,7 @@
 
   <p>Unlike Mixture of Experts architectures, which primarily route work across model experts for efficiency, Holo is a pre-execution adjudication architecture. It does not rely on a single model&#8217;s final judgment or a simple model vote. It separates evidence extraction, adversarial challenge, and final verdict computation into distinct layers.</p>
 
-  <p>The system uses probabilistic models inside a deterministic adjudication protocol: frozen action packets, adversarial role assignment, raw evidence preservation, minimum adversarial depth, and a non-LLM Governor that returns ALLOW or ESCALATE based on unresolved risk. The goal is not to prove actions universally safe, but to make the action-boundary decision auditable, pressure-tested, and harder for any single model blindspot or operational objective to dominate.</p>
+  <p>The system uses probabilistic models inside a structured adjudication protocol: frozen action packets, adversarial role assignment, raw evidence preservation, minimum adversarial depth, and a constrained Governor layer that returns ALLOW or ESCALATE based on surfaced evidence and unresolved risk. The goal is not to prove actions universally safe, but to make the action-boundary decision auditable, pressure-tested, and harder for any single model blindspot or operational objective to dominate.</p>
 
   <p>Recent ABAT precision testing also shows the opposite failure mode: solo frontier models may unnecessarily escalate valid actions when the exception path is supported by distributed evidence rather than over-explicit policy mapping. In IAM_CASE_002, Gemini and Claude returned ALLOW on a valid break-glass emergency-access request, while GPT-5.4 returned ESCALATE. Blind Holo returned ALLOW. Review classified GPT-5.4&#8217;s escalation as a false positive. This matters because safe autonomy is not only about blocking dangerous actions; it is also about avoiding unnecessary human escalation when the evidence supports execution.</p>
 
@@ -700,7 +700,7 @@
     <li>This does not claim solo models were deprived of relevant context.</li>
   </ul>
 
-  <p>The benchmark is a point-in-time internal architecture comparison from April 2026. The same API-available frontier models were used inside and outside Holo. The variable being tested is adjudication architecture: isolated single-model judgment versus shared adversarial review with deterministic Governor adjudication.</p>
+  <p>The benchmark is a point-in-time internal architecture comparison from April 2026. The same API-available frontier models were used inside and outside Holo. The variable being tested is adjudication architecture: isolated single-model judgment versus shared adversarial review with constrained Governor adjudication.</p>
 
   <p>The solo-model baselines are publicly reproducible. The full Holo architecture is not.</p>
 </div>
@@ -762,7 +762,7 @@
 
   <h3>1.4 &nbsp; What Holo Engine Is</h3>
   <p><strong>Holo Engine is a runtime trust layer that sits at the action boundary.</strong></p>
-  <p>Before an agent executes an irreversible action, it sends the payload to Holo. Holo evaluates it through an adversarial council: multiple AI models from structurally different families, each assigned a distinct evaluative role. One model looks for reasons to approve. Another looks for reasons to escalate. A third pressure-tests the reasoning of the first two. A deterministic governor computes the final verdict.</p>
+  <p>Before an agent executes an irreversible action, it sends the payload to Holo. Holo evaluates it through an adversarial council: multiple AI models from structurally different families, each assigned a distinct evaluative role. One model looks for reasons to approve. Another looks for reasons to escalate. A third pressure-tests the reasoning of the first two. A constrained Governor layer issues the final verdict.</p>
   <p><strong>No single model decides. No model reviews its own reasoning.</strong> The system is designed so that the blindspot of any one participant is covered by the structural perspective of another.</p>
   <p>The output is simple: ALLOW or ESCALATE, with a full reasoning trace and audit ID. One API call. One verdict. Before the action becomes irreversible.</p>
 
@@ -873,7 +873,7 @@
   <ul style="margin:1rem 0 1rem 1.5rem;font-size:0.975rem;color:var(--ink-muted);line-height:1.9">
     <li>single-model baseline judgment</li>
     <li>single-model adversarial scaffold, where applicable</li>
-    <li>multi-model adversarial adjudication with deterministic governor logic</li>
+    <li>multi-model adversarial adjudication with constrained Governor layer</li>
   </ul>
   <p>The question is not "which model is smartest forever?" <strong>The question is whether a structured action-boundary adjudication process produces a safer, more inspectable decision than relying on one model family alone.</strong></p>
   <p style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;color:var(--ink-faint);border-left:3px solid var(--gold);padding-left:12px;margin-top:1.25rem"><strong style="color:var(--gold)">Model parity note:</strong> Solo baselines use the same model versions represented in the Holo run. The comparison is architecture versus architecture, not weak models versus stronger models.</p>
@@ -888,7 +888,7 @@
   <h3>3.8 &nbsp; Model Roster Parity</h3>
   <p>The benchmark uses the same three-model roster in the solo baseline condition and inside Holo's adversarial council.</p>
   <p>This matters. If Holo used stronger, newer, or different models than the solo baselines, the result could be confounded by model capability. The benchmark would not show whether the architecture changed the outcome; it might only show that stronger models performed better.</p>
-  <p>To avoid that confound, the canonical comparison holds the model roster constant. The same models that were tested as solo adjudicators were also used inside Holo. The variable being tested is the adjudication architecture: isolated single-model judgment versus shared adversarial review plus deterministic Governor adjudication.</p>
+  <p>To avoid that confound, the canonical comparison holds the model roster constant. The same models that were tested as solo adjudicators were also used inside Holo. The variable being tested is the adjudication architecture: isolated single-model judgment versus shared adversarial review plus constrained Governor adjudication.</p>
   <p>The models were selected because they were API-available, operationally stable, and represented different frontier model families at the time of testing. The benchmark should be read as a point-in-time architecture comparison, not a permanent ranking of model capability.</p>
 
   <h3>3.9 &nbsp; Generous Solo Baselines</h3>
@@ -897,7 +897,7 @@
   <p>They do not receive Holo's internal adjudication process. They are not given the expected verdict, adversarial council structure, Governor mechanics, convergence rules, internal scoring criteria, or answer key.</p>
   <p>This distinction is central to the benchmark.</p>
   <p>Solo models were also evaluated through the same multi-turn benchmark harness, using identical prompts and the same turn structure at each step. A production solo deployment would typically receive a single-pass evaluation without this scaffolding. <strong>The solo baselines received more structured evaluation opportunity than real deployment conditions would provide.</strong></p>
-  <p>Holo does not win by seeing evidence the solo models never saw, or by receiving more time or turns to find the signal. <strong>Holo's advantage is procedural: it forces adversarial evidence review before a deterministic verdict is issued.</strong></p>
+  <p>Holo does not win by seeing evidence the solo models never saw, or by receiving more time or turns to find the signal. <strong>Holo's advantage is procedural: it forces adversarial evidence review before a constrained verdict is issued through the Governor layer.</strong></p>
 
   <h3>3.10 &nbsp; Adversarial Discovery vs. Validation</h3>
   <p>The benchmark cases were developed through adversarial discovery, not random sampling.</p>
@@ -1142,11 +1142,11 @@
   <ol>
     <li><strong>Adversarial Role Separation.</strong> Holo separates initial assessment from adversarial challenge so the same model perspective is not responsible for both proposing and validating the action-boundary decision.</li>
     <li><strong>Randomized Driver Rotation.</strong> Model and role assignments are rotated to reduce fixed-sequence dependence and make the adjudication path harder to game.</li>
-    <li><strong>Deterministic Governor.</strong> Final ALLOW / ESCALATE verdicts are computed by a non-LLM Governor over surfaced evidence, unresolved risks, and control status, rather than by rhetorical confidence or majority vote alone.</li>
+    <li><strong>Constrained Governor Layer.</strong> Final ALLOW / ESCALATE verdicts are issued through a Governor layer that operates over surfaced evidence, unresolved risks, and control status. The Governor may use model reasoning, but it is constrained by structured state, fixed verdict options, evidence requirements, and adjudication rules rather than free-form rhetorical confidence or simple majority vote.</li>
     <li><strong>Cold-Start Hardening.</strong> High-consequence ALLOW decisions require minimum adversarial depth so a single cold-start assessment cannot unilaterally authorize an irreversible action.</li>
     <li><strong>No Summarization Between Turns.</strong> Holo preserves raw evidence across adversarial turns to reduce compressive degradation and prevent surfaced contradictions from being edited out before the next model sees them.</li>
   </ol>
-  <p>The correct framing: probabilistic models operate inside a deterministic adjudication protocol. The model turns remain probabilistic. The evidence accumulation and final verdict computation are deterministic.</p>
+  <p>The correct framing: probabilistic models operate inside a structured adjudication protocol. The model turns remain probabilistic. The integrity comes from role separation, state preservation, frozen inputs, constrained verdicting, and auditable evidence handling, not from pretending the entire system is deterministic.</p>
 
   <h3>6.1 &nbsp; Evidentiary Discipline</h3>
   <div class="callout-key">An escalation must be backed by evidence.</div>
@@ -1170,14 +1170,14 @@
   <h3>6.3 &nbsp; Models Are Not Blinded: The Role Is the Lens</h3>
   <p>Each model in the adversarial reactor sees the complete, unedited history of prior turns. Different evaluative roles are used to challenge prior conclusions, test assumptions, and surface missed evidence. The goal is not to produce a majority vote. The goal is to create structured adversarial pressure before the Governor computes a verdict.</p>
 
-  <h3>6.4 &nbsp; The Static Governor</h3>
-  <p>The Governor is not another model asked to summarize the council. It is a deterministic adjudication layer that converts surfaced evidence, unresolved contradictions, and risk indicators into an ALLOW or ESCALATE decision. The exact scoring and computation logic remain proprietary, but the design principle is simple: the final verdict should reflect the evidence surfaced during adversarial review, <strong>not the rhetorical force, position, or recency of any single model turn.</strong></p>
-  <p>The governor is deterministic and algorithmic. It does not learn from prior evaluations. This was a deliberate choice. A learned governor could itself be trained into a blindspot. <strong>A static governor has predictable, auditable behavior.</strong></p>
+  <h3>6.4 &nbsp; The Constrained Governor Layer</h3>
+  <p>The Governor is not another model asked to summarize the council. It is a constrained adjudication layer that converts surfaced evidence, unresolved contradictions, and risk indicators into an ALLOW or ESCALATE decision. The exact scoring and computation logic remain proprietary, but the design principle is simple: the final verdict should reflect the evidence surfaced during adversarial review, <strong>not the rhetorical force, position, or recency of any single model turn.</strong></p>
+  <p>The Governor operates over structured adjudication state. It does not learn from prior evaluations and cannot revise its own adjudication rules at runtime. This was a deliberate choice. A Governor that rewrites its own rules could itself be exploited. <strong>Constrained, evidence-bound behavior is what keeps the Governor&#8217;s verdicts auditable.</strong></p>
 
   <h3>6.5 &nbsp; State and Verdict Integrity</h3>
   <p>No summarization occurs between turns. Summarization is lossy. Whatever compresses the state decides what matters, which means it can bury the signal the next analyst needs to find. A model cannot surface a contradiction in Turn 3 if the summary from Turn 2 edited that contradiction out. Full raw state is more expensive. <strong>It is the correct tradeoff.</strong></p>
-  <p>The distinction between probabilistic and deterministic matters here. The model turns within the adversarial reactor remain probabilistic: each model reasons under its own training distribution, with all the uncertainty that entails. The evidence accumulation and final verdict computation are deterministic: the governor applies fixed, auditable rules to the scored evidence and returns a verdict that does not vary with model confidence, rhetorical force, or turn order.</p>
-  <p>The final verdict is computed by the governor, not by a model. This avoids anchoring: a synthesizing model is influenced by the most recent turn, the most confidently expressed finding, or the most rhetorically forceful prior analyst.</p>
+  <p>The model turns within the adversarial reactor remain probabilistic: each model reasons under its own training distribution, with all the uncertainty that entails. The Governor operates over the adjudication state those turns produce. Its verdict is constrained by evidence requirements and fixed verdict options, not by rhetorical confidence or turn order. That constraint is what prevents any single model&#8217;s tone, recency, or confidence level from dominating the outcome.</p>
+  <p>The final verdict is issued through the Governor, not by an unconstrained model opinion. This avoids anchoring: a synthesizing model is influenced by the most recent turn, the most confidently expressed finding, or the most rhetorically forceful prior analyst.</p>
   <div class="pullquote">The verdict reflects the evidence. Not the last voice in the room.</div>
   <div class="callout-key">It is a judge, not a participant.</div>
 
@@ -1192,13 +1192,13 @@
     <h2>Formal Adjudication Properties</h2>
   </div>
 
-  <p>Holo&#8217;s architecture is designed to make model judgment inspectable rather than opaque. The system cannot eliminate probabilistic model behavior, but it can constrain that behavior inside a formal adjudication process.</p>
+  <p>Holo&#8217;s architecture is designed to make model judgment inspectable rather than opaque. The system cannot eliminate probabilistic model behavior, but it can constrain that behavior inside a structured adjudication process.</p>
 
   <p>Key properties include:</p>
   <ul>
     <li><strong>State preservation:</strong> surfaced evidence, contradictions, and unresolved risks persist across adversarial turns until resolved or carried into the final verdict.</li>
     <li><strong>Role separation:</strong> assessment, challenge, and pressure testing are structurally distinct.</li>
-    <li><strong>Deterministic verdicting:</strong> the Governor computes ALLOW or ESCALATE from the adjudication state rather than delegating the final decision to a single model.</li>
+    <li><strong>Constrained verdicting:</strong> the Governor returns ALLOW or ESCALATE from structured adjudication state rather than delegating the decision to an unconstrained model opinion or simple vote.</li>
     <li><strong>Minimum adversarial depth:</strong> high-consequence ALLOW decisions require more than one model pass.</li>
     <li><strong>Packet integrity:</strong> frozen action packets and answer-key separation prevent post-result editing and benchmark leakage.</li>
   </ul>
@@ -1296,7 +1296,7 @@
   <div class="objection">
     <h3>"Isn't this just a bundle of models voting?"</h3>
     <p>No. The architecture is model-agnostic, but it is not simply a bundle of models voting.</p>
-    <p>Holo uses frontier models as adversarial analysts inside a structured checkpoint architecture. The important property is not plurality by itself. It is role separation, evidentiary discipline, randomized assignment, and a deterministic governor that computes the verdict from the evidence rather than from the confidence of the last model to speak.</p>
+    <p>Holo uses frontier models as adversarial analysts inside a structured checkpoint architecture. The important property is not plurality by itself. It is role separation, evidentiary discipline, randomized assignment, and a constrained Governor layer that issues verdicts from structured adjudication state rather than from the confidence of the last model to speak.</p>
   </div>
 
   <div class="objection">

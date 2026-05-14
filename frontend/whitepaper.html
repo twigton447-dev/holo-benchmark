@@ -574,7 +574,7 @@
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-eyebrow">Version 3.4 &nbsp;·&nbsp; May 2026</div>
+  <div class="cover-eyebrow">Version 3.5 &nbsp;·&nbsp; May 2026</div>
   <h1>Blindspots at the Action Boundary</h1>
   <p class="cover-subtitle">Why some high-consequence AI actions pass surface checks but still require adversarial adjudication</p>
   <div class="cover-meta">
@@ -607,7 +607,13 @@
 
   <p><strong>Nothing is obviously broken, but the action should still not proceed.</strong></p>
 
-  <p>Holo Engine is an independent pre-execution adjudication layer for high-consequence AI workflows. Before an agent or automated system executes an irreversible action, Holo evaluates the action packet through adversarial multi-model review and returns ALLOW or ESCALATE with an audit-grade reasoning trace.</p>
+  <p>Holo Engine is an independent pre-execution adjudication layer for high-consequence AI workflows. Before an agent or automated system executes an irreversible action, Holo evaluates the action packet and returns ALLOW or ESCALATE with an auditable reasoning trace.</p>
+
+  <p>Unlike Mixture of Experts architectures, which primarily route work across model experts for efficiency, Holo is a pre-execution adjudication architecture. It does not rely on a single model&#8217;s final judgment or a simple model vote. It separates evidence extraction, adversarial challenge, and final verdict computation into distinct layers.</p>
+
+  <p>The system uses probabilistic models inside a deterministic adjudication protocol: frozen action packets, adversarial role assignment, raw evidence preservation, minimum adversarial depth, and a non-LLM Governor that returns ALLOW or ESCALATE based on unresolved risk. The goal is not to prove actions universally safe, but to make the action-boundary decision auditable, pressure-tested, and harder for any single model blindspot or operational objective to dominate.</p>
+
+  <p>Recent ABAT precision testing also shows the opposite failure mode: solo frontier models may unnecessarily escalate valid actions when the exception path is supported by distributed evidence rather than over-explicit policy mapping. In IAM_CASE_002, Gemini and Claude returned ALLOW on a valid break-glass emergency-access request, while GPT-5.4 returned ESCALATE. Blind Holo returned ALLOW. Review classified GPT-5.4&#8217;s escalation as a false positive. This matters because safe autonomy is not only about blocking dangerous actions; it is also about avoiding unnecessary human escalation when the evidence supports execution.</p>
 
   <p>In the benchmark&#8217;s flagship test case, <strong>all three solo frontier models approved a fraudulent transaction.</strong> Under the exact same conditions, Holo&#8217;s architecture returned ESCALATE consistently across repeated, seeded runs. This is not a claim of universal coverage or production reliability. It is evidence that adjudication architecture can change the outcome on a narrow but commercially important class of actions where surface policy passes, solo model judgment fails, and a second-stage decision architecture catches what the solo model misses.</p>
 
@@ -786,6 +792,9 @@
   <p>ABAT is not compliance auditing. Compliance auditing is often retrospective. ABAT is pre-execution. It asks whether the action should proceed now.</p>
 
   <p>ABAT is not fraud detection alone. Fraud detection often looks for known patterns, anomalies, and risk signals. ABAT tests whether an action remains coherent when current request, historical behavior, authorization chain, policy context, and business logic are adjudicated together.</p>
+
+  <h3>ABAT Integrity</h3>
+  <p>ABAT does not only test whether models miss dangerous actions. It also tests whether models unnecessarily escalate legitimate actions. To preserve benchmark integrity, evaluator packets are frozen before testing, answer-key materials are separated, packets are linted for unintended ambiguity, and calibration controls are retained when solo models correctly return ALLOW. A model failure only matters if the packet was clean.</p>
 
   <p>An ABAT scenario has four properties:</p>
   <ol style="margin:1rem 0 1rem 1.5rem;font-size:0.975rem;color:var(--ink-muted);line-height:1.9">
@@ -1128,6 +1137,17 @@
 
   <p>The architecture is described here at the control-plane level. Implementation-specific scoring, routing, prompting, convergence, and verdict-computation details remain proprietary. The purpose of this section is to explain the shape of the control system, not to publish enough detail to reimplement it.</p>
 
+  <h3>Architectural Principles</h3>
+  <p>The five structural properties that define how Holo adjudicates an action-boundary decision:</p>
+  <ol>
+    <li><strong>Adversarial Role Separation.</strong> Holo separates initial assessment from adversarial challenge so the same model perspective is not responsible for both proposing and validating the action-boundary decision.</li>
+    <li><strong>Randomized Driver Rotation.</strong> Model and role assignments are rotated to reduce fixed-sequence dependence and make the adjudication path harder to game.</li>
+    <li><strong>Deterministic Governor.</strong> Final ALLOW / ESCALATE verdicts are computed by a non-LLM Governor over surfaced evidence, unresolved risks, and control status, rather than by rhetorical confidence or majority vote alone.</li>
+    <li><strong>Cold-Start Hardening.</strong> High-consequence ALLOW decisions require minimum adversarial depth so a single cold-start assessment cannot unilaterally authorize an irreversible action.</li>
+    <li><strong>No Summarization Between Turns.</strong> Holo preserves raw evidence across adversarial turns to reduce compressive degradation and prevent surfaced contradictions from being edited out before the next model sees them.</li>
+  </ol>
+  <p>The correct framing: probabilistic models operate inside a deterministic adjudication protocol. The model turns remain probabilistic. The evidence accumulation and final verdict computation are deterministic.</p>
+
   <h3>6.1 &nbsp; Evidentiary Discipline</h3>
   <div class="callout-key">An escalation must be backed by evidence.</div>
   <div class="table-wrap">
@@ -1164,6 +1184,24 @@
   <h3>6.6 &nbsp; A Key Hardening Principle</h3>
   <p>Benchmark pressure-testing has surfaced an important architectural constraint: a single model operating without prior adversarial context should not be able to unilaterally lock an irreversible decision. At Turn 1, before any adversarial challenge has been applied, a model's initial assessment is a cold-start judgment, plausible, but unverified against the available evidence.</p>
   <p><strong>A cold-start judgment should not be able to lock an irreversible outcome without adversarial confirmation.</strong> A confident first-pass verdict is not sufficient.</p>
+</div>
+
+<!-- FORMAL ADJUDICATION PROPERTIES -->
+<div class="section">
+  <div class="section-header">
+    <h2>Formal Adjudication Properties</h2>
+  </div>
+
+  <p>Holo&#8217;s architecture is designed to make model judgment inspectable rather than opaque. The system cannot eliminate probabilistic model behavior, but it can constrain that behavior inside a formal adjudication process.</p>
+
+  <p>Key properties include:</p>
+  <ul>
+    <li><strong>State preservation:</strong> surfaced evidence, contradictions, and unresolved risks persist across adversarial turns until resolved or carried into the final verdict.</li>
+    <li><strong>Role separation:</strong> assessment, challenge, and pressure testing are structurally distinct.</li>
+    <li><strong>Deterministic verdicting:</strong> the Governor computes ALLOW or ESCALATE from the adjudication state rather than delegating the final decision to a single model.</li>
+    <li><strong>Minimum adversarial depth:</strong> high-consequence ALLOW decisions require more than one model pass.</li>
+    <li><strong>Packet integrity:</strong> frozen action packets and answer-key separation prevent post-result editing and benchmark leakage.</li>
+  </ul>
 </div>
 
 <!-- SECTION 7 -->
@@ -1531,7 +1569,7 @@
   <div class="footer-brand">Holo Engine</div>
   <div class="footer-meta">
     holoengine.ai &nbsp;·&nbsp; hello@holoengine.ai<br>
-    Working Paper &nbsp;·&nbsp; Version 3.4 &nbsp;·&nbsp; May 2026
+    Working Paper &nbsp;·&nbsp; Version 3.5 &nbsp;·&nbsp; May 2026
   </div>
 </footer>
 

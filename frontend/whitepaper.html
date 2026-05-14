@@ -574,7 +574,7 @@
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-eyebrow">Version 3.5 &nbsp;·&nbsp; May 2026</div>
+  <div class="cover-eyebrow">Version 3.6 &nbsp;·&nbsp; May 2026</div>
   <h1>Blindspots at the Action Boundary</h1>
   <p class="cover-subtitle">Why some high-consequence AI actions pass surface checks but still require adversarial adjudication</p>
   <div class="cover-meta">
@@ -1171,7 +1171,7 @@
   <p>Each model in the adversarial reactor sees the complete, unedited history of prior turns. Different evaluative roles are used to challenge prior conclusions, test assumptions, and surface missed evidence. The goal is not to produce a majority vote. The goal is to create structured adversarial pressure before the Governor computes a verdict.</p>
 
   <h3>6.4 &nbsp; The Constrained Governor Layer</h3>
-  <p>The Governor is not another model asked to summarize the council. It is a constrained adjudication layer that converts surfaced evidence, unresolved contradictions, and risk indicators into an ALLOW or ESCALATE decision. The exact scoring and computation logic remain proprietary, but the design principle is simple: the final verdict should reflect the evidence surfaced during adversarial review, <strong>not the rhetorical force, position, or recency of any single model turn.</strong></p>
+  <p>The Governor is not an unconstrained model asked to summarize the council. It is a constrained adjudication layer that converts surfaced evidence, unresolved contradictions, and risk indicators into an ALLOW or ESCALATE decision. The exact scoring and computation logic remain proprietary, but the design principle is simple: the final verdict should reflect the evidence surfaced during adversarial review, <strong>not the rhetorical force, position, or recency of any single model turn.</strong></p>
   <p>The Governor operates over structured adjudication state. It does not learn from prior evaluations and cannot revise its own adjudication rules at runtime. This was a deliberate choice. A Governor that rewrites its own rules could itself be exploited. <strong>Constrained, evidence-bound behavior is what keeps the Governor&#8217;s verdicts auditable.</strong></p>
 
   <h3>6.5 &nbsp; State and Verdict Integrity</h3>
@@ -1179,7 +1179,7 @@
   <p>The model turns within the adversarial reactor remain probabilistic: each model reasons under its own training distribution, with all the uncertainty that entails. The Governor operates over the adjudication state those turns produce. Its verdict is constrained by evidence requirements and fixed verdict options, not by rhetorical confidence or turn order. That constraint is what prevents any single model&#8217;s tone, recency, or confidence level from dominating the outcome.</p>
   <p>The final verdict is issued through the Governor, not by an unconstrained model opinion. This avoids anchoring: a synthesizing model is influenced by the most recent turn, the most confidently expressed finding, or the most rhetorically forceful prior analyst.</p>
   <div class="pullquote">The verdict reflects the evidence. Not the last voice in the room.</div>
-  <div class="callout-key">It is a judge, not a participant.</div>
+  <div class="callout-key">It functions as the adjudication layer, not another debating participant.</div>
 
   <h3>6.6 &nbsp; A Key Hardening Principle</h3>
   <p>Benchmark pressure-testing has surfaced an important architectural constraint: a single model operating without prior adversarial context should not be able to unilaterally lock an irreversible decision. At Turn 1, before any adversarial challenge has been applied, a model's initial assessment is a cold-start judgment, plausible, but unverified against the available evidence.</p>
@@ -1569,7 +1569,7 @@
   <div class="footer-brand">Holo Engine</div>
   <div class="footer-meta">
     holoengine.ai &nbsp;·&nbsp; hello@holoengine.ai<br>
-    Working Paper &nbsp;·&nbsp; Version 3.5 &nbsp;·&nbsp; May 2026
+    Working Paper &nbsp;·&nbsp; Version 3.6 &nbsp;·&nbsp; May 2026
   </div>
 </footer>
 

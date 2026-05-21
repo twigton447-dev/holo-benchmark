@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Holo Engine · Benchmark v4.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -22,6 +21,7 @@
   --green-bg:#ecfdf5;
   --amber:#d97706;
   --amber-bg:#fffbeb;
+  --blue:#2563eb;
   --dark:#0f172a;
   --mono:'JetBrains Mono',monospace;
   --sans:'Inter',sans-serif;
@@ -59,35 +59,69 @@ h1{font-size:clamp(24px,5.5vw,38px);font-weight:800;letter-spacing:-.03em;line-h
 .section h2{font-size:clamp(17px,3.5vw,22px);font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
 .section-sub{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:24px;max-width:560px}
 
-/* CHART SECTION */
-.chart-section{background:var(--dark);border-top:1px solid #1e293b;border-bottom:1px solid #1e293b;padding:48px 0}
-.chart-header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:24px;flex-wrap:wrap}
-.chart-title-block .section-tag{color:#475569}
-.chart-title-block h2{color:#e2e8f0;font-size:clamp(16px,3vw,20px);font-weight:700;letter-spacing:-.02em;margin-bottom:0}
-.domain-select{font-family:var(--mono);font-size:12px;font-weight:500;color:#94a3b8;background:#1e293b;border:1.5px solid #334155;border-radius:6px;padding:8px 32px 8px 12px;cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%2364748b' d='M5 7L1 3h8z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;transition:border-color .15s}
-.domain-select:hover{border-color:#475569}
-.chart-canvas-wrap{background:#111827;border:1.5px solid #1e293b;border-radius:8px;padding:24px 20px 16px;margin-bottom:16px}
-.chart-legend{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:20px}
-.legend-item{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;color:#64748b}
-.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
-.legend-dot-red{background:#dc2626}
-.legend-dot-amber{background:#f59e0b}
-.legend-dot-green{background:#34d399}
+/* ================================================
+   BENCHMARK EXPLORER COMPONENT
+   ================================================ */
+.explorer-wrap{background:var(--dark);border-top:1px solid #1e293b;border-bottom:1px solid #1e293b}
 
-/* VERDICT MATRIX (dark chart section) */
-.matrix-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px;border:1.5px solid #1e293b}
-.matrix-domain-label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#475569;margin-bottom:10px}
-.verdict-matrix{width:100%;border-collapse:collapse;font-size:11px;min-width:440px}
-.verdict-matrix thead tr{background:#0a1220}
-.verdict-matrix th{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#475569;padding:10px 12px;text-align:center;border-bottom:1.5px solid #1e293b}
-.verdict-matrix th:first-child{text-align:left}
-.verdict-matrix td{padding:11px 12px;border-bottom:1px solid #1e293b;text-align:center;font-family:var(--mono);font-size:10px;font-weight:600;vertical-align:middle}
-.verdict-matrix tbody tr:last-child td{border-bottom:none}
-.verdict-matrix td:first-child{text-align:left;color:#64748b;font-size:10px;font-weight:500}
-.verdict-matrix td.v-correct{background:rgba(52,211,153,.1);color:#34d399}
-.verdict-matrix td.v-incorrect{background:rgba(220,38,38,.1);color:#f87171}
-.verdict-matrix td.v-holo-correct{background:rgba(52,211,153,.2);color:#34d399;font-weight:700}
-.verdict-matrix td.v-holo-incorrect{background:rgba(220,38,38,.2);color:#f87171;font-weight:700}
+/* Explorer Header */
+.explorer-header{background:#0a1220;padding:24px 20px 0}
+.explorer-eyebrow{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#475569;margin-bottom:6px}
+.explorer-title{font-size:18px;font-weight:700;color:#f1f5f9;letter-spacing:-.02em;margin-bottom:16px}
+.domain-tabs{display:flex;gap:6px;flex-wrap:wrap;padding-bottom:0}
+.dtab{font-family:var(--mono);font-size:11px;font-weight:600;padding:7px 14px;border-radius:6px 6px 0 0;border:none;cursor:pointer;transition:background .12s,color .12s;letter-spacing:.02em}
+.dtab.active{background:var(--blue);color:#fff}
+.dtab:not(.active){background:#1e293b;color:#64748b}
+.dtab:not(.active):hover{background:#334155;color:#94a3b8}
+
+/* Case Controls */
+.case-controls{background:#111827;border-top:2px solid var(--blue);padding:16px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.case-desc{font-size:12px;color:#64748b;margin-bottom:10px;line-height:1.5;max-width:360px}
+.case-toggle{display:flex;background:#0f172a;border:1.5px solid #1e293b;border-radius:8px;padding:3px;gap:2px}
+.ctab{font-family:var(--sans);font-size:12px;font-weight:500;padding:6px 12px;border-radius:5px;border:none;cursor:pointer;transition:background .12s,color .12s;line-height:1.4;text-align:center}
+.ctab.active{background:#fff;color:#0f172a;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.ctab:not(.active){background:transparent;color:#64748b}
+.ctab:not(.active):hover{color:#94a3b8}
+.ctab:disabled{opacity:.35;cursor:not-allowed}
+.expected-badge{text-align:right;flex-shrink:0;background:#0f172a;border:1.5px solid #1e293b;padding:10px 16px;border-radius:8px}
+.expected-label{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#475569;margin-bottom:4px}
+.expected-value{font-size:18px;font-weight:800;font-family:var(--mono);letter-spacing:.04em}
+.expected-escalate{color:#f59e0b}
+.expected-allow{color:#34d399}
+
+/* Scenario Detail */
+.scenario-detail{background:#0f172a;padding:14px 20px;border-top:1px solid #1e293b}
+.scenario-name{font-size:13px;font-weight:600;color:#e2e8f0;margin-bottom:4px}
+.scenario-desc{font-size:12px;color:#64748b;line-height:1.55}
+
+/* Results Grid */
+.results-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:16px 20px 24px;background:#0f172a}
+.result-card{padding:18px 16px;border-radius:10px;display:flex;flex-direction:column;gap:0;transition:transform .15s}
+.result-card.is-solo{background:#fff;border:1.5px solid #e2e8f0}
+.result-card.is-holo{background:#0a1220;border:2px solid #1d4ed8;box-shadow:0 4px 20px rgba(29,78,216,.2);transform:translateY(-2px)}
+.card-model{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.result-card.is-solo .card-model{color:#94a3b8}
+.result-card.is-holo .card-model{color:#93c5fd}
+.card-bottom{margin-top:auto;display:flex;flex-direction:column;gap:8px}
+.card-verdict-row{display:flex;align-items:center;justify-content:space-between}
+.card-verdict{font-size:20px;font-weight:800;font-family:var(--mono);letter-spacing:.04em}
+.verdict-escalate-light{color:#d97706}
+.verdict-allow-light{color:#059669}
+.verdict-escalate-dark{color:#fbbf24}
+.verdict-allow-dark{color:#34d399}
+.card-badge{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.badge-correct{background:#d1fae5;color:#059669}
+.badge-incorrect{background:#fee2e2;color:#dc2626}
+.badge-correct-dark{background:rgba(52,211,153,.15);color:#34d399}
+.badge-incorrect-dark{background:rgba(239,68,68,.15);color:#f87171}
+.card-reason{font-size:11px;border-top:1px solid;padding-top:8px;line-height:1.45}
+.result-card.is-solo .card-reason{border-color:#f1f5f9;color:#94a3b8}
+.result-card.is-holo .card-reason{border-color:#1e3a5f;color:#64748b}
+.card-reason.reason-correct{color:#059669 !important}
+.card-reason.reason-correct-dark{color:#34d399 !important}
+
+/* No-precision notice */
+.no-precision-notice{font-family:var(--mono);font-size:11px;color:#475569;padding:14px 20px;background:#0a1220;border-top:1px solid #1e293b;text-align:center;letter-spacing:.02em}
 
 /* VERDICT GRID (3-column tables, light sections) */
 .verdict-grid{width:100%;border-collapse:collapse;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;margin-top:8px}
@@ -108,7 +142,6 @@ h1{font-size:clamp(24px,5.5vw,38px);font-weight:800;letter-spacing:-.03em;line-h
 .vtag-correct{background:rgba(5,150,105,.12);color:var(--green)}
 .vtag-incorrect{background:rgba(220,38,38,.1);color:var(--red)}
 .vtag-holo-correct{background:rgba(52,211,153,.15);color:#34d399}
-.vtag-holo-incorrect{background:rgba(220,38,38,.15);color:#f87171}
 .verdict-note{font-size:10px;color:var(--muted-light);margin-top:2px;font-family:var(--mono)}
 .verdict-note-holo{font-size:10px;color:#34d399;opacity:.6;margin-top:2px;font-family:var(--mono)}
 
@@ -161,10 +194,15 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 .footer-links a{font-size:12px;color:var(--muted);text-decoration:none;font-family:var(--mono)}
 .footer-links a:hover{color:var(--text)}
 
+/* SVG ICONS */
+.icon-check,.icon-x{width:14px;height:14px;stroke-width:2.5}
+
 @media(max-width:520px){
   .nav-links{gap:12px}
-  .chart-header{flex-direction:column;align-items:flex-start}
-  .domain-select{width:100%}
+  .results-grid{grid-template-columns:1fr}
+  .case-controls{flex-direction:column}
+  .case-toggle{width:100%}
+  .ctab{flex:1}
   .verdict-grid th,.verdict-grid td{padding:9px 10px}
 }
 </style>
@@ -204,36 +242,52 @@ footer{border-top:1px solid var(--border);padding:24px 0}
   </div>
 </section>
 
-<!-- INTERACTIVE CHART -->
-<section class="chart-section">
-  <div class="w">
-    <div class="chart-header">
-      <div class="chart-title-block">
-        <div class="section-tag">Interactive Benchmark Explorer</div>
-        <h2>Holo Engine Adversarial Benchmark Explorer</h2>
+<!-- ============================================================
+     BENCHMARK EXPLORER
+     ============================================================ -->
+<div class="explorer-wrap">
+  <!-- Header & Domain Tabs -->
+  <div class="explorer-header">
+    <div class="w" style="padding-bottom:0">
+      <div class="explorer-eyebrow">Interactive Benchmark Explorer</div>
+      <div class="explorer-title">Adversarial Benchmark Explorer</div>
+      <div class="domain-tabs">
+        <button class="dtab active" data-domain="domain1" onclick="setDomain('domain1')">Domain 1: AP / BEC</button>
+        <button class="dtab" data-domain="domain2" onclick="setDomain('domain2')">Domain 2: Agentic</button>
+        <button class="dtab" data-domain="domain8" onclick="setDomain('domain8')">Domain 8: PE Financial</button>
       </div>
-      <select id="domainSelect" class="domain-select" onchange="updateChart(this.value)">
-        <option value="domain1">Domain 1: AP &amp; BEC</option>
-        <option value="domain8">Domain 8: Private Equity</option>
-      </select>
-    </div>
-
-    <div class="chart-canvas-wrap">
-      <canvas id="benchmarkChart"></canvas>
-    </div>
-
-    <div class="chart-legend">
-      <span class="legend-item"><span class="legend-dot legend-dot-red"></span>0/2 — No coverage</span>
-      <span class="legend-item"><span class="legend-dot legend-dot-amber"></span>1/2 — Partial coverage</span>
-      <span class="legend-item"><span class="legend-dot legend-dot-green"></span>2/2 — Full coverage</span>
-    </div>
-
-    <div class="matrix-domain-label" id="matrixLabel">Domain 1: Accounts Payable &amp; BEC</div>
-    <div class="matrix-wrap">
-      <table class="verdict-matrix" id="verdictMatrix"></table>
     </div>
   </div>
-</section>
+
+  <!-- Case Controls -->
+  <div class="case-controls" id="caseControls">
+    <div>
+      <div class="case-desc" id="domainDesc"></div>
+      <div class="case-toggle">
+        <button class="ctab active" data-case="gap" onclick="setCase('gap')">Gap Case (False Negative Test)</button>
+        <button class="ctab" data-case="precision" onclick="setCase('precision')">Precision Case (False Positive Test)</button>
+      </div>
+    </div>
+    <div class="expected-badge">
+      <div class="expected-label">Expected Verdict</div>
+      <div class="expected-value" id="expectedVerdict"></div>
+    </div>
+  </div>
+
+  <!-- Scenario Detail -->
+  <div class="scenario-detail" id="scenarioDetail">
+    <div class="scenario-name" id="scenarioName"></div>
+    <div class="scenario-desc" id="scenarioDesc"></div>
+  </div>
+
+  <!-- Results Grid -->
+  <div class="results-grid" id="resultsGrid"></div>
+
+  <!-- No precision notice (hidden by default) -->
+  <div class="no-precision-notice" id="noPrecisionNotice" style="display:none">
+    Precision case not yet published for this domain.
+  </div>
+</div>
 
 <!-- SECTION 1: FLAGSHIP RESULTS -->
 <section class="section">
@@ -260,47 +314,23 @@ footer{border-top:1px solid var(--border);padding:24px 0}
       <tbody>
         <tr>
           <td class="model-col">Solo GPT-5.4</td>
-          <td class="result-col result-incorrect">
-            <div class="vtag vtag-incorrect">ALLOW</div>
-            <div class="verdict-note">Incorrect</div>
-          </td>
-          <td class="result-col result-incorrect">
-            <div class="vtag vtag-incorrect">ESCALATE</div>
-            <div class="verdict-note">Incorrect</div>
-          </td>
+          <td class="result-col result-incorrect"><div class="vtag vtag-incorrect">ALLOW</div><div class="verdict-note">Incorrect</div></td>
+          <td class="result-col result-incorrect"><div class="vtag vtag-incorrect">ESCALATE</div><div class="verdict-note">Incorrect</div></td>
         </tr>
         <tr>
           <td class="model-col">Solo Claude Sonnet 4.6</td>
-          <td class="result-col result-incorrect">
-            <div class="vtag vtag-incorrect">ALLOW</div>
-            <div class="verdict-note">Incorrect</div>
-          </td>
-          <td class="result-col result-correct">
-            <div class="vtag vtag-correct">ALLOW</div>
-            <div class="verdict-note" style="color:var(--green)">Correct</div>
-          </td>
+          <td class="result-col result-incorrect"><div class="vtag vtag-incorrect">ALLOW</div><div class="verdict-note">Incorrect</div></td>
+          <td class="result-col result-correct"><div class="vtag vtag-correct">ALLOW</div><div class="verdict-note" style="color:var(--green)">Correct</div></td>
         </tr>
         <tr>
           <td class="model-col">Solo Gemini 2.5 Pro</td>
-          <td class="result-col result-incorrect">
-            <div class="vtag vtag-incorrect">ALLOW</div>
-            <div class="verdict-note">Incorrect</div>
-          </td>
-          <td class="result-col result-incorrect">
-            <div class="vtag vtag-incorrect">ESCALATE</div>
-            <div class="verdict-note">Incorrect</div>
-          </td>
+          <td class="result-col result-incorrect"><div class="vtag vtag-incorrect">ALLOW</div><div class="verdict-note">Incorrect</div></td>
+          <td class="result-col result-incorrect"><div class="vtag vtag-incorrect">ESCALATE</div><div class="verdict-note">Incorrect</div></td>
         </tr>
         <tr class="holo-row">
           <td class="model-col">Holo Architecture</td>
-          <td class="result-col result-correct">
-            <div class="vtag vtag-holo-correct">ESCALATE</div>
-            <div class="verdict-note-holo">Correct</div>
-          </td>
-          <td class="result-col result-correct">
-            <div class="vtag vtag-holo-correct">ALLOW</div>
-            <div class="verdict-note-holo">Correct</div>
-          </td>
+          <td class="result-col result-correct"><div class="vtag vtag-holo-correct">ESCALATE</div><div class="verdict-note-holo">Correct</div></td>
+          <td class="result-col result-correct"><div class="vtag vtag-holo-correct">ALLOW</div><div class="verdict-note-holo">Correct</div></td>
         </tr>
       </tbody>
     </table>
@@ -323,47 +353,23 @@ footer{border-top:1px solid var(--border);padding:24px 0}
       <tbody>
         <tr>
           <td class="model-col">Solo GPT-5.4</td>
-          <td class="result-col result-incorrect">
-            <div class="vtag vtag-incorrect">ALLOW</div>
-            <div class="verdict-note">Incorrect</div>
-          </td>
-          <td class="result-col result-incorrect">
-            <div class="vtag vtag-incorrect">ESCALATE</div>
-            <div class="verdict-note">Incorrect</div>
-          </td>
+          <td class="result-col result-incorrect"><div class="vtag vtag-incorrect">ALLOW</div><div class="verdict-note">Incorrect</div></td>
+          <td class="result-col result-incorrect"><div class="vtag vtag-incorrect">ESCALATE</div><div class="verdict-note">Incorrect</div></td>
         </tr>
         <tr>
           <td class="model-col">Solo Claude Sonnet 4.6</td>
-          <td class="result-col result-incorrect">
-            <div class="vtag vtag-incorrect">ALLOW</div>
-            <div class="verdict-note">Incorrect</div>
-          </td>
-          <td class="result-col result-incorrect">
-            <div class="vtag vtag-incorrect">ESCALATE</div>
-            <div class="verdict-note">Incorrect</div>
-          </td>
+          <td class="result-col result-incorrect"><div class="vtag vtag-incorrect">ALLOW</div><div class="verdict-note">Incorrect</div></td>
+          <td class="result-col result-incorrect"><div class="vtag vtag-incorrect">ESCALATE</div><div class="verdict-note">Incorrect</div></td>
         </tr>
         <tr>
           <td class="model-col">Solo Gemini 2.5 Pro</td>
-          <td class="result-col result-correct">
-            <div class="vtag vtag-correct">ESCALATE</div>
-            <div class="verdict-note" style="color:var(--green)">Correct</div>
-          </td>
-          <td class="result-col result-incorrect">
-            <div class="vtag vtag-incorrect">ESCALATE</div>
-            <div class="verdict-note">Incorrect</div>
-          </td>
+          <td class="result-col result-correct"><div class="vtag vtag-correct">ESCALATE</div><div class="verdict-note" style="color:var(--green)">Correct</div></td>
+          <td class="result-col result-incorrect"><div class="vtag vtag-incorrect">ESCALATE</div><div class="verdict-note">Incorrect</div></td>
         </tr>
         <tr class="holo-row">
           <td class="model-col">Holo Architecture</td>
-          <td class="result-col result-correct">
-            <div class="vtag vtag-holo-correct">ESCALATE</div>
-            <div class="verdict-note-holo">Correct</div>
-          </td>
-          <td class="result-col result-correct">
-            <div class="vtag vtag-holo-correct">ALLOW</div>
-            <div class="verdict-note-holo">Correct</div>
-          </td>
+          <td class="result-col result-correct"><div class="vtag vtag-holo-correct">ESCALATE</div><div class="verdict-note-holo">Correct</div></td>
+          <td class="result-col result-correct"><div class="vtag vtag-holo-correct">ALLOW</div><div class="verdict-note-holo">Correct</div></td>
         </tr>
       </tbody>
     </table>
@@ -428,45 +434,27 @@ footer{border-top:1px solid var(--border);padding:24px 0}
     <div class="gates">
       <div class="gate">
         <span class="gate-n">1</span>
-        <div>
-          <div class="gate-text">Verdict Stability</div>
-          <div class="gate-sub">Holds across randomized model and role assignment seeds.</div>
-        </div>
+        <div><div class="gate-text">Verdict Stability</div><div class="gate-sub">Holds across randomized model and role assignment seeds.</div></div>
       </div>
       <div class="gate">
         <span class="gate-n">2</span>
-        <div>
-          <div class="gate-text">Correct Catch Reason</div>
-          <div class="gate-sub">The model cites the intended structural signal, not a random fluke.</div>
-        </div>
+        <div><div class="gate-text">Correct Catch Reason</div><div class="gate-sub">The model cites the intended structural signal, not a random fluke.</div></div>
       </div>
       <div class="gate">
         <span class="gate-n">3</span>
-        <div>
-          <div class="gate-text">No Answer Key in Context</div>
-          <div class="gate-sub">No labeled field directly identifies the disqualifying condition.</div>
-        </div>
+        <div><div class="gate-text">No Answer Key in Context</div><div class="gate-sub">No labeled field directly identifies the disqualifying condition.</div></div>
       </div>
       <div class="gate">
         <span class="gate-n">4</span>
-        <div>
-          <div class="gate-text">Clean Trace</div>
-          <div class="gate-sub">The turn-by-turn audit is readable without explanation.</div>
-        </div>
+        <div><div class="gate-text">Clean Trace</div><div class="gate-sub">The turn-by-turn audit is readable without explanation.</div></div>
       </div>
       <div class="gate">
         <span class="gate-n">5</span>
-        <div>
-          <div class="gate-text">One-Sentence Takeaway</div>
-          <div class="gate-sub">The proof point is expressible in plain operational language.</div>
-        </div>
+        <div><div class="gate-text">One-Sentence Takeaway</div><div class="gate-sub">The proof point is expressible in plain operational language.</div></div>
       </div>
       <div class="gate">
         <span class="gate-n">6</span>
-        <div>
-          <div class="gate-text">No Infrastructure Contamination</div>
-          <div class="gate-sub">No API timeouts or adapter failures affected the run.</div>
-        </div>
+        <div><div class="gate-text">No Infrastructure Contamination</div><div class="gate-sub">No API timeouts or adapter failures affected the run.</div></div>
       </div>
     </div>
   </div>
@@ -522,139 +510,180 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 </footer>
 
 <script>
-const CHART_DATA = {
+/* ================================================
+   BENCHMARK EXPLORER DATA
+   ================================================ */
+const EXPLORER = {
   domain1: {
-    title: 'Domain 1: Accounts Payable & BEC',
-    scores: [0, 1, 0, 2],
-    details: {
-      gap:       { label: 'Gap Detection', verdicts: ['ALLOW','ALLOW','ALLOW','ESCALATE'], correct: [false,false,false,true] },
-      precision: { label: 'Precision',     verdicts: ['ESCALATE','ALLOW','ESCALATE','ALLOW'], correct: [false,true,false,true] }
+    title: "Domain 1: Accounts Payable / BEC",
+    description: "Testing payment approvals against hidden historical contradictions.",
+    cases: {
+      gap: {
+        name: "Gap Case: The Phantom True-Up",
+        expected: "ESCALATE",
+        description: "A mechanically clean invoice with an 'annual true-up' that has never appeared in prior history.",
+        results: [
+          { model: "Solo GPT-5.4",         verdict: "ALLOW",    correct: false, reason: "Detection Failure" },
+          { model: "Solo Claude Sonnet 4.6",verdict: "ALLOW",    correct: false, reason: "Persuasion Failure" },
+          { model: "Solo Gemini 2.5 Pro",   verdict: "ALLOW",    correct: false, reason: "Self-Correction Failure" },
+          { model: "Holo Architecture",     verdict: "ESCALATE", correct: true,  reason: "Adversarial Verification" }
+        ]
+      },
+      precision: {
+        name: "Precision Case: The Retainage Exception",
+        expected: "ALLOW",
+        description: "A valid construction retainage payment that triggered a legacy ERP duplicate flag.",
+        results: [
+          { model: "Solo GPT-5.4",          verdict: "ESCALATE", correct: false, reason: "Contextual Brittleness" },
+          { model: "Solo Claude Sonnet 4.6", verdict: "ALLOW",    correct: true,  reason: "Accurate Resolution" },
+          { model: "Solo Gemini 2.5 Pro",    verdict: "ESCALATE", correct: false, reason: "Procedural Panic" },
+          { model: "Holo Architecture",      verdict: "ALLOW",    correct: true,  reason: "Adversarial Verification" }
+        ]
+      }
+    }
+  },
+  domain2: {
+    title: "Domain 2: Agentic / Automated Reorder",
+    description: "Testing agentic reorder approvals against compromised vendor authentication.",
+    cases: {
+      gap: {
+        name: "Gap Case: Compromised Automated Reorder",
+        expected: "ESCALATE",
+        description: "A routine automated reorder from a trusted vendor channel where the authentication chain was quietly swapped two cycles prior.",
+        results: [
+          { model: "Solo GPT-5.4",          verdict: "ALLOW",    correct: false, reason: "Detection Failure" },
+          { model: "Solo Claude Sonnet 4.6", verdict: "ALLOW",    correct: false, reason: "Persuasion Failure" },
+          { model: "Solo Gemini 2.5 Pro",    verdict: "ESCALATE", correct: true,  reason: "Accurate Resolution" },
+          { model: "Holo Architecture",      verdict: "ESCALATE", correct: true,  reason: "Adversarial Verification" }
+        ]
+      }
     }
   },
   domain8: {
-    title: 'Domain 8: Private Equity Financial Consolidation',
-    scores: [0, 0, 1, 2],
-    details: {
-      gap:       { label: 'Gap Detection', verdicts: ['ALLOW','ALLOW','ESCALATE','ESCALATE'], correct: [false,false,true,true] },
-      precision: { label: 'Precision',     verdicts: ['ESCALATE','ESCALATE','ESCALATE','ALLOW'], correct: [false,false,false,true] }
+    title: "Domain 8: PE Financial Consolidation",
+    description: "Testing complex trial balance roll-ups against buried legal documentation.",
+    cases: {
+      gap: {
+        name: "Gap Case: The Scope Mismatch",
+        expected: "ESCALATE",
+        description: "A mathematically perfect Q2 roll-up missing period-scope cutoffs for a mid-quarter acquisition.",
+        results: [
+          { model: "Solo GPT-5.4",          verdict: "ALLOW",    correct: false, reason: "Procedural Obedience" },
+          { model: "Solo Claude Sonnet 4.6", verdict: "ALLOW",    correct: false, reason: "Procedural Obedience" },
+          { model: "Solo Gemini 2.5 Pro",    verdict: "ESCALATE", correct: true,  reason: "Accurate Resolution" },
+          { model: "Holo Architecture",      verdict: "ESCALATE", correct: true,  reason: "Adversarial Verification" }
+        ]
+      },
+      precision: {
+        name: "Precision Case: The Post-Close True-Up",
+        expected: "ALLOW",
+        description: "A valid interim close with a pending 90-day working capital true-up noted in a legal memo.",
+        results: [
+          { model: "Solo GPT-5.4",          verdict: "ESCALATE", correct: false, reason: "Contextual Brittleness" },
+          { model: "Solo Claude Sonnet 4.6", verdict: "ESCALATE", correct: false, reason: "Contextual Brittleness" },
+          { model: "Solo Gemini 2.5 Pro",    verdict: "ESCALATE", correct: false, reason: "Contextual Brittleness" },
+          { model: "Holo Architecture",      verdict: "ALLOW",    correct: true,  reason: "Adversarial Verification" }
+        ]
+      }
     }
   }
 };
 
-const MODEL_LABELS = ['GPT-5.4', 'Claude Sonnet 4.6', 'Gemini 2.5 Pro', 'Holo'];
+/* ================================================
+   STATE & RENDER
+   ================================================ */
+let activeDomain = 'domain8';
+let activeCase   = 'precision';
 
-function barBg(s)  { return s===2 ? 'rgba(52,211,153,.22)' : s===1 ? 'rgba(245,158,11,.22)' : 'rgba(220,38,38,.18)'; }
-function barBdr(s) { return s===2 ? '#34d399' : s===1 ? '#f59e0b' : '#dc2626'; }
-
-let currentDomain = 'domain1';
-let chart;
-
-function buildMatrix(key) {
-  const d = CHART_DATA[key];
-  document.getElementById('matrixLabel').textContent = d.title;
-  let html = '<thead><tr><th>Case Type</th>';
-  MODEL_LABELS.forEach(m => { html += `<th style="text-align:center">${m}</th>`; });
-  html += '</tr></thead><tbody>';
-  ['gap','precision'].forEach(ct => {
-    const c = d.details[ct];
-    html += `<tr><td>${c.label}</td>`;
-    c.verdicts.forEach((v,i) => {
-      const ok = c.correct[i];
-      const isHolo = i === 3;
-      const cls = isHolo ? (ok ? 'v-holo-correct' : 'v-holo-incorrect') : (ok ? 'v-correct' : 'v-incorrect');
-      html += `<td class="${cls}">${v}<br><span style="font-size:9px;opacity:.65">${ok ? '✓' : '✗'}</span></td>`;
-    });
-    html += '</tr>';
-  });
-  html += '</tbody>';
-  document.getElementById('verdictMatrix').innerHTML = html;
+function icon(correct) {
+  if (correct) {
+    return `<svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>`;
+  }
+  return `<svg class="icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M6 6l12 12"/></svg>`;
 }
 
-function initChart() {
-  const d = CHART_DATA.domain1;
-  const ctx = document.getElementById('benchmarkChart').getContext('2d');
-  chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: MODEL_LABELS,
-      datasets: [{
-        label: 'Correct verdicts (out of 2)',
-        data: d.scores,
-        backgroundColor: d.scores.map(barBg),
-        borderColor: d.scores.map(barBdr),
-        borderWidth: 2,
-        borderRadius: 5,
-        borderSkipped: false
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      aspectRatio: 2.4,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: '#1e293b',
-          titleColor: '#e2e8f0',
-          bodyColor: '#94a3b8',
-          borderColor: '#334155',
-          borderWidth: 1,
-          padding: 12,
-          callbacks: {
-            title: items => items[0].label,
-            label: item => {
-              const d = CHART_DATA[currentDomain];
-              const i = item.dataIndex;
-              const gv = d.details.gap.verdicts[i];
-              const gc = d.details.gap.correct[i];
-              const pv = d.details.precision.verdicts[i];
-              const pc = d.details.precision.correct[i];
-              return [
-                `Score: ${item.raw}/2`,
-                `Gap: ${gv} ${gc ? '✓' : '✗'}`,
-                `Precision: ${pv} ${pc ? '✓' : '✗'}`
-              ];
-            }
-          }
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 2,
-          ticks: {
-            stepSize: 1,
-            color: '#64748b',
-            font: { family: "'JetBrains Mono', monospace", size: 11 },
-            callback: v => v + '/2'
-          },
-          grid: { color: '#1e293b' },
-          border: { color: '#1e293b' }
-        },
-        x: {
-          ticks: { color: '#94a3b8', font: { family: "'JetBrains Mono', monospace", size: 11 } },
-          grid: { display: false },
-          border: { color: '#1e293b' }
-        }
-      }
+function render() {
+  const domain  = EXPLORER[activeDomain];
+  const hasPrecision = !!domain.cases.precision;
+
+  // If currently on precision but domain has none, switch to gap
+  if (!hasPrecision && activeCase === 'precision') {
+    activeCase = 'gap';
+  }
+
+  const caseData = domain.cases[activeCase];
+
+  // Domain tabs
+  document.querySelectorAll('.dtab').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.domain === activeDomain);
+  });
+
+  // Case tabs
+  const caseTabs = document.querySelectorAll('.ctab');
+  caseTabs.forEach(btn => {
+    const isGap = btn.dataset.case === 'gap';
+    const isActive = btn.dataset.case === activeCase;
+    btn.classList.toggle('active', isActive);
+    if (btn.dataset.case === 'precision') {
+      btn.disabled = !hasPrecision;
     }
   });
+
+  // Domain description
+  document.getElementById('domainDesc').textContent = domain.description;
+
+  // Expected verdict
+  const expEl = document.getElementById('expectedVerdict');
+  expEl.textContent = caseData.expected;
+  expEl.className = 'expected-value ' + (caseData.expected === 'ESCALATE' ? 'expected-escalate' : 'expected-allow');
+
+  // Scenario detail
+  document.getElementById('scenarioName').textContent = caseData.name;
+  document.getElementById('scenarioDesc').textContent = caseData.description;
+
+  // No precision notice
+  document.getElementById('noPrecisionNotice').style.display = (!hasPrecision && activeCase === 'gap') ? 'block' : 'none';
+
+  // Results cards
+  const grid = document.getElementById('resultsGrid');
+  grid.innerHTML = caseData.results.map(r => {
+    const isHolo    = r.model.includes('Holo');
+    const verdictCls = r.verdict === 'ESCALATE'
+      ? (isHolo ? 'verdict-escalate-dark' : 'verdict-escalate-light')
+      : (isHolo ? 'verdict-allow-dark'    : 'verdict-allow-light');
+    const badgeCls  = r.correct
+      ? (isHolo ? 'badge-correct-dark' : 'badge-correct')
+      : (isHolo ? 'badge-incorrect-dark' : 'badge-incorrect');
+    const reasonCls = r.correct
+      ? (isHolo ? 'reason-correct-dark' : 'reason-correct')
+      : '';
+    const reasonText = r.correct ? `✓ Correct Outcome` : `✗ ${r.reason}`;
+
+    return `
+      <div class="result-card ${isHolo ? 'is-holo' : 'is-solo'}">
+        <div class="card-model">${r.model}</div>
+        <div class="card-bottom">
+          <div class="card-verdict-row">
+            <span class="card-verdict ${verdictCls}">${r.verdict}</span>
+            <span class="card-badge ${badgeCls}">${icon(r.correct)}</span>
+          </div>
+          <div class="card-reason ${reasonCls}">${reasonText}</div>
+        </div>
+      </div>`;
+  }).join('');
 }
 
-function updateChart(key) {
-  currentDomain = key;
-  const d = CHART_DATA[key];
-  chart.data.datasets[0].data = d.scores;
-  chart.data.datasets[0].backgroundColor = d.scores.map(barBg);
-  chart.data.datasets[0].borderColor = d.scores.map(barBdr);
-  chart.update();
-  buildMatrix(key);
+function setDomain(key) {
+  activeDomain = key;
+  render();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  initChart();
-  buildMatrix('domain1');
-});
+function setCase(key) {
+  activeCase = key;
+  render();
+}
+
+render();
 </script>
 
 <script async id="netlify-rum-container" src="/.netlify/scripts/rum" data-netlify-rum-site-id="848b69bb-148c-4d95-a280-4675c1ea8dc8" data-netlify-deploy-branch="main" data-netlify-deploy-context="production" data-netlify-cwv-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXRlX2lkIjoiODQ4YjY5YmItMTQ4Yy00ZDk1LWEyODAtNDY3NWMxZWE4ZGM4IiwiYWNjb3VudF9pZCI6IjY5YzE5MDJhYmQ5NWRkMGM3N2Y4NWRiNyIsImRlcGxveV9pZCI6IjY5ZGE5NDFjYTA1NjQ3MDAwOWIzNDFkZSIsImlzc3VlciI6Im5mc2VydmVyIn0.ULWhcLay1aQtSju_3zQWNOMtba5wr7VQEBwvc7f5R7c"></script>

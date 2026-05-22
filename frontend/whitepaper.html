@@ -981,8 +981,8 @@
   </div>
 
   <h3>5.1 &nbsp; Model-Agnostic, Hot-Swappable Design</h3>
-  <p>Holo treats frontier models as interchangeable components, not fixed infrastructure. The core orchestration and adjudication logic is completely decoupled from the underlying models it runs. The moment a frontier lab releases a more capable model, Holo integrates it immediately via API &#8212; no architectural rebuild required.</p>
-  <p>This creates a permanent asymmetry: bad actors operate on static, manually-updated offensive tooling. Holo&#8217;s defensive layer automatically inherits the global peak of AI capability on any given day. The patrol route gets smarter without the architecture changing.</p>
+  <p>The models inside Holo are plug-and-play. When a better one comes out, we swap it in. No redesign. No rebuilding the process around it.</p>
+  <p>This matters for two reasons. First, attackers can&#8217;t profile the system if the models change. Second, Holo automatically gets smarter as the underlying models improve. The process stays the same. The intelligence keeps going up.</p>
 
   <h3>5.2 &nbsp; The Adversarial Council</h3>
   <p>When an action packet arrives, it is distributed to a council of frontier models from diverse, decoupled model families. Each is assigned a distinct operational persona:</p>
@@ -1051,13 +1051,12 @@
 
   <div class="objection">
     <h3>&#8220;Isn&#8217;t this just a bundle of models voting?&#8221;</h3>
-    <p>No. The architecture is model-agnostic, but it is not a plurality vote. Holo uses frontier models as adversarial analysts inside a structured adjudication protocol. The important properties are role separation, evidentiary discipline, randomized assignment, and a constrained Governor layer that issues verdicts from structured adjudication state &#8212; not from the confidence of the last model to speak. A model that votes to escalate but cannot cite a specific documentary finding is discounted by the Governor.</p>
+    <p>No. A majority vote is only as good as whoever is voting. Holo assigns each model a specific role and requires any escalation to be backed by something specific in the documents. A model that says &#8220;something feels off&#8221; without pointing to a real finding gets discounted. The Governor decides based on what was actually found, not who was loudest.</p>
   </div>
 
   <div class="objection">
     <h3>&#8220;Is this Mixture of Experts?&#8221;</h3>
-    <p>No. Mixture of Experts is a model-internal routing architecture used to select or weight expert subnetworks during generation. Holo operates outside the agent and outside the model entirely. It does not generate the action; it adjudicates whether a proposed action should execute. The council is not used to optimize an answer &#8212; it is used to expose disagreement, missing evidence, and semantic contradictions before an irreversible action proceeds.</p>
-    <p><strong>The distinction is simple: Mixture of Experts helps produce an output. Holo judges whether an output or action should be allowed to execute.</strong></p>
+    <p>No. Mixture of Experts is something that happens inside a single model &#8212; it routes work between internal subnetworks to generate a response. Holo is separate from the model entirely. It doesn&#8217;t generate anything. It looks at a proposed action and decides whether it should go through. That&#8217;s a fundamentally different job.</p>
   </div>
 </div>
 

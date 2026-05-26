@@ -44,9 +44,9 @@ nav{
   z-index:20;
 }
 .nav-inner{display:flex;justify-content:space-between;align-items:center}
-.nav-logo{display:flex;flex-direction:column;gap:3px;text-decoration:none}
-.nav-logo-name{font-family:var(--serif);font-size:18px;letter-spacing:.18em;text-indent:.18em;color:var(--white);line-height:1}
-.nav-logo-sub{font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);line-height:1}
+.nav-logo{display:inline-block;text-decoration:none;color:var(--white);line-height:1}
+.nav-logo-name{display:block;font-family:var(--serif);font-size:22px;letter-spacing:.36em;text-indent:.36em;font-weight:400;color:var(--white);line-height:1}
+.nav-logo-sub{display:block;font-family:var(--mono);font-size:9px;font-weight:400;color:var(--muted-2);margin-top:5px;line-height:1}
 .nav-links{display:flex;gap:28px;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
 .nav-links a{color:var(--muted);transition:color .15s}
 .nav-links a:hover{color:var(--white)}
@@ -554,6 +554,29 @@ footer{border-top:1px solid var(--border);padding:28px 0}
   </div>
 </footer>
 
+<script>
+(function(){
+  function alignWordmark(){
+    var main=document.querySelector('.nav-logo-name');
+    var sub=document.querySelector('.nav-logo-sub');
+    if(!main||!sub)return;
+    main.style.width='fit-content';
+    var targetW=main.getBoundingClientRect().width;
+    main.style.width='';
+    sub.style.letterSpacing='0px';
+    sub.style.textIndent='0px';
+    sub.style.width='fit-content';
+    var baseW=sub.getBoundingClientRect().width;
+    sub.style.width='';
+    var n=sub.textContent.trim().length;
+    var ls=Math.max(0,(targetW-baseW)/n);
+    sub.style.letterSpacing=ls+'px';
+    sub.style.textIndent=(ls/2)+'px';
+  }
+  document.fonts.ready.then(alignWordmark);
+  window.addEventListener('resize',alignWordmark);
+})();
+</script>
 <script async id="netlify-rum-container" src="/.netlify/scripts/rum" data-netlify-rum-site-id="848b69bb-148c-4d95-a280-4675c1ea8dc8" data-netlify-deploy-branch="main" data-netlify-deploy-context="production" data-netlify-cwv-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXRlX2lkIjoiODQ4YjY5YmItMTQ4Yy00ZDk1LWEyODAtNDY3NWMxZWE4ZGM4IiwiYWNjb3VudF9pZCI6IjY5YzE5MDJhYmQ5NWRkMGM3N2Y4NWRiNyIsImRlcGxveV9pZCI6IjY5ZGE5NDFjYTA1NjQ3MDAwOWIzNDFkZSIsImlzc3VlciI6Im5mc2VydmVyIn0.ULWhcLay1aQtSju_3zQWNOMtba5wr7VQEBwvc7f5R7c"></script>
 </body>
 </html>

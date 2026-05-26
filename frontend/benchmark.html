@@ -122,6 +122,14 @@ h2{
 }
 .test-desc em{font-style:normal;color:var(--white)}
 
+/* ── ROTATION STABILITY ── */
+.rotation-block{margin-top:16px;padding:14px 18px;border:1px solid var(--gold-border);background:var(--gold-faint)}
+.rotation-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:10px}
+.rotation-dots{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.rdot{display:inline-block;width:20px;height:20px;border-radius:3px;background:#4ade80;opacity:.85}
+.rotation-summary{font-size:12px;color:var(--white);font-weight:500;margin-bottom:6px}
+.rotation-note{font-size:11px;color:var(--muted);line-height:1.7}
+
 /* ── VERDICT TABLE ── */
 .vtable{width:100%;border-collapse:collapse;border:1px solid var(--border)}
 .vtable thead{background:var(--bg-card)}
@@ -329,6 +337,24 @@ footer{border-top:1px solid var(--border);padding:28px 0}
           </tr>
         </tbody>
       </table>
+
+      <div class="rotation-block">
+        <div class="rotation-label">Architecture Stability Test · BEC-PHANTOM-DEP-003A · 2026-04-26</div>
+        <div class="rotation-dots">
+          <span class="rdot" title="Seed 1 · ESCALATE"></span>
+          <span class="rdot" title="Seed 2 · ESCALATE"></span>
+          <span class="rdot" title="Seed 3 · ESCALATE"></span>
+          <span class="rdot" title="Seed 4 · ESCALATE"></span>
+          <span class="rdot" title="Seed 5 · ESCALATE"></span>
+          <span class="rdot" title="Seed 6 · ESCALATE"></span>
+          <span class="rdot" title="Seed 7 · ESCALATE"></span>
+          <span class="rdot" title="Seed 8 · ESCALATE"></span>
+          <span class="rdot" title="Seed 9 · ESCALATE"></span>
+          <span class="rdot" title="Seed 10 · ESCALATE"></span>
+        </div>
+        <div class="rotation-summary">10 of 10 pre-declared seeds returned ESCALATE.</div>
+        <div class="rotation-note">Canonical forced-pressure run. Every seed received the same turn count and full adversarial pressure — no early convergence exit. Two seeds (161, 178) encountered provider degradation mid-run and were rerun cleanly on individual infrastructure; both returned ESCALATE. This is an architecture stability result, not a production runtime probability.</div>
+      </div>
     </div>
 
     <!-- DOMAIN 2 -->

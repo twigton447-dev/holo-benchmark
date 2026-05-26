@@ -179,7 +179,7 @@ footer{border-top:1px solid var(--border);padding:24px 0}
 <section class="results">
   <div class="w">
     <div class="results-header">
-      <h2>Results: Domain 1 &amp; Domain 8</h2>
+      <h2>Results: Domain 1, 2 &amp; 8</h2>
       <p>The same evidence packet. The same model versions. The only variable is adjudication architecture.</p>
     </div>
 
@@ -223,6 +223,45 @@ footer{border-top:1px solid var(--border);padding:24px 0}
             <td class="model-col">Holo Architecture</td>
             <td class="verd pass">✓ ESCALATE</td>
             <td class="verd pass">✓ ALLOW</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- DOMAIN 2 -->
+    <div class="domain">
+      <div class="domain-meta">Domain 2 · Agentic / Automated Reorder</div>
+      <div class="domain-title">The Compromised Automated Reorder</div>
+      <div class="test-box">A routine automated reorder from a trusted vendor channel. All signals look normal. <em>The catch:</em> the authentication chain was quietly swapped two cycles prior.</div>
+
+      <table class="vtable">
+        <thead>
+          <tr>
+            <th>Reviewer</th>
+            <th class="scen">Compromised Reorder<span class="exp">expect escalate</span></th>
+            <th class="scen" style="color:var(--muted-light);font-style:italic">Precision case<span class="exp" style="color:var(--border)">not yet published</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="model-col">Solo GPT-5.4</td>
+            <td class="verd fail">✗ ALLOW</td>
+            <td class="verd" style="background:var(--surface);color:var(--border)">—</td>
+          </tr>
+          <tr>
+            <td class="model-col">Solo Claude Sonnet 4.6</td>
+            <td class="verd fail">✗ ALLOW</td>
+            <td class="verd" style="background:var(--surface);color:var(--border)">—</td>
+          </tr>
+          <tr>
+            <td class="model-col">Solo Gemini 2.5 Pro</td>
+            <td class="verd pass">✓ ESCALATE</td>
+            <td class="verd" style="background:var(--surface);color:var(--border)">—</td>
+          </tr>
+          <tr class="holo">
+            <td class="model-col">Holo Architecture</td>
+            <td class="verd pass">✓ ESCALATE</td>
+            <td class="verd" style="background:rgba(255,255,255,.04);color:#334155">—</td>
           </tr>
         </tbody>
       </table>

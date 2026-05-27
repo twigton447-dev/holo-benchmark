@@ -574,7 +574,7 @@
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-eyebrow">Version 4.01 &nbsp;&middot;&nbsp; May 2026</div>
+  <div class="cover-eyebrow">Version 4.02 &nbsp;&middot;&nbsp; May 2026</div>
   <h1>Blindspots at the Action Boundary</h1>
   <p class="cover-subtitle">Why some high-consequence AI actions pass surface checks but still require adversarial adjudication</p>
   <div class="cover-meta">
@@ -1133,9 +1133,9 @@
     <div class="domain-item">
       <div class="domain-num">05</div>
       <div>
-        <div class="domain-badge badge-active">In Design</div>
+        <div class="domain-badge badge-active">Active</div>
         <div class="domain-title">Regulated Procurement</div>
-        <div class="domain-attack">Threshold gaming and split-order fraud</div>
+        <div class="domain-attack">Executable-scope reasoning in regulated procurement workflows</div>
       </div>
     </div>
     <div class="domain-item">
@@ -1164,6 +1164,14 @@
     </div>
   </div>
 
+  <h3>Domain 5: Regulated Procurement</h3>
+  <p>Holo is currently being extended into regulated procurement workflows, where the action boundary is often hidden inside the structure of the transaction.</p>
+  <p>In these workflows, the risky question is not always &#8220;Is this purchase order valid?&#8221; It is often more precise: &#8220;Which part of this procurement action is actually executable right now?&#8221;</p>
+  <p>That distinction matters. A purchase order may contain current release quantities, forecast quantities, held line items, pending quality reviews, and future capacity planning in the same packet. A model that treats the whole document as one executable action can make both kinds of mistakes. It may allow a release that should stop, or it may escalate a safe action because a non-executable future line looks risky.</p>
+  <p>This domain is useful because it forces Holo to test a harder question: not just whether the evidence contains a risk, but whether that risk attaches to the action being approved at the boundary.</p>
+  <p>The early work in this domain is being used to harden the Governor around executable-scope reasoning. Before Holo escalates or allows a regulated procurement action, the system must first identify what is actually being released, shipped, committed, or authorized.</p>
+  <p>This is the same pattern Holo looks for across domains. The facts may change, but the failure shape repeats: the model sees a risk, but must still decide whether that risk belongs to the action at hand.</p>
+
   <p>Independent validation of all solo baseline metrics is actively encouraged. Payload documentation and open-source validation scripts are available at <a href="https://holoengine.ai/payloads">holoengine.ai/payloads</a>.</p>
 </div>
 
@@ -1171,7 +1179,7 @@
   <div class="footer-brand">Holo Engine</div>
   <div class="footer-meta">
     holoengine.ai &nbsp;&middot;&nbsp; hello@holoengine.ai<br>
-    Working Paper &nbsp;&middot;&nbsp; Version 4.01 &nbsp;&middot;&nbsp; May 2026
+    Working Paper &nbsp;&middot;&nbsp; Version 4.02 &nbsp;&middot;&nbsp; May 2026
   </div>
 </footer>
 

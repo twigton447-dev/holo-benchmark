@@ -574,7 +574,7 @@
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-eyebrow">Version 4.02 &nbsp;&middot;&nbsp; May 2026</div>
+  <div class="cover-eyebrow">Version 4.03 &nbsp;&middot;&nbsp; May 2026</div>
   <h1>Blindspots at the Action Boundary</h1>
   <p class="cover-subtitle">Why some high-consequence AI actions pass surface checks but still require adversarial adjudication</p>
   <div class="cover-meta">
@@ -805,16 +805,17 @@
   </div>
 
   <h3>2.6 &nbsp; How Each Domain Hardens the System</h3>
-  <p>Holo does not enter a new domain by assuming the Governor already knows what matters.</p>
-  <p>It starts by trying to break it.</p>
-  <p>For each domain, we build two kinds of cases. The first looks clean but should stop. The second looks risky but should pass. That pair matters because a trust layer has to do both jobs. It has to catch the hidden gap without becoming a machine that escalates everything strange.</p>
-  <p>When Holo fails one of these cases, that is not treated as an embarrassment. It is treated as the point of the test.</p>
-  <p>A failure tells us which boundary the system did not understand yet. In accounts payable, that may be the payable obligation boundary. In private equity reporting, it may be the measurement-period boundary. In regulated procurement, it may be the difference between a purchase order change and the line item that is actually executable today.</p>
-  <p>Those distinctions sound small. They are not. They are where real businesses make mistakes.</p>
-  <p>The adversarial council can find evidence, challenge assumptions, and surface disagreements. But the Governor has the harder job: it has to decide which evidence controls. If multiple models agree for the wrong shared reason, the Governor cannot simply trust the agreement. It has to ask whether the council is arguing from the right premise.</p>
-  <p>That is why every new domain is also a Governor-hardening loop.</p>
-  <p>We do not just collect examples where Holo wins. We look for cases where solo models fail, where domain-guided solos still struggle, and where Holo itself exposes a weak point in its own adjudication logic. The failed case then becomes a regression test. The harness is tightened. The Governor gets a new boundary check. The scenario is run again.</p>
-  <p>Over time, this creates more than a benchmark. It creates a map of where AI judgment breaks at the moment of action, and a growing set of rules for how to adjudicate those breaks before they become real-world events.</p>
+  <p>Holo does not enter a domain by assuming the system already knows the right rules.</p>
+  <p>It enters by testing where the rules break.</p>
+  <p>For each domain, we build paired cases. One case looks clean but should stop. Another looks risky but should pass. This matters because a trust layer has to do both jobs. It has to catch hidden failure without becoming a system that escalates everything unfamiliar.</p>
+  <p>Those tests are not just demos. They are a wind tunnel.</p>
+  <p>A wind tunnel is not built to make the aircraft look good. It is built to find where the aircraft fails under pressure, while failure is still safe. Holo uses domains the same way. We pressure-test the action boundary before an AI agent is allowed to act in the real world.</p>
+  <p>When Holo fails in a test, the failure becomes useful. It shows us which boundary the Governor did not understand yet. In one domain, that may be the payable obligation boundary. In another, it may be the measurement period. In regulated procurement, it may be the difference between a purchase order change and the line item that is actually executable today.</p>
+  <p>That is the work.</p>
+  <p>Each failed run becomes a regression test. The harness is tightened. The Governor gets a new boundary check. Then the paired cases are run again to make sure the fix did not make Holo too soft or too strict.</p>
+  <p>This is why design partners matter. Real workflows expose failure modes that synthetic tests alone may never surface. A design partner brings the strange edge cases, stale documents, ambiguous approvals, status codes, exceptions, and &#8220;this looks wrong but is actually fine&#8221; moments that exist inside real operations.</p>
+  <p>Holo&#8217;s job is to find those moments before agents act on them.</p>
+  <p>Over time, this creates more than a benchmark. It creates a growing map of where AI judgment breaks at the moment of action, and a hardened set of rules for deciding what should be allowed, what should be escalated, and why.</p>
 
   <h3>2.7 &nbsp; The Solo Baselines Are the Real Alternatives</h3>
   <p>The solo conditions represent exactly what a company gets if they deploy a frontier model natively into an enterprise workflow today. To ensure absolute fairness, solo models are given the same extensive context, documents, and instructions as Holo&#8217;s engine room. They fail purely due to isolated processing limitations, not a lack of information.</p>
@@ -1179,7 +1180,7 @@
   <div class="footer-brand">Holo Engine</div>
   <div class="footer-meta">
     holoengine.ai &nbsp;&middot;&nbsp; hello@holoengine.ai<br>
-    Working Paper &nbsp;&middot;&nbsp; Version 4.02 &nbsp;&middot;&nbsp; May 2026
+    Working Paper &nbsp;&middot;&nbsp; Version 4.03 &nbsp;&middot;&nbsp; May 2026
   </div>
 </footer>
 

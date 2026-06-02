@@ -573,7 +573,7 @@
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-eyebrow">Version 5.04 &nbsp;&middot;&nbsp; June 2026</div>
+  <div class="cover-eyebrow">Version 5.05 &nbsp;&middot;&nbsp; June 2026</div>
   <h1>Holo Engine: Adversarial Judgment Infrastructure for AI Agents</h1>
   <p class="cover-subtitle">A runtime architecture for verifying irreversible actions, judging generated work, and pressure-testing AI systems before they fail in production.</p>
   <div class="cover-meta">
@@ -778,18 +778,30 @@
   <h3>2.5 &nbsp; No Summarization Between Turns</h3>
   <p>Holo preserves the complete, raw data packet across all turns of the debate. Summarization is lossy; compressing conversational state between turns risks erasing the subtle, distributed hints that a downstream model needs to spot an anomaly. Full raw state is more expensive, but it preserves structural truth.</p>
 
-  <h3>2.6 &nbsp; Evidentiary Discipline</h3>
+  <h3>2.6 &nbsp; How Each Domain Hardens the System</h3>
+  <p>Holo does not enter a domain assuming it knows the rules. It enters to find out what they should be. We test the Governor against baseline logic, observe where it fails under pressure, and tighten the constraints. Every failed run becomes a regression test that hardens the architecture. No rules, then some rules, then law.</p>
+
+  <h3>2.7 &nbsp; The False Positive Imperative</h3>
+  <p>A trust layer that flags everything is a bottleneck, not a safeguard. True viability at the action boundary requires an exceptionally low <strong>false positive rate</strong>: the ability to correctly clear complex, messy, but legitimate business exceptions. If a system escalates safe actions out of blind caution, it creates false friction and destroys the ROI of automation. A viable trust layer must catch hidden fraud without breaking the normal operational workflow.</p>
+
+  <h3>2.8 &nbsp; Forging the Wind Tunnel with Holo Builder</h3>
+  <p>Standard AI benchmarks ask abstract questions. They do not test if an action should execute. To build a true wind tunnel, we use Holo Builder and Holo Test to actively forge the scenarios themselves. By running the adversarial reactor in reverse, agentic personas act as blindspot architects, intentionally burying subtle structural contradictions deep inside sub-ledgers, legal histories, and procurement packets. We push the payloads to their absolute limits to ensure we are testing the hardest possible realities before an agent acts in production.</p>
+
+  <h3>2.9 &nbsp; The Ablation Cage: Apples-to-Apples Testing</h3>
+  <p>We built this rigorous testing infrastructure because our true competitors are the default alternative architectures: native solo models, same-model self-critique loops, and ungoverned multi-model ensembles. To prove Holo Engine is superior, we require an apples-to-apples ablation cage. Each forged payload is locked and run across all competing architectures under identical conditions. This completely isolates the orchestration layer, proving empirically that adversarial architecture, not just raw model intelligence, is what actually survives the wind tunnel.</p>
+
+  <h3>2.10 &nbsp; Evidentiary Discipline</h3>
   <p>Every escalation must be tied to an explicit documentary variance. If a model votes to escalate but cannot isolate a specific finding to back it up, the Governor discounts the vote. This discipline keeps the system&#8217;s escalation signals clean and actionable.</p>
 
-  <h3>2.7 &nbsp; The Simple Version</h3>
+  <h3>2.11 &nbsp; The Simple Version</h3>
   <p>Holo ingests the packet, runs it through a structured cross-examination between competing AI models, and uses a constrained Governor to verify the evidence. One API call, one clear verdict, executed before an action becomes permanent.</p>
 
-  <h3>2.8 &nbsp; The Two Directions of the Reactor</h3>
+  <h3>2.12 &nbsp; The Two Directions of the Reactor</h3>
   <p>When you build an environment that forces different models to challenge one another, the internal friction can be channeled in two distinct ways:</p>
   <p><strong>The Evaluative Harness (The Action Boundary Shield):</strong> Used by Holo Verify. This configuration assumes the data packet or decision has already been generated. Holo sits silently at the final execution checkpoint and evaluates the payload against anchor constraints, returning a binary operational verdict: ALLOW or ESCALATE.</p>
   <p><strong>The Generative Harness (The Work-Product Forge):</strong> Used by Holo Builder. This configuration assumes the starting material is a rough draft or incomplete strategy. It drops the draft into a constrained 10-turn adversarial furnace. Specialized critic agents, such as an Edge Case Scanner and Hostile Challenger, attack the document&#8217;s logic from different angles. The loop forces high-volatility structural teardowns early, then rebuilds until unresolved issues converge to absolute zero.</p>
 
-  <h3>2.9 &nbsp; The Economics of the Action Boundary: Cost and Latency</h3>
+  <h3>2.13 &nbsp; The Economics of the Action Boundary: Cost and Latency</h3>
   <p>A common question regarding multi-model adversarial setups is the operational cost. Running an action packet through several turns across multiple models is naturally more compute-heavy than a single API call. While true, this is a fundamental misunderstanding of business risk.</p>
   <p>The action boundary does not govern a real-time consumer chat interface. A corporate wire transfer, an enterprise access provision, or a PE ledger close can easily absorb a 15- to 45-second verification loop without impacting business operations.</p>
   <p>Financially, a full Holo review costs between <strong>$0.30 and $1.00</strong> in API compute per transaction.</p>
@@ -1262,7 +1274,7 @@
   <div class="footer-brand">Holo Engine</div>
   <div class="footer-meta">
     holoengine.ai &nbsp;&middot;&nbsp; hello@holoengine.ai<br>
-    Working Paper &nbsp;&middot;&nbsp; Version 5.04 &nbsp;&middot;&nbsp; June 2026
+    Working Paper &nbsp;&middot;&nbsp; Version 5.05 &nbsp;&middot;&nbsp; June 2026
   </div>
 </footer>
 

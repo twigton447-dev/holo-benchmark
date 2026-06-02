@@ -573,7 +573,7 @@
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-eyebrow">Version 5.05 &nbsp;&middot;&nbsp; June 2026</div>
+  <div class="cover-eyebrow">Version 5.06 &nbsp;&middot;&nbsp; June 2026</div>
   <h1>Holo Engine: Adversarial Judgment Infrastructure for AI Agents</h1>
   <p class="cover-subtitle">A runtime architecture for verifying irreversible actions, judging generated work, and pressure-testing AI systems before they fail in production.</p>
   <div class="cover-meta">
@@ -801,7 +801,16 @@
   <p><strong>The Evaluative Harness (The Action Boundary Shield):</strong> Used by Holo Verify. This configuration assumes the data packet or decision has already been generated. Holo sits silently at the final execution checkpoint and evaluates the payload against anchor constraints, returning a binary operational verdict: ALLOW or ESCALATE.</p>
   <p><strong>The Generative Harness (The Work-Product Forge):</strong> Used by Holo Builder. This configuration assumes the starting material is a rough draft or incomplete strategy. It drops the draft into a constrained 10-turn adversarial furnace. Specialized critic agents, such as an Edge Case Scanner and Hostile Challenger, attack the document&#8217;s logic from different angles. The loop forces high-volatility structural teardowns early, then rebuilds until unresolved issues converge to absolute zero.</p>
 
-  <h3>2.13 &nbsp; The Economics of the Action Boundary: Cost and Latency</h3>
+  <h3>2.13 &nbsp; Integration, Scale, and Context Capacity</h3>
+  <p>Holo Engine is not a walled garden or a rip-and-replace platform. It is a headless API orchestration layer designed to slide into existing enterprise workflows with minimal developer overhead.</p>
+  <ul style="margin:1rem 0 1rem 1.5rem;font-size:0.975rem;color:var(--ink-muted);line-height:1.9">
+    <li style="margin-bottom:0.5rem"><strong>Asynchronous Webhook Architecture:</strong> The system uses an asynchronous job-and-webhook architecture. The calling system passes a structured JSON packet (source material, anchor constraints, agent directives) and receives an immediate 202 Accepted. When the adversarial loop resolves, Holo POSTs the audited output and telemetry receipt back to the provided webhook.</li>
+    <li style="margin-bottom:0.5rem"><strong>Massive Context Capacity (2 Million Tokens):</strong> Ingestion capacity is substantial. Holo can process up to 2 million tokens per job, roughly 1.5 million words or 3,000 pages of dense legal text, regulatory playbooks, financial sub-ledgers, and supporting documentation in a single run.</li>
+    <li style="margin-bottom:0.5rem"><strong>Localized Knowledge Graphing:</strong> Upon ingestion, the unstructured payload is mapped into a localized Knowledge Graph. This allows the adversarial agents to track upstream and downstream dependencies while performing live web context synthesis for real-time verification against current case law, market data, or regulatory updates.</li>
+    <li><strong>Domain-Agnostic Deployment:</strong> Because it is headless, Holo integrates seamlessly into existing infrastructure. It connects to standard Document Management Systems (iManage, NetDocuments), Contract Lifecycle Management platforms (Ironclad), and backend APIs. The exact same architecture can harden a legal draft inside a CLM, or sit at the action boundary of an HR platform to return ALLOW/ESCALATE before an automated adverse employment action commits.</li>
+  </ul>
+
+  <h3>2.14 &nbsp; The Economics of the Action Boundary: Cost and Latency</h3>
   <p>A common question regarding multi-model adversarial setups is the operational cost. Running an action packet through several turns across multiple models is naturally more compute-heavy than a single API call. While true, this is a fundamental misunderstanding of business risk.</p>
   <p>The action boundary does not govern a real-time consumer chat interface. A corporate wire transfer, an enterprise access provision, or a PE ledger close can easily absorb a 15- to 45-second verification loop without impacting business operations.</p>
   <p>Financially, a full Holo review costs between <strong>$0.30 and $1.00</strong> in API compute per transaction.</p>
@@ -862,7 +871,7 @@
   <p>Standard AI benchmarks measure knowledge and reasoning in the abstract. They ask models questions and score the answers. That is useful for general capability, but it does not tell you if a specific action should go through right now.</p>
   <p>Action Boundary Testing constructs realistic, high-stakes scenarios designed to find the precise conditions under which a solo model will approve something it should not. Then it runs those scenarios against solo frontier models and Holo under identical conditions and compares the results.</p>
 
-  <h3>2.1 &nbsp; What It Is Not</h3>
+  <h3>4.1 &nbsp; What It Is Not</h3>
   <ul style="margin:1rem 0 1rem 1.5rem;font-size:0.975rem;color:var(--ink-muted);line-height:1.9">
     <li><strong>It is not red teaming.</strong> Red teaming probes model behavior in general (jailbreaks, harmful words). Action boundary testing checks whether a specific proposed action should be allowed to execute.</li>
     <li><strong>It is not penetration testing.</strong> Pen testing targets technical infrastructure (access keys, network bugs). This testing targets semantic judgment (does the evidence match the business story).</li>
@@ -870,7 +879,7 @@
     <li><strong>It is not compliance auditing.</strong> Auditing is retrospective. This layer is pre-execution &#8212; stopping the error before the ledger closes.</li>
   </ul>
 
-  <h3>2.2 &nbsp; What a Scenario Looks Like</h3>
+  <h3>4.2 &nbsp; What a Scenario Looks Like</h3>
   <p>Every scenario is built around four properties:</p>
   <ol style="margin:1rem 0 1rem 1.5rem;font-size:0.975rem;color:var(--ink-muted);line-height:1.9">
     <li>A proposed irreversible or high-consequence action</li>
@@ -880,10 +889,15 @@
   </ol>
   <p>The key design rule is that the contradiction cannot be explicitly labeled. A scenario that includes a field marked <code>risk_score: HIGH</code> is a reading test, not a judgment test. The signal must live in the relationship between documents or history.</p>
 
-  <h3>2.3 &nbsp; Testing Both Directions</h3>
+  <h3>4.3 &nbsp; The Holo Packet Factory: Deterministic Payload Engineering</h3>
+  <p>Standard AI benchmarks rely on static, text-based question-and-answer pairs. Action Boundary Testing requires complex, multi-document financial and operational environments. You cannot test enterprise AI reliability using manually typed draft documents.</p>
+  <p>To ensure absolute reproducibility, all scenarios are engineered through the Holo Packet Factory. This is a deterministic Python backend designed to forge high-fidelity corporate environments.</p>
+  <p>When an adversarial scenario is built, such as a PE consolidation with a hidden stub-period anomaly, the entire multi-document payload is programmatically generated. Every artifact, email timestamp, and sub-ledger entry is cryptographically hash-locked and committed to an immutable evaluation ledger. This ensures zero variance in the underlying data layer. When a solo frontier model and the Holo Engine are run against the exact same hash-locked payload, the test is strictly deterministic. The only variable being measured is the quality of the orchestration architecture.</p>
+
+  <h3>4.4 &nbsp; Testing Both Directions</h3>
   <p>A trust layer that flags everything is a bottleneck, not a safeguard. It quickly turns into noise that teams route around. Therefore, testing must evaluate both directions: catching hidden gaps (preventing false comfort) and clearing complex but valid business exceptions (preventing false friction).</p>
 
-  <h3>2.4 &nbsp; The Four Case Types</h3>
+  <h3>4.5 &nbsp; The Four Case Types</h3>
   <div class="table-wrap">
     <table>
       <thead><tr><th>Case Type</th><th>Purpose</th></tr></thead>
@@ -896,7 +910,7 @@
     </table>
   </div>
 
-  <h3>2.5 &nbsp; What Counts as a Real Result</h3>
+  <h3>4.6 &nbsp; What Counts as a Real Result</h3>
   <p>To prevent cherry-picked data, a test run is only published if it passes six strict operational gates:</p>
   <div class="table-wrap">
     <table>
@@ -912,7 +926,7 @@
     </table>
   </div>
 
-  <h3>2.6 &nbsp; How Each Domain Hardens the System</h3>
+  <h3>4.7 &nbsp; How Each Domain Hardens the System</h3>
   <p>Holo does not enter a domain by assuming the system already knows the right rules.</p>
   <p>It enters to find out what the rules should be.</p>
   <p>This is not about teaching the Governor what to do in any particular situation. That would be impossible. Real operations are too varied, too ambiguous, and too strange to pre-load as cases. The goal is something different: to develop procedures the Governor can apply when it encounters certain conditions within a domain. The same way a flight manual gives pilots a tested response for when certain things happen. The manual does not guarantee the situation will unfold exactly as described. It means there is a calibrated procedure instead of improvisation.</p>
@@ -930,7 +944,7 @@
   <p>Holo&#8217;s job is to find those moments before agents act on them.</p>
   <p>Over time, this creates more than a benchmark. It creates a growing map of where AI judgment breaks at the moment of action, and a hardened set of procedures for deciding what should be allowed, what should be escalated, and why.</p>
 
-  <h3>2.7 &nbsp; The Solo Baselines Are the Real Alternatives</h3>
+  <h3>4.8 &nbsp; The Solo Baselines Are the Real Alternatives</h3>
   <p>The solo conditions represent exactly what a company gets if they deploy a frontier model natively into an enterprise workflow today. To ensure absolute fairness, solo models are given the same extensive context, documents, and instructions as Holo&#8217;s engine room. They fail purely due to isolated processing limitations, not a lack of information.</p>
 </div>
 
@@ -1274,7 +1288,7 @@
   <div class="footer-brand">Holo Engine</div>
   <div class="footer-meta">
     holoengine.ai &nbsp;&middot;&nbsp; hello@holoengine.ai<br>
-    Working Paper &nbsp;&middot;&nbsp; Version 5.05 &nbsp;&middot;&nbsp; June 2026
+    Working Paper &nbsp;&middot;&nbsp; Version 5.06 &nbsp;&middot;&nbsp; June 2026
   </div>
 </footer>
 

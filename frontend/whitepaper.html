@@ -11,7 +11,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blindspots at the Action Boundary · Holo Engine</title>
+<title>Holo Engine: Adversarial Judgment Infrastructure for AI Agents</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@300;400;500;600&display=swap');
 
@@ -574,9 +574,9 @@
 
 <!-- COVER -->
 <div class="cover">
-  <div class="cover-eyebrow">Version 4.05 &nbsp;&middot;&nbsp; May 2026</div>
-  <h1>Blindspots at the Action Boundary</h1>
-  <p class="cover-subtitle">Why some high-consequence AI actions pass surface checks but still require adversarial adjudication</p>
+  <div class="cover-eyebrow">Version 5.0 &nbsp;&middot;&nbsp; June 2026</div>
+  <h1>Holo Engine: Adversarial Judgment Infrastructure for AI Agents</h1>
+  <p class="cover-subtitle">A runtime architecture for verifying irreversible actions, judging generated work, and pressure-testing AI systems before they fail in production.</p>
   <div class="cover-meta">
     <div class="cover-meta-item">
       <label>Author</label>
@@ -600,32 +600,28 @@
 <div class="exec-summary">
   <div class="section-label">Executive Summary</div>
 
-  <p style="margin-top:0.75rem">AI systems are starting to do more than generate text. They are approving payments, granting access, executing workflows, and moving real operations forward without waiting for a human to step in.</p>
+  <p style="margin-top:0.75rem">AI systems are starting to do more than generate text. They are approving payments, granting access, executing workflows, and moving real operations forward without waiting for a human to step in. They are also generating the high-stakes documents people use to make decisions: contracts, deal memos, policy summaries, diligence reports, and procurement recommendations.</p>
 
   <p>That creates a new kind of risk.</p>
 
-  <p>The most dangerous failures are not the obvious ones. They are the actions that look clean on the surface: the right vendor, the right approval chain, the right formatting, the right policy checks. Everything appears to pass. And yet the action is still wrong.</p>
+  <p>The most dangerous failures are not the obvious ones: prompt injections, jailbreaks, or loud policy violations. The core risk is untested judgment at commitment points. It is the moment an agent takes the wrong irreversible action because the request looked mechanically clean, or the moment a system creates a polished artifact that carries hidden errors into a human or automated approval path.</p>
 
-  <p>Most AI security is built to catch visible violations: prompt injection, jailbreaks, policy breaches, and data leakage. It is much weaker at a harder class of failure: when the action boundary is crossed by a data packet that is mechanically clean but semantically unresolved. Recent benchmarking across multiple financial domains demonstrates that solo frontier models fail at this boundary in two opposite directions:</p>
+  <p>Most AI security is not built for this. It monitors inputs and logs outputs, but it struggles when a data packet or generated artifact is procedurally clean but semantically unresolved.</p>
+
+  <p>Holo Engine is an adversarial judgment architecture built for these exact moments.</p>
+
+  <p>Instead of relying on a single frontier model, Holo Engine evaluates actions and artifacts through a structured, adversarial process using multiple models with distinct roles, managed by a constrained Governor. This core architecture powers a distinct ecosystem of product surfaces:</p>
 
   <ul style="margin:0.75rem 0 1rem 1.5rem;font-size:1rem;color:var(--ink-muted);line-height:1.85">
-    <li style="margin-bottom:0.5rem"><strong>Procedural Obedience (False Negatives):</strong> Approving high-consequence actions &#8212; such as a fraudulent accounts payable wire or a legally incomplete Private Equity roll-up &#8212; simply because the formatting looks clean. They mistake a smooth process for factual truth.</li>
-    <li><strong>Contextual Brittleness (False Positives):</strong> Escalating perfectly valid business exceptions &#8212; such as a mid-quarter acquisition close or an emergency access request &#8212; because the model lacks the architectural scaffolding to extract resolving evidence from deep inside legal or operational documentation.</li>
+    <li style="margin-bottom:0.5rem"><strong>Holo Verify:</strong> The action-boundary runtime gate. It evaluates proposed irreversible actions and returns ALLOW or ESCALATE before execution.</li>
+    <li style="margin-bottom:0.5rem"><strong>Holo Builder:</strong> The generative surface. It creates judgment-grade artifacts through adversarial construction and review.</li>
+    <li style="margin-bottom:0.5rem"><strong>Holo Judge:</strong> The evaluation surface. It reviews artifacts and scores them for factual accuracy, hidden risk, and decision usefulness.</li>
+    <li><strong>Holo Test:</strong> The pressure-testing cage. It runs locked scenarios against competing architectures to find where they break.</li>
   </ul>
 
-  <p>These are not prompt-injection problems. They are judgment problems at the final moment before an irreversible action goes through.</p>
+  <p>This paper details the core Holo Engine architecture and presents benchmark findings. While Holo Builder and Holo Judge are active product surfaces, the empirical benchmark evidence presented in this paper focuses entirely on validating the most critical operational checkpoint: Holo Verify at the action boundary.</p>
 
-  <p>We call that moment the <strong>action boundary</strong>.</p>
-
-  <p>The action boundary is the last checkpoint before an AI system does something that cannot easily be undone: sending the wire, granting the access, approving the filing, executing the contract. Before that moment, mistakes are recoverable. After it, they become operational, financial, or legal events.</p>
-
-  <p>This paper argues that solo frontier models are not reliable enough to own that final checkpoint by themselves. That does not mean they are weak. In many workflows, they will work perfectly well most of the time. That is exactly what makes the problem dangerous. A solo model can be good enough to earn trust, while still failing in rare but costly edge cases that are hard to predict in advance. At the action boundary, those rare failures matter more than average performance.</p>
-
-  <p>Holo Engine is an independent pre-execution trust layer built for that exact moment.</p>
-
-  <p>Before an irreversible action executes, Holo evaluates the full action packet through an adversarial process involving multiple frontier models with distinct roles. One model may argue for approval. Another may challenge the reasoning. Another may pressure-test missing evidence or weak assumptions. A constrained Governor then issues a final verdict: <strong>ALLOW</strong> or <strong>ESCALATE</strong>.</p>
-
-  <p>The goal is not to prove an action is universally safe. The goal is to create a more trustworthy final checkpoint by making the decision inspectable, adversarially tested, and less dependent on any one model's blindspots.</p>
+  <p>Across early Holo Test runs, the strongest signal is not that more models or more turns automatically improve judgment. In several cases, unstructured self-critique or ungoverned multi-model handoff degraded performance. Holo&#8217;s thesis is that architecture, not model count, is the control surface.</p>
 
   <p style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-top:24px;margin-bottom:10px;font-weight:500">Eight-Domain Atlas</p>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid var(--rule);border-radius:6px;overflow:hidden;margin-top:0;margin-bottom:20px">
@@ -668,15 +664,16 @@
 <nav class="toc">
   <div class="toc-label">Contents</div>
   <ol class="toc-list">
-    <li><a href="#s1"><span class="toc-num">01</span><span class="toc-title">The Action Boundary Problem</span></a></li>
-    <li><a href="#s2"><span class="toc-num">02</span><span class="toc-title">Action Boundary Testing (ABAT)</span></a></li>
-    <li><a href="#s3"><span class="toc-num">03</span><span class="toc-title">Benchmark Findings</span></a></li>
-    <li><a href="#s4"><span class="toc-num">04</span><span class="toc-title">The Convergence Thesis: Bidirectional Failure</span></a></li>
-    <li><a href="#s5"><span class="toc-num">05</span><span class="toc-title">The Architecture</span></a></li>
-    <li><a href="#s6"><span class="toc-num">06</span><span class="toc-title">Why Human Review Alone Is Not Enough</span></a></li>
-    <li><a href="#s7"><span class="toc-num">07</span><span class="toc-title">Objections</span></a></li>
-    <li><a href="#s8"><span class="toc-num">08</span><span class="toc-title">What This Paper Does Not Claim</span></a></li>
-    <li><a href="#s9"><span class="toc-num">09</span><span class="toc-title">What Comes Next</span></a></li>
+    <li><a href="#s1"><span class="toc-num">01</span><span class="toc-title">The Trust Gap in Agentic Systems</span></a></li>
+    <li><a href="#s2"><span class="toc-num">02</span><span class="toc-title">The Holo Engine Architecture</span></a></li>
+    <li><a href="#s3"><span class="toc-num">03</span><span class="toc-title">Product Surfaces Built on Holo Engine</span></a></li>
+    <li><a href="#s4"><span class="toc-num">04</span><span class="toc-title">Action Boundary Testing (ABAT)</span></a></li>
+    <li><a href="#s5"><span class="toc-num">05</span><span class="toc-title">Benchmark Findings</span></a></li>
+    <li><a href="#s6"><span class="toc-num">06</span><span class="toc-title">The Convergence Thesis: Bidirectional Failure</span></a></li>
+    <li><a href="#s7"><span class="toc-num">07</span><span class="toc-title">Why Human Review Alone Is Not Enough</span></a></li>
+    <li><a href="#s8"><span class="toc-num">08</span><span class="toc-title">Objections</span></a></li>
+    <li><a href="#s9"><span class="toc-num">09</span><span class="toc-title">What This Paper Does Not Claim</span></a></li>
+    <li><a href="#s10"><span class="toc-num">10</span><span class="toc-title">What Comes Next</span></a></li>
   </ol>
 </nav>
 
@@ -684,7 +681,7 @@
 <div id="s1" class="section">
   <div class="section-header">
     <span class="section-number">Section 01</span>
-    <h2>The Action Boundary Problem</h2>
+    <h2>The Trust Gap in Agentic Systems</h2>
   </div>
 
   <h3>1.1 &nbsp; AI Systems Are Already Making Consequential Decisions</h3>
@@ -748,6 +745,97 @@
 <div id="s2" class="section">
   <div class="section-header">
     <span class="section-number">Section 02</span>
+    <h2>The Holo Engine Architecture</h2>
+  </div>
+
+  <p>Holo is not a smarter model; it is a smarter process. A standalone model is bound to a single set of training assumptions and a single perspective on data. Holo forces multiple perspectives into direct conflict before a final action is authorized.</p>
+
+  <div class="callout-key" style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;letter-spacing:0.02em">
+    [Raw Action Packet] &rarr; [Adversarial Council] &rarr; [Evidence Pressure Tester] &rarr; [The Governor] &rarr; [Final Action]
+  </div>
+
+  <h3>2.1 &nbsp; Model-Agnostic, Hot-Swappable Design</h3>
+  <p>The models inside Holo are plug-and-play. When a better one comes out, we swap it in. No redesign. No rebuilding the process around it.</p>
+  <p>This matters for two reasons. First, attackers can&#8217;t profile the system if the models change. Second, Holo automatically gets smarter as the underlying models improve. The process stays the same. The intelligence keeps going up.</p>
+
+  <h3>2.2 &nbsp; The Adversarial Council</h3>
+  <p>When an action packet arrives, it is distributed to a council of frontier models from diverse, decoupled model families. Each is assigned a distinct operational persona:</p>
+  <ul style="margin:1rem 0 1rem 1.5rem;font-size:0.975rem;color:var(--ink-muted);line-height:1.9">
+    <li><strong>Initial Assessment:</strong> Reviews the packet against baseline parameters.</li>
+    <li><strong>Edge Case Hunter:</strong> Tasked explicitly with locating hidden anomalies, date gaps, or pattern variances.</li>
+    <li><strong>Evidence Pressure Tester:</strong> Responsible for chasing down contract terms and verifying if a flagged anomaly is legally justified by the attachments.</li>
+  </ul>
+
+  <h3>2.3 &nbsp; The Governor</h3>
+  <p>The final verdict is never a simple majority vote. It is computed by a static, rule-bound Governor layer that analyzes the structured debate generated by the council. The Governor cannot be swayed by rhetorical confidence or model recency; it adjudicates based strictly on verified documentary evidence and clear logical thresholds.</p>
+  <p>The Governor is not treated as finished. Each domain test is used to find where the Governor&#8217;s current rules are too weak, too broad, or too trusting of model agreement. When a run exposes a bad shared premise, that failure becomes a new boundary check in the harness.</p>
+
+  <h3>2.4 &nbsp; Randomized Assignment</h3>
+  <p>To prevent attackers from crafting payloads engineered to slip past a specific model&#8217;s known blindspots, Holo randomizes model and role assignments on every run. The patrol route changes dynamically, making the system impossible to profile.</p>
+
+  <h3>2.5 &nbsp; No Summarization Between Turns</h3>
+  <p>Holo preserves the complete, raw data packet across all turns of the debate. Summarization is lossy; compressing conversational state between turns risks erasing the subtle, distributed hints that a downstream model needs to spot an anomaly. Full raw state is more expensive, but it preserves structural truth.</p>
+
+  <h3>2.6 &nbsp; Evidentiary Discipline</h3>
+  <p>Every escalation must be tied to an explicit documentary variance. If a model votes to escalate but cannot isolate a specific finding to back it up, the Governor discounts the vote. This discipline keeps the system&#8217;s escalation signals clean and actionable.</p>
+
+  <h3>2.7 &nbsp; The Simple Version</h3>
+  <p>Holo ingests the packet, runs it through a structured cross-examination between competing AI models, and uses a constrained Governor to verify the evidence. One API call, one clear verdict, executed before an action becomes permanent.</p>
+
+  <h3>2.8 &nbsp; The Economics of the Action Boundary: Cost and Latency</h3>
+  <p>A common question regarding multi-model adversarial setups is the operational cost. Running an action packet through several turns across multiple models is naturally more compute-heavy than a single API call. While true, this is a fundamental misunderstanding of business risk.</p>
+  <p>The action boundary does not govern a real-time consumer chat interface. A corporate wire transfer, an enterprise access provision, or a PE ledger close can easily absorb a 15- to 45-second verification loop without impacting business operations.</p>
+  <p>Financially, a full Holo review costs between <strong>$0.30 and $1.00</strong> in API compute per transaction.</p>
+  <div class="callout-key">At $0.30 to $1.00 per transaction, the economics are not close. Saving pennies on API tokens while exposing an organization to catastrophic operational liability is a severe miscalibration. At the action boundary, verification is cheap; mistakes are existential.</div>
+</div>
+
+<!-- SECTION 3 -->
+<div id="s3" class="section">
+  <div class="section-header">
+    <span class="section-number">Section 03</span>
+    <h2>Product Surfaces Built on Holo Engine</h2>
+  </div>
+
+  <p>Holo Engine is the core architecture. It powers a specific set of product surfaces, each designed to solve a different phase of the enterprise AI trust gap.</p>
+
+  <h3>3.1 &nbsp; Holo Verify</h3>
+  <p>The action-boundary runtime gate. It sits before irreversible AI actions: payments, access grants, contract execution, procurement actions, or agentic purchases, and returns ALLOW or ESCALATE. This is the first validated deployment surface of the Holo Engine, and the subject of the empirical benchmark data in this paper.</p>
+
+  <h3>3.2 &nbsp; Holo Builder</h3>
+  <p>The generative product surface. It creates high-stakes artifacts and work products: benchmark packets, contracts, legal drafts, M&amp;A memos, CFO memos, policy docs, diligence reports, and procurement packets. Holo Builder does not rely on single-shot generation; it uses the engine&#8217;s adversarial architecture to construct and refine judgment-grade materials.</p>
+
+  <h3>3.3 &nbsp; Holo Judge</h3>
+  <p>The evaluation surface. It reviews artifacts created by Holo Builder or external systems and scores them for factual accuracy, issue spotting, internal consistency, unresolved blockers, hallucination risk, and readiness.</p>
+
+  <h3>3.4 &nbsp; Holo Test</h3>
+  <p>The adversarial test cage. It runs locked packets and generation tasks against competing architectures: single-shot models, multi-turn same-model systems, homogeneous councils, ungoverned multi-model ensembles, and Holo-powered systems.</p>
+
+  <h3>3.5 &nbsp; Blindspot Atlas</h3>
+  <p>The growing institutional memory of failure modes discovered through Holo Test and Holo Verify runs. It records not only whether Holo wins, but exactly where solo models, self-critique loops, ungoverned ensembles, and packet designs fail under operational pressure.</p>
+
+  <h3>3.6 &nbsp; Holo Test: Ablation Methodology</h3>
+  <p>Each candidate packet or generation task is hash-locked, run against a declared model cohort, and evaluated across native solo models, same-model multi-turn systems, homogeneous councils, ungoverned multi-model ensembles, and Holo-powered systems. The purpose is not to prove that one model is smarter, but to isolate whether adversarial architecture improves judgment, stability, evidence integration, and readiness at high-stakes decision points.</p>
+  <p>Across early runs, the strongest signal is not that more models or more turns automatically improve judgment. In several cases, unstructured self-critique or ungoverned multi-model handoff degraded performance. Architecture, not model count, is the control surface.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Architecture Condition</th><th>Verdict / Score</th><th>Turn Count</th><th>Failure Mode / Note</th></tr></thead>
+      <tbody>
+        <tr><td>Native Solo</td><td><span class="verdict-na">Pending</span></td><td>&#8212;</td><td>&#8212;</td></tr>
+        <tr><td>Same-Model Self-Critique</td><td><span class="verdict-na">Pending</span></td><td>&#8212;</td><td>&#8212;</td></tr>
+        <tr><td>Homogeneous Council</td><td><span class="verdict-na">Pending</span></td><td>&#8212;</td><td>&#8212;</td></tr>
+        <tr><td>Ungoverned Multi-Model</td><td><span class="verdict-na">Pending</span></td><td>&#8212;</td><td>&#8212;</td></tr>
+        <tr><td><strong>Holo Engine (Full)</strong></td><td><span class="verdict-na">Pending</span></td><td>&#8212;</td><td>&#8212;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:0.85rem;color:var(--ink-faint);font-style:italic">Status: In progress. Final scores will be added after packet freeze, provenance capture, and repeatable cohort runs. Required provenance for every published score: packet ID, packet hash, model cohort, condition, verdict/score, correctness, turn count, token count, failure mode, trace path, judge model, and freeze status.</p>
+</div>
+
+<!-- SECTION 4 -->
+<div id="s4" class="section">
+  <div class="section-header">
+    <span class="section-number">Section 04</span>
     <h2>Action Boundary Testing (ABAT)</h2>
   </div>
 
@@ -827,13 +915,13 @@
 </div>
 
 <!-- SECTION 3 -->
-<div id="s3" class="section">
+<div id="s5" class="section">
   <div class="section-header">
-    <span class="section-number">Section 03</span>
+    <span class="section-number">Section 05</span>
     <h2>Benchmark Findings</h2>
   </div>
 
-  <h3>3.1 &nbsp; Domain 1: Accounts Payable / Business Email Compromise</h3>
+  <h3>5.1 &nbsp; Domain 1: Accounts Payable / Business Email Compromise</h3>
   <p>Accounts payable is an immediate action boundary because a wire transfer cannot be recalled once sent.</p>
 
   <div class="scenario-block">
@@ -874,7 +962,7 @@
 
   <p>None of the three solo models asked the question that breaks the narrative: <em>If this true-up is standard, why wasn&#8217;t it billed in prior years?</em> Holo&#8217;s adversarial council flag locked on the historical gap and escalated.</p>
 
-  <h3>3.2 &nbsp; Domain 2: Agentic Commerce</h3>
+  <h3>5.2 &nbsp; Domain 2: Agentic Commerce</h3>
   <p>This domain tracks automated purchasing loops where an AI agent acts on automated system alerts.</p>
 
   <div class="scenario-block">
@@ -897,7 +985,7 @@
 
   <p>While GPT and Claude executed the routine order on autopilot, Holo&#8217;s adversarial framework interrogated the provenance of the instruction itself, highlighting the 83-day oversight gap and halting execution.</p>
 
-  <h3>3.3 &nbsp; Domain 8: Financial Reporting and Compliance (PE Consolidation)</h3>
+  <h3>5.3 &nbsp; Domain 8: Financial Reporting and Compliance (PE Consolidation)</h3>
   <p>The unique quality of Domain 8 is that it features no attacker, no fake identities, and no active fraud. The challenge is entirely semantic: determining if a complex packet contains the context required to safely approve a multi-entity transaction.</p>
 
   <h3 style="font-size:1rem;font-style:italic;margin-top:1.5rem">Gap Case: The Period-Scope Mismatch</h3>
@@ -943,7 +1031,7 @@
 
   <p>This case exposes <em>Contextual Brittleness</em>. Faced with the acquisition anomaly, all three solo models panicked. They found the KPMG memo but fixated blindly on the phrase &#8220;pending true-up,&#8221; deciding that an unresolved account item meant the ledger must be blocked. They failed to understand real-world private equity practices: a fund must run its quarterly interim close on schedule while standard post-close adjustments are negotiated in the background. They triggered false alarms that would freeze normal operations. Holo&#8217;s council verified the legal text, recognized the institutional context, and correctly allowed the consolidation to proceed.</p>
 
-  <h3>3.4 &nbsp; Avoiding Unnecessary Escalation (Operations Precision)</h3>
+  <h3>5.4 &nbsp; Avoiding Unnecessary Escalation (Operations Precision)</h3>
 
   <div class="scenario-block">
     <div class="scenario-label">Precision Case &middot; Domain 1 &middot; AP-FP-DUP-INV-001</div>
@@ -965,9 +1053,9 @@
 </div>
 
 <!-- SECTION 4 -->
-<div id="s4" class="section">
+<div id="s6" class="section">
   <div class="section-header">
-    <span class="section-number">Section 04</span>
+    <span class="section-number">Section 06</span>
     <h2>The Convergence Thesis: Bidirectional Failure</h2>
   </div>
 
@@ -985,58 +1073,10 @@
   <p>Growth in raw model intelligence does not solve this loop. A more powerful model simply answers the wrong question with higher confidence. Eliminating this risk requires an architectural shift: moving from an isolated model to an orchestrated, adversarial framework designed to challenge assumptions before execution occurs.</p>
 </div>
 
-<!-- SECTION 5 -->
-<div id="s5" class="section">
+<!-- SECTION 7 -->
+<div id="s7" class="section">
   <div class="section-header">
-    <span class="section-number">Section 05</span>
-    <h2>The Architecture</h2>
-  </div>
-
-  <p>Holo is not a smarter model; it is a smarter process. A standalone model is bound to a single set of training assumptions and a single perspective on data. Holo forces multiple perspectives into direct conflict before a final action is authorized.</p>
-
-  <div class="callout-key" style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;letter-spacing:0.02em">
-    [Raw Action Packet] &rarr; [Adversarial Council] &rarr; [Evidence Pressure Tester] &rarr; [The Governor] &rarr; [Final Action]
-  </div>
-
-  <h3>5.1 &nbsp; Model-Agnostic, Hot-Swappable Design</h3>
-  <p>The models inside Holo are plug-and-play. When a better one comes out, we swap it in. No redesign. No rebuilding the process around it.</p>
-  <p>This matters for two reasons. First, attackers can&#8217;t profile the system if the models change. Second, Holo automatically gets smarter as the underlying models improve. The process stays the same. The intelligence keeps going up.</p>
-
-  <h3>5.2 &nbsp; The Adversarial Council</h3>
-  <p>When an action packet arrives, it is distributed to a council of frontier models from diverse, decoupled model families. Each is assigned a distinct operational persona:</p>
-  <ul style="margin:1rem 0 1rem 1.5rem;font-size:0.975rem;color:var(--ink-muted);line-height:1.9">
-    <li><strong>Initial Assessment:</strong> Reviews the packet against baseline parameters.</li>
-    <li><strong>Edge Case Hunter:</strong> Tasked explicitly with locating hidden anomalies, date gaps, or pattern variances.</li>
-    <li><strong>Evidence Pressure Tester:</strong> Responsible for chasing down contract terms and verifying if a flagged anomaly is legally justified by the attachments.</li>
-  </ul>
-
-  <h3>5.3 &nbsp; The Governor</h3>
-  <p>The final verdict is never a simple majority vote. It is computed by a static, rule-bound Governor layer that analyzes the structured debate generated by the council. The Governor cannot be swayed by rhetorical confidence or model recency; it adjudicates based strictly on verified documentary evidence and clear logical thresholds.</p>
-  <p>The Governor is not treated as finished. Each domain test is used to find where the Governor&#8217;s current rules are too weak, too broad, or too trusting of model agreement. When a run exposes a bad shared premise, that failure becomes a new boundary check in the harness.</p>
-
-  <h3>5.4 &nbsp; Randomized Assignment</h3>
-  <p>To prevent attackers from crafting payloads engineered to slip past a specific model&#8217;s known blindspots, Holo randomizes model and role assignments on every run. The patrol route changes dynamically, making the system impossible to profile.</p>
-
-  <h3>5.5 &nbsp; No Summarization Between Turns</h3>
-  <p>Holo preserves the complete, raw data packet across all turns of the debate. Summarization is lossy; compressing conversational state between turns risks erasing the subtle, distributed hints that a downstream model needs to spot an anomaly. Full raw state is more expensive, but it preserves structural truth.</p>
-
-  <h3>5.6 &nbsp; Evidentiary Discipline</h3>
-  <p>Every escalation must be tied to an explicit documentary variance. If a model votes to escalate but cannot isolate a specific finding to back it up, the Governor discounts the vote. This discipline keeps the system&#8217;s escalation signals clean and actionable.</p>
-
-  <h3>5.7 &nbsp; The Simple Version</h3>
-  <p>Holo ingests the packet, runs it through a structured cross-examination between competing AI models, and uses a constrained Governor to verify the evidence. One API call, one clear verdict, executed before an action becomes permanent.</p>
-
-  <h3>5.8 &nbsp; The Economics of the Action Boundary: Cost and Latency</h3>
-  <p>A common question regarding multi-model adversarial setups is the operational cost. Running an action packet through several turns across multiple models is naturally more compute-heavy than a single API call. While true, this is a fundamental misunderstanding of business risk.</p>
-  <p>The action boundary does not govern a real-time consumer chat interface. A corporate wire transfer, an enterprise access provision, or a PE ledger close can easily absorb a 15- to 45-second verification loop without impacting business operations.</p>
-  <p>Financially, a full Holo review costs between <strong>$0.30 and $1.00</strong> in API compute per transaction.</p>
-  <div class="callout-key">At $0.30 to $1.00 per transaction, the economics are not close. Saving pennies on API tokens while exposing an organization to catastrophic operational liability is a severe miscalibration. At the action boundary, verification is cheap; mistakes are existential.</div>
-</div>
-
-<!-- SECTION 6 -->
-<div id="s6" class="section">
-  <div class="section-header">
-    <span class="section-number">Section 06</span>
+    <span class="section-number">Section 07</span>
     <h2>Why Human Review Alone Is Not Enough</h2>
   </div>
 
@@ -1046,10 +1086,10 @@
   <div class="pullquote">The ultimate promise of enterprise AI is not faster queues for humans to watch; it is <strong>trusted delegation</strong> &#8212; the ability to hand a high-consequence workflow to a system with total confidence because the safety checkpoint is embedded in the architecture itself.</div>
 </div>
 
-<!-- SECTION 7 -->
-<div id="s7" class="section">
+<!-- SECTION 8 -->
+<div id="s8" class="section">
   <div class="section-header">
-    <span class="section-number">Section 07</span>
+    <span class="section-number">Section 08</span>
     <h2>Objections</h2>
   </div>
 
@@ -1065,7 +1105,7 @@
 
   <div class="objection">
     <h3>&#8220;Models are getting smarter. The problem will fix itself.&#8221;</h3>
-    <p>Model updates are symmetric &#8212; advancements are equally available to adversaries. Furthermore, increased model intelligence does not fix structural alignment gaps like <em>Procedural Obedience</em>. A more capable model simply processes a flawed operational frame with greater efficiency.</p>
+    <p>Model updates are symmetric, and advancements are equally available to adversaries. Furthermore, increased model intelligence does not fix structural alignment gaps like <em>Procedural Obedience</em>. A more capable model simply processes a flawed operational frame with greater efficiency.</p>
   </div>
 
   <div class="objection">
@@ -1075,14 +1115,14 @@
 
   <div class="objection">
     <h3>&#8220;Is this Mixture of Experts?&#8221;</h3>
-    <p>No. Mixture of Experts is something that happens inside a single model &#8212; it routes work between internal subnetworks to generate a response. Holo is separate from the model entirely. It doesn&#8217;t generate anything. It looks at a proposed action and decides whether it should go through. That&#8217;s a fundamentally different job.</p>
+    <p>No. Mixture of Experts is something that happens inside a single model: it routes work between internal subnetworks to generate a response. Holo Engine is separate from the model entirely. It is not a single model and not a generic content generator. The same adversarial architecture can be applied to different product surfaces. In Holo Verify, it adjudicates whether an action should proceed. In Holo Builder, it generates high-stakes artifacts through adversarial construction and review. In Holo Judge, it evaluates whether generated work is accurate, complete, and ready for use. The common layer is not generation itself. The common layer is adversarial judgment.</p>
   </div>
 </div>
 
-<!-- SECTION 8 -->
-<div id="s8" class="section">
+<!-- SECTION 9 -->
+<div id="s9" class="section">
   <div class="section-header">
-    <span class="section-number">Section 08</span>
+    <span class="section-number">Section 09</span>
     <h2>What This Paper Does Not Claim</h2>
   </div>
 
@@ -1090,17 +1130,20 @@
     <li><strong>We do not claim independent third-party validation.</strong> This is an internal research paper with public, reproducible baselines.</li>
     <li><strong>We do not claim production reliability metrics.</strong> Performance under live enterprise transaction flows will vary based on data engineering quality.</li>
     <li><strong>We do not claim Holo replaces traditional security.</strong> Firewalls, identity access management, and logging are still required to handle known infrastructure parameters. Holo exists solely to adjudicate the unresolved semantic middle.</li>
+    <li><strong>We do not claim the current benchmark validates Holo Builder.</strong> The empirical benchmark results presented in this paper (Accounts Payable, Agentic Commerce, PE Consolidation) explicitly measure Holo Verify at the action boundary. Benchmarks for Holo Builder&#8217;s generative capabilities and Holo Judge&#8217;s evaluation accuracy are in active development.</li>
   </ul>
 </div>
 
-<!-- SECTION 9 -->
-<div id="s9" class="section">
+<!-- SECTION 10 -->
+<div id="s10" class="section">
   <div class="section-header">
-    <span class="section-number">Section 09</span>
+    <span class="section-number">Section 10</span>
     <h2>What Comes Next</h2>
   </div>
 
   <p>The benchmark serves as the front end of a compounding corporate database tracking where standalone AI judgment fractures under operational pressure. We call this repository the <strong>Blindspot Atlas</strong>. Each new scenario helps harden the Governor&#8217;s logic and map failure vectors before they are encountered in production.</p>
+  <p>While our immediate development roadmap continues to expand the eight core enterprise action boundaries for Holo Verify (including active work in Regulated Procurement and IT Access Provisioning), our next phase of published research will expand into artifact generation and evaluation.</p>
+  <p>Upcoming releases will include adversarial benchmarks for Holo Builder and Holo Judge, detailing how single-shot frontier models fail when drafting or evaluating high-stakes legal and financial documents, and how the Holo Engine architecture resolves those blindspots.</p>
   <p>The development roadmap currently covers eight core enterprise action boundaries:</p>
 
   <div class="domain-grid">
@@ -1185,7 +1228,7 @@
   <div class="footer-brand">Holo Engine</div>
   <div class="footer-meta">
     holoengine.ai &nbsp;&middot;&nbsp; hello@holoengine.ai<br>
-    Working Paper &nbsp;&middot;&nbsp; Version 4.05 &nbsp;&middot;&nbsp; May 2026
+    Working Paper &nbsp;&middot;&nbsp; Version 5.0 &nbsp;&middot;&nbsp; June 2026
   </div>
 </footer>
 

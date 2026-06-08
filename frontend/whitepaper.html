@@ -599,15 +599,15 @@
 <div class="exec-summary">
   <div class="section-label">Executive Summary</div>
 
-  <p style="margin-top:0.75rem">AI systems are starting to do more than generate text. They are approving payments, granting server access, executing workflows, and moving real operations forward without waiting for a human to step in. Organizations want the ultimate prize of automation. That prize is trusted delegation: the ability to hand off high-stakes work to an AI and know it will be handled safely without constant human oversight.</p>
+  <p style="margin-top:0.75rem">AI systems are starting to do more than generate text. They are approving payments, granting server access, executing workflows, and moving real operations forward without waiting for a human to step in. Organizations want the ultimate prize of automation. That prize is <strong>trusted delegation</strong>: the ability to hand off high-stakes work to an AI and know it will be handled safely without constant human oversight.</p>
 
-  <p>But right now, the infrastructure does not support that level of trust. A March 2026 Ponemon Institute study found that only 21% of enterprises have reached full AI security maturity. Most strikingly, only 47% believe their AI models can make safe autonomous decisions. Furthermore, 43% cite a &#8220;lack of proper risk and security controls&#8221; as their primary reason not to adopt agentic AI.</p>
+  <p>But right now, the infrastructure does not support that level of trust. A March 2026 Ponemon Institute study found that <strong>only 21% of enterprises have reached full AI security maturity.</strong> Most strikingly, <strong>only 47% believe their AI models can make safe autonomous decisions.</strong> Furthermore, <strong>43% cite a &#8220;lack of proper risk and security controls&#8221;</strong> as their primary reason not to adopt agentic AI.</p>
 
   <p>The industry is hesitating because it recognizes a structural flaw. Today, most organizations have built strong Layer 1 policy layers, such as identity registration, access controls, and basic guardrails. On paper, the system looks protected.</p>
 
-  <p>But when an AI agent actually tries to take a real, irreversible action, it is like having a border crossing where guards only check passports at the gate. The agent registers, gets cleared at a high level, and passes through. That works fine for low-stakes movement. It becomes dangerous when the stakes are high. What is missing is the deep interrogation at the actual checkpoint. U.S. Customs and Border Patrol agents do not just glance at a passport. They ask deeper questions, examine the cargo, cross-reference the story against history, and actively look for hidden contradictions.</p>
+  <p>But when an AI agent actually tries to take a real, irreversible action, it is like having a border crossing where guards only check passports at the gate. The agent registers, gets cleared at a high level, and passes through. That works fine for low-stakes movement. It becomes dangerous when the stakes are high. <strong>What is missing is the deep interrogation at the actual checkpoint.</strong> U.S. Customs and Border Patrol agents do not just glance at a passport. They ask deeper questions, examine the cargo, cross-reference the story against history, and actively look for hidden contradictions.</p>
 
-  <p>We have the passport checks. We are missing the deep, evidence-based scrutiny at the action boundary. This is the final moment before an AI does something irreversible.</p>
+  <p>We have the passport checks. We are missing the deep, evidence-based scrutiny at the action boundary. <strong>This is the final moment before an AI does something irreversible.</strong></p>
 
   <p>To understand how to close this gap, we built an ablation cage (a strict testing environment) to evaluate the market&#8217;s default architectural choices. Here is what we tested and why they fail:</p>
 
@@ -617,9 +617,9 @@
 
   <p><strong>Ungoverned Councils &amp; Ensembles:</strong> Letting multiple AI agents debate or vote on the outcome. We found that under consensus pressure, ungoverned models will literally fabricate evidence just to agree with each other.</p>
 
-  <p>The data revealed a counter-intuitive truth. Adding more models, or asking a model to think longer, does not automatically make a system safer.</p>
+  <p>The data revealed a counter-intuitive truth. <strong>Adding more models, or asking a model to think longer, does not automatically make a system safer.</strong></p>
 
-  <p>The only actual solution is evidentiary discipline: the strict rule that an AI cannot allow or block an action without citing a specific, physical line in a real document.</p>
+  <p>The only actual solution is <strong>evidentiary discipline</strong>: the strict rule that an AI cannot allow or block an action without citing a specific, physical line in a real document.</p>
 
   <p><strong>Holo Engine is the missing Layer 2 checkpoint.</strong> It is an adversarial architecture built to enforce this discipline. Instead of a single model or an ungoverned vote, Holo forces multiple AI models to cross-examine the data, hunt for gaps, and argue their findings to a constrained rule-engine called the Governor.</p>
 
@@ -634,7 +634,7 @@
 
   <p>While Holo Builder testing is underway, using our Scenario Packet Builder (a system that generates hyper-realistic, cryptographically locked corporate environments to push models to their breaking point), the empirical benchmark evidence in this paper focuses entirely on Holo Verify.</p>
 
-  <p>Holo is not designed to simply escalate more often. It is designed to make ALLOW harder to fake and ESCALATE harder to overuse. Our first completed benchmark kit (Kit A) covers Accounts Payable fraud. Across 11 different AI setups, Holo was the only architecture that consistently caught hidden structural errors without freezing valid payments.</p>
+  <p>Holo is not designed to simply escalate more often. It is designed to make ALLOW harder to fake and ESCALATE harder to overuse. Our first completed benchmark kit (Kit A) covers Accounts Payable fraud. Across 11 different AI setups, <strong>Holo was the only architecture that consistently caught hidden structural errors without freezing valid payments.</strong></p>
 
   <p style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-top:24px;margin-bottom:10px;font-weight:500">Eight-Domain Atlas</p>
   <p style="margin-top:0;margin-bottom:14px">Holo maintains a Blindspot Atlas to map failure vectors across eight enterprise domains. Status reflects whether a domain has produced benchmark-locked evidence, diagnostic findings, or is currently in design.</p>
@@ -677,7 +677,7 @@
 
   <p>The situation at large is clear. The era of AI acting as a harmless chatbot is over. Agents are moving into the enterprise, and they are being handed the keys to real operations. But you cannot safely scale autonomous AI if you cannot trust the final point of execution.</p>
 
-  <p>The rest of this whitepaper breaks down the exact mechanics of the Holo Engine architecture. It details the hard data from our ablation tests, the unexpected failures we exposed in our own system, and the strict structural rules required to close the gap. We are not just pointing out a theoretical risk. We are providing the engineering blueprint for trusted delegation.</p>
+  <p>The rest of this whitepaper breaks down the exact mechanics of the Holo Engine architecture. It details the hard data from our ablation tests, the unexpected failures we exposed in our own system, and the strict structural rules required to close the gap. We are not just pointing out a theoretical risk. We are providing the <strong>engineering blueprint for trusted delegation.</strong></p>
 </div>
 
 <!-- TABLE OF CONTENTS -->
